@@ -25,7 +25,8 @@ from wagtail.core import urls as wagtail_urls
 from home import views as home_views
 
 urlpatterns = [
-        path('accounts/profile/update/<int:pk>', home_views.UserUpdate.as_view(), name='user_update'),
+    path('accounts/profile/update/<int:pk>', home_views.UserUpdate.as_view(), name='user_update'),
+    path('anymail/', include('anymail.urls')),
     path('accounts/profile/', home_views.account, name='account'),
     path('accounts/', include('allauth.urls')),
     path('projects/', include('projects.urls')),

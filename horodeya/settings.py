@@ -32,6 +32,9 @@ INSTALLED_APPS = [
     'bootstrap4',
     'projects.apps.ProjectsConfig',
     'home.apps.HomeConfig',
+    
+    'anymail',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -106,7 +109,7 @@ DATABASES = {
         'NAME': 'horodeya',
         'USER': 'horodeya',
         'PASSWORD': 'horodeya',
-        'HOST': os.getenv('HORODEYA_POSTGRES_HOST')
+        'HOST': os.getenv('DB_HOST')
     }
 }
 
@@ -187,4 +190,15 @@ BOOTSTRAP4 = {
     'popper_url': '/static/js/popper.min.js',
 }
 
+EMAIL_BACKEND = "anymail.backends.amazon_ses.EmailBackend"
+DEFAULT_FROM_EMAIL = "info@horodeya.org"
+SERVER_EMAIL = "ops@horodeya.org"  # ditto (default from-email for Django errors)
 
+ANYMAIL = {
+    'WEBHOOK_SECRET': os.getenv('ANYMAIL_WEBHOOK_SECRET')
+}
+
+
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_DEFAULT_REGION = os.getenv('AWS_DEFAULT_REGION')
