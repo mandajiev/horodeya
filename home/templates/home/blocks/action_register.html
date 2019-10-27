@@ -1,0 +1,8 @@
+{% load wagtailcore_tags %}
+{% if user.is_authenticated %}
+{% else %}
+<div class="action-register">
+  <p>{{ value.text }}</p>
+  <a class="btn btn-primary" href="{% url 'registration_register' %}">Запиши се</a>
+{% endif %}
+</div>

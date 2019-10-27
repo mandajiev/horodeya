@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block body_class %}template-blogindexpage{% endblock %}
+
+
+{% block content %}
+  <div class="row">
+    <h2>{{ object.name }}</h2>
+    <a class="btn btn-primary" href="{% url 'projects:update' project.pk %}">Редактирай</a>
+    <a class="btn btn-danger" href="{% url 'projects:delete' project.pk %}">Изтрий</a>
+  </div>
+  <div class="row">
+    <p>{{ object.description }}</p>
+  </div>
+  <hr>
+	<div class="row">
+    <div class="body">{{ object.text }}</div>
+	</div>
+
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% load account %}
+{% block content %}
+<p>Име: {{ user.first_name }} {{ user.last_name }}
+</p>
+<a class="btn btn-primary" href="{% url 'user_update' user.pk %}">Редактирай</a>
+<a class="btn btn-primary" href="{% url 'account_email' %}">Промени е-поща</a>
+<a class="btn btn-primary" href="{% url 'account_change_password'  %}">Промени парола</a>
+{% endblock %}

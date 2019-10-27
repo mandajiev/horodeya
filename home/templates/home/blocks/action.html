@@ -1,0 +1,6 @@
+{% load wagtailcore_tags %}
+<div class="action">
+    <h4>{{ value.heading }}</h4>
+    <p>{{ value.text }}</p>
+    <a class="btn btn-primary" href="{% pageurl value.page %}">Научи повече </a>
+</div>

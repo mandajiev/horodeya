@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags %}
+
+{% block body_class %}template-blogindexpage{% endblock %}
+
+{% block content %}
+	<div class="row">
+    <div class="body">{{ page.body|richtext }}</div>
+  </div>
+
+    <a href="{% url 'projects:create' %}" class="btn btn-primary">
+      {% if page.type == 'b' %}
+      Кaндидатствай с твой бизнес
+      {% else %}
+      Кaндидатствай с твоя кауза
+      {% endif %}
+    </a>
+
+    {% for project in items %}
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card-title">{{ project.name }}</h5>
+        <p class="card-text">{{ project.description }}</p>
+        <a href="{% url 'projects:details' project.pk %}" class="btn btn-primary">Научи повече</a>
+      </div>
+    </div>
+    {% endfor %}
+	</div>
+
+{% endblock %}
