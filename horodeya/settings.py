@@ -30,7 +30,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'bootstrap4',
-    'polls.apps.PollsConfig',
     'projects.apps.ProjectsConfig',
     'home.apps.HomeConfig',
     'django.contrib.admin',

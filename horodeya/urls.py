@@ -28,7 +28,6 @@ urlpatterns = [
         path('accounts/profile/update/<int:pk>', home_views.UserUpdate.as_view(), name='user_update'),
     path('accounts/profile/', home_views.account, name='account'),
     path('accounts/', include('allauth.urls')),
-    path('polls/', include('polls.urls')),
     path('projects/', include('projects.urls')),
     path('admin/', admin.site.urls),
     re_path(r'^cms/', include(wagtailadmin_urls)),
