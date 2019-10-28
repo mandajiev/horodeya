@@ -48,7 +48,7 @@ class Project(Timestamped):
     name = models.CharField(max_length=50)
     description = models.TextField()
     published = models.BooleanField()
-    legal_entity = models.ForeignKey(LegalEntity, on_delete=models.CASCADE, blank=True, default=None)
+    legal_entity = models.ForeignKey(LegalEntity, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

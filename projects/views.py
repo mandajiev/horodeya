@@ -4,22 +4,50 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
-
+from django.forms import ModelForm, ValidationError
 
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from projects.models import Project, LegalEntity
+
+class ProjectForm(ModelForm):
+    class Meta:
+        model = Project
+        fields = ['type', 'name', 'description', 'published', 'legal_entity' ]
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
+        self.fields['legal_entity'].queryset = LegalEntity.objects.filter(admin=user)
 
 class Details(generic.DetailView):
     model = Project
 
 class ProjectCreate(CreateView):
     model = Project
-    fields = ['type', 'name', 'description', 'published' , 'legal_entity']
+    form_class = ProjectForm
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
 
 class ProjectUpdate(UpdateView):
     model = Project
-    fields = ['type', 'name', 'description', 'published', 'legal_entity' ]
+    form_class = ProjectForm
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
+
+    def form_valid(self, form):
+        user = self.request.user
+        legal_entity = form.instance.legal_entity
+        if legal_entity.admin != user:
+            form.add_error('legal_entity', 'You must be the admin of the legal entity. Admin for %s is %s' % (legal_entity, legal_entity.admin))
+            return super().form_invalid(form)
+        return super().form_valid(form)
 
 class ProjectDelete(DeleteView):
     model = Project

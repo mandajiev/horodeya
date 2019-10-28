@@ -59,6 +59,24 @@
     legal_entities:
     - 1
     - 4
+- model: projects.user
+  pk: 3
+  fields:
+    password: pbkdf2_sha256$150000$KhrdUKwj1Nw1$ch1jEw2znPIqjBjgEaUY8uX1LtF1uBF+9A7nIveijeg=
+    last_login: 2019-10-28 10:40:24.180525+00:00
+    is_superuser: false
+    username: xilunas
+    first_name: "\u0410\u043B\u0435\u043A"
+    last_name: "\u041A\u043E\u0434"
+    email: xilunas@gmail.com
+    is_staff: false
+    is_active: true
+    date_joined: 2019-10-28 09:58:48.949762+00:00
+    bal: 20
+    groups: []
+    user_permissions: []
+    legal_entities:
+    - 4
 - model: projects.legalentity
   pk: 1
   fields:

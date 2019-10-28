@@ -9,13 +9,30 @@
     <div class="body">{{ page.body|richtext }}</div>
   </div>
 
-    <a href="{% url 'projects:create' %}" class="btn btn-primary">
+    <a id="apply-btn" href="{% url 'projects:create' %}" class="btn btn-primary }} ">
       {% if page.type == 'b' %}
       Кaндидатствай с твой бизнес
       {% else %}
       Кaндидатствай с твоя кауза
       {% endif %}
     </a>
+
+    {% if user.legal_entities.count == 0 %} 
+      <script>
+        $("#apply-btn").addClass('disabled')
+      </script>
+      За кандидатсване е нужно Юридическо Лице. <a href="{% url 'projects:legal_list' %}"/>Добави юредическо лице</a>
+      {% else %}
+    {% endif %}
+    
+    {% if not user.is_authenticated %}
+      <script>
+        $("#apply-btn").addClass('disabled')
+      </script>
+      <a href="{% url 'account_signup' %}">Регистрирай се</a> или <a href="{% url 'account_login' %}">Влез</a> за да можеш да кандидатстваш.
+      {% else %}
+    {% endif %}
+
 
     {% for project in items %}
     <div class="card" style="width: 18rem;">
