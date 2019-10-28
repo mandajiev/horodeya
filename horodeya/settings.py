@@ -192,7 +192,7 @@ BOOTSTRAP4 = {
 
 EMAIL_BACKEND = "anymail.backends.amazon_ses.EmailBackend"
 DEFAULT_FROM_EMAIL = "info@horodeya.org"
-SERVER_EMAIL = "ops@horodeya.org"  # ditto (default from-email for Django errors)
+SERVER_EMAIL = "ops@horodeya.org"
 
 ANYMAIL = {
     'WEBHOOK_SECRET': os.getenv('ANYMAIL_WEBHOOK_SECRET')
@@ -202,3 +202,5 @@ ANYMAIL = {
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 AWS_DEFAULT_REGION = os.getenv('AWS_DEFAULT_REGION')
+
+AUTH_USER_MODEL = 'projects.User'

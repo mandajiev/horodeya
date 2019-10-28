@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{{ object.name }}</h2>
+<p>{{ object.bulstat }}</p>
+<p>{{ object.email }}</p>
+<p>{{ object.phone }}</p>
+<p>{{ object.admin }}</p>
+<a class="btn btn-primary" href="{% url 'projects:legal_join' object.pk %}">Присъедини се</a>
+<a class="btn btn-primary" href="{% url 'projects:legal_exit' object.pk %}">Излез</a>
+<a class="btn btn-primary" href="{% url 'projects:legal_update' object.pk %}">Редактирай</a>
+<a class="btn btn-danger" href="{% url 'projects:legal_delete' object.pk %}">Изтрий</a>
+{% endblock %}

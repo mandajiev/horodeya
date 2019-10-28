@@ -4,8 +4,9 @@ from django.db import models
 from django.utils import timezone
 from django.urls import reverse
 
-from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator
+
+from django.contrib.auth.models import AbstractUser
 
 class Timestamped(models.Model):
     created_at = models.DateTimeField(editable=False)
@@ -26,10 +27,16 @@ class LegalEntity(Timestamped):
     bulstat = models.DecimalField(blank=True, max_digits=20, decimal_places=0)
     email = models.EmailField()
     phone = models.DecimalField(max_digits=20, decimal_places=0)
+    admin = models.ForeignKey('User', on_delete=models.PROTECT)
 
-class HorodeyaUser(Timestamped):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    legal_entity = models.ForeignKey(LegalEntity, on_delete=models.CASCADE, blank=True)
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('projects:legal_details', kwargs={'pk': self.pk})
+
+class User(AbstractUser):
+    legal_entities = models.ManyToManyField(LegalEntity)
     bal = models.IntegerField(default=20, validators=[MaxValueValidator(100)])
 
 class Project(Timestamped):

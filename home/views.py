@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic.edit import UpdateView
-from django.contrib.auth.models import User
+from projects.models import User
 
 # Create your views here.
 

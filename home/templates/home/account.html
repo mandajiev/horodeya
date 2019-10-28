@@ -1,9 +1,31 @@
 {% extends "base.html" %}
 {% load account %}
 {% block content %}
-<p>Име: {{ user.first_name }} {{ user.last_name }}
-</p>
-<a class="btn btn-primary" href="{% url 'user_update' user.pk %}">Редактирай</a>
-<a class="btn btn-primary" href="{% url 'account_email' %}">Промени е-поща</a>
-<a class="btn btn-primary" href="{% url 'account_change_password'  %}">Промени парола</a>
+<div class="row">
+  <div class="col">
+    <p>{{ user.first_name }} {{ user.last_name }}
+      <a class="btn btn-primary" href="{% url 'user_update' user.pk %}">Редактирай</a>
+      Бал: {{ user.bal }}
+    </p>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <a class="btn btn-primary" href="{% url 'account_email' %}">Промени е-поща</a>
+    <a class="btn btn-primary" href="{% url 'account_change_password'  %}">Промени парола</a>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    {% if user.legal_entities %}
+    Юридически лица: 
+    {% for legal_entity in user.legal_entities.all %}
+    <a href="{% url 'projects:legal_details' legal_entity.pk %}">{{ legal_entity }}</a>
+    {% endfor %}
+    {% else %}
+    <p>Няма юридическо лице</p>
+    {% endif %}
+    <a class="btn btn-primary" href="{% url 'projects:legal_list' %}">Добави юредическо лице</a>
+  </div>
+</div>
 {% endblock %}

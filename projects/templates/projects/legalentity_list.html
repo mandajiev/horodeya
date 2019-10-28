@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Legal Entities</h2>
+    <a class="btn btn-primary" href="{% url 'projects:legal_create' %}">Добави юредическо лице</a>
+    <ul>
+        {% for legal_entity in object_list %}
+            <li>
+              <a href="{% url 'projects:legal_details' legal_entity.pk %}">{{ legal_entity.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

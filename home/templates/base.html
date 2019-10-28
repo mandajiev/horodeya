@@ -35,7 +35,7 @@
 
     {% load wagtailcore_tags %}
 
-    <body class="{% block body_class %}{% endblock %}">
+    <body>
         {% wagtailuserbar %}
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="/">Хородея</a>
@@ -60,7 +60,7 @@
             <span class="float-right">
               {% if user.is_authenticated %}
                 <span class="navbar-text">
-                  Здравей {{user.username}}
+                  Здравей, {{user.first_name}}
                 </span>
                   <a class="{% active account %}" href="{% url 'account' %}">Профил</a>
                   <a class="{% active logout %}" href="{% url 'account_logout' %}">Излез</a>
@@ -73,7 +73,7 @@
             <div class="clearfix"></div>
         </nav>
 
-        <div class="container-fluid">
+        <div class="container mt-4">
 					{% block content %}{% endblock %}
         </div>
 
