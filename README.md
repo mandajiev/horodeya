@@ -25,3 +25,15 @@ $ export DB_URL="postgresql://betrobot:betrobot@$DB_HOST/betrobot"
 $ manage.py migrate
 $ manage.py loaddata fixtures/dev.yaml
 ```
+
+### Превод
+
+```
+$ django-admin makemessages -l bg -i venv/bin
+```
+
+После редактирай преводите в `locale` и `locale-allauth`. Накрая компилирай преводите:
+
+```
+$ django-admin compilemessages -l bg
+```

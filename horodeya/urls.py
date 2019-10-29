@@ -25,6 +25,7 @@ from wagtail.core import urls as wagtail_urls
 from home import views as home_views
 
 urlpatterns = [
+    path('i18n/', include('django.conf.urls.i18n')),
     path('accounts/profile/update/<int:pk>', home_views.UserUpdate.as_view(), name='user_update'),
     path('anymail/', include('anymail.urls')),
     path('accounts/profile/', home_views.account, name='account'),

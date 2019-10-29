@@ -55,22 +55,32 @@
               </li>
             </ul>
 
-				</div>
-
-            <span class="float-right">
               {% if user.is_authenticated %}
                 <span class="navbar-text">
                   Здравей, {{user.first_name}}
                 </span>
-                  <a class="{% active account %}" href="{% url 'account' %}">Профил</a>
-                  <a class="{% active logout %}" href="{% url 'account_logout' %}">Излез</a>
+                  <a class="nav-link {% active account %}" href="{% url 'account' %}">Профил</a>
+                  <a class="nav-link {% active logout %}" href="{% url 'account_logout' %}">Излез</a>
               {% else %}
-                  <a class="{% active login %}" href="{% url 'account_login' %}">Влез</a>
+                  <a class="nav-link {% active login %}" href="{% url 'account_login' %}">Влез</a>
 
-                  <a class="{% active register %}" href="{% url 'account_signup' %}">Регистрация</a>
+                  <a class="nav-link {% active register %}" href="{% url 'account_signup' %}">Регистрация</a>
               {% endif %}
-            </span>
-            <div class="clearfix"></div>
+
+              {% load i18n %}
+              <form class="form-inline my-2 my-lg-0" action="{% url 'set_language' %}" method="post">{% csrf_token %}
+                <input name="next" type="hidden" value="{{ redirect_to }}">
+                {% get_current_language as LANGUAGE_CODE %}
+                {% if LANGUAGE_CODE == 'en' %}
+                  <input name="language" type="hidden" value="bg">
+                  <button class="btn" type="submit">Български</button>
+                {% else %}
+                  <input name="language" type="hidden" value="en">
+                  <button class="btn" type="submit">English</button>
+                {% endif %}
+              </form>
+
+				</div>
         </nav>
 
         <div class="container mt-4">
