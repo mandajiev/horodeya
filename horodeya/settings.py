@@ -29,6 +29,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'tempus_dominus',
     'bootstrap4',
     'projects.apps.ProjectsConfig',
     'home.apps.HomeConfig',
@@ -63,9 +64,13 @@ INSTALLED_APPS = [
 
     'modelcluster',
     'taggit',
+
+    'debug_toolbar',
+    'vote'
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
@@ -209,4 +214,10 @@ LANGAUGE_CODE = 'bg'
 LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale'),
     os.path.join(BASE_DIR, 'locale-allauth')
+]
+
+TEMPUS_DOMINUS_INCLUDE_ASSETS = True
+
+INTERNAL_IPS = [
+    '127.0.0.1',
 ]

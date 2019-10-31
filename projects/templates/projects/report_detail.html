@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% with admin=object.project.legal_entity.admin %}
+<a href="{% url 'projects:details' object.project.pk %}" class="btn btn-primary">Към проекта</h2></a>
+{% if admin == user %}
+  <a class="btn btn-primary" href="{% url 'projects:report_update' object.pk %}">Редактирай</a>
+  <a class="btn btn-danger" href="{% url 'projects:report_delete' object.pk %}">Изтрий</a>
+
+<p>{{ object.text }}</p>
+<p>{{ object.published_at }}</p>
+
+
+<a class="btn {{vote_up_classes}}" href="{% url 'projects:report_vote_up' object.pk %}">
+    <i class="fa fa-thumbs-o-up"></i>
+    <span class="badge">{{votes_up}}</span>
+</a>
+<a class="btn {{vote_down_classes}}" href="{% url 'projects:report_vote_down' object.pk %}">
+    <i class="fa fa-thumbs-o-down"></i>
+    <span class="badge">{{votes_down}}</span>
+</a>
+
+{% endif %}
+{% endwith %}
+{% endblock %}

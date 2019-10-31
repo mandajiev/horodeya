@@ -1,12 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
+  {% with admin_pk=object.legal_entity.admin.pk %}
+  <h2>{{ object.name }}</h2>
+  {% if admin_pk == user.pk %}
+    <a class="btn btn-primary" href="{% url 'projects:update' project.pk %}">Редактирай</a>
+    <a class="btn btn-danger" href="{% url 'projects:delete' project.pk %}">Изтрий</a>
+  {% endif %}
   <div class="row">
-    <h2>{{ object.name }}</h2>
-    {% if object.legal_entity.admin == user %}
-      <a class="btn btn-primary" href="{% url 'projects:update' project.pk %}">Редактирай</a>
-      <a class="btn btn-danger" href="{% url 'projects:delete' project.pk %}">Изтрий</a>
-    {% endif %}
+    <a href="{% url "projects:legal_details" object.legal_entity.pk %}">{{ object.legal_entity }}</a>
   </div>
   <div class="row">
     <p>{{ object.description }}</p>
@@ -15,5 +17,46 @@
 	<div class="row">
     <div class="body">{{ object.text }}</div>
 	</div>
+
+  {% load projects_tags %}
+  <div class="row">
+    <h5>Доклади
+    {% if admin_pk == user.pk %}
+      <a href="{% url 'projects:report_create' project=object.pk %}" class="btn btn-primary">Нов</a>
+    </h5>
+    {% endif %}
+  </div>
+  <div class="row">
+    <ul>
+    {% for report in reports %}
+      <li>
+        <a href="{% url 'projects:report_details' report.pk %}">{{ report }}</a>
+        {% vote_exists report user.pk as voted%}
+        {% if voted %}
+          <span>Гласувано</span>
+        {% else %}
+          <span>Прочети и гласувай</span>
+        {% endif %}
+      </li>
+    {% endfor %}
+    </ul>
+  </div>
+
+  {% if admin_pk == user.pk %}
+    <div class="row">
+      <h5>Непобликувани</h5>
+    </div>
+    <div class="row">
+      <ul>
+      {% for report in unpublished_reports %}
+        <li>
+          <a href="{% url 'projects:report_details' report.pk %}">{{ report }}</a>
+        </li>
+      {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
+  {% endwith %}
 
 {% endblock %}

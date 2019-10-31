@@ -8,15 +8,17 @@ from django.core.validators import MaxValueValidator
 
 from django.contrib.auth.models import AbstractUser
 
+from vote.models import VoteModel
+
 class Timestamped(models.Model):
     created_at = models.DateTimeField(editable=False)
-    edited_at = models.DateTimeField(editable=False)
+    updated_at = models.DateTimeField(editable=False)
 
     def save(self, *args, **kwargs):
         if not self.created_at:
             self.created_at = timezone.now()
 
-        self.edited_at = timezone.now()
+        self.updated_at = timezone.now()
         return super(Timestamped, self).save(*args, **kwargs)
 
     class Meta:
@@ -56,11 +58,14 @@ class Project(Timestamped):
     def get_absolute_url(self):
         return reverse('projects:details', kwargs={'pk': self.pk})
 
-class Report(Timestamped):
+class Report(VoteModel, Timestamped):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     text = models.TextField()
     published_at = models.DateTimeField()
 
     def __str__(self):
         return self.published_at.isoformat()
+
+    def get_absolute_url(self):
+        return reverse('projects:report_details', kwargs={'pk': self.pk})
 

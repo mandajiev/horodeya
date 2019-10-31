@@ -1,6 +1,9 @@
+import datetime
+
+from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
@@ -8,7 +11,14 @@ from django.forms import ModelForm, ValidationError
 
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
-from projects.models import Project, LegalEntity
+
+from django.utils.translation import gettext as _
+
+from projects.models import Project, LegalEntity, Report
+
+from tempus_dominus.widgets import DateTimePicker
+
+from vote.models import UP, DOWN
 
 class ProjectForm(ModelForm):
     class Meta:
@@ -20,8 +30,15 @@ class ProjectForm(ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['legal_entity'].queryset = LegalEntity.objects.filter(admin=user)
 
-class Details(generic.DetailView):
+class ProjectDetails(generic.DetailView):
     model = Project
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        now = datetime.datetime.now()
+        context['reports'] = context['object'].report_set.filter(published_at__lte=now)
+        context['unpublished_reports'] = context['object'].report_set.filter(published_at__gt=now)
+        return context
 
 class ProjectCreate(CreateView):
     model = Project
@@ -112,3 +129,101 @@ def legal_exit(request, pk):
     user.legal_entities.remove(legal_entity)
 
     return HttpResponse("ok")
+
+class ReportForm(ModelForm):
+    class Meta:
+        model = Report
+        fields = ['text', 'published_at']
+        widgets = {
+            'published_at': DateTimePicker(
+                options={
+                    'useCurrent': True,
+                    'collapse': False,
+                },
+            )
+        }
+
+#TODO limit permissions
+class ReportCreate(CreateView):
+    model = Report
+    form_class = ReportForm
+
+    def form_valid(self, form):
+        project_pk = self.kwargs['project']
+        project = Project.objects.get(pk=project_pk)
+        form.instance.project = project
+        return super().form_valid(form)
+
+class ReportUpdate(UpdateView):
+    model = Report
+    form_class = ReportForm
+
+class ReportDelete(DeleteView):
+    model = Report
+    template_name = 'projects/project_confirm_delete.html'
+    
+    def get_success_url(self):
+        return reverse_lazy('projects:details', kwargs={'pk': self.object.project.pk})
+
+class ReportDetails(generic.DetailView):
+    model = Report
+
+    def get_context_data(self, **kwargs):
+        print(kwargs)
+        context = super().get_context_data(**kwargs)
+        report = kwargs['object']
+        context['votes_up'] = report.votes.count(UP)
+        context['votes_down'] = report.votes.count(DOWN)
+        vote = report.votes.get(self.request.user.pk)
+
+        not_voted_classes = 'btn-light'
+        voted_classes = 'btn-primary'
+        vote_up_classes = not_voted_classes
+        vote_down_classes = not_voted_classes
+
+        if vote:
+            if vote.action == UP:
+                vote_up_classes = voted_classes
+            else:
+                vote_down_classes = voted_classes
+
+        context['vote_up_classes'] = vote_up_classes
+        context['vote_down_classes'] = vote_down_classes
+
+        return context
+
+def report_vote_up(request, pk):
+    return report_vote(request, pk, UP)
+
+def report_vote_down(request, pk):
+    return report_vote(request, pk, DOWN)
+
+@login_required
+#TODO must be a subscriber to vote
+def report_vote(request, pk, action):
+    user = request.user
+    report = get_object_or_404(Report, pk=pk)
+
+    print(report.votes.count(UP))
+    print(report.votes.count(DOWN))
+
+    if report.votes.exists(user.pk, action=action):
+        success = report.votes.delete(user.pk)
+        if not success:
+            messages.error(request, _('Could not delete vote'))
+
+        else:
+            messages.success(request, _('Deleted vote'))
+
+    else:
+        if action == UP:
+            success = report.votes.up(user.pk)
+        else:
+            success = report.votes.down(user.pk)
+
+        if not success:
+            messages.error(request, _('Could not vote'))
+        else:
+            messages.success(request, _('Voted up') if action == UP else _('Voted down'))
+
+    return redirect(report)

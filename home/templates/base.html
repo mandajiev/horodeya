@@ -26,6 +26,7 @@
         {# Global stylesheets #}
         <link rel="stylesheet" type="text/css" href="{% static 'home/style.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/flag-icon.min.css' %}">
+        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
 
         {% block extra_css %}
             {# Override this in templates to add extra stylesheets #}
@@ -94,7 +95,7 @@
 				</div>
         </nav>
 
-        <div class="container mt-4">
+        <div class="container">
 					{% block content %}{% endblock %}
         </div>
 

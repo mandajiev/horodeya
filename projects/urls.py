@@ -9,7 +9,7 @@ urlpatterns = [
     path('create/', views.ProjectCreate.as_view(), name='create'),
     path('<int:pk>/update', views.ProjectUpdate.as_view(), name='update'),
     path('<int:pk>/delete', views.ProjectDelete.as_view(), name='delete'),
-    path('<int:pk>/', views.Details.as_view(), name='details'),
+    path('<int:pk>/', views.ProjectDetails.as_view(), name='details'),
     path('legal/create/', views.LegalEntityCreate.as_view(), name='legal_create'),
     path('legal/<int:pk>', views.LegalEntityDetails.as_view(), name='legal_details'),
     path('legal/<int:pk>/update/', views.LegalEntityUpdate.as_view(), name='legal_update'),
@@ -17,4 +17,11 @@ urlpatterns = [
     path('legal/', views.LegalEntityList.as_view(), name='legal_list'),
     path('legal/<int:pk>/join', views.legal_join, name='legal_join'),
     path('legal/<int:pk>/exit', views.legal_exit, name='legal_exit'),
+    path('<int:project>/report/create/', views.ReportCreate.as_view(), name='report_create'),
+    path('report/<int:pk>', views.ReportDetails.as_view(), name='report_details'),
+    path('report/<int:pk>/update/', views.ReportUpdate.as_view(), name='report_update'),
+    path('report/<int:pk>/delete', views.ReportDelete.as_view(), name='report_delete'),
+    path('report/<int:pk>/vote-up', views.report_vote_up, name='report_vote_up'),
+    path('report/<int:pk>/vote-down', views.report_vote_down, name='report_vote_down'),
+
 ]
