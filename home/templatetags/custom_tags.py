@@ -23,3 +23,13 @@ class NavSelectedNode(template.Node):
             if p in path:
                 return "active" # change this if needed for other bootstrap version (compatible with 3.2)
         return ""
+
+@register.simple_tag
+def to_list(*args):
+    return args
+
+@register.simple_tag
+def language_country(language):
+    if language == 'en':
+        return 'gb'
+    return language

@@ -25,6 +25,7 @@
 
         {# Global stylesheets #}
         <link rel="stylesheet" type="text/css" href="{% static 'home/style.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/flag-icon.min.css' %}">
 
         {% block extra_css %}
             {# Override this in templates to add extra stylesheets #}
@@ -68,17 +69,27 @@
               {% endif %}
 
               {% load i18n %}
+              <div class="nav-item dropdown">
               <form class="form-inline my-2 my-lg-0" action="{% url 'set_language' %}" method="post">{% csrf_token %}
+                {% get_current_language as current_language %}
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="flag-icon flag-icon-{%language_country current_language%}"></span>
+                  <span class="caret"></span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="min-width:0px">
+                  {% to_list 'en' 'bg' as all_languages %}
+                    {% for language in all_languages %}
+                      {% if language != current_language %}
+                        <button class="btn btn-link dropdown-item" type="submit">
+                          <input name="language" type="hidden" value="{{language}}">
+                          <span class="flag-icon flag-icon-{%language_country language%}"></span>
+                        </button>
+                      {% endif %}
+                    {% endfor %}
+                </div>
                 <input name="next" type="hidden" value="{{ redirect_to }}">
-                {% get_current_language as LANGUAGE_CODE %}
-                {% if LANGUAGE_CODE == 'en' %}
-                  <input name="language" type="hidden" value="bg">
-                  <button class="btn" type="submit">Български</button>
-                {% else %}
-                  <input name="language" type="hidden" value="en">
-                  <button class="btn" type="submit">English</button>
-                {% endif %}
               </form>
+              </div>
 
 				</div>
         </nav>
