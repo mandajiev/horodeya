@@ -13,6 +13,17 @@
   <div class="row">
     <p>{{ object.description }}</p>
   </div>
+
+  <a class="btn btn-primary" href="{% url 'projects:msupport_create' object.pk %}">Подкрепи</a>
+
+  <ul>
+  {% for money_support in object.moneysupport_set.all %}
+  <li>
+    {% include "projects/moneysupport_detail.html" with object=money_support user=user only %}
+  </li>
+  {% endfor %}
+  </ul>
+
   <hr>
 	<div class="row">
     <div class="body">{{ object.text }}</div>

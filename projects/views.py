@@ -1,4 +1,4 @@
-import datetime
+from django.utils import timezone
 
 from django.contrib import messages
 from django.http import HttpResponse
@@ -14,7 +14,7 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from django.utils.translation import gettext as _
 
-from projects.models import Project, LegalEntity, Report
+from projects.models import Project, LegalEntity, Report, Support, MoneySupport
 
 from tempus_dominus.widgets import DateTimePicker
 
@@ -35,7 +35,7 @@ class ProjectDetails(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        now = datetime.datetime.now()
+        now = timezone.now()
         context['reports'] = context['object'].report_set.filter(published_at__lte=now)
         context['unpublished_reports'] = context['object'].report_set.filter(published_at__gt=now)
         return context
@@ -150,7 +150,7 @@ class ReportCreate(CreateView):
 
     def form_valid(self, form):
         project_pk = self.kwargs['project']
-        project = Project.objects.get(pk=project_pk)
+        project = get_object_or_404(Project, pk=project_pk)
         form.instance.project = project
         return super().form_valid(form)
 
@@ -169,7 +169,6 @@ class ReportDetails(generic.DetailView):
     model = Report
 
     def get_context_data(self, **kwargs):
-        print(kwargs)
         context = super().get_context_data(**kwargs)
         report = kwargs['object']
         context['votes_up'] = report.votes.count(UP)
@@ -204,8 +203,60 @@ def report_vote(request, pk, action):
     user = request.user
     report = get_object_or_404(Report, pk=pk)
 
-    print(report.votes.count(UP))
-    print(report.votes.count(DOWN))
+    if report.votes.exists(user.pk, action=action):
+        success = report.votes.delete(user.pk)
+        if not success:
+            messages.error(request, _('Could not delete vote'))
+
+        else:
+            messages.success(request, _('Deleted vote'))
+
+    else:
+        if action == UP:
+            success = report.votes.up(user.pk)
+        else:
+            success = report.votes.down(user.pk)
+
+        if not success:
+            messages.error(request, _('Could not vote'))
+        else:
+            messages.success(request, _('Voted up') if action == UP else _('Voted down'))
+
+    return redirect(report)
+
+class MoneySupportCreate(CreateView):
+    model = MoneySupport
+    fields = ['leva']
+
+    def form_valid(self, form):
+        project_pk = self.kwargs['project']
+        project = get_object_or_404(Project, pk=project_pk)
+        form.instance.project = project
+
+        user = self.request.user
+        form.instance.user = user
+
+        return super().form_valid(form)
+
+#TODO only allow if support is not accepted
+class MoneySupportUpdate(UpdateView):
+    model = MoneySupport
+    fields = ['leva']
+
+class MoneySupportDetails(generic.DetailView):
+    model = MoneySupport
+
+#TODO only allow if support is not accepted
+class SupportDelete(DeleteView):
+    model = MoneySupport
+    template_name = 'projects/project_confirm_delete.html'
+
+    def get_success_url(self):
+        return reverse_lazy('projects:details', kwargs={'pk': self.object.project.pk})
+
+def report_vote(request, pk, action):
+    user = request.user
+    report = get_object_or_404(Report, pk=pk)
 
     if report.votes.exists(user.pk, action=action):
         success = report.votes.delete(user.pk)
@@ -227,3 +278,54 @@ def report_vote(request, pk, action):
             messages.success(request, _('Voted up') if action == UP else _('Voted down'))
 
     return redirect(report)
+
+def support_accept(request, pk, type):
+    return support_change_accept(request, pk, type, True)
+
+def support_decline(request, pk, type):
+    return support_change_accept(request, pk, type, False)
+
+def support_change_accept(request, pk, type, accepted):
+    if type in ['money', 'm']:
+        support = get_object_or_404(MoneySupport, pk=pk)
+    else:
+        support = get_object_or_404(TimeSupport, pk=pk)
+
+    if support.accepted == accepted:
+        messages.info(request, _('Support already accepted') if accepted else _('Support already declined'))
+    else:
+        support.accepted = accepted
+        if accepted:
+            support.accepted_at = timezone.now()
+        else:
+            support.accepted_at = None
+        support.save()
+
+        messages.success(request, _('Support accepted') if accepted else _('Support declined'))
+
+    return redirect(support)
+
+def support_delivered(request, pk, type):
+    if type in ['money', 'm']:
+        support = get_object_or_404(MoneySupport, pk=pk)
+    else:
+        support = get_object_or_404(TimeSupport, pk=pk)
+
+    if support.delivered:
+        messages.info(request, _('Support already marked as delivered'))
+    else:
+        support.delivered = True
+        support.delivered_at = timezone.now()
+        support.save()
+
+        messages.success(request, _('Support marked as delivered'))
+
+    return redirect(support)
+
+#class MoneySupportList(generic.ListView):
+#    model = LegalEntity
+#
+#    def get_queryset(self):
+#        project_pk = self.kwargs['project']
+#        user = self.request.user
+#        return MoneySupport.objects.filter(project_pk=project_pk, user=user)

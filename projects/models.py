@@ -1,3 +1,4 @@
+from django.utils import timezone
 import datetime
 
 from django.db import models
@@ -68,4 +69,47 @@ class Report(VoteModel, Timestamped):
 
     def get_absolute_url(self):
         return reverse('projects:report_details', kwargs={'pk': self.pk})
+
+class Support(Timestamped):
+    project = models.ForeignKey(Project, on_delete=models.PROTECT)
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    
+    accepted = models.BooleanField(null=True, blank=True)
+    accepted_at = models.DateTimeField(null=True, blank=True)
+    delivered = models.BooleanField(null=True, blank=True)
+    delivered_at = models.DateTimeField(null=True, blank=True)
+
+    def delivery_expires(self):
+        if not self.accepted_at:
+            return None
+
+        return self.accepted_at + datetime.timedelta(days=30)
+
+    def expired(self):
+        if self.delivered == False:
+            return True
+        expires = self.delivery_expires()
+        if expires and expires < timezone.now():
+            self.delivered = False
+            self.save()
+            return True
+
+        return False
+
+    class Meta:
+        abstract = True
+
+class MoneySupport(Support):
+    leva = models.FloatField()
+
+    def get_absolute_url(self):
+        return reverse('projects:msupport_details', kwargs={'pk': self.pk})
+
+    def __str__(self):
+        return "%s-%.2f" % (self.project, self.leva)
+
+class TimeSupport(Support):
+    def get_absolute_url(self):
+        return reverse('projects:tsuport_details', kwargs={'pk': self.pk})
+
 
