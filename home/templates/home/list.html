@@ -1,64 +1,70 @@
 {% extends "base.html" %}
 
 {% load wagtailcore_tags %}
+{% load i18n %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item active" aria-current="page">{{ page.title }}</li>
+{% endblock %}
 
 {% block content %}
-      <div class="mt-3 text-center">
-        <div class="body">{{ page.body|richtext }}</div>
-        <a id="apply-btn" href="{% url 'projects:create' %}" class="btn btn-primary }} ">
-          {% if page.type == 'b' %}
-          Кaндидатствай с твой бизнес
-          {% else %}
-          Кaндидатствай с твоя кауза
-          {% endif %}
-        </a>
 
-        {% if user.legal_entities.count == 0 %} 
-          <script>
-            $("#apply-btn").addClass('disabled')
-          </script>
-          За кандидатсване е нужно Юридическо Лице. <a href="{% url 'projects:legal_list' %}"/>Добави юредическо лице</a>
-          {% else %}
+    <div class="mt-3 text-center">
+      <div class="body">{{ page.body|richtext }}</div>
+      <a id="apply-btn" href="{% url 'projects:create' page.type %}" class="btn btn-primary }} ">
+        {% if page.type == 'b' %}
+        Кaндидатствай с твой бизнес
+        {% else %}
+        Кaндидатствай с твоя кауза
         {% endif %}
-        
-        {% if not user.is_authenticated %}
-          <script>
-            $("#apply-btn").addClass('disabled')
-          </script>
-          <a href="{% url 'account_signup' %}">Регистрирай се</a> или <a href="{% url 'account_login' %}">Влез</a> за да можеш да кандидатстваш.
-          {% else %}
-        {% endif %}
+      </a>
 
-        <h5 class="mt-3">Актуални</h5>
+      {% if user.legal_entities.count == 0 %} 
+        <script>
+          $("#apply-btn").addClass('disabled')
+        </script>
+        За кандидатсване е нужно Юридическо Лице. <a href="{% url 'projects:legal_list' %}"/>Добави юредическо лице</a>
+        {% else %}
+      {% endif %}
+      
+      {% if not user.is_authenticated %}
+        <script>
+          $("#apply-btn").addClass('disabled')
+        </script>
+        <a href="{% url 'account_signup' %}">Регистрирай се</a> или <a href="{% url 'account_login' %}">Влез</a> за да можеш да кандидатстваш.
+        {% else %}
+      {% endif %}
+
+      <h5 class="mt-3">Актуални</h5>
+    </div>
+
+  <div class="mt-4">
+  {% for project in items %}
+  <div class="card mb-3 mx-auto" style="max-width: 980;">
+    <div class="row no-gutters">
+      <div class="col-md-2">
+        <img src="https://via.placeholder.com/150" class="card-img">
       </div>
-
-    <div class="mt-4">
-    {% for project in items %}
-    <div class="card mb-3 mx-auto" style="max-width: 980;">
-      <div class="row no-gutters">
-        <div class="col-md-2">
-          <img src="https://via.placeholder.com/150" class="card-img">
-        </div>
-        <div class="col-md-6">
-          <div class="card-body">
-            <h5 class="card-title">{{ project.name }}</h5>
-            <p class="card-text">{{ project.description }}</p>
-            <a href="{% url 'projects:details' project.pk %}" class="btn btn-primary">Научи повече</a>
-          </div>
-        </div>
-        <div class="col-md-4 pr-4 pt-4">
-          <p>30 подкрепили</p>
-          <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width:25%"></div>
-          </div>
-          <p>Събрани <strong>75 лв</strong> от нужни <strong>300 лв</strong></p>
-          <p><small class="text-muted">Последно обновяване: {{ project.updated_at }}</small></p>
+      <div class="col-md-6">
+        <div class="card-body">
+          <h5 class="card-title">{{ project.name }}</h5>
+          <p class="card-text">{{ project.description }}</p>
+          <a href="{% url 'projects:details' project.pk %}" class="btn btn-primary">Научи повече</a>
         </div>
       </div>
+      <div class="col-md-4 pr-4 pt-4">
+        <p>30 подкрепили</p>
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" style="width:25%"></div>
+        </div>
+        <p>Събрани <strong>75 лв</strong> от нужни <strong>300 лв</strong></p>
+        <p><small class="text-muted">Последно обновяване: {{ project.updated_at }}</small></p>
+      </div>
     </div>
-    {% endfor %}
-    </div>
-    </div>
-	</div>
+  </div>
+  {% endfor %}
+  </div>
+  </div>
+</div>
 
 {% endblock %}

@@ -1,5 +1,11 @@
 {% extends "base.html" %}
+
 {% load account %}
+{% load i18n %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item active" aria-current="page">{% trans "Account" %}</li>
+{% endblock %}
 {% block content %}
 <div class="row">
   <div class="col">

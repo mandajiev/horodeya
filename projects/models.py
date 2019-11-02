@@ -88,9 +88,13 @@ class Project(Timestamped):
         return s
 
     def support_percent(self):
+        if not self.leva_needed:
+            return 0
+
         return int(100*self.money_support() / self.leva_needed)
 
 class Report(VoteModel, Timestamped):
+    name = models.CharField(max_length=50)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     text = models.TextField()
     published_at = models.DateTimeField()

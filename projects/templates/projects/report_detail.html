@@ -2,8 +2,11 @@
 
 {% load i18n %}
 
-{% block content %}
+{% block breadcrumbs %}
+    {% include "projects/report_breadcrumb.html" with report=object project=report.project active="active" only %}
+{% endblock %}
 
+{% block content %}
 
 {% if object.project.legal_entity.admin.pk == user.pk %}
 <ul class="mt-1 nav justify-content-center bg-success text-white">
@@ -17,12 +20,8 @@
 </ul>
 {% endif %}
 
-<a href="{% url 'projects:details' object.project.pk %}" class="btn btn-primary mt-1">Към проекта</h2></a>
-
 <h2>
-  {% trans 'Reports' %}
-  {% trans 'for' %}
-  {{object.project.name}}
+  {{object.name}}
 </h2>
 
 

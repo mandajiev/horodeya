@@ -3,6 +3,10 @@
 {% load i18n %}
 {% load projects_tags %}
 
+{% block breadcrumbs %}
+    {% include "projects/support_breadcrumb.html" with project=project active="active" only %}
+{% endblock %}
+
 {% block content %}
 <h2>
   {% trans 'Support' %}

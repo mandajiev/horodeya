@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block breadcrumbs %}
+{% include 'projects/legalentity_breadcrumb.html' with object=object only %}
+{% endblock %}
+
 {% block content %}
     <h2>Legal Entities</h2>
     <a class="btn btn-primary" href="{% url 'projects:legal_create' %}">Добави юредическо лице</a>

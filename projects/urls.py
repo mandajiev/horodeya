@@ -6,7 +6,7 @@ app_name = 'projects'
 
 urlpatterns = [
 #    path('', views.IndexView.as_view(), name='index'),
-    path('create/', views.ProjectCreate.as_view(), name='create'),
+    path('create/<str:type>', views.ProjectCreate.as_view(), name='create'),
     path('<int:pk>/update', views.ProjectUpdate.as_view(), name='update'),
     path('<int:pk>/delete', views.ProjectDelete.as_view(), name='delete'),
     path('<int:pk>/', views.ProjectDetails.as_view(), name='details'),
@@ -27,6 +27,7 @@ urlpatterns = [
 
     path('<int:project_id>/support/create/', views.support_create, name='support_create'),
     path('<int:project>/msupport/create/', views.MoneySupportCreate.as_view(), name='msupport_create'),
+    path('support/<int:pk>', views.support_details, name='support_details'),
     path('msupport/<int:pk>', views.MoneySupportDetails.as_view(), name='msupport_details'),
     path('msupport/<int:pk>/update', views.MoneySupportUpdate.as_view(), name='msupport_update'),
     path('<int:project>/tsupport/create/', views.TimeSupportCreate.as_view(), name='tsupport_create'),

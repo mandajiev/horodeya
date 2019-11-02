@@ -1,5 +1,6 @@
 {% load static wagtailuserbar %}
 {% load bootstrap4 %}
+{% load i18n %}
 
 {% bootstrap_css %}
 {% bootstrap_javascript jquery='full' %}
@@ -24,7 +25,7 @@
 				<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         {# Global stylesheets #}
-        <link rel="stylesheet" type="text/css" href="{% static 'home/style.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/flag-icon.min.css' %}">
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
 
@@ -61,12 +62,12 @@
                 <span class="navbar-text">
                   Здравей, {{user.first_name}}
                 </span>
-                  <a class="nav-link {% active account %}" href="{% url 'account' %}">Профил</a>
-                  <a class="nav-link {% active logout %}" href="{% url 'account_logout' %}">Излез</a>
+                  <a class="nav-link {% active account %}" href="{% url 'account' %}">{% trans 'Account' %}</a>
+                  <a class="nav-link {% active logout %}" href="{% url 'account_logout' %}">{% trans 'Log out' %}</a>
               {% else %}
-                  <a class="nav-link {% active login %}" href="{% url 'account_login' %}">Влез</a>
+                <a class="nav-link {% active login %}" href="{% url 'account_login' %}">{% trans 'Log in' %}</a>
 
-                  <a class="nav-link {% active register %}" href="{% url 'account_signup' %}">Регистрация</a>
+                <a class="nav-link {% active register %}" href="{% url 'account_signup' %}">{% trans "Register" %}</a>
               {% endif %}
 
               {% load i18n %}
@@ -96,6 +97,15 @@
         </nav>
 
         <div class="container">
+          {% block breadcrumbs_container %}
+          <nav class="mt-3" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+
+              <li class="breadcrumb-item"><a href="/">{% trans 'Home' %}</a></li>
+              {% block breadcrumbs %}{% endblock %}
+            </ol>
+          </nav>
+          {% endblock %}
 					{% block content %}{% endblock %}
         </div>
 

@@ -1,0 +1,13 @@
+{% load i18n %}
+<li class="breadcrumb-item">
+  {% if project.type == 'c' or type == 'c'%}
+    <a href="/каузи">{% trans "Causes" %}</a>
+  {% else %}
+  <a href="/бизнеси">{% trans "Businesses" %}</a>
+  {% endif %}
+  {% if project %}
+  <li class="breadcrumb-item {{active}}">
+      <a href='{% url 'projects:details' project.pk %}'>{{ project.name }}</a>
+    </li>
+  {% endif %}
+</li>

@@ -2,6 +2,10 @@
 {% load i18n %}
 {% load projects_tags %}
 
+{% block breadcrumbs %}
+    {% include "projects/project_breadcrumb.html" with project=object active="active" only %}
+{% endblock %}
+
 {% block content %}
 {% if object.legal_entity.admin.pk == user.pk %}
 <ul class="mt-1 nav justify-content-center bg-success text-white">

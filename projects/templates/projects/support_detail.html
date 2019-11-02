@@ -2,6 +2,10 @@
 
 {% load projects_tags %}
 
+{% block breadcrumbs %}
+    {% include "projects/support_breadcrumb.html" with project=object.project support=object active="active" only %}
+{% endblock %}
+
 {% block content %}
 {% with admin=object.project.legal_entity.admin %}
 

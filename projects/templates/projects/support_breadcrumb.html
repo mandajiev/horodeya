@@ -1,0 +1,14 @@
+{% load i18n %}
+{% include "projects/project_breadcrumb.html" with project=project only %}
+<li class="breadcrumb-item {% if not support %} {{active}} {% endif %}">
+  <a href="{% url 'projects:support_list' project.pk %}">
+  {% trans "Support" %} 
+  </a>
+</li>
+{% if support %}
+  <li class="breadcrumb-item {{active}}"> 
+    <a href='{% url 'projects:support_details' support.pk %}'>{{ support }}</a>
+  </li>
+{% endif %}
+
+

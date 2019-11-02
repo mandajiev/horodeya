@@ -23,7 +23,7 @@ from vote.models import UP, DOWN
 class ProjectForm(ModelForm):
     class Meta:
         model = Project
-        fields = ['type', 'name', 'description', 'text', 'published', 'legal_entity', 'leva_needed', 'budget_until' ]
+        fields = ['name', 'description', 'text', 'published', 'legal_entity', 'leva_needed', 'budget_until' ]
         widgets = {
             'budget_until': DatePicker(
                 options={
@@ -49,6 +49,25 @@ class ProjectCreate(CreateView):
         kwargs = super().get_form_kwargs()
         kwargs.update({'user': self.request.user})
         return kwargs
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        context['type'] = self.kwargs['type']
+
+        return context
+
+    def form_valid(self, form):
+        user = self.request.user
+        project = form.instance
+        legal_entity = project.legal_entity
+        if legal_entity.admin != user:
+            form.add_error('legal_entity', 'You must be the admin of the legal entity. Admin for %s is %s' % (legal_entity, legal_entity.admin))
+            return super().form_invalid(form)
+
+        project.type = self.request.kwargs['type']
+
+        return super().form_valid(form)
 
 class ProjectUpdate(UpdateView):
     model = Project
@@ -134,7 +153,7 @@ def legal_exit(request, pk):
 class ReportForm(ModelForm):
     class Meta:
         model = Report
-        fields = ['text', 'published_at']
+        fields = ['name', 'text', 'published_at']
         widgets = {
             'published_at': DateTimePicker(
                 options={
@@ -149,15 +168,27 @@ class ReportCreate(CreateView):
     model = Report
     form_class = ReportForm
 
-    def form_valid(self, form):
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
         project_pk = self.kwargs['project']
-        project = get_object_or_404(Project, pk=project_pk)
-        form.instance.project = project
+        self.project = get_object_or_404(Project, pk=project_pk)
+        context['project'] = self.project
+        return context
+
+    def form_valid(self, form):
+        form.instance.project = self.project
         return super().form_valid(form)
 
 class ReportUpdate(UpdateView):
     model = Report
     form_class = ReportForm
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        context['project'] = self.object.project
+        return context
 
 class ReportDelete(DeleteView):
     model = Report
@@ -244,10 +275,16 @@ class MoneySupportCreate(CreateView):
     model = MoneySupport
     fields = ['leva']
 
-    def form_valid(self, form):
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
         project_pk = self.kwargs['project']
-        project = get_object_or_404(Project, pk=project_pk)
-        form.instance.project = project
+        self.project = get_object_or_404(Project, pk=project_pk)
+        context['project'] = self.project
+        return context
+
+    def form_valid(self, form):
+        form.instance.project = self.project
 
         user = self.request.user
         form.instance.user = user
@@ -258,6 +295,12 @@ class MoneySupportCreate(CreateView):
 class MoneySupportUpdate(UpdateView):
     model = MoneySupport
     fields = ['leva']
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        context['project'] = self.object.project
+        return context
 
 class MoneySupportDetails(generic.DetailView):
     model = MoneySupport
@@ -357,6 +400,13 @@ def support_create(request, project_id):
         }
     )
 
+def support_details(request, pk):
+    support = MoneySupport.objects.get(pk=pk)
+    if not support:
+        support = TimeSupport.objects.get(pk=pk)
+
+    return redirect(support)
+
 class TimeSupportForm(ModelForm):
     class Meta:
         model = TimeSupport
@@ -381,10 +431,16 @@ class TimeSupportCreate(CreateView):
     form_class = TimeSupportForm
     template_name = 'projects/project_form.html'
 
-    def form_valid(self, form):
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
         project_pk = self.kwargs['project']
-        project = get_object_or_404(Project, pk=project_pk)
-        form.instance.project = project
+        self.project = get_object_or_404(Project, pk=project_pk)
+        context['project'] = self.project
+        return context
+
+    def form_valid(self, form):
+        form.instance.project = self.project
 
         user = self.request.user
         form.instance.user = user
@@ -395,6 +451,12 @@ class TimeSupportCreate(CreateView):
 class TimeSupportUpdate(UpdateView):
     model = TimeSupport
     fields = ['leva']
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        context['project'] = self.object.project
+        return context
 
 class TimeSupportDetails(generic.DetailView):
     model = TimeSupport

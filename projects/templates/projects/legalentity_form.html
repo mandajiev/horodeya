@@ -1,9 +1,12 @@
-{% extends "base.html" %}
+{% extends "form.html" %}
 
-{% block content %}
-<form method="post">
-    {% csrf_token %}
-    {{form.as_p}}
-    <input type="submit" value="Save">
-</form>
+{% block delete %}
+{% with delete_label='projects:legal_delete' %}
+  {{ block.super }}
+{% endwith %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    {% include "projects/legalentity_breadcrumb.html" with object=object only %}
+    {% include "projects/form_breadcrumb.html" with object=object only %}
 {% endblock %}

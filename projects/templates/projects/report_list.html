@@ -2,6 +2,10 @@
 {% load i18n %}
 {% load projects_tags %}
 
+{% block breadcrumbs %}
+    {% include "projects/report_breadcrumb.html" with project=project report=report active="active" only %}
+{% endblock %}
+
 {% block content %}
 
 {% if project.legal_entity.admin.pk == user.pk %}

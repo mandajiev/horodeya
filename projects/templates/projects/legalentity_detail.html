@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block breadcrumbs %}
+{% include 'projects/legalentity_breadcrumb.html' with object=object active="active" only %}
+{% endblock %}
+
 {% block content %}
 <h2>{{ object.name }}</h2>
 <p>{{ object.bulstat }}</p>
@@ -9,7 +13,7 @@
 <a class="btn btn-primary" href="{% url 'projects:legal_join' object.pk %}">Присъедини се</a>
 <a class="btn btn-primary" href="{% url 'projects:legal_exit' object.pk %}">Излез</a>
 
-{% if object.legal_entity.admin == user %}
+{% if object.admin == user %}
   <a class="btn btn-primary" href="{% url 'projects:legal_update' object.pk %}">Редактирай</a>
   <a class="btn btn-danger" href="{% url 'projects:legal_delete' object.pk %}">Изтрий</a>
 {% endif %}

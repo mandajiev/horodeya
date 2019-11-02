@@ -1,17 +1,14 @@
-{% extends "base.html" %}
+{% extends "form.html" %}
 {% load i18n %}
 
-{% block content %}
-{% load bootstrap4 %}
-{{form.media}}
-<form method="post" class="form">
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    {% buttons %}
-    <button type="submit" class="btn btn-primary">Save</button>
-    {% if form.instance.pk %}
-      <a class="btn btn-danger" href="{% url 'projects:delete' form.instance.pk %}">{% trans "Delete" %}</a>
-    {% endif %}
-    {% endbuttons %}
-</form>
+{% block breadcrumbs %}
+    {% include "projects/report_breadcrumb.html" with project=project report=object only %}
+    {% include "projects/form_breadcrumb.html" with object=object only %}
+
+{% endblock %}
+
+{% block delete %}
+{% with delete_label='projects:report_delete' %}
+  {{ block.super }}
+{% endwith %}
 {% endblock %}

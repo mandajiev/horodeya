@@ -1,0 +1,7 @@
+{% load i18n %}
+
+{% if object %}
+  <li class="breadcrumb-item active"> {% trans "Edit" %} </li>
+{% else %}
+<li class="breadcrumb-item active"> {% trans "Create" %} </li>
+{% endif %}

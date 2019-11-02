@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+{% load bootstrap4 %}
+{{form.media}}
+<form method="post" class="form">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons %}
+    <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
+    {% if form.instance.pk %}
+    {% block delete %}
+      <a class="btn btn-danger" href="{% url delete_label form.instance.pk %}">{% trans "Delete" %}</a>
+    {% endblock %}
+    {% endif %}
+    {% endbuttons %}
+</form>
+{% endblock %}
