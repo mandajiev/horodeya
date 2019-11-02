@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load projects_tags %}
+
+{% block content %}
+
+{% if project.legal_entity.admin.pk == user.pk %}
+<ul class="mt-1 nav justify-content-center bg-success text-white">
+  <li class="nav-item pt-2 pl-1">
+    <strong>{% trans 'Admin tools' %}</strong>
+  </li>
+  <li class="nav-item">
+    <a href="{% url 'projects:report_create' project=project.pk %}" class="btn btn-success">{% trans 'New report' %}</a>
+  </li>
+</ul>
+
+<h2>
+  {% trans 'Reports' %}
+  {% trans 'for' %}
+  {{project.name}}
+</h2>
+{% endif %}
+
+{% with admin_pk=project.legal_entity.admin.pk %}
+{% if admin_pk == user.pk %}
+<div class="card">
+  <div class="card-header">
+    Непобликувани
+  </div>
+  <ul class="list-group list-group-flush">
+  {% for report in unpublished_reports %}
+    <li class="list-group-item">
+      <a href="{% url 'projects:report_details' report.pk %}">{{ report }}</a>
+    </li>
+  {% endfor %}
+  </ul>
+</div>
+{% endif %}
+{% endwith %}
+
+<div class="row">
+  <ul>
+  {% for report in reports %}
+    <li>
+      <a href="{% url 'projects:report_details' report.pk %}">{{ report }}</a>
+      {% vote_exists report user.pk as voted%}
+      {% if voted %}
+        <span>Гласувано</span>
+      {% else %}
+        <span>Прочети и гласувай</span>
+      {% endif %}
+    </li>
+  {% endfor %}
+  </ul>
+</div>
+
+{% endblock %}

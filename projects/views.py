@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
@@ -14,7 +14,7 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from django.utils.translation import gettext as _
 
-from projects.models import Project, LegalEntity, Report, Support, MoneySupport
+from projects.models import Project, LegalEntity, Report, MoneySupport, TimeSupport
 
 from tempus_dominus.widgets import DateTimePicker
 
@@ -32,13 +32,6 @@ class ProjectForm(ModelForm):
 
 class ProjectDetails(generic.DetailView):
     model = Project
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        now = timezone.now()
-        context['reports'] = context['object'].report_set.filter(published_at__lte=now)
-        context['unpublished_reports'] = context['object'].report_set.filter(published_at__gt=now)
-        return context
 
 class ProjectCreate(CreateView):
     model = Project
@@ -191,6 +184,21 @@ class ReportDetails(generic.DetailView):
 
         return context
 
+class ReportList(generic.ListView):
+    model = Report
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        now = timezone.now()
+
+        project_pk = self.kwargs['project']
+        context['project'] = get_object_or_404(Project, pk=project_pk)
+
+        context['reports'] = Report.objects.filter(project_id=project_pk, published_at__lte=now)
+        context['unpublished_reports'] = Report.objects.filter(project_id=project_pk, published_at__gt=now)
+
+        return context
+
 def report_vote_up(request, pk):
     return report_vote(request, pk, UP)
 
@@ -321,6 +329,17 @@ def support_delivered(request, pk, type):
         messages.success(request, _('Support marked as delivered'))
 
     return redirect(support)
+
+def support_list(request, project_id):
+    project = get_object_or_404(Project, pk=project_id)
+    money_support_list = MoneySupport.objects.filter(project_id=project_id).all()
+    time_support_list = TimeSupport.objects.filter(project_id=project_id).all()
+    return render(request, 'projects/support_list.html', context={
+        'money_support_list': money_support_list,
+        'time_support_list': time_support_list,
+        'project': project
+        }
+    )
 
 #class MoneySupportList(generic.ListView):
 #    model = LegalEntity

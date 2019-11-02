@@ -1,73 +1,57 @@
 {% extends "base.html" %}
+{% load i18n %}
+{% load projects_tags %}
 
 {% block content %}
-  {% with admin_pk=object.legal_entity.admin.pk %}
-  <h2>{{ object.name }}</h2>
-  {% if admin_pk == user.pk %}
-    <a class="btn btn-primary" href="{% url 'projects:update' project.pk %}">Редактирай</a>
-    <a class="btn btn-danger" href="{% url 'projects:delete' project.pk %}">Изтрий</a>
-  {% endif %}
-  <div class="row">
-    <a href="{% url "projects:legal_details" object.legal_entity.pk %}">{{ object.legal_entity }}</a>
-  </div>
-  <div class="row">
-    <p>{{ object.description }}</p>
-  </div>
-
-  <a class="btn btn-primary" href="{% url 'projects:msupport_create' object.pk %}">Подкрепи</a>
-
-  <ul>
-  {% for money_support in object.moneysupport_set.all %}
-  <li>
-    {% include "projects/moneysupport_detail.html" with object=money_support user=user only %}
+{% if object.legal_entity.admin.pk == user.pk %}
+<ul class="mt-1 nav justify-content-center bg-success text-white">
+  <li class="nav-item pt-2 pl-1">
+    <strong>{% trans 'Admin tools' %}</strong>
   </li>
-  {% endfor %}
-  </ul>
+  <li class="nav-item">
+    <a class="nav-link text-white" href="{% url 'projects:update' project.pk %}">{% trans 'Edit' %}</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link text-white" href="{% url 'projects:report_create' project=object.pk %}">{% trans 'New report' %}</a>
+  </li>
+</ul>
+{% endif %}
+  <div class="row mt-4">
+    <div class="col-md-8">
+      <img src="https://via.placeholder.com/640x320"></img>
+    </div>
+    <div class="col-md-4 mt-4">
+      <p>
+        {{object.supporters_count}}
+        {% trans 'supporters' %}
+        <a href="{% url 'projects:support_list' object.pk %}">{% trans 'See all' %}</a>
+      </p>
+      <div class="progress">
+        <div class="progress-bar" role="progressbar" style="width:25%"></div>
+      </div>
+      <p>
+      {% blocktrans with collected=object.money_support|leva needed=object.leva_needed|leva%}
+      Collected <strong>{{collected}}</strong> out of <strong>{{needed}}</strong></p>
+      {% endblocktrans %}
 
-  <hr>
+      <p>{% trans 'Collecting until' %}: {{ object.budget_until }} <a href="{% url 'projects:report_list' object.pk %}">{% trans 'Reports' %}</a></p>
+      <p>{% trans 'Legal entity' %}: <a href="{{ object.legal_entity.get_absolute_url }}">{{object.legal_entity}}</a></p>
+      <p>{% trans 'Rating' %}: {{ object.bal }}</p>
+
+      <a class="btn btn-primary btn-lg" href="{% url 'projects:msupport_create' object.pk %}">{% trans 'Get involved' %}</a>
+    </div>
+  </div>
+  <div class="row mt-1">
+    <h3>
+      {{ object.name }}
+      <small>{{ object.description }}</small>
+    </h3>
+  </div>
+
 	<div class="row">
     <div class="body">{{ object.text }}</div>
 	</div>
 
-  {% load projects_tags %}
-  <div class="row">
-    <h5>Доклади
-    {% if admin_pk == user.pk %}
-      <a href="{% url 'projects:report_create' project=object.pk %}" class="btn btn-primary">Нов</a>
-    </h5>
-    {% endif %}
-  </div>
-  <div class="row">
-    <ul>
-    {% for report in reports %}
-      <li>
-        <a href="{% url 'projects:report_details' report.pk %}">{{ report }}</a>
-        {% vote_exists report user.pk as voted%}
-        {% if voted %}
-          <span>Гласувано</span>
-        {% else %}
-          <span>Прочети и гласувай</span>
-        {% endif %}
-      </li>
-    {% endfor %}
-    </ul>
-  </div>
-
-  {% if admin_pk == user.pk %}
-    <div class="row">
-      <h5>Непобликувани</h5>
-    </div>
-    <div class="row">
-      <ul>
-      {% for report in unpublished_reports %}
-        <li>
-          <a href="{% url 'projects:report_details' report.pk %}">{{ report }}</a>
-        </li>
-      {% endfor %}
-      </ul>
-    </div>
-  {% endif %}
-
-  {% endwith %}
+  <a class="btn btn-primary btn-lg" href="{% url 'projects:msupport_create' object.pk %}">{% trans 'Get involved' %}</a>
 
 {% endblock %}

@@ -1,8 +1,13 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block content %}
 <form method="post">{% csrf_token %}
-    <p>Сигурни ли сте, че искате да изтриете "{{ object }}"?</p>
-    <input type="submit" value="Confirm">
+
+  {% blocktrans %}
+    <p>Are you sure you want to delete "{{ object }}"?</p>
+  {% endblocktrans %}
+
+  <input type="submit" value="{% trans 'Confirm' %}">
 </form>
 {% endblock %}

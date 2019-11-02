@@ -52,12 +52,30 @@ class Project(Timestamped):
     description = models.TextField()
     published = models.BooleanField()
     legal_entity = models.ForeignKey(LegalEntity, on_delete=models.CASCADE)
+    leva_needed = models.FloatField(null=True, blank=True)
+    budget_until = models.DateField(null=True, blank=True)
+    bal = models.IntegerField(default=20, validators=[MaxValueValidator(100)])
 
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
         return reverse('projects:details', kwargs={'pk': self.pk})
+
+    #TODO normalize to a field, update on signal
+    def supporters_count(self):
+        s = set()
+        for money_support in self.moneysupport_set.all():
+            s.add(money_support.user)
+
+        return len(s)
+
+    def money_support(self):
+        s = 0
+        for money_support in self.moneysupport_set.all():
+            s += money_support.leva
+
+        return s
 
 class Report(VoteModel, Timestamped):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)

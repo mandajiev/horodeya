@@ -1,7 +1,12 @@
+{% extends "base.html" %}
+
+{% load projects_tags %}
+
+{% block content %}
 {% with admin=object.project.legal_entity.admin %}
 
 <p>
-  <strong>{{object.leva}} лв</strong> от
+  <strong>{{object.leva | leva}}</strong> от
   <a href="{% url 'account' %}"> {{object.user}}</a>
 {% if object.user == user %} 
   {% if object.accepted == None %}
@@ -42,3 +47,4 @@
 </p>
 
 {% endwith %}
+{% endblock %}

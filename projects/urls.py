@@ -21,6 +21,7 @@ urlpatterns = [
     path('report/<int:pk>', views.ReportDetails.as_view(), name='report_details'),
     path('report/<int:pk>/update', views.ReportUpdate.as_view(), name='report_update'),
     path('report/<int:pk>/delete', views.ReportDelete.as_view(), name='report_delete'),
+    path('<int:project>/report/list', views.ReportList.as_view(), name='report_list'),
     path('report/<int:pk>/vote-up', views.report_vote_up, name='report_vote_up'),
     path('report/<int:pk>/vote-down', views.report_vote_down, name='report_vote_down'),
 
@@ -31,4 +32,5 @@ urlpatterns = [
     path('support/<int:pk>/<str:type>/accept', views.support_accept, name='support_accept'),
     path('support/<int:pk>/<str:type>/decline', views.support_decline, name='support_decline'),
     path('support/<int:pk>/<str:type>/delivered', views.support_delivered, name='support_delivered'),
+    path('<int:project_id>/support/list', views.support_list, name='support_list'),
 ]
