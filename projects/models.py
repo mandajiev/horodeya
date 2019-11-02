@@ -49,7 +49,8 @@ class Project(Timestamped):
     ]
     type = models.CharField(max_length=1, choices=TYPES)
     name = models.CharField(max_length=50)
-    description = models.TextField()
+    description = models.CharField(max_length=300)
+    text = models.TextField()
     published = models.BooleanField()
     legal_entity = models.ForeignKey(LegalEntity, on_delete=models.CASCADE)
     leva_needed = models.FloatField(null=True, blank=True)
@@ -63,12 +64,21 @@ class Project(Timestamped):
         return reverse('projects:details', kwargs={'pk': self.pk})
 
     #TODO normalize to a field, update on signal
-    def supporters_count(self):
-        s = set()
-        for money_support in self.moneysupport_set.all():
-            s.add(money_support.user)
+    def supporters_stats(self):
 
-        return len(s)
+        money_supporters = set()
+        time_supporters = set()
+        money = 0
+        time = datetime.timedelta(days=0)
+        for money_support in self.moneysupport_set.all():
+            time_supporters.add(money_support.user)
+            money += money_support.leva
+            
+        for time_support in self.timesupport_set.all():
+            money_supporters.add(time_support.user)
+            time += time_support.duration()
+
+        return len(money_supporters), money, len(time_supporters), time
 
     def money_support(self):
         s = 0
@@ -76,6 +86,9 @@ class Project(Timestamped):
             s += money_support.leva
 
         return s
+
+    def support_percent(self):
+        return int(100*self.money_support() / self.leva_needed)
 
 class Report(VoteModel, Timestamped):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
@@ -123,11 +136,22 @@ class MoneySupport(Support):
     def get_absolute_url(self):
         return reverse('projects:msupport_details', kwargs={'pk': self.pk})
 
+    def get_type(self):
+        return 'm'
+
     def __str__(self):
         return "%s-%.2f" % (self.project, self.leva)
 
 class TimeSupport(Support):
+    start_date = models.DateField()
+    end_date = models.DateField()
+    note = models.TextField()
+
     def get_absolute_url(self):
-        return reverse('projects:tsuport_details', kwargs={'pk': self.pk})
+        return reverse('projects:tsupport_details', kwargs={'pk': self.pk})
 
+    def get_type(self):
+        return 't'
 
+    def duration(self):
+        return self.end_date - self.start_date

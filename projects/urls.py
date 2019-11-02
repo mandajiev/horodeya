@@ -25,9 +25,14 @@ urlpatterns = [
     path('report/<int:pk>/vote-up', views.report_vote_up, name='report_vote_up'),
     path('report/<int:pk>/vote-down', views.report_vote_down, name='report_vote_down'),
 
+    path('<int:project_id>/support/create/', views.support_create, name='support_create'),
     path('<int:project>/msupport/create/', views.MoneySupportCreate.as_view(), name='msupport_create'),
     path('msupport/<int:pk>', views.MoneySupportDetails.as_view(), name='msupport_details'),
     path('msupport/<int:pk>/update', views.MoneySupportUpdate.as_view(), name='msupport_update'),
+    path('<int:project>/tsupport/create/', views.TimeSupportCreate.as_view(), name='tsupport_create'),
+    path('tsupport/<int:pk>', views.TimeSupportDetails.as_view(), name='tsupport_details'),
+    path('tsupport/<int:pk>/update', views.TimeSupportUpdate.as_view(), name='tsupport_update'),
+
     path('support/<int:pk>/<str:type>/delete', views.SupportDelete.as_view(), name='support_delete'),
     path('support/<int:pk>/<str:type>/accept', views.support_accept, name='support_accept'),
     path('support/<int:pk>/<str:type>/decline', views.support_decline, name='support_decline'),

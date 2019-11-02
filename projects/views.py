@@ -16,14 +16,22 @@ from django.utils.translation import gettext as _
 
 from projects.models import Project, LegalEntity, Report, MoneySupport, TimeSupport
 
-from tempus_dominus.widgets import DateTimePicker
+from tempus_dominus.widgets import DateTimePicker, DatePicker
 
 from vote.models import UP, DOWN
 
 class ProjectForm(ModelForm):
     class Meta:
         model = Project
-        fields = ['type', 'name', 'description', 'published', 'legal_entity' ]
+        fields = ['type', 'name', 'description', 'text', 'published', 'legal_entity', 'leva_needed', 'budget_until' ]
+        widgets = {
+            'budget_until': DatePicker(
+                options={
+                    'useCurrent': True,
+                    'collapse': False,
+                },
+            )
+        }
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
@@ -253,6 +261,7 @@ class MoneySupportUpdate(UpdateView):
 
 class MoneySupportDetails(generic.DetailView):
     model = MoneySupport
+    template_name = 'projects/support_detail.html'
 
 #TODO only allow if support is not accepted
 class SupportDelete(DeleteView):
@@ -341,10 +350,53 @@ def support_list(request, project_id):
         }
     )
 
-#class MoneySupportList(generic.ListView):
-#    model = LegalEntity
-#
-#    def get_queryset(self):
-#        project_pk = self.kwargs['project']
-#        user = self.request.user
-#        return MoneySupport.objects.filter(project_pk=project_pk, user=user)
+def support_create(request, project_id):
+    project = get_object_or_404(Project, pk=project_id)
+    return render(request, 'projects/support_create.html', context={
+        'project': project,
+        }
+    )
+
+class TimeSupportForm(ModelForm):
+    class Meta:
+        model = TimeSupport
+        fields = ['start_date', 'end_date', 'note']
+        widgets = {
+            'start_date': DatePicker(
+                options={
+                    'useCurrent': True,
+                    'collapse': False,
+                },
+            ),
+            'end_date': DatePicker(
+                options={
+                    'useCurrent': True,
+                    'collapse': False,
+                },
+            ),
+        }
+
+class TimeSupportCreate(CreateView):
+    model = TimeSupport
+    form_class = TimeSupportForm
+    template_name = 'projects/project_form.html'
+
+    def form_valid(self, form):
+        project_pk = self.kwargs['project']
+        project = get_object_or_404(Project, pk=project_pk)
+        form.instance.project = project
+
+        user = self.request.user
+        form.instance.user = user
+
+        return super().form_valid(form)
+
+#TODO only allow if support is not accepted
+class TimeSupportUpdate(UpdateView):
+    model = TimeSupport
+    fields = ['leva']
+
+class TimeSupportDetails(generic.DetailView):
+    model = TimeSupport
+    template_name = 'projects/support_detail.html'
+

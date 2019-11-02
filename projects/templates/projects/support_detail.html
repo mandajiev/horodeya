@@ -6,7 +6,11 @@
 {% with admin=object.project.legal_entity.admin %}
 
 <p>
-  <strong>{{object.leva | leva}}</strong> от
+  {% if object.get_type == 'm' %}
+    <strong>{{object.leva | leva}}</strong> от
+  {% else %}
+    <strong>{{object.duration }} </strong> от
+  {% endif %}
   <a href="{% url 'account' %}"> {{object.user}}</a>
 {% if object.user == user %} 
   {% if object.accepted == None %}

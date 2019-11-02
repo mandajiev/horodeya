@@ -17,6 +17,16 @@
     {{money_support.user.first_name}}
   </a>
 {% endfor %}
+</ul>
+
+<ul class="list-group">
+{% for time_support in time_support_list %}
+  <a href="{% url 'projects:tsupport_details' time_support.pk %}" class="list-group-item list-group-item-action">
+    {{time_support.duration}} от
+    {{time_support.user.first_name}}
+  </a>
+{% endfor %}
+</ul>
 
 
 {% endblock %}

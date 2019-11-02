@@ -21,13 +21,16 @@
       <img src="https://via.placeholder.com/640x320"></img>
     </div>
     <div class="col-md-4 mt-4">
-      <p>
-        {{object.supporters_count}}
-        {% trans 'supporters' %}
-        <a href="{% url 'projects:support_list' object.pk %}">{% trans 'See all' %}</a>
+      {% with stats=object.supporters_stats %}
+      {% blocktrans with money_supporters=stats.0 money=stats.1|leva time_supporters=stats.2 time=stats.3 %}
+      <p><strong>{{ money_supporters }}</strong> supporters gave <strong>{{ money }}</strong></p>
+      <p><strong>{{ time_supporters }}</strong> volunteers gave <strong>{{ time }}</strong></p>
+      {% endblocktrans %}
+      {% endwith %}
+      <a href="{% url 'projects:support_list' object.pk %}">{% trans 'See all' %}</a>
       </p>
       <div class="progress">
-        <div class="progress-bar" role="progressbar" style="width:25%"></div>
+        <div class="progress-bar" role="progressbar" style="width:{{ object.support_percent }}%"></div>
       </div>
       <p>
       {% blocktrans with collected=object.money_support|leva needed=object.leva_needed|leva%}
@@ -38,7 +41,7 @@
       <p>{% trans 'Legal entity' %}: <a href="{{ object.legal_entity.get_absolute_url }}">{{object.legal_entity}}</a></p>
       <p>{% trans 'Rating' %}: {{ object.bal }}</p>
 
-      <a class="btn btn-primary btn-lg" href="{% url 'projects:msupport_create' object.pk %}">{% trans 'Get involved' %}</a>
+      <a class="btn btn-primary btn-lg" href="{% url 'projects:support_create' object.pk %}">{% trans 'Get involved' %}</a>
     </div>
   </div>
   <div class="row mt-1">
@@ -49,9 +52,13 @@
   </div>
 
 	<div class="row">
-    <div class="body">{{ object.text }}</div>
+    <div class="body">
+        {{ object.text | linebreaks }}
+    </div>
 	</div>
 
-  <a class="btn btn-primary btn-lg" href="{% url 'projects:msupport_create' object.pk %}">{% trans 'Get involved' %}</a>
+  <div class="row mt-3">
+    <a class=" mx-auto btn btn-primary btn-lg" href="{% url 'projects:msupport_create' object.pk %}">{% trans 'Get involved' %}</a>
+  </div>
 
 {% endblock %}
