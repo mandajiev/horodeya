@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load projects_tags %}
+
+{% block breadcrumbs %}
+{% endblock %}
+
+{% block content %}
+<h2>
+  {% trans 'Support' %}
+  {% trans 'from' %}
+  {{ account.first_name }}
+</h2>
+
+<ul class="list-group">
+{% for money_support in money_support_list %}
+  <a href="{% url 'projects:msupport_details' money_support.pk %}" class="list-group-item list-group-item-action">
+    {{money_support.leva | leva}} за 
+    {{money_support.project.name}}
+  </a>
+{% endfor %}
+</ul>
+
+<ul class="list-group">
+{% for time_support in time_support_list %}
+  <a href="{% url 'projects:tsupport_details' time_support.pk %}" class="list-group-item list-group-item-action">
+    {{time_support.duration}} за 
+    {{time_support.project.name}}
+  </a>
+{% endfor %}
+</ul>
+
+
+{% endblock %}

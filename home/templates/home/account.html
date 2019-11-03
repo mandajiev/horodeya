@@ -2,39 +2,65 @@
 
 {% load account %}
 {% load i18n %}
+{% load static %}
 
 {% block breadcrumbs %}
     <li class="breadcrumb-item active" aria-current="page">{% trans "Account" %}</li>
 {% endblock %}
+
+{% block admin_tools %}
+  <li class="nav-item">
+    <a class="nav-link text-white" href="{% url 'user_update' account.pk %}">Редактирай</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link text-white" href="{% url 'account_email' %}">Промени е-поща</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link text-white" href="{% url 'account_change_password'  %}">Промени парола</a>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link text-white" href="{% url 'projects:legal_list' %}">Добави юредическо лице</a>
+  </li>
+
+{% endblock %}
+
 {% block content %}
 
 {% if account == user %}
-  <div class="row">
-    <div class="col">
-      <p>{{ account.first_name }} {{ account.last_name }}
-        <a class="btn btn-primary" href="{% url 'user_update' account.pk %}">Редактирай</a>
-        Бал: {{ account.bal }}
-      </p>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <a class="btn btn-primary" href="{% url 'account_email' %}">Промени е-поща</a>
-      <a class="btn btn-primary" href="{% url 'account_change_password'  %}">Промени парола</a>
-    </div>
-  </div>
+  {{ block.super }}
 {% endif %}
-<div class="row">
-  <div class="col">
-    {% if account.legal_entities %}
-    Юридически лица: 
-    {% for legal_entity in account.legal_entities.all %}
-    <a href="{% url 'projects:legal_details' legal_entity.pk %}">{{ legal_entity }}</a>
-    {% endfor %}
-    {% else %}
-    <p>Няма юридическо лице</p>
-    {% endif %}
-    <a class="btn btn-primary" href="{% url 'projects:legal_list' %}">Добави юредическо лице</a>
-  </div>
+
+  <div class="card mt-3 mx-auto" style="max-width: 960px;">
+    <img class="card-img-top" src="{% static 'media/640x320' %}"></img>
+    <div class="card-body">
+      <h5 class="card-title">{{ account.first_name }} {{ account.last_name }}</h5>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"> {% trans "Rating" %}: {{ account.bal }}</li>
+      <li class="list-group-item">
+        {% trans "Legal entities" %}:
+        {% for legal_entity in account.legal_entities.all %}
+          <a class="" href="{% url 'projects:legal_details' legal_entity.pk %}">{{ legal_entity }}</a>
+          {% if not forloop.last %}
+          |
+          {% endif %}
+        {% empty %}
+        Няма юридическо лице
+        {% endfor %}
+      </li>
+      <li class="list-group-item">
+        {% blocktrans with count=account.total_support_count%}
+        Supported {{count}} causes/businesses.
+        {% endblocktrans %}
+        <a href="{% url 'projects:user_support_list' account.pk %}"> {% trans 'See all' %} </a>
+      </li>
+      <li class="list-group-item">
+        {% blocktrans with votes=account.total_votes_count%}
+        Voted {{votes}} times.
+        {% endblocktrans %}
+        <a href="{% url 'projects:user_vote_list' account.pk %}"> {% trans 'See all' %} </a>
+      </li>
+    </ul>
 </div>
 {% endblock %}

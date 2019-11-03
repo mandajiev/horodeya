@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load projects_tags %}
+
+{% block breadcrumbs %}
+{% endblock %}
+
+{% block content %}
+<h2>
+  {% trans 'Votes' %}
+  {% trans 'from' %}
+  {{ account.first_name }}
+</h2>
+
+{% trans 'Awaiting vote' %}:
+<ul class="list-group">
+{% for awaiting in awaiting_list %}
+    <a href="{% url 'projects:report_details' awaiting.pk %}"> {{awaiting}} </a>
+{% empty %}
+  <li class="list-group-item">{% trans 'No new reports' %}
+  </li>
+{% endfor %}
+</ul>
+
+{% trans 'Past votes' %}:
+<ul class="list-group">
+{% for up in votes_up %}
+  <li class="list-group-item">
+    <a href="{% url 'projects:report_details' up.pk %}"> {{up}} </a>
+    <i class="fa fa-thumbs-o-up"></i>
+  </li>
+{% endfor %}
+
+</ul>
+
+<ul class="list-group">
+{% for down in votes_down %}
+  <li class="list-group-item">
+    <a href="{% url 'projects:report_details' down.pk %}"> {{down}} </a>
+    <i class="fa fa-thumbs-o-down"></i>
+  </li>
+{% endfor %}
+</ul>
+
+
+{% endblock %}

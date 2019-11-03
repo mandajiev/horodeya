@@ -9,7 +9,7 @@ from django.core.validators import MaxValueValidator
 
 from django.contrib.auth.models import AbstractUser
 
-from vote.models import VoteModel
+from vote.models import VoteModel, UP, DOWN
 
 class Timestamped(models.Model):
     created_at = models.DateTimeField(editable=False)
@@ -48,6 +48,12 @@ class User(AbstractUser):
 
     def member_of(self, legal_entity_pk):
         return self.legal_entities.filter(pk=legal_entity_pk).exists()
+
+    def total_support_count(self):
+        return self.moneysupport_set.count() + self.timesupport_set.count()
+
+    def total_votes_count(self):
+        return len(Report.votes.all(self.pk, UP)) + len(Report.votes.all(self.pk, DOWN))
 
 class Project(Timestamped):
     TYPES = [

@@ -19,7 +19,7 @@
 {% block content %}
 
 {% if object.legal_entity.admin.pk == user.pk %}
-{{ block.super }}
+  {{ block.super }}
 {% endif %}
 
   <div class="row mt-4">

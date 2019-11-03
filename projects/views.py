@@ -14,7 +14,7 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from django.utils.translation import gettext as _
 
-from projects.models import Project, LegalEntity, Report, MoneySupport, TimeSupport
+from projects.models import Project, LegalEntity, Report, MoneySupport, TimeSupport, User
 
 from tempus_dominus.widgets import DateTimePicker, DatePicker
 
@@ -471,4 +471,45 @@ class TimeSupportUpdate(UpdateView):
 class TimeSupportDetails(generic.DetailView):
     model = TimeSupport
     template_name = 'projects/support_detail.html'
+
+def user_support_list(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    money_supports = MoneySupport.objects.filter(user=user).all()
+    time_supports = TimeSupport.objects.filter(user=user).all()
+
+    return render(request, 'projects/user_support_list.html', context={
+        'account': user,
+        'money_support_list': money_supports,
+        'time_support_list': time_supports
+        }
+    )
+
+def user_vote_list(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+
+    votes_up = Report.votes.all(user_id, UP) 
+    votes_down = Report.votes.all(user_id, DOWN)
+
+    supported_projects = set()
+    money_supported = user.moneysupport_set.all()
+    time_supported = user.timesupport_set.all()
+
+    awaiting_list = []
+    #TODO use stream framework for this
+    #for m in money_supported:
+    #    supported_projects.add(m.project)
+
+    #for t in time_supported:
+    #    supported_projects.add(t.project)
+
+    #for p in supported_projects:
+    #    awaiting_list.extend(p.report_set.filter())
+
+    return render(request, 'projects/user_vote_list.html', context={
+        'account': user,
+        'awaiting_list': awaiting_list,
+        'votes_up': votes_up,
+        'votes_down': votes_down
+        }
+    )
 

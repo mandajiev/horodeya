@@ -39,4 +39,6 @@ urlpatterns = [
     path('support/<int:pk>/<str:type>/decline', views.support_decline, name='support_decline'),
     path('support/<int:pk>/<str:type>/delivered', views.support_delivered, name='support_delivered'),
     path('<int:project_id>/support/list', views.support_list, name='support_list'),
+    path('accounts/<int:user_id>/support/list', views.user_support_list, name='user_support_list'),
+    path('accounts/<int:user_id>/vote/list', views.user_vote_list, name='user_vote_list'),
 ]
