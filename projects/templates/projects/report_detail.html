@@ -6,28 +6,24 @@
     {% include "projects/report_breadcrumb.html" with report=object project=report.project active="active" only %}
 {% endblock %}
 
-{% block content %}
-
-{% if object.project.legal_entity.admin.pk == user.pk %}
-<ul class="mt-1 nav justify-content-center bg-success text-white">
-  <li class="nav-item pt-2 pl-1">
-    <strong>{% trans 'Admin tools' %}</strong>
-  </li>
-
+{% block admin_tools %}
   <li class="nav-item">
     <a class="nav-link text-white" href="{% url 'projects:report_update' object.pk %}">Редактирай</a>
   </li>
-</ul>
+{% endblock %}
+
+{% block content %}
+
+{% if object.project.legal_entity.admin.pk == user.pk %}
+  {{ block.super }}
 {% endif %}
 
 <h2>
   {{object.name}}
 </h2>
 
-
 <p>{{ object.text }}</p>
 <p>{{ object.published_at }}</p>
-
 
 <a class="btn {{vote_up_classes}}" href="{% url 'projects:report_vote_up' object.pk %}">
     <i class="fa fa-thumbs-o-up"></i>

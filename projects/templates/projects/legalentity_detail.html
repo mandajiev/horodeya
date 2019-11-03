@@ -1,20 +1,56 @@
 {% extends "base.html" %}
+{% load i18n %}
+{% load static %}
 
 {% block breadcrumbs %}
 {% include 'projects/legalentity_breadcrumb.html' with object=object active="active" only %}
 {% endblock %}
 
+{% block admin_tools %}
+  <li class="nav-item">
+    <a class="nav-link text-white" href="{% url 'projects:legal_update' object.pk %}">{% trans 'Редактирай' %}</a>
+  </li>
+{% endblock %}
+
 {% block content %}
-<h2>{{ object.name }}</h2>
-<p>{{ object.bulstat }}</p>
-<p>{{ object.email }}</p>
-<p>{{ object.phone }}</p>
-<p>{{ object.admin }}</p>
-<a class="btn btn-primary" href="{% url 'projects:legal_join' object.pk %}">Присъедини се</a>
-<a class="btn btn-primary" href="{% url 'projects:legal_exit' object.pk %}">Излез</a>
 
 {% if object.admin == user %}
-  <a class="btn btn-primary" href="{% url 'projects:legal_update' object.pk %}">Редактирай</a>
-  <a class="btn btn-danger" href="{% url 'projects:legal_delete' object.pk %}">Изтрий</a>
+  {{ block.super }}
 {% endif %}
+
+<div class="card mt-3 mx-auto" style="max-width: 720;">
+  <div class="row no-gutters">
+    <div class="col-md-4">
+      <img src="{% static 'media/150' %}" class="card-img">
+      <div class="card-body text-center">
+        {% if member %}
+          <a class="btn btn-primary btn-lg" href="{% url 'projects:legal_exit' object.pk %}">Излез</a>
+        {% else %}
+          <a class="btn btn-primary btn-lg" href="{% url 'projects:legal_join' object.pk %}">Присъедини се</a>
+        {% endif %}
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">{{ object.name }}</h5>
+      </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            Булстат: {{ object.bulstat }}
+          </li>
+          <li class="list-group-item">
+            Е-поща: {{ object.email }}
+          </li>
+          <li class="list-group-item">
+            Телефон: {{ object.phone }}
+          </li>
+          <li class="list-group-item">
+            Администратор: <a href="{{ object.admin.get_absolute_url }}"> {{ object.admin }}</a>
+          </li>
+          <li class="list-group-item">
+            Плащане: {{ object.payment | linebreaks }}
+          </li>
+    </div>
+</div>
+
 {% endblock %}

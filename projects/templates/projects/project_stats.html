@@ -1,0 +1,34 @@
+{% load i18n %}
+{% load projects_tags %}
+
+{% if short %}
+  {% with supporters=project.total_supporters %}
+    {% blocktrans %}
+      <p><strong>{{ supporters }}</strong> supporters</p>
+    {% endblocktrans %}
+  {% endwith %}
+{% else %}
+  {% with stats=project.supporters_stats %}
+  {% url 'projects:support_list' project.pk  as support_list_url %}
+  {% blocktrans with money_supporters=stats.0 money=stats.1|leva time_supporters=stats.2 time=stats.3%}
+  <p><strong>{{ money_supporters }}</strong> supporters gave <strong>{{ money }}</strong><br>
+  <strong>{{ time_supporters }}</strong> volunteers gave <strong>{{ time }}</strong>
+  <a href="{{support_list_url}}">See all</a>
+  </p>
+  {% endblocktrans %}
+  {% endwith %}
+{% endif %}
+</p>
+<div class="progress">
+  <div class="progress-bar" role="progressbar" style="width:{{ project.support_percent }}%"></div>
+</div>
+<p>
+{% blocktrans with collected=project.money_support|leva needed=project.leva_needed|leva %}
+Collected <strong>{{collected}}</strong> out of <strong>{{needed}}</strong>
+{% endblocktrans %}<br>
+{% if not short %}
+{% trans 'Collecting until' %}: {{ project.budget_until }} <a href="{% url 'projects:report_list' project.pk %}">{% trans 'Reports' %}</a></p>
+{% endif %}
+
+<p>{% trans 'Legal entity' %}: <a href="{{ project.legal_entity.get_absolute_url }}">{{project.legal_entity}}</a>
+{% trans 'Rating' %}: {{ project.bal }}</p>

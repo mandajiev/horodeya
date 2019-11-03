@@ -92,7 +92,7 @@ class ProjectDelete(DeleteView):
 
 class LegalEntityCreate(CreateView):
     model = LegalEntity
-    fields = ['name', 'bulstat', 'email', 'phone']
+    fields = ['name', 'bulstat', 'email', 'phone', 'payment']
 
     def form_valid(self, form):
         user = self.request.user
@@ -101,7 +101,7 @@ class LegalEntityCreate(CreateView):
 
 class LegalEntityUpdate(UpdateView):
     model = LegalEntity
-    fields = ['name', 'bulstat', 'email', 'phone', 'admin']
+    fields = ['name', 'bulstat', 'email', 'phone', 'admin', 'payment']
 
     def form_valid(self, form):
         admin = form.instance.admin
@@ -117,6 +117,13 @@ class LegalEntityDelete(DeleteView):
 class LegalEntityDetails(generic.DetailView):
     model = LegalEntity
 
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        context['member'] = self.request.user.member_of(context['object'].pk)
+        return context
+
+
 class LegalEntityList(generic.ListView):
     model = LegalEntity
 
@@ -124,31 +131,34 @@ class LegalEntityList(generic.ListView):
 def legal_join(request, pk):
     user = request.user
     
-    if user.legal_entities.filter(pk=pk).exists():
-        return HttpResponse("noop", status=300) 
+    if user.member_of(pk):
+        messages.info(request, _("You are already a member"))
 
     #TODO ask legal entity's admin instead of directly adding
 
-    legal_entity = get_object_or_404(LegalEntity, pk=pk)
-    user.legal_entities.add(legal_entity)
+    else:
+        legal_entity = get_object_or_404(LegalEntity, pk=pk)
+        user.legal_entities.add(legal_entity)
+        messages.success(request, _("Success"))
 
-    return HttpResponse("ok")
+    return redirect('projects:legal_details', pk)
 
 @login_required
 def legal_exit(request, pk):
     user = request.user
     
-    legal_entity =  user.legal_entities.filter(pk=pk).first()
+    if not user.member_of(pk):
+        messages.info(request, _("Not a member"))
+    else:
+        legal_entity = user.legal_entities.filter(pk=pk).first()
+        if legal_entity.admin == user:
+            messages.error(request, _("You are the admin"))
 
-    if not legal_entity:
-        return HttpResponse("noop", status=300) 
+        else:
+            user.legal_entities.remove(legal_entity)
+            messages.success(request, _("Exited"))
 
-    if legal_entity.admin == user:
-        return HttpResponse("you are the admin", status=400) 
-
-    user.legal_entities.remove(legal_entity)
-
-    return HttpResponse("ok")
+    return redirect('projects:legal_details', pk)
 
 class ReportForm(ModelForm):
     class Meta:

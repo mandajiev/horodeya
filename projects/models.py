@@ -31,6 +31,7 @@ class LegalEntity(Timestamped):
     email = models.EmailField()
     phone = models.DecimalField(max_digits=20, decimal_places=0)
     admin = models.ForeignKey('User', on_delete=models.PROTECT)
+    payment = models.TextField()
 
     def __str__(self):
         return self.name
@@ -41,6 +42,12 @@ class LegalEntity(Timestamped):
 class User(AbstractUser):
     legal_entities = models.ManyToManyField(LegalEntity)
     bal = models.IntegerField(default=20, validators=[MaxValueValidator(100)])
+
+    def get_absolute_url(self):
+        return reverse('account', kwargs={'pk': self.pk})
+
+    def member_of(self, legal_entity_pk):
+        return self.legal_entities.filter(pk=legal_entity_pk).exists()
 
 class Project(Timestamped):
     TYPES = [
@@ -65,20 +72,28 @@ class Project(Timestamped):
 
     #TODO normalize to a field, update on signal
     def supporters_stats(self):
-
         money_supporters = set()
         time_supporters = set()
         money = 0
         time = datetime.timedelta(days=0)
         for money_support in self.moneysupport_set.all():
-            time_supporters.add(money_support.user)
+            money_supporters.add(money_support.user)
             money += money_support.leva
             
         for time_support in self.timesupport_set.all():
-            money_supporters.add(time_support.user)
+            time_supporters.add(time_support.user)
             time += time_support.duration()
 
         return len(money_supporters), money, len(time_supporters), time
+
+    def total_supporters(self):
+        supporters = set()
+        for money_support in self.moneysupport_set.all():
+            supporters.add(money_support.user)
+        for time_support in self.timesupport_set.all():
+            supporters.add(time_support.user)
+
+        return len(supporters)
 
     def money_support(self):
         s = 0

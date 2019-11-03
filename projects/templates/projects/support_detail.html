@@ -6,16 +6,39 @@
     {% include "projects/support_breadcrumb.html" with project=object.project support=object active="active" only %}
 {% endblock %}
 
-{% block content %}
-{% with admin=object.project.legal_entity.admin %}
+{% block admin_tools %}
+  {% if object.accepted == None %}
+    <li class="nav-item">
+      <a class="nav-link text-white" href="{% url 'projects:support_accept' object.pk 'm' %}">Приеми</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white" href="{% url 'projects:support_decline' object.pk 'm' %}">Откажи</a>
+    </li>
+  {% elif object.accepted == False %}
+    <span class='text-warning'>Отказана</span>
+  {% else %}
+    {% if object.expired %}
+    {% elif not object.delivered %}
+      <a class="btn btn-primary" href="{% url 'projects:support_delivered' object.pk 'm' %}">Отбележи като получена</a>
+      Изтича на {{object.delivery_expires}}
+    {% else %}
+      <span class='text-success'>Получена</span>
+    {% endif %}
+  {% endif %}
+{% endblock %}
 
-<p>
+{% block content %}
+{% if object.project.legal_entity.admin == user %}
+  {{ block.super }}
+{% endif %}
+
+<p class="mt-3 text-center">
   {% if object.get_type == 'm' %}
     <strong>{{object.leva | leva}}</strong> от
   {% else %}
     <strong>{{object.duration }} </strong> от
   {% endif %}
-  <a href="{% url 'account' %}"> {{object.user}}</a>
+  <a href="{{ object.user.get_absolute_url }}"> {{object.user}}</a>
 {% if object.user == user %} 
   {% if object.accepted == None %}
   <a class="btn btn-primary" href="{% url 'projects:msupport_update' object.pk %}">Промени</a>
@@ -36,23 +59,6 @@
   <span class='text-warning'>Изчаква приемане</span>
 {% endif %}
 
-{% if admin == user %}
-  {% if object.accepted == None %}
-    <a class="btn btn-primary" href="{% url 'projects:support_accept' object.pk 'm' %}">Приеми</a>
-    <a class="btn btn-warning" href="{% url 'projects:support_decline' object.pk 'm' %}">Откажи</a>
-  {% elif object.accepted == False %}
-    <span class='text-warning'>Отказана</span>
-  {% else %}
-    {% if object.expired %}
-    {% elif not object.delivered %}
-      <a class="btn btn-primary" href="{% url 'projects:support_delivered' object.pk 'm' %}">Отбележи като получена</a>
-      Изтича на {{object.delivery_expires}}
-    {% else %}
-      <span class='text-success'>Получена</span>
-    {% endif %}
-  {% endif %}
-{% endif %}
 </p>
 
-{% endwith %}
 {% endblock %}

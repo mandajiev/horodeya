@@ -6,24 +6,23 @@
     {% include "projects/report_breadcrumb.html" with project=project report=report active="active" only %}
 {% endblock %}
 
-{% block content %}
-
-{% if project.legal_entity.admin.pk == user.pk %}
-<ul class="mt-1 nav justify-content-center bg-success text-white">
-  <li class="nav-item pt-2 pl-1">
-    <strong>{% trans 'Admin tools' %}</strong>
-  </li>
+{% block admin_tools %}
   <li class="nav-item">
     <a href="{% url 'projects:report_create' project=project.pk %}" class="btn btn-success">{% trans 'New report' %}</a>
   </li>
-</ul>
+{% endblock %}
+
+{% block content %}
+
+{% if project.legal_entity.admin.pk == user.pk %}
+  {{ block.super }}
+{% endif %}
 
 <h2>
   {% trans 'Reports' %}
   {% trans 'for' %}
   {{project.name}}
 </h2>
-{% endif %}
 
 {% with admin_pk=project.legal_entity.admin.pk %}
 {% if admin_pk == user.pk %}

@@ -5,8 +5,6 @@
 {% bootstrap_css %}
 {% bootstrap_javascript jquery='full' %}
 
-{% bootstrap_messages %}
-
 <!DOCTYPE html>
 <html class="no-js" lang="en">
     <head>
@@ -27,7 +25,7 @@
         {# Global stylesheets #}
         <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/flag-icon.min.css' %}">
-        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.css' %}">
 
         {% block extra_css %}
             {# Override this in templates to add extra stylesheets #}
@@ -62,7 +60,7 @@
                 <span class="navbar-text">
                   Здравей, {{user.first_name}}
                 </span>
-                  <a class="nav-link {% active account %}" href="{% url 'account' %}">{% trans 'Account' %}</a>
+                  <a class="nav-link {% active account %}" href="{% url 'my_account' %}">{% trans 'Account' %}</a>
                   <a class="nav-link {% active logout %}" href="{% url 'account_logout' %}">{% trans 'Log out' %}</a>
               {% else %}
                 <a class="nav-link {% active login %}" href="{% url 'account_login' %}">{% trans 'Log in' %}</a>
@@ -106,7 +104,18 @@
             </ol>
           </nav>
           {% endblock %}
-					{% block content %}{% endblock %}
+
+          {% bootstrap_messages %}
+
+					{% block content %}
+            <ul class="mt-1 nav justify-content-center bg-success text-white">
+              <li class="nav-item pt-2 pl-1">
+                <strong>{% trans 'Admin tools' %}</strong>
+              </li>
+              {% block admin_tools %}
+              {% endblock %}
+            </ul>
+          {% endblock %}
         </div>
 
         {# Global javascript #}

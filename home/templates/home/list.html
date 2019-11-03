@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
+{% load static %}
 {% load wagtailcore_tags %}
 {% load i18n %}
 
@@ -43,7 +44,7 @@
   <div class="card mb-3 mx-auto" style="max-width: 980;">
     <div class="row no-gutters">
       <div class="col-md-2">
-        <img src="https://via.placeholder.com/150" class="card-img">
+        <img src="{% static 'media/150' %}" class="card-img">
       </div>
       <div class="col-md-6">
         <div class="card-body">
@@ -53,12 +54,7 @@
         </div>
       </div>
       <div class="col-md-4 pr-4 pt-4">
-        <p>30 подкрепили</p>
-        <div class="progress">
-          <div class="progress-bar" role="progressbar" style="width:25%"></div>
-        </div>
-        <p>Събрани <strong>75 лв</strong> от нужни <strong>300 лв</strong></p>
-        <p><small class="text-muted">Последно обновяване: {{ project.updated_at }}</small></p>
+      {% include "projects/project_stats.html" with project=project short=True only %}
       </div>
     </div>
   </div>
