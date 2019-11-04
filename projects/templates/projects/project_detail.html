@@ -30,7 +30,13 @@
 
       {% include "projects/project_stats.html" with project=object only %}
 
-      <a class="btn btn-primary btn-lg" href="{% url 'projects:support_create' object.pk %}">{% trans 'Get involved' %}</a>
+      <a id='apply-btn' class="btn btn-primary btn-lg" href="{% url 'projects:support_create' object.pk %}">{% trans 'Get involved' %}</a>
+      {% if not user.is_authenticated %}
+        <script>
+          $("#apply-btn").addClass('disabled')
+        </script>
+        <br><a href="{% url 'account_signup' %}">{% trans 'Sign up' %}</a> {% trans 'or' %} <a href="{% url 'account_login' %}">{% trans 'sign in' %}</a> {% trans 'to get involved' %}.
+      {% endif %}
     </div>
   </div>
   <div class="row mt-1">
@@ -46,8 +52,14 @@
     </div>
 	</div>
 
-  <div class="row mt-3">
-    <a class=" mx-auto btn btn-primary btn-lg" href="{% url 'projects:msupport_create' object.pk %}">{% trans 'Get involved' %}</a>
+  <div class="text-center mt-3">
+    <a id='apply-btn2' class=" mx-auto btn btn-primary btn-lg" href="{% url 'projects:msupport_create' object.pk %}">{% trans 'Get involved' %}</a>
+    {% if not user.is_authenticated %}
+      <script>
+        $("#apply-btn2").addClass('disabled')
+      </script>
+      <br><a href="{% url 'account_signup' %}">{% trans 'Sign up' %}</a> {% trans 'or' %} <a href="{% url 'account_login' %}">{% trans 'sign in' %}</a> {% trans 'to get involved' %}.
+    {% endif %}
   </div>
 
 {% endblock %}
