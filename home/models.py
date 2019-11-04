@@ -29,7 +29,9 @@ class HomePage(Page):
         ('action', blocks.StructBlock([
             ('heading', blocks.CharBlock()),
             ('text', blocks.RichTextBlock()),
-            ('page', blocks.PageChooserBlock())], 
+            ('page', blocks.PageChooserBlock()),
+            ('image_order', blocks.IntegerBlock(min_value=0, max_value=1, default=0)),
+            ], 
             template='home/blocks/action.html')),
         ('action_register', blocks.StructBlock([
             ('text', blocks.RichTextBlock())], 
