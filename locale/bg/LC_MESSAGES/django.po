@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-29 09:49+0200\n"
+"POT-Creation-Date: 2019-11-05 12:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,23 +18,722 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: home/forms.py:9
+#: home/forms.py:18
 msgid "First Name"
 msgstr "Име"
 
-#: home/forms.py:12
+#: home/forms.py:21
 msgid "Last Name"
 msgstr "Фамилия"
 
-#: home/forms.py:15
-msgid "Accept Terms of Service"
-msgstr "Приеми Условията за Ползване"
+#: home/templates/account/account_inactive.html:5
+#: home/templates/account/account_inactive.html:8
+#, fuzzy
+#| msgid "Account"
+msgid "Account Inactive"
+msgstr "Профил"
+
+#: home/templates/account/account_inactive.html:10
+msgid "This account is inactive."
+msgstr ""
+
+#: home/templates/account/email.html:6 home/templates/base.html:63
+#: home/templates/base.html:151 home/templates/home/account.html:8
+msgid "Account"
+msgstr "Профил"
+
+#: home/templates/account/email.html:9
+msgid "E-mail Addresses"
+msgstr ""
+
+#: home/templates/account/email.html:11
+msgid "The following e-mail addresses are associated with your account:"
+msgstr ""
+
+#: home/templates/account/email.html:25
+msgid "Verified"
+msgstr ""
+
+#: home/templates/account/email.html:27
+msgid "Unverified"
+msgstr ""
+
+#: home/templates/account/email.html:29
+msgid "Primary"
+msgstr ""
+
+#: home/templates/account/email.html:35
+msgid "Make Primary"
+msgstr ""
+
+#: home/templates/account/email.html:36
+msgid "Re-send Verification"
+msgstr ""
+
+#: home/templates/account/email.html:37
+msgid "Remove"
+msgstr ""
+
+#: home/templates/account/email.html:44
+msgid "Warning:"
+msgstr ""
+
+#: home/templates/account/email.html:44
+msgid ""
+"You currently do not have any e-mail address set up. You should really add "
+"an e-mail address so you can receive notifications, reset your password, etc."
+msgstr ""
+
+#: home/templates/account/email.html:49
+msgid "Add E-mail Address"
+msgstr ""
+
+#: home/templates/account/email.html:55
+msgid "Add E-mail"
+msgstr ""
+
+#: home/templates/account/email.html:65
+msgid "Do you really want to remove the selected e-mail address?"
+msgstr ""
+
+#: home/templates/account/email/email_confirmation_message.txt:1
+#, python-format
+msgid ""
+"Hello from %(site_name)s!\n"
+"\n"
+"You're receiving this e-mail because user %(user_display)s has given yours "
+"as an e-mail address to connect their account.\n"
+"\n"
+"To confirm this is correct, go to %(activate_url)s\n"
+msgstr ""
+
+#: home/templates/account/email/email_confirmation_message.txt:7
+#, python-format
+msgid ""
+"Thank you from %(site_name)s!\n"
+"%(site_domain)s"
+msgstr ""
+
+#: home/templates/account/email/email_confirmation_subject.txt:3
+msgid "Please Confirm Your E-mail Address"
+msgstr ""
+
+#: home/templates/account/email/password_reset_key_message.txt:1
+#, python-format
+msgid ""
+"Hello from %(site_name)s!\n"
+"\n"
+"You're receiving this e-mail because you or someone else has requested a "
+"password for your user account.\n"
+"It can be safely ignored if you did not request a password reset. Click the "
+"link below to reset your password."
+msgstr ""
+
+#: home/templates/account/email/password_reset_key_message.txt:8
+#, python-format
+msgid "In case you forgot, your username is %(username)s."
+msgstr ""
+
+#: home/templates/account/email/password_reset_key_message.txt:10
+#, python-format
+msgid ""
+"Thank you for using %(site_name)s!\n"
+"%(site_domain)s"
+msgstr ""
+
+#: home/templates/account/email/password_reset_key_subject.txt:3
+msgid "Password Reset E-mail"
+msgstr ""
+
+#: home/templates/account/email_confirm.html:6
+#: home/templates/account/email_confirm.html:10
+msgid "Confirm E-mail Address"
+msgstr ""
+
+#: home/templates/account/email_confirm.html:16
+#, python-format
+msgid ""
+"Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
+"address for user %(user_display)s."
+msgstr ""
+
+#: home/templates/account/email_confirm.html:20
+#: projects/templates/projects/project_confirm_delete.html:11
+msgid "Confirm"
+msgstr "Потвърждавам"
+
+#: home/templates/account/email_confirm.html:27
+#, python-format
+msgid ""
+"This e-mail confirmation link expired or is invalid. Please <a href="
+"\"%(email_url)s\">issue a new e-mail confirmation request</a>."
+msgstr ""
+
+#: home/templates/account/login.html:6 home/templates/account/login.html:10
+#: home/templates/account/login.html:45
+#, fuzzy
+#| msgid "Sign in"
+msgid "Sign In"
+msgstr "Влез"
+
+#: home/templates/account/login.html:16
+#, python-format
+msgid ""
+"Please sign in with one\n"
+"of your existing third party accounts. Or, <a href=\"%(signup_url)s\">sign "
+"up</a>\n"
+"for a %(site_name)s account and sign in below:"
+msgstr ""
+
+#: home/templates/account/login.html:26 home/templates/home/list.html:34
+#: projects/templates/projects/project_detail.html:38
+#: projects/templates/projects/project_detail.html:61
+#: venv/lib/python3.7/site-packages/django/utils/text.py:233
+msgid "or"
+msgstr "или"
+
+#: home/templates/account/login.html:33
+#, python-format
+msgid ""
+"If you have not created an account yet, then please\n"
+"<a href=\"%(signup_url)s\">sign up</a> first."
+msgstr ""
+
+#: home/templates/account/login.html:46
+msgid "Forgot Password?"
+msgstr ""
+
+#: home/templates/account/logout.html:5 home/templates/account/logout.html:8
+#: home/templates/account/logout.html:17
+#, fuzzy
+#| msgid "Sign out"
+msgid "Sign Out"
+msgstr "Излез"
+
+#: home/templates/account/logout.html:10
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "    <p>Are you sure you want to delete \"%(object)s\"?</p>\n"
+#| "  "
+msgid "Are you sure you want to sign out?"
+msgstr ""
+"\n"
+"    <p>Сигурни ли сте, че искате да изтриете \"%(object)s\"?</p>\n"
+"  "
+
+#: home/templates/account/messages/cannot_delete_primary_email.txt:2
+#, python-format
+msgid "You cannot remove your primary e-mail address (%(email)s)."
+msgstr ""
+
+#: home/templates/account/messages/email_confirmation_sent.txt:2
+#, python-format
+msgid "Confirmation e-mail sent to %(email)s."
+msgstr ""
+
+#: home/templates/account/messages/email_confirmed.txt:2
+#, python-format
+msgid "You have confirmed %(email)s."
+msgstr ""
+
+#: home/templates/account/messages/email_deleted.txt:2
+#, python-format
+msgid "Removed e-mail address %(email)s."
+msgstr ""
+
+#: home/templates/account/messages/logged_in.txt:4
+#, python-format
+msgid "Successfully signed in as %(name)s."
+msgstr ""
+
+#: home/templates/account/messages/logged_out.txt:2
+msgid "You have signed out."
+msgstr ""
+
+#: home/templates/account/messages/password_changed.txt:2
+msgid "Password successfully changed."
+msgstr ""
+
+#: home/templates/account/messages/password_set.txt:2
+msgid "Password successfully set."
+msgstr ""
+
+#: home/templates/account/messages/primary_email_set.txt:2
+msgid "Primary e-mail address set."
+msgstr ""
+
+#: home/templates/account/messages/unverified_primary_email.txt:2
+msgid "Your primary e-mail address must be verified."
+msgstr ""
+
+#: home/templates/account/password_change.html:5
+#: home/templates/account/password_change.html:9
+#: home/templates/account/password_change.html:15
+#: home/templates/account/password_reset_from_key.html:4
+#: home/templates/account/password_reset_from_key.html:7
+#: home/templates/account/password_reset_from_key_done.html:4
+#: home/templates/account/password_reset_from_key_done.html:7
+msgid "Change Password"
+msgstr ""
+
+#: home/templates/account/password_reset.html:6
+#: home/templates/account/password_reset.html:10
+#: home/templates/account/password_reset_done.html:6
+#: home/templates/account/password_reset_done.html:9
+msgid "Password Reset"
+msgstr ""
+
+#: home/templates/account/password_reset.html:15
+msgid ""
+"Forgotten your password? Enter your e-mail address below, and we'll send you "
+"an e-mail allowing you to reset it."
+msgstr ""
+
+#: home/templates/account/password_reset.html:20
+msgid "Reset My Password"
+msgstr ""
+
+#: home/templates/account/password_reset.html:23
+msgid "Please contact us if you have any trouble resetting your password."
+msgstr ""
+
+#: home/templates/account/password_reset_done.html:15
+msgid ""
+"We have sent you an e-mail. Please contact us if you do not receive it "
+"within a few minutes."
+msgstr ""
+
+#: home/templates/account/password_reset_from_key.html:7
+msgid "Bad Token"
+msgstr ""
+
+#: home/templates/account/password_reset_from_key.html:11
+#, python-format
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
+"a>."
+msgstr ""
+
+#: home/templates/account/password_reset_from_key.html:17
+msgid "change password"
+msgstr ""
+
+#: home/templates/account/password_reset_from_key.html:20
+#: home/templates/account/password_reset_from_key_done.html:8
+msgid "Your password is now changed."
+msgstr ""
+
+#: home/templates/account/password_set.html:5
+#: home/templates/account/password_set.html:8
+#: home/templates/account/password_set.html:13
+msgid "Set Password"
+msgstr ""
+
+#: home/templates/account/signup.html:5
+#, fuzzy
+#| msgid "Sign up"
+msgid "Signup"
+msgstr "Запиши се"
+
+#: home/templates/account/signup.html:8 home/templates/account/signup.html:21
+#, fuzzy
+#| msgid "Sign up"
+msgid "Sign Up"
+msgstr "Запиши се"
+
+#: home/templates/account/signup.html:10
+#, python-format
+msgid ""
+"Already have an account? Then please <a href=\"%(login_url)s\">sign in</a>."
+msgstr ""
+
+#: home/templates/account/signup_closed.html:5
+#: home/templates/account/signup_closed.html:8
+msgid "Sign Up Closed"
+msgstr ""
+
+#: home/templates/account/signup_closed.html:10
+msgid "We are sorry, but the sign up is currently closed."
+msgstr ""
+
+#: home/templates/account/snippets/already_logged_in.html:5
+msgid "Note"
+msgstr ""
+
+#: home/templates/account/snippets/already_logged_in.html:5
+#, python-format
+msgid "you are already logged in as %(user_display)s."
+msgstr ""
+
+#: home/templates/account/verification_sent.html:5
+#: home/templates/account/verification_sent.html:8
+#: home/templates/account/verified_email_required.html:5
+#: home/templates/account/verified_email_required.html:8
+msgid "Verify Your E-mail Address"
+msgstr ""
+
+#: home/templates/account/verification_sent.html:10
+msgid ""
+"We have sent an e-mail to you for verification. Follow the link provided to "
+"finalize the signup process. Please contact us if you do not receive it "
+"within a few minutes."
+msgstr ""
+
+#: home/templates/account/verified_email_required.html:12
+msgid ""
+"This part of the site requires us to verify that\n"
+"you are who you claim to be. For this purpose, we require that you\n"
+"verify ownership of your e-mail address. "
+msgstr ""
+
+#: home/templates/account/verified_email_required.html:16
+msgid ""
+"We have sent an e-mail to you for\n"
+"verification. Please click on the link inside this e-mail. Please\n"
+"contact us if you do not receive it within a few minutes."
+msgstr ""
+
+#: home/templates/account/verified_email_required.html:20
+#, python-format
+msgid ""
+"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your e-"
+"mail address</a>."
+msgstr ""
+
+#: home/templates/base.html:51
+#: projects/templates/projects/project_breadcrumb.html:4
+msgid "Causes"
+msgstr "Каузи"
+
+#: home/templates/base.html:55
+#: projects/templates/projects/project_breadcrumb.html:6
+msgid "Businesses"
+msgstr "Бизнеси"
+
+#: home/templates/base.html:61
+msgid "Hello"
+msgstr "Здравей"
+
+#: home/templates/base.html:64 home/templates/base.html:152
+msgid "Sign out"
+msgstr "Излез"
+
+#: home/templates/base.html:66 home/templates/base.html:154
+msgid "Sign in"
+msgstr "Влез"
+
+#: home/templates/base.html:68 home/templates/base.html:155
+#: home/templates/home/list.html:34
+#: projects/templates/projects/project_detail.html:38
+#: projects/templates/projects/project_detail.html:61
+msgid "Sign up"
+msgstr "Запиши се"
+
+#: home/templates/base.html:102
+msgid "Home"
+msgstr "Начало"
+
+#: home/templates/base.html:113
+msgid "Admin tools"
+msgstr "Инструменти"
+
+#: home/templates/home/account.html:40
+#: projects/templates/projects/project_stats.html:34
+msgid "Rating"
+msgstr "Бал"
+
+#: home/templates/home/account.html:42
+#: projects/templates/projects/legalentity_breadcrumb.html:4
+msgid "Legal entities"
+msgstr "Юридически лица"
+
+#: home/templates/home/account.html:53
+#, python-format
+msgid ""
+"\n"
+"        Supported %(count)s causes/businesses.\n"
+"        "
+msgstr ""
+"\n"
+"        Подкрепени %(count)s каузи/бизнеси.\n"
+"        "
+
+#: home/templates/home/account.html:56 home/templates/home/account.html:62
+msgid "See all"
+msgstr "Виж всички"
+
+#: home/templates/home/account.html:59
+#, python-format
+msgid ""
+"\n"
+"        Voted %(votes)s times.\n"
+"        "
+msgstr ""
+"\n"
+"        %(votes)s гласа.\n"
+"        "
+
+#: home/templates/home/list.html:27
+msgid "You need to be part of a Legal entity to apply"
+msgstr "Трябва да си част от Юредическо лице за да кандидатстваш"
+
+#: home/templates/home/list.html:27
+msgid "Join a legal entity"
+msgstr "Влез в юридическо лице"
+
+#: home/templates/home/list.html:34
+#: projects/templates/projects/project_detail.html:38
+#: projects/templates/projects/project_detail.html:61
+msgid "sign in"
+msgstr "влез"
+
+#: home/templates/home/list.html:34
+msgid "to vote"
+msgstr "за да гласуваш"
+
+#: projects/templates/form.html:12
+msgid "Save"
+msgstr "Запиши"
+
+#: projects/templates/form.html:15
+#: venv/lib/python3.7/site-packages/django/forms/formsets.py:375
+msgid "Delete"
+msgstr "Изтрий"
+
+#: projects/templates/projects/form_breadcrumb.html:4
+#: projects/templates/projects/legalentity_detail.html:11
+#: projects/templates/projects/project_detail.html:12
+msgid "Update"
+msgstr "Промени"
+
+#: projects/templates/projects/form_breadcrumb.html:6
+msgid "Create"
+msgstr "Създай"
+
+#: projects/templates/projects/project_confirm_delete.html:7
+#, python-format
+msgid ""
+"\n"
+"    <p>Are you sure you want to delete \"%(object)s\"?</p>\n"
+"  "
+msgstr ""
+"\n"
+"    <p>Сигурни ли сте, че искате да изтриете \"%(object)s\"?</p>\n"
+"  "
+
+#: projects/templates/projects/project_detail.html:15
+#: projects/templates/projects/report_list.html:11
+msgid "New report"
+msgstr "Нов доклад"
+
+#: projects/templates/projects/project_detail.html:33
+#: projects/templates/projects/project_detail.html:56
+msgid "Get involved"
+msgstr "Присъедини се"
+
+#: projects/templates/projects/project_detail.html:38
+#: projects/templates/projects/project_detail.html:61
+msgid "to get involved"
+msgstr "за да се присъединиш"
+
+#: projects/templates/projects/project_stats.html:6
+#, python-format
+msgid ""
+"\n"
+"      <p><strong>%(supporters)s</strong> supporters</p>\n"
+"    "
+msgstr ""
+"\n"
+"      <p><strong>%(supporters)s</strong> подкрепили</p>\n"
+"    "
+
+#: projects/templates/projects/project_stats.html:13
+#, python-format
+msgid ""
+"\n"
+"  <p><strong>%(money_supporters)s</strong> supporters gave <strong>"
+"%(money)s</strong><br>\n"
+"  <strong>%(time_supporters)s</strong> volunteers gave <strong>%(time)s</"
+"strong>\n"
+"  <a href=\"%(support_list_url)s\">See all</a>\n"
+"  </p>\n"
+"  "
+msgstr ""
+"\n"
+"  <p><strong>%(money_supporters)s</strong> подкрепили с <strong>%(money)s</"
+"strong><br>\n"
+"  <strong>%(time_supporters)s</strong> доброволци дали <strong>%(time)s</"
+"strong>\n"
+"  <a href=\"%(support_list_url)s\">Виж всички</a>\n"
+"  </p>\n"
+"  "
+
+#: projects/templates/projects/project_stats.html:26
+#, python-format
+msgid ""
+"\n"
+"Collected <strong>%(collected)s</strong> out of <strong>%(needed)s</strong>\n"
+msgstr ""
+"\n"
+"Събрани <strong>%(collected)s</strong> от <strong>%(needed)s</strong>\n"
+
+#: projects/templates/projects/project_stats.html:30
+msgid "Collecting until"
+msgstr "Събира до"
+
+#: projects/templates/projects/project_stats.html:30
+#: projects/templates/projects/report_breadcrumb.html:5
+#: projects/templates/projects/report_list.html:22
+msgid "Reports"
+msgstr "Доклади"
+
+#: projects/templates/projects/project_stats.html:33
+msgid "Legal entity"
+msgstr "Юридическо лице"
+
+#: projects/templates/projects/report_list.html:23
+#: projects/templates/projects/support_list.html:13
+msgid "for"
+msgstr "за"
+
+#: projects/templates/projects/support_breadcrumb.html:5
+#: projects/templates/projects/support_create.html:9
+#: projects/templates/projects/support_list.html:12
+#: projects/templates/projects/user_support_list.html:11
+msgid "Support"
+msgstr "Подкрепи"
+
+#: projects/templates/projects/support_create.html:14
+#: projects/templates/projects/support_create.html:20
+msgid "Time support"
+msgstr "Доброволство"
+
+#: projects/templates/projects/support_create.html:16
+msgid ""
+"\n"
+"        Support the project with your time\n"
+"      "
+msgstr ""
+"\n"
+"        Подкрепи проекта с твоето време\n"
+"      "
+
+#: projects/templates/projects/support_create.html:27
+#: projects/templates/projects/support_create.html:33
+msgid "Money support"
+msgstr "Финансова подкрепа"
+
+#: projects/templates/projects/support_create.html:29
+msgid ""
+"\n"
+"        Support the project with your money\n"
+"      "
+msgstr ""
+"\n"
+"        Подкрепи проекта с твоите пари\n"
+"      "
+
+#: projects/templates/projects/user_support_list.html:12
+#: projects/templates/projects/user_vote_list.html:12
+msgid "from"
+msgstr "от"
+
+#: projects/templates/projects/user_vote_list.html:11
+#: venv/lib/python3.7/site-packages/vote/managers.py:201
+msgid "Votes"
+msgstr "Гласове"
+
+#: projects/templates/projects/user_vote_list.html:16
+msgid "Awaiting vote"
+msgstr "Очакващ гласуване"
+
+#: projects/templates/projects/user_vote_list.html:21
+msgid "No new reports"
+msgstr "Няма нови доклади"
+
+#: projects/templates/projects/user_vote_list.html:26
+msgid "Past votes"
+msgstr "Предишни гласувания"
+
+#: projects/templatetags/projects_tags.py:15
+msgid "lv"
+msgstr "лв"
+
+#: projects/templatetags/projects_tags.py:17
+msgid "unknown"
+msgstr "неизвестно"
+
+#: projects/views.py:135
+msgid "You are already a member"
+msgstr "Вече си част от юредическото лице"
+
+#: projects/views.py:142
+msgid "Success"
+msgstr "Успешно"
+
+#: projects/views.py:151
+msgid "Not a member"
+msgstr "Не си част от юредическото лице"
+
+#: projects/views.py:155
+msgid "You are the admin"
+msgstr "Ти си администратора"
+
+#: projects/views.py:159
+msgid "Exited"
+msgstr "Излезе"
+
+#: projects/views.py:266 projects/views.py:334
+msgid "Could not delete vote"
+msgstr "Неуспешно изтриване на глас"
+
+#: projects/views.py:269 projects/views.py:337
+msgid "Deleted vote"
+msgstr "Успешно изтрит глас"
+
+#: projects/views.py:278 projects/views.py:346
+msgid "Could not vote"
+msgstr "Неуспешно гласуване"
+
+#: projects/views.py:280 projects/views.py:348
+msgid "Voted up"
+msgstr "Гласувах за"
+
+#: projects/views.py:280 projects/views.py:348
+msgid "Voted down"
+msgstr "Гласувах против"
+
+#: projects/views.py:365
+msgid "Support already accepted"
+msgstr "Подкрепата вече е била приета"
+
+#: projects/views.py:365
+msgid "Support already declined"
+msgstr "Подкрепата вече е била отказана"
+
+#: projects/views.py:374
+msgid "Support accepted"
+msgstr "Подкрепата приета"
+
+#: projects/views.py:374
+msgid "Support declined"
+msgstr "Подкрепата отказана"
+
+#: projects/views.py:385
+msgid "Support already marked as delivered"
+msgstr "Подкрепата вече е била отбелязана като изпълнена"
+
+#: projects/views.py:391
+msgid "Support marked as delivered"
+msgstr "Подкрепата е отбелязана като изпълнена"
 
 #: venv/lib/python3.7/site-packages/bootstrap4/components.py:17
 #: venv/lib/python3.7/site-packages/bootstrap4/templates/bootstrap4/form_errors.html:3
 #: venv/lib/python3.7/site-packages/bootstrap4/templates/bootstrap4/messages.html:4
 msgid "close"
-msgstr ""
+msgstr "затвори"
 
 #: venv/lib/python3.7/site-packages/botocore/docs/bcdoc/textwriter.py:469
 #, python-format
@@ -582,10 +1281,6 @@ msgstr[1] ""
 msgid "Order"
 msgstr ""
 
-#: venv/lib/python3.7/site-packages/django/forms/formsets.py:375
-msgid "Delete"
-msgstr ""
-
 #: venv/lib/python3.7/site-packages/django/forms/models.py:751
 #, python-format
 msgid "Please correct the duplicate data for %(field)s."
@@ -994,10 +1689,6 @@ msgctxt "String to return when truncating text"
 msgid "%(truncated_text)s…"
 msgstr ""
 
-#: venv/lib/python3.7/site-packages/django/utils/text.py:233
-msgid "or"
-msgstr ""
-
 #. Translators: This string is used as a separator between list elements
 #: venv/lib/python3.7/site-packages/django/utils/text.py:252
 #: venv/lib/python3.7/site-packages/django/utils/timesince.py:83
@@ -1220,6 +1911,25 @@ msgstr ""
 msgid "Connect, get help, or contribute"
 msgstr ""
 
+#: venv/lib/python3.7/site-packages/kombu/transport/qpid.py:1301
+#, python-format
+msgid "Attempting to connect to qpid with SASL mechanism %s"
+msgstr ""
+
+#: venv/lib/python3.7/site-packages/kombu/transport/qpid.py:1306
+#, python-format
+msgid "Connected to qpid with SASL mechanism %s"
+msgstr ""
+
+#: venv/lib/python3.7/site-packages/kombu/transport/qpid.py:1324
+#, python-format
+msgid "Unable to connect to qpid with SASL mechanism %s"
+msgstr ""
+
+#: venv/lib/python3.7/site-packages/vote/apps.py:7
+msgid "Vote"
+msgstr ""
+
 #: venv/lib/python3.7/site-packages/wagtail/api/v2/apps.py:10
 msgid "Wagtail API v2"
 msgstr ""
@@ -1271,3 +1981,6 @@ msgstr ""
 #: venv/lib/python3.7/site-packages/wagtail/tests/testapp/templates/tests/form_page_with_custom_submission.html:21
 msgid "You must log in first."
 msgstr ""
+
+#~ msgid "Accept <a href=\"/условия-за-ползване\">Terms of Service</a>"
+#~ msgstr "Приеми <a href=\"/условия-за-ползване\">Условията за ползване</a>"

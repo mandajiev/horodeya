@@ -54,7 +54,7 @@ class List(Page):
     def serve(self, request):
         return render(request, 'home/list.html', {
             'page': self,
-            'items': Project.objects.filter(type=self.type).order_by('-bal'),
+            'items': Project.objects.filter(type=self.type).order_by('-legal_entity__bal'),
         })
 
 class TermsAndConditions(Page):

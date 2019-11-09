@@ -61,9 +61,9 @@
                   {% trans 'Hello' %}, {{user.first_name}}
                 </span>
                   <a class="nav-link {% active account %}" href="{% url 'my_account' %}">{% trans 'Account' %}</a>
-                  <a class="nav-link {% active logout %}" href="{% url 'account_logout' %}">{% trans 'Log out' %}</a>
+                  <a class="nav-link {% active logout %}" href="{% url 'account_logout' %}">{% trans 'Sign out' %}</a>
               {% else %}
-                <a class="nav-link {% active login %}" href="{% url 'account_login' %}">{% trans 'Log in' %}</a>
+                <a class="nav-link {% active login %}" href="{% url 'account_login' %}">{% trans 'Sign in' %}</a>
 
                 <a class="nav-link {% active register %}" href="{% url 'account_signup' %}">{% trans "Sign up" %}</a>
               {% endif %}

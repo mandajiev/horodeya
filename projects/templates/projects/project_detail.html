@@ -9,7 +9,7 @@
 
 {% block admin_tools %}
   <li class="nav-item">
-    <a class="nav-link text-white" href="{% url 'projects:update' project.pk %}">{% trans 'Edit' %}</a>
+    <a class="nav-link text-white" href="{% url 'projects:update' project.pk %}">{% trans 'Update' %}</a>
   </li>
   <li class="nav-item">
     <a class="nav-link text-white" href="{% url 'projects:report_create' object.pk %}">{% trans 'New report' %}</a>
@@ -18,7 +18,8 @@
 
 {% block content %}
 
-{% if object.legal_entity.admin.pk == user.pk %}
+{% member_of user object.legal_entity.pk as admin %}
+{% if admin %}
   {{ block.super }}
 {% endif %}
 
@@ -42,12 +43,15 @@
   <div class="row mt-1">
     <h3>
       {{ object.name }}
-      <small>{{ object.description }}</small>
+      <small>
+        <a href="{{ project.legal_entity.get_absolute_url }}">{{project.legal_entity}}</a>
+      </small>
     </h3>
   </div>
 
 	<div class="row">
     <div class="body">
+        <h5>{{ object.description }}</h5>
         {{ object.text | linebreaks }}
     </div>
 	</div>

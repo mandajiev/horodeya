@@ -30,5 +30,4 @@ Collected <strong>{{collected}}</strong> out of <strong>{{needed}}</strong>
 {% trans 'Collecting until' %}: {{ project.budget_until }} <a href="{% url 'projects:report_list' project.pk %}">{% trans 'Reports' %}</a></p>
 {% endif %}
 
-<p>{% trans 'Legal entity' %}: <a href="{{ project.legal_entity.get_absolute_url }}">{{project.legal_entity}}</a>
-{% trans 'Rating' %}: {{ project.bal }}</p>
+{% trans 'Rating' %}: {{ project.legal_entity.bal }}</p>

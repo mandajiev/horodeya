@@ -27,11 +27,13 @@ class Timestamped(models.Model):
 
 class LegalEntity(Timestamped):
     name = models.CharField(max_length=100)
+    text = models.TextField()
     bulstat = models.DecimalField(blank=True, max_digits=20, decimal_places=0)
     email = models.EmailField()
     phone = models.DecimalField(max_digits=20, decimal_places=0)
     admin = models.ForeignKey('User', on_delete=models.PROTECT)
     payment = models.TextField()
+    bal = models.IntegerField(default=20, validators=[MaxValueValidator(100)])
 
     def __str__(self):
         return self.name
@@ -68,7 +70,6 @@ class Project(Timestamped):
     legal_entity = models.ForeignKey(LegalEntity, on_delete=models.CASCADE)
     leva_needed = models.FloatField(null=True, blank=True)
     budget_until = models.DateField(null=True, blank=True)
-    bal = models.IntegerField(default=20, validators=[MaxValueValidator(100)])
 
     def __str__(self):
         return self.name
