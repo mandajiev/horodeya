@@ -18,7 +18,7 @@
 
 {% block content %}
 
-{% member_of user object.legal_entity.pk as admin %}
+{% member_of user object.legal_entity_id as admin %}
 {% if admin %}
   {{ block.super }}
 {% endif %}

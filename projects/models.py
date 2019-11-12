@@ -9,9 +9,36 @@ from django.core.validators import MaxValueValidator
 
 from django.contrib.auth.models import AbstractUser
 
+import rules
+from rules.contrib.models import RulesModelBase, RulesModelMixin
+
 from vote.models import VoteModel, UP, DOWN
 
-class Timestamped(models.Model):
+def determine_legal_entity(object):
+    if isinstance(object, Project):
+        return object.legal_entity
+    elif isinstance(object, Report):
+        return object.project.legal_entity
+
+    return object
+
+@rules.predicate
+def member_of_legal_entity(user, object):
+    return user.member_of(determine_legal_entity(object).id)
+
+@rules.predicate
+def admin_of_legal_entity(user, object):
+    return user == determine_legal_entity(object).admin
+
+@rules.predicate
+def myself(user, user2):
+    return user == user2
+
+@rules.predicate
+def has_a_legal_entity(user):
+    return user.legal_entities.count() > 0
+
+class Timestamped(RulesModelMixin, models.Model, metaclass=RulesModelBase):
     created_at = models.DateTimeField(editable=False)
     updated_at = models.DateTimeField(editable=False)
 
@@ -26,6 +53,15 @@ class Timestamped(models.Model):
         abstract = True
 
 class LegalEntity(Timestamped):
+    class Meta:
+        rules_permissions = {
+            "add": rules.is_authenticated,
+            "delete": admin_of_legal_entity,
+            "change": admin_of_legal_entity,
+            "view": rules.is_authenticated,
+            "leave": member_of_legal_entity & ~admin_of_legal_entity
+        }
+
     name = models.CharField(max_length=100)
     text = models.TextField()
     bulstat = models.DecimalField(blank=True, max_digits=20, decimal_places=0)
@@ -41,9 +77,20 @@ class LegalEntity(Timestamped):
     def get_absolute_url(self):
         return reverse('projects:legal_details', kwargs={'pk': self.pk})
 
-class User(AbstractUser):
+class User(AbstractUser, RulesModelMixin, metaclass=RulesModelBase):
+    class Meta:
+        rules_permissions = {
+            "add": rules.always_allow,
+            "delete": rules.always_deny,
+            "change": myself,
+            "view": rules.is_authenticated,
+        }
+
     legal_entities = models.ManyToManyField(LegalEntity)
     bal = models.IntegerField(default=20, validators=[MaxValueValidator(100)])
+
+    def __str__(self):
+        return '%s %s' % (self.first_name, self.last_name)
 
     def get_absolute_url(self):
         return reverse('account', kwargs={'pk': self.pk})
@@ -58,6 +105,14 @@ class User(AbstractUser):
         return len(Report.votes.all(self.pk, UP)) + len(Report.votes.all(self.pk, DOWN))
 
 class Project(Timestamped):
+    class Meta:
+        rules_permissions = {
+            "add": admin_of_legal_entity,
+            "delete": admin_of_legal_entity,
+            "change": member_of_legal_entity,
+            "view": rules.is_authenticated,
+        }
+
     TYPES = [
         ('b', 'business'),
         ('c', 'cause'),
@@ -116,6 +171,13 @@ class Project(Timestamped):
         return int(100*self.money_support() / self.leva_needed)
 
 class Report(VoteModel, Timestamped):
+    class Meta:
+        rules_permissions = {
+            "add": member_of_legal_entity,
+            "delete": admin_of_legal_entity,
+            "change": member_of_legal_entity,
+            "view": rules.is_authenticated,
+        }
     name = models.CharField(max_length=50)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     text = models.TextField()
@@ -128,6 +190,16 @@ class Report(VoteModel, Timestamped):
         return reverse('projects:report_details', kwargs={'pk': self.pk})
 
 class Support(Timestamped):
+    class Meta:
+        rules_permissions = {
+            "add": rules.is_authenticated,
+            "delete": myself,
+            "change": myself,
+            "view": myself | member_of_legal_entity,
+            "accept": member_of_legal_entity,
+            "mark_delivered": member_of_legal_entity
+        }
+
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     

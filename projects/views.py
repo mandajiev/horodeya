@@ -7,18 +7,25 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
+from django.utils.html import format_html
 from django.forms import ModelForm, ValidationError
+
+from django import forms
 
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from django.utils.translation import gettext as _
 
+from rules.contrib.views import AutoPermissionRequiredMixin, permission_required, objectgetter
+
 from projects.models import Project, LegalEntity, Report, MoneySupport, TimeSupport, User
 
 from tempus_dominus.widgets import DateTimePicker, DatePicker
 
 from vote.models import UP, DOWN
+
+from dal import autocomplete
 
 class ProjectForm(ModelForm):
     class Meta:
@@ -38,10 +45,10 @@ class ProjectForm(ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['legal_entity'].queryset = LegalEntity.objects.filter(admin=user)
 
-class ProjectDetails(generic.DetailView):
+class ProjectDetails(AutoPermissionRequiredMixin, generic.DetailView):
     model = Project
 
-class ProjectCreate(CreateView):
+class ProjectCreate(AutoPermissionRequiredMixin, CreateView):
     model = Project
     form_class = ProjectForm
 
@@ -69,7 +76,7 @@ class ProjectCreate(CreateView):
 
         return super().form_valid(form)
 
-class ProjectUpdate(UpdateView):
+class ProjectUpdate(AutoPermissionRequiredMixin, UpdateView):
     model = Project
     form_class = ProjectForm
 
@@ -86,11 +93,11 @@ class ProjectUpdate(UpdateView):
             return super().form_invalid(form)
         return super().form_valid(form)
 
-class ProjectDelete(DeleteView):
+class ProjectDelete(AutoPermissionRequiredMixin, DeleteView):
     model = Project
     success_url = '/'
 
-class LegalEntityCreate(CreateView):
+class LegalEntityCreate(AutoPermissionRequiredMixin, CreateView):
     model = LegalEntity
     fields = ['name', 'bulstat', 'email', 'phone', 'payment']
 
@@ -99,7 +106,7 @@ class LegalEntityCreate(CreateView):
         form.instance.admin = user
         return super().form_valid(form)
 
-class LegalEntityUpdate(UpdateView):
+class LegalEntityUpdate(AutoPermissionRequiredMixin, UpdateView):
     model = LegalEntity
     fields = ['name', 'bulstat', 'email', 'phone', 'admin', 'payment']
 
@@ -110,11 +117,11 @@ class LegalEntityUpdate(UpdateView):
 
         return super().form_valid(form)
 
-class LegalEntityDelete(DeleteView):
+class LegalEntityDelete(AutoPermissionRequiredMixin, DeleteView):
     model = LegalEntity
     success_url = reverse_lazy('projects:legal_list')
 
-class LegalEntityDetails(generic.DetailView):
+class LegalEntityDetails(AutoPermissionRequiredMixin, generic.DetailView):
     model = LegalEntity
 
     def get_context_data(self, **kwargs):
@@ -124,43 +131,41 @@ class LegalEntityDetails(generic.DetailView):
         return context
 
 
-class LegalEntityList(generic.ListView):
+class LegalEntityList(AutoPermissionRequiredMixin, generic.ListView):
+    permission_type = 'view'
     model = LegalEntity
 
-@login_required
-def legal_join(request, pk):
-    user = request.user
-    
-    if user.member_of(pk):
-        messages.info(request, _("You are already a member"))
+class LegalEntityMemberList(AutoPermissionRequiredMixin, generic.DetailView):
+    permission_type = 'change'
+    template_name = 'projects/legalentity_member_list.html'
+    model = LegalEntity
 
-    #TODO ask legal entity's admin instead of directly adding
+    def get_context_data(self, **kwargs):
 
-    else:
-        legal_entity = get_object_or_404(LegalEntity, pk=pk)
-        user.legal_entities.add(legal_entity)
-        messages.success(request, _("Success"))
+        context = super().get_context_data(**kwargs)
+        context['form'] = UserAutocompleteForm()
+        return context
 
-    return redirect('projects:legal_details', pk)
+@permission_required('projects.change_legal_entity', fn=objectgetter(LegalEntity, 'legal_entity_id'))
+def legal_member_add(request, legal_entity_id):
+    user_id = request.POST.get('user')
+    user = get_object_or_404(User, pk=user_id)
+    legal_entity = get_object_or_404(LegalEntity, pk=legal_entity_id)
+    user.legal_entities.add(legal_entity)
+    messages.success(request, _("Success"))
 
-@login_required
-def legal_exit(request, pk):
-    user = request.user
-    
-    if not user.member_of(pk):
-        messages.info(request, _("Not a member"))
-    else:
-        legal_entity = user.legal_entities.filter(pk=pk).first()
-        if legal_entity.admin == user:
-            messages.error(request, _("You are the admin"))
+    return redirect('projects:legal_member_list', legal_entity_id)
 
-        else:
-            user.legal_entities.remove(legal_entity)
-            messages.success(request, _("Exited"))
+@permission_required('projects.change_legal_entity', fn=objectgetter(LegalEntity, 'legal_entity_id'))
+def legal_member_remove(request, legal_entity_id, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    legal_entity = get_object_or_404(LegalEntity, pk=legal_entity_id)
+    user.legal_entities.remove(legal_entity)
+    messages.success(request, _("Success"))
 
-    return redirect('projects:legal_details', pk)
+    return redirect('projects:legal_member_list', legal_entity_id)
 
-class ReportForm(ModelForm):
+class ReportForm(AutoPermissionRequiredMixin, ModelForm):
     class Meta:
         model = Report
         fields = ['name', 'text', 'published_at']
@@ -173,8 +178,7 @@ class ReportForm(ModelForm):
             )
         }
 
-#TODO limit permissions
-class ReportCreate(CreateView):
+class ReportCreate(AutoPermissionRequiredMixin, CreateView):
     model = Report
     form_class = ReportForm
 
@@ -190,7 +194,7 @@ class ReportCreate(CreateView):
         form.instance.project = self.project
         return super().form_valid(form)
 
-class ReportUpdate(UpdateView):
+class ReportUpdate(AutoPermissionRequiredMixin, UpdateView):
     model = Report
     form_class = ReportForm
 
@@ -200,14 +204,14 @@ class ReportUpdate(UpdateView):
         context['project'] = self.object.project
         return context
 
-class ReportDelete(DeleteView):
+class ReportDelete(AutoPermissionRequiredMixin, DeleteView):
     model = Report
     template_name = 'projects/project_confirm_delete.html'
     
     def get_success_url(self):
         return reverse_lazy('projects:details', kwargs={'pk': self.object.project.pk})
 
-class ReportDetails(generic.DetailView):
+class ReportDetails(AutoPermissionRequiredMixin, generic.DetailView):
     model = Report
 
     def get_context_data(self, **kwargs):
@@ -233,7 +237,7 @@ class ReportDetails(generic.DetailView):
 
         return context
 
-class ReportList(generic.ListView):
+class ReportList(AutoPermissionRequiredMixin, generic.ListView):
     model = Report
 
     def get_context_data(self, **kwargs):
@@ -281,7 +285,7 @@ def report_vote(request, pk, action):
 
     return redirect(report)
 
-class MoneySupportCreate(CreateView):
+class MoneySupportCreate(AutoPermissionRequiredMixin, CreateView):
     model = MoneySupport
     fields = ['leva']
 
@@ -302,7 +306,7 @@ class MoneySupportCreate(CreateView):
         return super().form_valid(form)
 
 #TODO only allow if support is not accepted
-class MoneySupportUpdate(UpdateView):
+class MoneySupportUpdate(AutoPermissionRequiredMixin, UpdateView):
     model = MoneySupport
     fields = ['leva']
 
@@ -312,12 +316,12 @@ class MoneySupportUpdate(UpdateView):
         context['project'] = self.object.project
         return context
 
-class MoneySupportDetails(generic.DetailView):
+class MoneySupportDetails(AutoPermissionRequiredMixin, generic.DetailView):
     model = MoneySupport
     template_name = 'projects/support_detail.html'
 
 #TODO only allow if support is not accepted
-class SupportDelete(DeleteView):
+class SupportDelete(AutoPermissionRequiredMixin, DeleteView):
     model = MoneySupport
     template_name = 'projects/project_confirm_delete.html'
 
@@ -417,7 +421,7 @@ def support_details(request, pk):
 
     return redirect(support)
 
-class TimeSupportForm(ModelForm):
+class TimeSupportForm(AutoPermissionRequiredMixin, ModelForm):
     class Meta:
         model = TimeSupport
         fields = ['start_date', 'end_date', 'note']
@@ -436,7 +440,7 @@ class TimeSupportForm(ModelForm):
             ),
         }
 
-class TimeSupportCreate(CreateView):
+class TimeSupportCreate(AutoPermissionRequiredMixin, CreateView):
     model = TimeSupport
     form_class = TimeSupportForm
     template_name = 'projects/project_form.html'
@@ -458,7 +462,7 @@ class TimeSupportCreate(CreateView):
         return super().form_valid(form)
 
 #TODO only allow if support is not accepted
-class TimeSupportUpdate(UpdateView):
+class TimeSupportUpdate(AutoPermissionRequiredMixin, UpdateView):
     model = TimeSupport
     fields = ['leva']
 
@@ -468,7 +472,7 @@ class TimeSupportUpdate(UpdateView):
         context['project'] = self.object.project
         return context
 
-class TimeSupportDetails(generic.DetailView):
+class TimeSupportDetails(AutoPermissionRequiredMixin, generic.DetailView):
     model = TimeSupport
     template_name = 'projects/support_detail.html'
 
@@ -513,3 +517,32 @@ def user_vote_list(request, user_id):
         }
     )
 
+class UserAutocompleteForm(forms.Form):
+    user = forms.ModelChoiceField(
+        queryset=User.objects.none(),
+        label=_("Email:"),
+        widget=autocomplete.ModelSelect2(
+            url='projects:user_autocomplete',
+            attrs={
+                'data-html': True,
+            }
+        )
+    )
+
+#TODO authenticate with rules
+class UserAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        # Don't forget to filter out results depending on the visitor !
+        if not self.request.user.is_authenticated:
+            return User.objects.none()
+
+        if self.q and '@' in self.q:
+            qs = User.objects.all()
+            qs = qs.filter(email=self.q)
+        else:
+            qs = User.objects.none()
+
+        return qs
+
+    def get_result_label(self, item):
+        return format_html('%s %s' % (item.first_name, item.last_name))

@@ -10,6 +10,7 @@
   <li class="nav-item">
     <a class="nav-link text-white" href="{% url 'projects:legal_update' object.pk %}">{% trans 'Update' %}</a>
   </li>
+  <a class="nav-link text-white" href="{% url 'projects:legal_member_list' object.pk %}">{% trans 'Update members' %}</a>
 {% endblock %}
 
 {% block content %}
@@ -22,13 +23,6 @@
   <div class="row no-gutters">
     <div class="col-md-4">
       <img src="{% static 'media/150' %}" class="card-img">
-      <div class="card-body text-center">
-        {% if member %}
-          <a class="btn btn-primary btn-lg" href="{% url 'projects:legal_exit' object.pk %}">Излез</a>
-        {% else %}
-          <a class="btn btn-primary btn-lg" href="{% url 'projects:legal_join' object.pk %}">Присъедини се</a>
-        {% endif %}
-      </div>
     </div>
     <div class="col-md-8">
       <div class="card-body">

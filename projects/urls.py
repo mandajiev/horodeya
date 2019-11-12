@@ -15,8 +15,9 @@ urlpatterns = [
     path('legal/<int:pk>/update', views.LegalEntityUpdate.as_view(), name='legal_update'),
     path('legal/<int:pk>/delete', views.LegalEntityDelete.as_view(), name='legal_delete'),
     path('legal/', views.LegalEntityList.as_view(), name='legal_list'),
-    path('legal/<int:pk>/join', views.legal_join, name='legal_join'),
-    path('legal/<int:pk>/exit', views.legal_exit, name='legal_exit'),
+    path('legal/<int:legal_entity_id>/members/add/', views.legal_member_add, name='legal_member_add'),
+    path('legal/<int:legal_entity_id>/members/remove/<int:user_id>', views.legal_member_remove, name='legal_member_remove'),
+    path('legal/<int:pk>/members', views.LegalEntityMemberList.as_view(), name='legal_member_list'),
     path('<int:project>/report/create/', views.ReportCreate.as_view(), name='report_create'),
     path('report/<int:pk>', views.ReportDetails.as_view(), name='report_details'),
     path('report/<int:pk>/update', views.ReportUpdate.as_view(), name='report_update'),
@@ -41,4 +42,5 @@ urlpatterns = [
     path('<int:project_id>/support/list', views.support_list, name='support_list'),
     path('accounts/<int:user_id>/support/list', views.user_support_list, name='user_support_list'),
     path('accounts/<int:user_id>/vote/list', views.user_vote_list, name='user_vote_list'),
+    path('user-autocomplete/', views.UserAutocomplete.as_view(), name='user_autocomplete'),
 ]
