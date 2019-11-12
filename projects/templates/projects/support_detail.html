@@ -9,10 +9,10 @@
 {% block admin_tools %}
   {% if object.accepted == None %}
     <li class="nav-item">
-      <a class="nav-link text-white" href="{% url 'projects:support_accept' object.pk 'm' %}">Приеми</a>
+      <a class="nav-link text-white" href="{% url 'projects:support_accept' object.pk object.get_type %}">Приеми</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link text-white" href="{% url 'projects:support_decline' object.pk 'm' %}">Откажи</a>
+      <a class="nav-link text-white" href="{% url 'projects:support_decline' object.pk object.get_type %}">Откажи</a>
     </li>
   {% elif object.accepted == False %}
     <span class='text-warning'>Отказана</span>
@@ -41,7 +41,11 @@
   <a href="{{ object.user.get_absolute_url }}"> {{object.user}}</a>
 {% if object.user == user %} 
   {% if object.accepted == None %}
-  <a class="btn btn-primary" href="{% url 'projects:msupport_update' object.pk %}">Промени</a>
+  {% if object.get_type == 'm' %}
+    <a class="btn btn-primary" href="{% url 'projects:msupport_update' object.pk %}">Промени</a>
+  {% else %}
+    <a class="btn btn-primary" href="{% url 'projects:tsupport_update' object.pk %}">Промени</a>
+  {% endif %}
   <a class="btn btn-danger" href="{% url 'projects:support_delete' object.pk 'm' %}">Изтрий</a>
   {% endif %}
 {% endif %}

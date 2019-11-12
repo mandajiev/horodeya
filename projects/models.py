@@ -17,7 +17,7 @@ from vote.models import VoteModel, UP, DOWN
 def determine_legal_entity(object):
     if isinstance(object, Project):
         return object.legal_entity
-    elif isinstance(object, Report):
+    elif isinstance(object, Report) or isinstance(object, Support):
         return object.project.legal_entity
 
     return object
@@ -37,6 +37,10 @@ def myself(user, user2):
 @rules.predicate
 def has_a_legal_entity(user):
     return user.legal_entities.count() > 0
+
+@rules.predicate
+def is_accepted(support):
+    return support.accepted
 
 class Timestamped(RulesModelMixin, models.Model, metaclass=RulesModelBase):
     created_at = models.DateTimeField(editable=False)
@@ -193,11 +197,12 @@ class Support(Timestamped):
     class Meta:
         rules_permissions = {
             "add": rules.is_authenticated,
-            "delete": myself,
-            "change": myself,
+            "delete": myself & ~is_accepted,
+            "change": myself & ~is_accepted,
             "view": myself | member_of_legal_entity,
             "accept": member_of_legal_entity,
-            "mark_delivered": member_of_legal_entity
+            "mark_delivered": member_of_legal_entity,
+            "list": member_of_legal_entity
         }
 
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
@@ -229,6 +234,17 @@ class Support(Timestamped):
         abstract = True
 
 class MoneySupport(Support):
+    class Meta:
+        rules_permissions = {
+            "add": rules.is_authenticated,
+            "delete": myself & ~is_accepted,
+            "change": myself & ~is_accepted,
+            "view": myself | member_of_legal_entity,
+            "accept": member_of_legal_entity,
+            "mark_delivered": member_of_legal_entity,
+            "list": member_of_legal_entity,
+            "list-user": myself
+        }
     leva = models.FloatField()
 
     def get_absolute_url(self):
@@ -241,6 +257,17 @@ class MoneySupport(Support):
         return "%s-%.2f" % (self.project, self.leva)
 
 class TimeSupport(Support):
+    class Meta:
+        rules_permissions = {
+            "add": rules.is_authenticated,
+            "delete": myself & ~is_accepted,
+            "change": myself & ~is_accepted,
+            "view": myself | member_of_legal_entity,
+            "accept": member_of_legal_entity,
+            "mark_delivered": member_of_legal_entity,
+            "list": member_of_legal_entity
+        }
+
     start_date = models.DateField()
     end_date = models.DateField()
     note = models.TextField()

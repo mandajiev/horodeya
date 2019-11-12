@@ -353,12 +353,24 @@ def report_vote(request, pk, action):
 
     return redirect(report)
 
+def get_support(pk, type):
+    if type in ['money', 'm']:
+        support = get_object_or_404(MoneySupport, pk=pk)
+    else:
+        support = get_object_or_404(TimeSupport, pk=pk)
+
+    return support
+
+def get_support_request(request, pk, type, *args, **kwargs):
+    return get_support(pk, type)
+
 def support_accept(request, pk, type):
     return support_change_accept(request, pk, type, True)
 
 def support_decline(request, pk, type):
     return support_change_accept(request, pk, type, False)
 
+@permission_required('projects.accept_support', fn=get_support_request)
 def support_change_accept(request, pk, type, accepted):
     if type in ['money', 'm']:
         support = get_object_or_404(MoneySupport, pk=pk)
@@ -379,11 +391,14 @@ def support_change_accept(request, pk, type, accepted):
 
     return redirect(support)
 
+@permission_required('projects.mark_delivered_support', fn=get_support_request)
 def support_delivered(request, pk, type):
     if type in ['money', 'm']:
         support = get_object_or_404(MoneySupport, pk=pk)
     else:
         support = get_object_or_404(TimeSupport, pk=pk)
+
+    support = get_support(pk, type)
 
     if support.delivered:
         messages.info(request, _('Support already marked as delivered'))
@@ -396,6 +411,7 @@ def support_delivered(request, pk, type):
 
     return redirect(support)
 
+@permission_required('projects.list_support', fn=objectgetter(Project, 'project_id'))
 def support_list(request, project_id):
     project = get_object_or_404(Project, pk=project_id)
     money_support_list = MoneySupport.objects.filter(project_id=project_id).all()
@@ -407,6 +423,7 @@ def support_list(request, project_id):
         }
     )
 
+@permission_required('projects.add_support', fn=objectgetter(Project, 'project_id'))
 def support_create(request, project_id):
     project = get_object_or_404(Project, pk=project_id)
     return render(request, 'projects/support_create.html', context={
@@ -464,7 +481,8 @@ class TimeSupportCreate(AutoPermissionRequiredMixin, CreateView):
 #TODO only allow if support is not accepted
 class TimeSupportUpdate(AutoPermissionRequiredMixin, UpdateView):
     model = TimeSupport
-    fields = ['leva']
+    form_class = TimeSupportForm
+    template_name = 'projects/project_form.html'
 
     def get_context_data(self, **kwargs):
 
