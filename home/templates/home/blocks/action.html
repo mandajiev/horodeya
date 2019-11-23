@@ -1,17 +1,18 @@
 {% load static %}
 {% load wagtailcore_tags %}
 
-<div class="card mx-auto mb-3" style="max-width:640px">
+<div class="card mx-auto mb-3">
   <div class="row no-gutters">
-    <div class="col-md-4 order-{{value.image_order }}">
-      <img src="{% static 'media/150' %}" class="card-img">
+    <div class="col-md-5 order-{{value.image_order }}">
+      <img src="{% static 'media/150' %}" class="card-img action-img">
     </div>
 
-    <div class="col-md-8">
+    <div class="col-md-7">
       <div class="card-body">
         <h5 class="card-title">{{ value.heading }}</h5>
         <p class="card-text">{{ value.text }}</p>
         <a class="btn btn-primary stretched-link" href="{% pageurl value.page %}">Научи повече </a>
+      </div>
     </div>
   </div>
 </div>

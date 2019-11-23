@@ -1,6 +1,13 @@
 {% load i18n %}
 {% load projects_tags %}
 
+<div class="progress">
+  <div class="progress-bar" role="progressbar" style="width:{{ project.support_percent }}%"></div>
+</div>
+{% blocktrans with collected=project.money_support|leva needed=project.leva_needed|leva %}
+Collected <strong>{{collected}}</strong> out of <strong>{{needed}}</strong>
+{% endblocktrans %}
+<hr>
 {% if short %}
   {% with supporters=project.total_supporters %}
     {% blocktrans %}
@@ -19,15 +26,8 @@
   {% endwith %}
 {% endif %}
 </p>
-<div class="progress">
-  <div class="progress-bar" role="progressbar" style="width:{{ project.support_percent }}%"></div>
-</div>
-<p>
-{% blocktrans with collected=project.money_support|leva needed=project.leva_needed|leva %}
-Collected <strong>{{collected}}</strong> out of <strong>{{needed}}</strong>
-{% endblocktrans %}<br>
 {% if not short %}
-{% trans 'Collecting until' %}: {{ project.budget_until }} <a href="{% url 'projects:report_list' project.pk %}">{% trans 'Reports' %}</a></p>
+<p>{% trans 'Collecting until' %}: {{ project.budget_until }} <a href="{% url 'projects:report_list' project.pk %}">{% trans 'Reports' %}</a></p>
 {% endif %}
 
 {% trans 'Rating' %}: {{ project.legal_entity.bal }}</p>

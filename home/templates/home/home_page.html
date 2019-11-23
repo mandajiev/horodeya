@@ -4,15 +4,19 @@
 
 {% block body_class %}template-blogindexpage{% endblock %}
 
+{% block jumbotron %}
+<div class="jumbotron jumbotron-fluid paral jumbotron-bg-cover">
+</div>
+{% endblock %}
+
 {% block content %}
   {% block breadcrumbs_container %}
   {% endblock %}
-  <div class="jumbotron jumbotron-bg-cover">
-  </div>
-	<div class="row">
-    <div class="body">
-      {% include_block page.body %}
+	<div class="row mt-4">
+    <div class="col-8 mx-auto">
+      <div class="body">
+        {% include_block page.body %}
+      </div>
     </div>
 	</div>
-
 {% endblock %}

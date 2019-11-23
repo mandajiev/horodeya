@@ -38,23 +38,29 @@
 
     <body>
         {% wagtailuserbar %}
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="/">Хородея</a>
-             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-               <span class="navbar-toggler-icon"></span>
-             </button>
 
+        {% block jumbotron %}
+        {% endblock %}
 
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item">
-                <a class="nav-link {% active каузи %}" href="/каузи/">{% trans 'Causes' %}</a>
-              </li>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
+            <a class="nav-link nav-link-logo d-md-block d-lg-none" href="/">
+              <img src="{% static 'media/horodeya-logo.png' %}" class="logo">
+              Хородея
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
 
-              <li class="nav-item">
-                <a class="nav-link {% active бизнеси %}" href="/бизнеси/">{% trans 'Businesses' %}</a>
-              </li>
-            </ul>
+          <div class="collapse navbar-collapse justify-content-md-center" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+              <a class="nav-link {% active каузи %}" href="/каузи/">{% trans 'Causes' %}</a>
+
+              <a class="nav-link {% active бизнеси %}" href="/бизнеси/">{% trans 'Businesses' %}</a>
+
+              <a class="nav-link nav-link-logo navbar-brand d-none d-lg-block" href="/">
+
+                <img src="{% static 'media/horodeya-logo.png' %}" class="logo p-absolute align-top">
+              </a>
 
               {% if user.is_authenticated %}
                 <span class="navbar-text">
@@ -70,27 +76,28 @@
 
               {% load i18n %}
               <div class="nav-item dropdown">
-              <form class="form-inline my-2 my-lg-0" action="{% url 'set_language' %}" method="post">{% csrf_token %}
-                {% get_current_language as current_language %}
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span class="flag-icon flag-icon-{%language_country current_language%}"></span>
-                  <span class="caret"></span>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="min-width:0px">
-                  {% to_list 'en' 'bg' as all_languages %}
-                    {% for language in all_languages %}
-                      {% if language != current_language %}
-                        <button class="btn btn-link dropdown-item" type="submit">
-                          <input name="language" type="hidden" value="{{language}}">
-                          <span class="flag-icon flag-icon-{%language_country language%}"></span>
-                        </button>
-                      {% endif %}
-                    {% endfor %}
-                </div>
-                <input name="next" type="hidden" value="{{ redirect_to }}">
-              </form>
+                <form class="form-inline my-2 my-lg-0" action="{% url 'set_language' %}" method="post">{% csrf_token %}
+                  {% get_current_language as current_language %}
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="flag-icon flag-icon-{%language_country current_language%}"></span>
+                    <span class="caret"></span>
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="min-width:0px">
+                    {% to_list 'en' 'bg' as all_languages %}
+                      {% for language in all_languages %}
+                        {% if language != current_language %}
+                          <button class="btn btn-link dropdown-item" type="submit">
+                            <input name="language" type="hidden" value="{{language}}">
+                            <span class="flag-icon flag-icon-{%language_country language%}"></span>
+                          </button>
+                        {% endif %}
+                      {% endfor %}
+                  </div>
+                  <input name="next" type="hidden" value="{{ redirect_to }}">
+                </form>
               </div>
-
+            </div>
+          </ul>
 				</div>
         </nav>
 
@@ -110,7 +117,6 @@
 					{% block content %}
             <ul class="mt-1 nav justify-content-center bg-success text-white">
               <li class="nav-item pt-2 pl-1">
-                <strong>{% trans 'Admin tools' %}</strong>
               </li>
               {% block admin_tools %}
               {% endblock %}
@@ -119,7 +125,7 @@
         </div>
 
         <footer class="footer">
-          <div class="container">
+          <div class="container-fluid">
             <div class="row">
               <div class="col-md-4">
                 <h6>Фондация „Хородея“</h6>
