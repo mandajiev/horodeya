@@ -114,7 +114,7 @@ class Project(Timestamped):
             "add": admin_of_legal_entity,
             "delete": admin_of_legal_entity,
             "change": member_of_legal_entity,
-            "view": rules.is_authenticated,
+            "view": rules.always_allow,
         }
 
     TYPES = [

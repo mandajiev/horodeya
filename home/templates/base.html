@@ -115,12 +115,14 @@
           {% bootstrap_messages %}
 
 					{% block content %}
+          <div class="pt-5 sticky-top">
             <ul class="mt-1 nav justify-content-center bg-success text-white">
               <li class="nav-item pt-2 pl-1">
               </li>
               {% block admin_tools %}
               {% endblock %}
             </ul>
+          </div>
           {% endblock %}
         </div>
 
