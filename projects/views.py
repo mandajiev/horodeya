@@ -239,6 +239,7 @@ class ReportDetails(AutoPermissionRequiredMixin, generic.DetailView):
 
 class ReportList(AutoPermissionRequiredMixin, generic.ListView):
     model = Report
+    permission_type = 'view'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

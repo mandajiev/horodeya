@@ -25,10 +25,10 @@
 </h2>
 
 {% with admin_pk=project.legal_entity.admin.pk %}
-{% if admin_pk == user.pk %}
+{% if admin_pk == user.pk and unpublished_reports %}
 <div class="card">
   <div class="card-header">
-    Непобликувани
+    {% trans 'Unpublished' %}
   </div>
   <ul class="list-group list-group-flush">
   {% for report in unpublished_reports %}
