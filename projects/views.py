@@ -27,6 +27,8 @@ from vote.models import UP, DOWN
 
 from dal import autocomplete
 
+from stream_django.feed_manager import feed_manager
+
 class ProjectForm(ModelForm):
     class Meta:
         model = Project
@@ -191,6 +193,8 @@ class ReportCreate(AutoPermissionRequiredMixin, CreateView):
         return context
 
     def form_valid(self, form):
+        project_pk = self.kwargs['project']
+        self.project = get_object_or_404(Project, pk=project_pk)
         form.instance.project = self.project
         return super().form_valid(form)
 
@@ -565,3 +569,21 @@ class UserAutocomplete(autocomplete.Select2QuerySetView):
 
     def get_result_label(self, item):
         return format_html('%s %s' % (item.first_name, item.last_name))
+
+@permission_required('projects.accept_support', fn=objectgetter(Project, 'pk'))
+
+def follow_project(request, pk):
+
+    project = get_object_or_404(Project, pk=pk)
+
+    user = request.user
+
+    news_feeds = feed_manager.get_news_feeds(user.id)
+    notification_feed = feed_manager.get_notification_feed(user.id)
+
+    for feed in news_feeds.values():
+        feed.follow('project', project.id)
+
+    notification_feed.follow('project', project.id)
+
+    return redirect(project)

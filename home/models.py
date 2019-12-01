@@ -9,6 +9,9 @@ from wagtail.core import blocks
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
 
+from stream_django.feed_manager import feed_manager
+from stream_django.enrich import Enrich
+
 from projects.models import Project
 
 ## TODO how to add anitial pages
@@ -41,6 +44,29 @@ class HomePage(Page):
     content_panels = Page.content_panels + [
         StreamFieldPanel('body'),
     ]
+
+    def serve(self, request):
+        user = request.user
+        
+        if user.is_authenticated:
+            feed = feed_manager.get_feed('timeline', user.id)
+            enricher = Enrich()
+            timeline = enricher.enrich_activities(feed.get(limit=25)['results'])
+            notification_feed = feed_manager.get_notification_feed(user.id)
+            notification_stats = notification_feed.get(limit=10)
+            notifications = enricher.enrich_aggregated_activities(notification_stats['results'])
+            del notification_stats['results']
+        else:
+            timeline = None
+            ntoifications = None
+            notification_stats = None
+
+        return render(request, 'home/home_page.html', {
+            'page': self,
+            'timeline': timeline,
+            'notifications': notifications,
+            'notification_stats': notification_stats
+        })
 
 class List(Page):
     body = RichTextField(blank=True)

@@ -1,6 +1,7 @@
 {% load static wagtailuserbar %}
 {% load bootstrap4 %}
 {% load i18n %}
+{% load activity_tags %}
 
 {% bootstrap_css %}
 {% bootstrap_javascript jquery='full' %}
@@ -63,9 +64,22 @@
               </a>
 
               {% if user.is_authenticated %}
-                <span class="navbar-text">
-                  {% trans 'Hello' %}, {{user.first_name}}
-                </span>
+              <div class="nav-item dropdown" >
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" style="text-transform:none">
+                  {{user.first_name}} <span class="badge badge-danger">{{ notification_stats.unseen }}</span>
+                </a>
+                <div class="dropdown-menu">
+                  <div class="list-group">
+                    {% for notification in notifications %}
+                    <a class="list-group-item list-group-item-action {% if not activity.is_seen %} list-group-item-primary {% elif not activity.is_read %} list-group-item-secondary {% endif %}" href="#">
+                        {% render_activity notification %}
+                      </a>
+                    {% empty %}
+                    {% trans "No notifications" %}
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
                   <a class="nav-link {% active account %}" href="{% url 'my_account' %}">{% trans 'Account' %}</a>
                   <a class="nav-link {% active logout %}" href="{% url 'account_logout' %}">{% trans 'Sign out' %}</a>
               {% else %}

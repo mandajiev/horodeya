@@ -1,0 +1,21 @@
+{% load i18n %}
+
+<div class="card">
+  <div class="card-header bg-transparent">
+    {% with legal_entity=activity.actor.legal_entity %}
+    <a href="{{ legal_entity.get_absolute_url }}">{{ legal_entity }} </a> {% trans "published new report for" %} <a href="{{activity.actor.get_absolute_url }}"> {{ activity.actor }} </a> 
+    {% endwith %}
+    <div class="float-right">
+      {{ activity.time|timesince }} ago
+    </div>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">
+      {{ activity.object.name }} 
+    </h5>
+    <p class="card-text">
+      {{ activity.object.text }}
+    </p>
+    <a href="#" class="card-link">{% trans "See all" %}</a>
+  </div>
+</div>

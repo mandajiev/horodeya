@@ -14,6 +14,8 @@ from rules.contrib.models import RulesModelBase, RulesModelMixin
 
 from vote.models import VoteModel, UP, DOWN
 
+from stream_django.activity import Activity
+
 def determine_legal_entity(object):
     if isinstance(object, Project):
         return object.legal_entity
@@ -108,6 +110,7 @@ class User(AbstractUser, RulesModelMixin, metaclass=RulesModelBase):
     def total_votes_count(self):
         return len(Report.votes.all(self.pk, UP)) + len(Report.votes.all(self.pk, DOWN))
 
+#TODO notify user on new project added
 class Project(Timestamped):
     class Meta:
         rules_permissions = {
@@ -129,6 +132,9 @@ class Project(Timestamped):
     legal_entity = models.ForeignKey(LegalEntity, on_delete=models.CASCADE)
     leva_needed = models.FloatField(null=True, blank=True)
     budget_until = models.DateField(null=True, blank=True)
+
+    def key(self):
+        return 'project-%d' % self.id
 
     def __str__(self):
         return self.name
@@ -174,7 +180,7 @@ class Project(Timestamped):
 
         return int(100*self.money_support() / self.leva_needed)
 
-class Report(VoteModel, Timestamped):
+class Report(VoteModel, Timestamped, Activity):
     class Meta:
         rules_permissions = {
             "add": member_of_legal_entity,
@@ -186,6 +192,14 @@ class Report(VoteModel, Timestamped):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     text = models.TextField()
     published_at = models.DateTimeField()
+
+    @property
+    def activity_author_feed(self):
+        return 'project'
+
+    @property
+    def activity_actor_attr(self):
+        return self.project
 
     def __str__(self):
         return self.published_at.isoformat()

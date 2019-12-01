@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
 {% load wagtailcore_tags %}
+{% load i18n %}
+{% load activity_tags %}
 
 {% block body_class %}template-blogindexpage{% endblock %}
 
@@ -14,9 +16,17 @@
   {% endblock %}
 	<div class="row mt-4">
     <div class="col-8 mx-auto">
+      {% if user.is_authenticated %}
+        {% for activity in timeline %}
+          {% render_activity activity %}
+        {% empty %}
+          <p class="text-center">{% trans 'Your news feed is empty. Follow some causes/businesses first!' %}</p>
+        {% endfor %}
+      {% else %}
       <div class="body">
         {% include_block page.body %}
       </div>
+      {% endif %}
     </div>
 	</div>
 {% endblock %}

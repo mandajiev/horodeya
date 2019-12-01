@@ -43,4 +43,5 @@ urlpatterns = [
     path('accounts/<int:user_id>/support/list', views.user_support_list, name='user_support_list'),
     path('accounts/<int:user_id>/vote/list', views.user_vote_list, name='user_vote_list'),
     path('user-autocomplete/', views.UserAutocomplete.as_view(), name='user_autocomplete'),
+    path('<int:pk>/follow', views.follow_project, name='follow_project'),
 ]

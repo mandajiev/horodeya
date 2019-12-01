@@ -17,11 +17,10 @@
 {% endblock %}
 
 {% block content %}
-
-{% member_of user object.legal_entity_id as admin %}
-{% if admin %}
-  {{ block.super }}
-{% endif %}
+  {% member_of user object.legal_entity_id as admin %}
+  {% if admin %}
+    {{ block.super }}
+  {% endif %}
 
   <div class="row mt-4">
     <div class="col-md-8">
@@ -31,6 +30,7 @@
 
       {% include "projects/project_stats.html" with project=object only %}
 
+      <a class="btn btn-primary" href="{% url 'projects:follow_project' object.pk %}">{% trans 'Follow' %}</a>
       <a id='apply-btn' class="btn btn-primary btn-lg" href="{% url 'projects:support_create' object.pk %}">{% trans 'Get involved' %}</a>
       {% if not user.is_authenticated %}
         <script>

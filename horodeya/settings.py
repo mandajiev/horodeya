@@ -29,6 +29,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'stream_django',
+
     'dal',
     'dal_select2',
 
@@ -226,3 +228,6 @@ TEMPUS_DOMINUS_INCLUDE_ASSETS = True
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
+
+STREAM_API_KEY = os.getenv('STREAM_API_KEY')
+STREAM_API_SECRET = os.getenv('STREAM_API_SECRET')

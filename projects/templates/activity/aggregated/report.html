@@ -1,0 +1,10 @@
+<div class="w-100 {% if not activity.is_read %} {% endif %}" style="min-width:300px">
+{% load i18n %}
+  {% with activity=activity.activities.0 %}
+    {% with legal_entity=activity.actor.legal_entity %}
+    <h6><strong>{{ legal_entity }}</strong> {% trans "published new report for" %} <strong>{{ activity.actor }}</strong> </h6>
+    {% endwith %}
+    <h6 class="text-muted">{{ activity.time|timesince }} ago</h6>
+{% endwith %}
+</div>
+
