@@ -46,9 +46,11 @@
       </div>
       <div class="col-md-6">
         <div class="card-body">
-          <h5 class="card-title">{{ project.name }}<small>
-              <a href="{{ project.legal_entity.get_absolute_url }}">{{project.legal_entity}}</a>
-            </small></h5>
+          <h5 class="card-title">{{ project.name }}
+            <small class="text-muted">
+              {{project.legal_entity}}
+            </small>
+          </h5>
           <p class="card-text">{{ project.description }}</p>
           <a href="{% url 'projects:details' project.pk %}" class="btn btn-primary">Научи повече</a>
         </div>
