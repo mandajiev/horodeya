@@ -53,16 +53,12 @@ class HomePage(Page):
             enricher = Enrich()
             timeline = enricher.enrich_activities(feed.get(limit=25)['results'])
 
-            stream_token = feed_manager.get_notification_feed(user.id).get_readonly_token()
-
         else:
             timeline = None
-            stream_token = None
 
         return render(request, 'home/home_page.html', {
             'page': self,
             'timeline': timeline,
-            'stream_token': stream_token
         })
 
 class List(Page):

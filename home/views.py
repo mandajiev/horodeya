@@ -28,9 +28,5 @@ def notifications(request):
     enricher = Enrich()
     notifications = enricher.enrich_aggregated_activities(notification_stats['results'])
 
-    import pprint; pprint.pprint(notifications)
-
-    del notification_stats['results']
-
     return render(request, 'activity/aggregated/report.html', {'notifications': notifications})
 

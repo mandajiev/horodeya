@@ -4,8 +4,8 @@
   {% with one_activity=activity.activities.0 %}
     {% with legal_entity=one_activity.actor.legal_entity %}
     <h6><strong>{{ legal_entity }}</strong>
-      {% blocktrans with activity_count=activity.activity_count%}
-        published {{activity_count}} reports for
+      {% blocktrans with activity_count=activity.activity_count action=one_activity.verb %}
+        published {{activity_count}} {{action}} for
       {% endblocktrans %}
       <strong>{{ one_activity.actor }}</strong> </h6>
     {% endwith %}

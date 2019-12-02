@@ -180,6 +180,29 @@ class Project(Timestamped):
 
         return int(100*self.money_support() / self.leva_needed)
 
+class Announcement(Timestamped, Activity):
+    class Meta:
+        rules_permissions = {
+            "add": member_of_legal_entity,
+            "delete": admin_of_legal_entity,
+            "change": member_of_legal_entity,
+            "view": rules.is_authenticated,
+        }
+
+    project = models.ForeignKey(Project, on_delete=models.PROTECT)
+    text = models.TextField(verbose_name='announcement')
+
+    @property
+    def activity_author_feed(self):
+        return 'project'
+
+    @property
+    def activity_actor_attr(self):
+        return self.project
+
+    def get_absolute_url(self):
+        return reverse('projects:announcement_details', kwargs={'pk': self.pk})
+
 class Report(VoteModel, Timestamped, Activity):
     class Meta:
         rules_permissions = {
@@ -189,7 +212,7 @@ class Report(VoteModel, Timestamped, Activity):
             "view": rules.is_authenticated,
         }
     name = models.CharField(max_length=50)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.PROTECT)
     text = models.TextField()
     published_at = models.DateTimeField()
 

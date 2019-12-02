@@ -19,7 +19,7 @@ from django.utils.translation import gettext as _
 
 from rules.contrib.views import AutoPermissionRequiredMixin, permission_required, objectgetter
 
-from projects.models import Project, LegalEntity, Report, MoneySupport, TimeSupport, User
+from projects.models import Project, LegalEntity, Report, MoneySupport, TimeSupport, User, Announcement
 
 from tempus_dominus.widgets import DateTimePicker, DatePicker
 
@@ -28,6 +28,7 @@ from vote.models import UP, DOWN
 from dal import autocomplete
 
 from stream_django.feed_manager import feed_manager
+from stream_django.enrich import Enrich
 
 class ProjectForm(ModelForm):
     class Meta:
@@ -47,8 +48,28 @@ class ProjectForm(ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['legal_entity'].queryset = LegalEntity.objects.filter(admin=user)
 
+class AnnouncementForm(ModelForm):
+    class Meta:
+        model = Announcement
+        fields = ['text']
+        widgets = {
+          'text': forms.Textarea(attrs={'rows': 2}),
+        }
+
+
 class ProjectDetails(AutoPermissionRequiredMixin, generic.DetailView):
     model = Project
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        feed = feed_manager.get_feed('project', context['object'].id)
+        enricher = Enrich()
+        timeline = enricher.enrich_activities(feed.get(limit=25)['results'])
+        context['timeline'] = timeline
+        context['announcement_form'] = AnnouncementForm()
+
+        return context
 
 class ProjectCreate(AutoPermissionRequiredMixin, CreateView):
     model = Project
@@ -587,3 +608,39 @@ def follow_project(request, pk):
     notification_feed.follow('project', project.id)
 
     return redirect(project)
+
+class AnnouncementCreate(AutoPermissionRequiredMixin, CreateView):
+    model = Announcement
+    fields = ['text']
+
+    def form_valid(self, form):
+        project_pk = self.kwargs['project']
+        self.project = get_object_or_404(Project, pk=project_pk)
+        form.instance.project = self.project 
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('projects:details', kwargs={'pk': self.object.project.pk})
+
+class AnnouncementUpdate(AutoPermissionRequiredMixin, UpdateView):
+    model = Announcement
+    fields = ['text']
+
+    def get_success_url(self):
+        return reverse_lazy('projects:details', kwargs={'pk': self.object.project.pk})
+
+class AnnouncementDelete(AutoPermissionRequiredMixin, DeleteView):
+    model = Announcement
+
+    def get_success_url(self):
+        return reverse_lazy('projects:details', kwargs={'pk': self.object.project.pk})
+
+class AnnouncementDetails(AutoPermissionRequiredMixin, generic.DetailView):
+    model = Announcement
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        return context
+
+

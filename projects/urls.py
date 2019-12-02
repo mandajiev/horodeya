@@ -44,4 +44,9 @@ urlpatterns = [
     path('accounts/<int:user_id>/vote/list', views.user_vote_list, name='user_vote_list'),
     path('user-autocomplete/', views.UserAutocomplete.as_view(), name='user_autocomplete'),
     path('<int:pk>/follow', views.follow_project, name='follow_project'),
+    path('<int:project>/announcement/create/', views.AnnouncementCreate.as_view(), name='announcement_create'),
+    path('announcement/<int:pk>', views.AnnouncementDetails.as_view(), name='announcement_details'),
+    path('announcement_update/<int:pk>/update', views.AnnouncementUpdate.as_view(), name='announcement_update'),
+    path('announcement/<int:pk>/delete', views.AnnouncementDelete.as_view(), name='announcement_delete'),
+
 ]
