@@ -52,20 +52,17 @@ class HomePage(Page):
             feed = feed_manager.get_feed('timeline', user.id)
             enricher = Enrich()
             timeline = enricher.enrich_activities(feed.get(limit=25)['results'])
-            notification_feed = feed_manager.get_notification_feed(user.id)
-            notification_stats = notification_feed.get(limit=10)
-            notifications = enricher.enrich_aggregated_activities(notification_stats['results'])
-            del notification_stats['results']
+
+            stream_token = feed_manager.get_notification_feed(user.id).get_readonly_token()
+
         else:
             timeline = None
-            ntoifications = None
-            notification_stats = None
+            stream_token = None
 
         return render(request, 'home/home_page.html', {
             'page': self,
             'timeline': timeline,
-            'notifications': notifications,
-            'notification_stats': notification_stats
+            'stream_token': stream_token
         })
 
 class List(Page):

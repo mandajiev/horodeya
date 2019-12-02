@@ -66,17 +66,10 @@
               {% if user.is_authenticated %}
               <div class="nav-item dropdown" >
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" style="text-transform:none">
-                  {{user.first_name}} <span class="badge badge-danger">{{ notification_stats.unseen }}</span>
+                  {{user.first_name}} <span id="notifications_unseen" class="badge badge-danger" style="display:none">0</span>
                 </a>
                 <div class="dropdown-menu">
-                  <div class="list-group">
-                    {% for notification in notifications %}
-                    <a class="list-group-item list-group-item-action {% if not activity.is_seen %} list-group-item-primary {% elif not activity.is_read %} list-group-item-secondary {% endif %}" href="#">
-                        {% render_activity notification %}
-                      </a>
-                    {% empty %}
-                    {% trans "No notifications" %}
-                    {% endfor %}
+                  <div id="notifications" class="list-group list-group-flush">
                   </div>
                 </div>
               </div>
@@ -185,6 +178,63 @@
 
         {# Global javascript #}
         <script type="text/javascript" src="{% static 'js/mysite.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/holder.min.js' %}"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/getstream/dist/js_min/getstream.js"></script>
+        {% if user.is_authenticated %}
+        <script type="text/javascript">
+          var token = '{{stream_token}}';
+          var client = stream.connect('8j6cdpvzeft8', null, '64876');
+          var notifications = client.feed('notification', {{user.id}}, token);
+          notifications.get({ limit: 0 }).then(function(body) {
+            updateNotificationCounter(body.unseen);
+          });
+
+          // Случай 1: потребителя е натиснал бутона за известия и те зареждат async
+          $('#navbarDropdown').click(function() {
+            $.get({
+              url: '{% url "notifications" %}',
+              success: populateNotifications
+            });
+          });
+
+          function populateNotifications(data) {
+            document.querySelector('#notifications').innerHTML = data;
+            updateNotificationCounter(0);
+          }
+
+
+          // Случай 2: идва ново известие и обновяваме брояча
+          function updateNotificationCounterFromLive(data) {
+            return updateNotificationCounter(data.new.length)
+          }
+
+          function updateNotificationCounter(unseenCount) {
+
+            var unseen = document.querySelector('#notifications_unseen');
+            unseen.textContent = unseenCount;
+            if (unseenCount === 0) {
+              $(unseen).hide()
+            }
+            else {
+              $(unseen).show()
+            }
+
+          }
+
+          function successCallback() {
+            console.log('Now listening to changes in realtime.');
+          }
+
+          function failCallback(data) {
+            //TODO bootstrap notification
+            alert('Something went wrong, check the console logs');
+            console.log(data);
+          }
+
+notifications.subscribe(updateNotificationCounterFromLive).then(successCallback, failCallback);
+        </script>
+        {% endif %}
 
         {% block extra_js %}
             {# Override this in templates to add extra javascript #}

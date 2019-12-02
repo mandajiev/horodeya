@@ -197,8 +197,8 @@ ACCOUNT_FORMS = {'signup': 'home.forms.NamesSignupForm'}
 BOOTSTRAP4 = {
     "css_url": '/static/css/bootstrap.min.css',
     'javascript_url': '/static/js/bootstrap.min.js',
-    'jquery_url': '/static/js/jquery-3.3.1.slim.min.js',
-    'jquery_slim_url': '/static/js/jquery-3.3.1.slim.min.js',
+    'jquery_url': '/static/js/jquery-3.4.1.min.js',
+    'jquery_slim_url': '/static/js/jquery-3.4.1.min.js',
     'popper_url': '/static/js/popper.min.js',
 }
 
