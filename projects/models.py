@@ -317,3 +317,22 @@ class TimeSupport(Support):
 
     def duration(self):
         return self.end_date - self.start_date
+
+class TimeNecessity(Timestamped):
+    project = models.ForeignKey(Project, on_delete=models.PROTECT)
+    name = models.CharField(max_length=50)
+    description = models.CharField(max_length=300)
+    price = models.IntegerField()
+    count = models.IntegerField(default=1)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    comment = models.TextField()
+
+class MoneyNecessity(Timestamped):
+    project = models.ForeignKey(Project, on_delete=models.PROTECT)
+    name = models.CharField(max_length=50)
+    description = models.CharField(max_length=300)
+    price = models.IntegerField()
+    count = models.IntegerField()
+    comment = models.TextField()
+

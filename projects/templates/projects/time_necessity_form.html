@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+{% load bootstrap4 %}
+{{ formset.media }}
+{% bootstrap_messages %}
+<form method="post" class="form-inline">
+  {% csrf_token %}
+  {{ formset.management_form }}
+  <div class="table-responsive">
+    {% bootstrap_formset_errors formset %}
+    <table class="table table-sm">
+    <thead>
+    {% with form=formset.0 %}
+      <tr>
+        {% for field in form.visible_fields %}
+          <th scope='col'>{{field.label}}</th>
+        {% endfor %}
+      </tr>
+    {% endwith %}
+    </thead>
+    {% for form in formset %}
+      <tr>
+      {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+      {% endfor %}
+      {% for field in form.visible_fields %}
+        <td>
+          {% bootstrap_field field layout='inline'  %}
+        </td>
+      {% endfor %}
+      </tr>
+    {% endfor %}
+    </table>
+  </div>
+  <button type="submit" class="btn btn-primary" name="add-row">{% trans 'Add row' %}</button>
+  <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
+</form>
+{% endblock %}

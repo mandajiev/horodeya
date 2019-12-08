@@ -78,3 +78,11 @@
 .activity-img {
   max-height: 64px;
 }
+
+.dropdown-toggle:after {
+  content: none;
+}
+
+.admin-panel {
+  padding-top: 3.5rem;
+}

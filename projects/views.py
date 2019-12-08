@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from django.utils.html import format_html
-from django.forms import ModelForm, ValidationError
+from django.forms import ModelForm, ValidationError, inlineformset_factory
 
 from django import forms
 
@@ -19,7 +19,7 @@ from django.utils.translation import gettext as _
 
 from rules.contrib.views import AutoPermissionRequiredMixin, permission_required, objectgetter
 
-from projects.models import Project, LegalEntity, Report, MoneySupport, TimeSupport, User, Announcement
+from projects.models import Project, LegalEntity, Report, MoneySupport, TimeSupport, User, Announcement, TimeNecessity
 
 from tempus_dominus.widgets import DateTimePicker, DatePicker
 
@@ -55,6 +55,74 @@ class AnnouncementForm(ModelForm):
         widgets = {
           'text': forms.Textarea(attrs={'rows': 2}),
         }
+
+TimeNecessityFormset = inlineformset_factory(
+        Project,
+        TimeNecessity,
+        fields=['name', 'description', 'count', 'price', 'start_date', 'end_date' ],
+        widgets={
+            'count': forms.TextInput({
+                'style': 'width: 60px'
+                }
+            ),
+            'price': forms.TextInput({
+                'style': 'width: 60px'
+                }
+            ),
+            'description': forms.Textarea({
+                'rows': 1,
+                'cols': 30
+                }
+            ),
+            'start_date': DatePicker(
+                attrs={
+                    'style': 'width:120px'
+                    },
+                options={
+                    'useCurrent': True,
+                    'collapse': False,
+                },
+            ),
+            'end_date': DatePicker(
+                attrs={
+                    'style': 'width:120px'
+                    },
+                options={
+                    'useCurrent': True,
+                    'collapse': False,
+                },
+            )
+        },
+        extra=1) 
+
+def time_necessity_create(request, project_id):
+    template_name = 'projects/time_necessity_form.html'
+    project = get_object_or_404(Project, pk=project_id)
+
+    if request.method == 'GET':
+        # we don't want to display the already saved model instances
+        formset = TimeNecessityFormset(instance=project)
+
+    elif request.method == 'POST':
+        formset = TimeNecessityFormset(request.POST, instance=project)
+        if formset.is_valid():
+            for form in formset:
+                if form.cleaned_data.get('DELETE'):
+                    form.instance.delete()
+
+                elif form.cleaned_data.get('name'):
+                    form.instance.project = project
+                    form.save()
+            if 'add-row' in request.POST:
+                    
+                formset = TimeNecessityFormset(instance=project) # за да добави празен ред
+            else:
+                return redirect(project)
+
+    return render(request, 'projects/time_necessity_form.html', {
+        'formset': formset,
+        'project': project
+    })
 
 
 class ProjectDetails(AutoPermissionRequiredMixin, generic.DetailView):
