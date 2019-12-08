@@ -19,7 +19,7 @@ from django.utils.translation import gettext as _
 
 from rules.contrib.views import AutoPermissionRequiredMixin, permission_required, objectgetter
 
-from projects.models import Project, LegalEntity, Report, MoneySupport, TimeSupport, User, Announcement, TimeNecessity
+from projects.models import Project, LegalEntity, Report, MoneySupport, TimeSupport, User, Announcement, TimeNecessity, ThingNecessity
 
 from tempus_dominus.widgets import DateTimePicker, DatePicker
 
@@ -95,16 +95,42 @@ TimeNecessityFormset = inlineformset_factory(
         },
         extra=1) 
 
+ThingNecessityFormset = inlineformset_factory(
+        Project,
+        ThingNecessity,
+        fields=['name', 'description', 'count', 'price' ],
+        widgets={
+            'count': forms.TextInput({
+                'style': 'width: 60px'
+                }
+            ),
+            'price': forms.TextInput({
+                'style': 'width: 60px'
+                }
+            ),
+            'description': forms.Textarea({
+                'rows': 1,
+                }
+            ),
+        },
+        extra=1) 
+
+def thing_necessity_create(request, project_id):
+    return necessity_create(request, project_id, ThingNecessityFormset)
+
 def time_necessity_create(request, project_id):
+    return necessity_create(request, project_id, TimeNecessityFormset)
+
+def necessity_create(request, project_id, cls):
     template_name = 'projects/time_necessity_form.html'
     project = get_object_or_404(Project, pk=project_id)
 
     if request.method == 'GET':
         # we don't want to display the already saved model instances
-        formset = TimeNecessityFormset(instance=project)
+        formset = cls(instance=project)
 
     elif request.method == 'POST':
-        formset = TimeNecessityFormset(request.POST, instance=project)
+        formset = cls(request.POST, instance=project)
         if formset.is_valid():
             for form in formset:
                 if form.cleaned_data.get('DELETE'):
@@ -115,7 +141,7 @@ def time_necessity_create(request, project_id):
                     form.save()
             if 'add-row' in request.POST:
                     
-                formset = TimeNecessityFormset(instance=project) # за да добави празен ред
+                formset = cls(instance=project) # за да добави празен ред
             else:
                 return redirect(project)
 
@@ -535,7 +561,7 @@ def support_details(request, pk):
 class TimeSupportForm(AutoPermissionRequiredMixin, ModelForm):
     class Meta:
         model = TimeSupport
-        fields = ['start_date', 'end_date', 'note']
+        fields=['price', 'start_date', 'end_date', 'comment' ]
         widgets = {
             'start_date': DatePicker(
                 options={

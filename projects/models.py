@@ -230,21 +230,29 @@ class Report(VoteModel, Timestamped, Activity):
     def get_absolute_url(self):
         return reverse('projects:report_details', kwargs={'pk': self.pk})
 
-class Support(Timestamped):
-    class Meta:
-        rules_permissions = {
-            "add": rules.is_authenticated,
-            "delete": myself & ~is_accepted,
-            "change": myself & ~is_accepted,
-            "view": myself | member_of_legal_entity,
-            "accept": member_of_legal_entity,
-            "mark_delivered": member_of_legal_entity,
-            "list": member_of_legal_entity
-        }
+#TODO notify in feed
+class TimeNecessity(Timestamped):
+    project = models.ForeignKey(Project, on_delete=models.PROTECT)
+    name = models.CharField(max_length=50)
+    description = models.CharField(max_length=300)
+    price = models.IntegerField()
+    count = models.IntegerField(default=1)
+    start_date = models.DateField()
+    end_date = models.DateField()
 
+#TODO notify in feed
+class ThingNecessity(Timestamped):
+    project = models.ForeignKey(Project, on_delete=models.PROTECT)
+    name = models.CharField(max_length=50)
+    description = models.CharField(max_length=300)
+    price = models.IntegerField()
+    count = models.IntegerField()
+
+class Support(Timestamped):
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     
+    comment = models.TextField()
     accepted = models.BooleanField(null=True, blank=True)
     accepted_at = models.DateTimeField(null=True, blank=True)
     delivered = models.BooleanField(null=True, blank=True)
@@ -270,6 +278,7 @@ class Support(Timestamped):
     class Meta:
         abstract = True
 
+#TODO notify in feed
 class MoneySupport(Support):
     class Meta:
         rules_permissions = {
@@ -282,17 +291,45 @@ class MoneySupport(Support):
             "list": member_of_legal_entity,
             "list-user": myself
         }
+
     leva = models.FloatField()
 
     def get_absolute_url(self):
         return reverse('projects:msupport_details', kwargs={'pk': self.pk})
 
     def get_type(self):
-        return 'm'
+        return 'money'
 
     def __str__(self):
         return "%s-%.2f" % (self.project, self.leva)
 
+#TODO notify in feed
+class ThingSupport(Support):
+    class Meta:
+        rules_permissions = {
+            "add": rules.is_authenticated,
+            "delete": myself & ~is_accepted,
+            "change": myself & ~is_accepted,
+            "view": myself | member_of_legal_entity,
+            "accept": member_of_legal_entity,
+            "mark_delivered": member_of_legal_entity,
+            "list": member_of_legal_entity,
+            "list-user": myself
+        }
+
+    necessity = models.ForeignKey(ThingNecessity, on_delete=models.PROTECT, related_name='supports')
+    price = models.IntegerField()
+
+    def get_absolute_url(self):
+        return reverse('projects:msupport_details', kwargs={'pk': self.pk})
+
+    def get_type(self):
+        return 'thing'
+
+    def __str__(self):
+        return "%s-%.2f" % (self.project, self.leva)
+
+#TODO notify in feed
 class TimeSupport(Support):
     class Meta:
         rules_permissions = {
@@ -305,34 +342,17 @@ class TimeSupport(Support):
             "list": member_of_legal_entity
         }
 
+    necessity = models.ForeignKey(TimeNecessity, on_delete=models.PROTECT, related_name='supports')
+    price = models.IntegerField()
     start_date = models.DateField()
     end_date = models.DateField()
-    note = models.TextField()
 
     def get_absolute_url(self):
         return reverse('projects:tsupport_details', kwargs={'pk': self.pk})
 
     def get_type(self):
-        return 't'
+        return 'time'
 
     def duration(self):
         return self.end_date - self.start_date
-
-class TimeNecessity(Timestamped):
-    project = models.ForeignKey(Project, on_delete=models.PROTECT)
-    name = models.CharField(max_length=50)
-    description = models.CharField(max_length=300)
-    price = models.IntegerField()
-    count = models.IntegerField(default=1)
-    start_date = models.DateField()
-    end_date = models.DateField()
-    comment = models.TextField()
-
-class MoneyNecessity(Timestamped):
-    project = models.ForeignKey(Project, on_delete=models.PROTECT)
-    name = models.CharField(max_length=50)
-    description = models.CharField(max_length=300)
-    price = models.IntegerField()
-    count = models.IntegerField()
-    comment = models.TextField()
 

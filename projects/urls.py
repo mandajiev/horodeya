@@ -49,5 +49,6 @@ urlpatterns = [
     path('announcement_update/<int:pk>/update', views.AnnouncementUpdate.as_view(), name='announcement_update'),
     path('announcement/<int:pk>/delete', views.AnnouncementDelete.as_view(), name='announcement_delete'),
     path('<int:project_id>/necessity/time', views.time_necessity_create, name='time_necessity_create'),
+    path('<int:project_id>/necessity/thing', views.thing_necessity_create, name='thing_necessity_create'),
 
 ]
