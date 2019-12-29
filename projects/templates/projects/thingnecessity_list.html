@@ -1,0 +1,9 @@
+{% load i18n %}
+
+<h2>{% trans 'Thing Necessities' %}</h2>
+
+<ul class="list-group mt-3">
+    {% for thing_necessity in object_list %}
+    <a class="list-group-item" href="">{{ thing_necessity }}</a>
+    {% endfor %}
+</ul>

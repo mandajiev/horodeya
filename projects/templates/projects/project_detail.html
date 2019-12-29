@@ -69,6 +69,10 @@
     {% endif %}
   </div>
 
+  {% include "projects/timenecessity_list.html" with object_list=object.timenecessity_set.all  only %}
+
+  {% include "projects/thingnecessity_list.html" with object_list=object.thingnecessity_set.all only %}
+
   {% if admin %}
   <form method="post" class="form" action="{% url 'projects:announcement_create' object.pk %}" >
     {% csrf_token %}

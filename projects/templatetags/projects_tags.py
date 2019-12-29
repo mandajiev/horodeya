@@ -15,8 +15,11 @@ def vote_exists(report, user_pk):
 
 @register.filter
 def leva(value):
-    if value:
-        return "%.2f " % value + _('lv') 
-    else:
+    if value == 0:
+        return '0 ' + _('lv')
+
+    if value is None:
         return _("unknown")
+
+    return "%.2f " % value + _('lv') 
 

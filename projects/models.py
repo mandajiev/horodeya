@@ -16,6 +16,8 @@ from vote.models import VoteModel, UP, DOWN
 
 from stream_django.activity import Activity
 
+from requests.exceptions import ConnectionError
+
 def determine_legal_entity(object):
     if isinstance(object, Project):
         return object.legal_entity
@@ -130,14 +132,13 @@ class Project(Timestamped):
     text = models.TextField()
     published = models.BooleanField()
     legal_entity = models.ForeignKey(LegalEntity, on_delete=models.CASCADE)
-    leva_needed = models.FloatField(null=True, blank=True)
-    budget_until = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
 
     def key(self):
         return 'project-%d' % self.id
 
     def __str__(self):
-        return self.name
+        return ' - '.join([self.legal_entity.name, self.name])
 
     def get_absolute_url(self):
         return reverse('projects:details', kwargs={'pk': self.pk})
@@ -174,11 +175,61 @@ class Project(Timestamped):
 
         return s
 
-    def support_percent(self):
-        if not self.leva_needed:
+    def things_fulfilled(self):
+        s = 0
+        for thing in self.thingnecessity_set.all():
+            s += thing.fulfilled
+
+        return s
+
+    def things_needed(self):
+        s = 0
+        for thing in self.thingnecessity_set.all():
+            s += thing.count
+
+        return s
+
+    def time_fulfilled(self):
+        s = 0
+        for time in self.timenecessity_set.all():
+            s += time.fulfilled
+
+        return s
+
+    def time_needed(self):
+        s = 0
+        for time in self.timenecessity_set.all():
+            s += time.count
+
+        return s
+    
+    def money_needed(self):
+        s = 0
+        for thing in self.thingnecessity_set.all():
+            s += (thing.count - thing.fulfilled) * thing.price
+
+        return s
+
+    def money_support_percent(self):
+        money_needed = self.money_needed()
+        if money_needed == 0:
             return 0
 
-        return int(100*self.money_support() / self.leva_needed)
+        return int(100*self.money_support() / money_needed)
+
+    def thing_support_percent(self):
+        things_needed = self.things_needed()
+        if things_needed == 0:
+            return 0
+
+        return int(100*self.things_fulfilled() / things_needed)
+
+    def time_support_percent(self):
+        time_needed = self.time_needed()
+        if time_needed == 0:
+            return 0
+
+        return int(100*self.time_fulfilled() / time_needed)
 
 class Announcement(Timestamped, Activity):
     class Meta:
@@ -239,6 +290,7 @@ class TimeNecessity(Timestamped):
     count = models.IntegerField(default=1)
     start_date = models.DateField()
     end_date = models.DateField()
+    fulfilled = models.IntegerField(default=0)
 
 #TODO notify in feed
 class ThingNecessity(Timestamped):
@@ -247,6 +299,7 @@ class ThingNecessity(Timestamped):
     description = models.CharField(max_length=300)
     price = models.IntegerField()
     count = models.IntegerField()
+    fulfilled = models.IntegerField(default=0)
 
 class Support(Timestamped):
     project = models.ForeignKey(Project, on_delete=models.PROTECT)

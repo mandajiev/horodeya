@@ -33,9 +33,9 @@ from stream_django.enrich import Enrich
 class ProjectForm(ModelForm):
     class Meta:
         model = Project
-        fields = ['name', 'description', 'text', 'published', 'legal_entity', 'leva_needed', 'budget_until' ]
+        fields = ['name', 'description', 'text', 'published', 'legal_entity', 'end_date' ]
         widgets = {
-            'budget_until': DatePicker(
+            'end_date': DatePicker(
                 options={
                     'useCurrent': True,
                     'collapse': False,
@@ -159,8 +159,12 @@ class ProjectDetails(AutoPermissionRequiredMixin, generic.DetailView):
         context = super().get_context_data(**kwargs)
         feed = feed_manager.get_feed('project', context['object'].id)
         enricher = Enrich()
-        timeline = enricher.enrich_activities(feed.get(limit=25)['results'])
-        context['timeline'] = timeline
+        try:
+            timeline = enricher.enrich_activities(feed.get(limit=25)['results'])
+            context['timeline'] = timeline
+        except ConnectionError:
+            context['timeline'] = None 
+
         context['announcement_form'] = AnnouncementForm()
 
         return context
@@ -700,6 +704,7 @@ def follow_project(request, pk):
         feed.follow('project', project.id)
 
     notification_feed.follow('project', project.id)
+    messages.success(request, "%s %s" % (_("Started following"),project))
 
     return redirect(project)
 
