@@ -1,3 +1,42 @@
+- model: projects.user
+  pk: 2
+  fields:
+    password: pbkdf2_sha256$150000$vmrqsz3fTRZD$oxWYzS5XXK9w/P/iy7ot9cBR9bYqUqD3Ef08G56/xYg=
+    last_login: 2019-12-18 11:32:01.789122+00:00
+    is_superuser: true
+    username: alek
+    first_name: "\u0410\u043B\u0435\u043A\u0441\u0430\u043D\u0434\u044A\u0440"
+    last_name: "\u041A\u043E\u0434\u0436\u0430\u0431\u0430\u0448\u0435\u0432"
+    email: akodzhabashev@gmail.com
+    is_staff: true
+    is_active: true
+    date_joined: 2019-10-27 11:32:15.306572+00:00
+    bal: 20
+    groups: []
+    user_permissions: []
+    legal_entities:
+    - 1
+    - 4
+    - 5
+- model: projects.user
+  pk: 3
+  fields:
+    password: pbkdf2_sha256$150000$KhrdUKwj1Nw1$ch1jEw2znPIqjBjgEaUY8uX1LtF1uBF+9A7nIveijeg=
+    last_login: 2019-11-12 07:32:40.621512+00:00
+    is_superuser: false
+    username: xilunas
+    first_name: "\u0410\u043B\u0435\u043A"
+    last_name: "\u041A\u043E\u0434"
+    email: xilunas@gmail.com
+    is_staff: false
+    is_active: true
+    date_joined: 2019-10-28 09:58:48.949762+00:00
+    bal: 20
+    groups: []
+    user_permissions: []
+    legal_entities:
+    - 1
+    - 4
 - model: projects.project
   pk: 1
   fields:
@@ -470,1371 +509,6 @@
     price: 1000
     count: 5
     fulfilled: 0
-- model: auth.permission
-  pk: 1
-  fields:
-    name: Can access Wagtail admin
-    content_type: 2
-    codename: access_admin
-- model: auth.permission
-  pk: 2
-  fields:
-    name: Can add document
-    content_type: 3
-    codename: add_document
-- model: auth.permission
-  pk: 3
-  fields:
-    name: Can change document
-    content_type: 3
-    codename: change_document
-- model: auth.permission
-  pk: 4
-  fields:
-    name: Can delete document
-    content_type: 3
-    codename: delete_document
-- model: auth.permission
-  pk: 5
-  fields:
-    name: Can add image
-    content_type: 4
-    codename: add_image
-- model: auth.permission
-  pk: 6
-  fields:
-    name: Can change image
-    content_type: 4
-    codename: change_image
-- model: auth.permission
-  pk: 7
-  fields:
-    name: Can delete image
-    content_type: 4
-    codename: delete_image
-- model: auth.permission
-  pk: 8
-  fields:
-    name: Can add legal entity
-    content_type: 5
-    codename: add_legalentity
-- model: auth.permission
-  pk: 9
-  fields:
-    name: Can change legal entity
-    content_type: 5
-    codename: change_legalentity
-- model: auth.permission
-  pk: 10
-  fields:
-    name: Can delete legal entity
-    content_type: 5
-    codename: delete_legalentity
-- model: auth.permission
-  pk: 11
-  fields:
-    name: Can view legal entity
-    content_type: 5
-    codename: view_legalentity
-- model: auth.permission
-  pk: 12
-  fields:
-    name: Can add project
-    content_type: 6
-    codename: add_project
-- model: auth.permission
-  pk: 13
-  fields:
-    name: Can change project
-    content_type: 6
-    codename: change_project
-- model: auth.permission
-  pk: 14
-  fields:
-    name: Can delete project
-    content_type: 6
-    codename: delete_project
-- model: auth.permission
-  pk: 15
-  fields:
-    name: Can view project
-    content_type: 6
-    codename: view_project
-- model: auth.permission
-  pk: 16
-  fields:
-    name: Can add report
-    content_type: 7
-    codename: add_report
-- model: auth.permission
-  pk: 17
-  fields:
-    name: Can change report
-    content_type: 7
-    codename: change_report
-- model: auth.permission
-  pk: 18
-  fields:
-    name: Can delete report
-    content_type: 7
-    codename: delete_report
-- model: auth.permission
-  pk: 19
-  fields:
-    name: Can view report
-    content_type: 7
-    codename: view_report
-- model: auth.permission
-  pk: 20
-  fields:
-    name: Can add user
-    content_type: 8
-    codename: add_user
-- model: auth.permission
-  pk: 21
-  fields:
-    name: Can change user
-    content_type: 8
-    codename: change_user
-- model: auth.permission
-  pk: 22
-  fields:
-    name: Can delete user
-    content_type: 8
-    codename: delete_user
-- model: auth.permission
-  pk: 23
-  fields:
-    name: Can view user
-    content_type: 8
-    codename: view_user
-- model: auth.permission
-  pk: 24
-  fields:
-    name: Can add home page
-    content_type: 9
-    codename: add_homepage
-- model: auth.permission
-  pk: 25
-  fields:
-    name: Can change home page
-    content_type: 9
-    codename: change_homepage
-- model: auth.permission
-  pk: 26
-  fields:
-    name: Can delete home page
-    content_type: 9
-    codename: delete_homepage
-- model: auth.permission
-  pk: 27
-  fields:
-    name: Can view home page
-    content_type: 9
-    codename: view_homepage
-- model: auth.permission
-  pk: 28
-  fields:
-    name: Can add list
-    content_type: 10
-    codename: add_list
-- model: auth.permission
-  pk: 29
-  fields:
-    name: Can change list
-    content_type: 10
-    codename: change_list
-- model: auth.permission
-  pk: 30
-  fields:
-    name: Can delete list
-    content_type: 10
-    codename: delete_list
-- model: auth.permission
-  pk: 31
-  fields:
-    name: Can view list
-    content_type: 10
-    codename: view_list
-- model: auth.permission
-  pk: 32
-  fields:
-    name: Can add log entry
-    content_type: 11
-    codename: add_logentry
-- model: auth.permission
-  pk: 33
-  fields:
-    name: Can change log entry
-    content_type: 11
-    codename: change_logentry
-- model: auth.permission
-  pk: 34
-  fields:
-    name: Can delete log entry
-    content_type: 11
-    codename: delete_logentry
-- model: auth.permission
-  pk: 35
-  fields:
-    name: Can view log entry
-    content_type: 11
-    codename: view_logentry
-- model: auth.permission
-  pk: 36
-  fields:
-    name: Can add permission
-    content_type: 12
-    codename: add_permission
-- model: auth.permission
-  pk: 37
-  fields:
-    name: Can change permission
-    content_type: 12
-    codename: change_permission
-- model: auth.permission
-  pk: 38
-  fields:
-    name: Can delete permission
-    content_type: 12
-    codename: delete_permission
-- model: auth.permission
-  pk: 39
-  fields:
-    name: Can view permission
-    content_type: 12
-    codename: view_permission
-- model: auth.permission
-  pk: 40
-  fields:
-    name: Can add group
-    content_type: 13
-    codename: add_group
-- model: auth.permission
-  pk: 41
-  fields:
-    name: Can change group
-    content_type: 13
-    codename: change_group
-- model: auth.permission
-  pk: 42
-  fields:
-    name: Can delete group
-    content_type: 13
-    codename: delete_group
-- model: auth.permission
-  pk: 43
-  fields:
-    name: Can view group
-    content_type: 13
-    codename: view_group
-- model: auth.permission
-  pk: 44
-  fields:
-    name: Can add content type
-    content_type: 14
-    codename: add_contenttype
-- model: auth.permission
-  pk: 45
-  fields:
-    name: Can change content type
-    content_type: 14
-    codename: change_contenttype
-- model: auth.permission
-  pk: 46
-  fields:
-    name: Can delete content type
-    content_type: 14
-    codename: delete_contenttype
-- model: auth.permission
-  pk: 47
-  fields:
-    name: Can view content type
-    content_type: 14
-    codename: view_contenttype
-- model: auth.permission
-  pk: 48
-  fields:
-    name: Can add session
-    content_type: 15
-    codename: add_session
-- model: auth.permission
-  pk: 49
-  fields:
-    name: Can change session
-    content_type: 15
-    codename: change_session
-- model: auth.permission
-  pk: 50
-  fields:
-    name: Can delete session
-    content_type: 15
-    codename: delete_session
-- model: auth.permission
-  pk: 51
-  fields:
-    name: Can view session
-    content_type: 15
-    codename: view_session
-- model: auth.permission
-  pk: 52
-  fields:
-    name: Can add site
-    content_type: 16
-    codename: add_site
-- model: auth.permission
-  pk: 53
-  fields:
-    name: Can change site
-    content_type: 16
-    codename: change_site
-- model: auth.permission
-  pk: 54
-  fields:
-    name: Can delete site
-    content_type: 16
-    codename: delete_site
-- model: auth.permission
-  pk: 55
-  fields:
-    name: Can view site
-    content_type: 16
-    codename: view_site
-- model: auth.permission
-  pk: 56
-  fields:
-    name: Can add email address
-    content_type: 17
-    codename: add_emailaddress
-- model: auth.permission
-  pk: 57
-  fields:
-    name: Can change email address
-    content_type: 17
-    codename: change_emailaddress
-- model: auth.permission
-  pk: 58
-  fields:
-    name: Can delete email address
-    content_type: 17
-    codename: delete_emailaddress
-- model: auth.permission
-  pk: 59
-  fields:
-    name: Can view email address
-    content_type: 17
-    codename: view_emailaddress
-- model: auth.permission
-  pk: 60
-  fields:
-    name: Can add email confirmation
-    content_type: 18
-    codename: add_emailconfirmation
-- model: auth.permission
-  pk: 61
-  fields:
-    name: Can change email confirmation
-    content_type: 18
-    codename: change_emailconfirmation
-- model: auth.permission
-  pk: 62
-  fields:
-    name: Can delete email confirmation
-    content_type: 18
-    codename: delete_emailconfirmation
-- model: auth.permission
-  pk: 63
-  fields:
-    name: Can view email confirmation
-    content_type: 18
-    codename: view_emailconfirmation
-- model: auth.permission
-  pk: 64
-  fields:
-    name: Can add social account
-    content_type: 19
-    codename: add_socialaccount
-- model: auth.permission
-  pk: 65
-  fields:
-    name: Can change social account
-    content_type: 19
-    codename: change_socialaccount
-- model: auth.permission
-  pk: 66
-  fields:
-    name: Can delete social account
-    content_type: 19
-    codename: delete_socialaccount
-- model: auth.permission
-  pk: 67
-  fields:
-    name: Can view social account
-    content_type: 19
-    codename: view_socialaccount
-- model: auth.permission
-  pk: 68
-  fields:
-    name: Can add social application
-    content_type: 20
-    codename: add_socialapp
-- model: auth.permission
-  pk: 69
-  fields:
-    name: Can change social application
-    content_type: 20
-    codename: change_socialapp
-- model: auth.permission
-  pk: 70
-  fields:
-    name: Can delete social application
-    content_type: 20
-    codename: delete_socialapp
-- model: auth.permission
-  pk: 71
-  fields:
-    name: Can view social application
-    content_type: 20
-    codename: view_socialapp
-- model: auth.permission
-  pk: 72
-  fields:
-    name: Can add social application token
-    content_type: 21
-    codename: add_socialtoken
-- model: auth.permission
-  pk: 73
-  fields:
-    name: Can change social application token
-    content_type: 21
-    codename: change_socialtoken
-- model: auth.permission
-  pk: 74
-  fields:
-    name: Can delete social application token
-    content_type: 21
-    codename: delete_socialtoken
-- model: auth.permission
-  pk: 75
-  fields:
-    name: Can view social application token
-    content_type: 21
-    codename: view_socialtoken
-- model: auth.permission
-  pk: 76
-  fields:
-    name: Can add form submission
-    content_type: 22
-    codename: add_formsubmission
-- model: auth.permission
-  pk: 77
-  fields:
-    name: Can change form submission
-    content_type: 22
-    codename: change_formsubmission
-- model: auth.permission
-  pk: 78
-  fields:
-    name: Can delete form submission
-    content_type: 22
-    codename: delete_formsubmission
-- model: auth.permission
-  pk: 79
-  fields:
-    name: Can view form submission
-    content_type: 22
-    codename: view_formsubmission
-- model: auth.permission
-  pk: 80
-  fields:
-    name: Can add redirect
-    content_type: 23
-    codename: add_redirect
-- model: auth.permission
-  pk: 81
-  fields:
-    name: Can change redirect
-    content_type: 23
-    codename: change_redirect
-- model: auth.permission
-  pk: 82
-  fields:
-    name: Can delete redirect
-    content_type: 23
-    codename: delete_redirect
-- model: auth.permission
-  pk: 83
-  fields:
-    name: Can view redirect
-    content_type: 23
-    codename: view_redirect
-- model: auth.permission
-  pk: 84
-  fields:
-    name: Can add embed
-    content_type: 24
-    codename: add_embed
-- model: auth.permission
-  pk: 85
-  fields:
-    name: Can change embed
-    content_type: 24
-    codename: change_embed
-- model: auth.permission
-  pk: 86
-  fields:
-    name: Can delete embed
-    content_type: 24
-    codename: delete_embed
-- model: auth.permission
-  pk: 87
-  fields:
-    name: Can view embed
-    content_type: 24
-    codename: view_embed
-- model: auth.permission
-  pk: 88
-  fields:
-    name: Can add user profile
-    content_type: 25
-    codename: add_userprofile
-- model: auth.permission
-  pk: 89
-  fields:
-    name: Can change user profile
-    content_type: 25
-    codename: change_userprofile
-- model: auth.permission
-  pk: 90
-  fields:
-    name: Can delete user profile
-    content_type: 25
-    codename: delete_userprofile
-- model: auth.permission
-  pk: 91
-  fields:
-    name: Can view user profile
-    content_type: 25
-    codename: view_userprofile
-- model: auth.permission
-  pk: 92
-  fields:
-    name: Can view document
-    content_type: 3
-    codename: view_document
-- model: auth.permission
-  pk: 93
-  fields:
-    name: Can view image
-    content_type: 4
-    codename: view_image
-- model: auth.permission
-  pk: 94
-  fields:
-    name: Can add rendition
-    content_type: 26
-    codename: add_rendition
-- model: auth.permission
-  pk: 95
-  fields:
-    name: Can change rendition
-    content_type: 26
-    codename: change_rendition
-- model: auth.permission
-  pk: 96
-  fields:
-    name: Can delete rendition
-    content_type: 26
-    codename: delete_rendition
-- model: auth.permission
-  pk: 97
-  fields:
-    name: Can view rendition
-    content_type: 26
-    codename: view_rendition
-- model: auth.permission
-  pk: 98
-  fields:
-    name: Can add query
-    content_type: 27
-    codename: add_query
-- model: auth.permission
-  pk: 99
-  fields:
-    name: Can change query
-    content_type: 27
-    codename: change_query
-- model: auth.permission
-  pk: 100
-  fields:
-    name: Can delete query
-    content_type: 27
-    codename: delete_query
-- model: auth.permission
-  pk: 101
-  fields:
-    name: Can view query
-    content_type: 27
-    codename: view_query
-- model: auth.permission
-  pk: 102
-  fields:
-    name: Can add Query Daily Hits
-    content_type: 28
-    codename: add_querydailyhits
-- model: auth.permission
-  pk: 103
-  fields:
-    name: Can change Query Daily Hits
-    content_type: 28
-    codename: change_querydailyhits
-- model: auth.permission
-  pk: 104
-  fields:
-    name: Can delete Query Daily Hits
-    content_type: 28
-    codename: delete_querydailyhits
-- model: auth.permission
-  pk: 105
-  fields:
-    name: Can view Query Daily Hits
-    content_type: 28
-    codename: view_querydailyhits
-- model: auth.permission
-  pk: 106
-  fields:
-    name: Can add page
-    content_type: 1
-    codename: add_page
-- model: auth.permission
-  pk: 107
-  fields:
-    name: Can change page
-    content_type: 1
-    codename: change_page
-- model: auth.permission
-  pk: 108
-  fields:
-    name: Can delete page
-    content_type: 1
-    codename: delete_page
-- model: auth.permission
-  pk: 109
-  fields:
-    name: Can view page
-    content_type: 1
-    codename: view_page
-- model: auth.permission
-  pk: 110
-  fields:
-    name: Can add group page permission
-    content_type: 29
-    codename: add_grouppagepermission
-- model: auth.permission
-  pk: 111
-  fields:
-    name: Can change group page permission
-    content_type: 29
-    codename: change_grouppagepermission
-- model: auth.permission
-  pk: 112
-  fields:
-    name: Can delete group page permission
-    content_type: 29
-    codename: delete_grouppagepermission
-- model: auth.permission
-  pk: 113
-  fields:
-    name: Can view group page permission
-    content_type: 29
-    codename: view_grouppagepermission
-- model: auth.permission
-  pk: 114
-  fields:
-    name: Can add page revision
-    content_type: 30
-    codename: add_pagerevision
-- model: auth.permission
-  pk: 115
-  fields:
-    name: Can change page revision
-    content_type: 30
-    codename: change_pagerevision
-- model: auth.permission
-  pk: 116
-  fields:
-    name: Can delete page revision
-    content_type: 30
-    codename: delete_pagerevision
-- model: auth.permission
-  pk: 117
-  fields:
-    name: Can view page revision
-    content_type: 30
-    codename: view_pagerevision
-- model: auth.permission
-  pk: 118
-  fields:
-    name: Can add page view restriction
-    content_type: 31
-    codename: add_pageviewrestriction
-- model: auth.permission
-  pk: 119
-  fields:
-    name: Can change page view restriction
-    content_type: 31
-    codename: change_pageviewrestriction
-- model: auth.permission
-  pk: 120
-  fields:
-    name: Can delete page view restriction
-    content_type: 31
-    codename: delete_pageviewrestriction
-- model: auth.permission
-  pk: 121
-  fields:
-    name: Can view page view restriction
-    content_type: 31
-    codename: view_pageviewrestriction
-- model: auth.permission
-  pk: 122
-  fields:
-    name: Can add site
-    content_type: 32
-    codename: add_site
-- model: auth.permission
-  pk: 123
-  fields:
-    name: Can change site
-    content_type: 32
-    codename: change_site
-- model: auth.permission
-  pk: 124
-  fields:
-    name: Can delete site
-    content_type: 32
-    codename: delete_site
-- model: auth.permission
-  pk: 125
-  fields:
-    name: Can view site
-    content_type: 32
-    codename: view_site
-- model: auth.permission
-  pk: 126
-  fields:
-    name: Can add collection
-    content_type: 33
-    codename: add_collection
-- model: auth.permission
-  pk: 127
-  fields:
-    name: Can change collection
-    content_type: 33
-    codename: change_collection
-- model: auth.permission
-  pk: 128
-  fields:
-    name: Can delete collection
-    content_type: 33
-    codename: delete_collection
-- model: auth.permission
-  pk: 129
-  fields:
-    name: Can view collection
-    content_type: 33
-    codename: view_collection
-- model: auth.permission
-  pk: 130
-  fields:
-    name: Can add group collection permission
-    content_type: 34
-    codename: add_groupcollectionpermission
-- model: auth.permission
-  pk: 131
-  fields:
-    name: Can change group collection permission
-    content_type: 34
-    codename: change_groupcollectionpermission
-- model: auth.permission
-  pk: 132
-  fields:
-    name: Can delete group collection permission
-    content_type: 34
-    codename: delete_groupcollectionpermission
-- model: auth.permission
-  pk: 133
-  fields:
-    name: Can view group collection permission
-    content_type: 34
-    codename: view_groupcollectionpermission
-- model: auth.permission
-  pk: 134
-  fields:
-    name: Can add collection view restriction
-    content_type: 35
-    codename: add_collectionviewrestriction
-- model: auth.permission
-  pk: 135
-  fields:
-    name: Can change collection view restriction
-    content_type: 35
-    codename: change_collectionviewrestriction
-- model: auth.permission
-  pk: 136
-  fields:
-    name: Can delete collection view restriction
-    content_type: 35
-    codename: delete_collectionviewrestriction
-- model: auth.permission
-  pk: 137
-  fields:
-    name: Can view collection view restriction
-    content_type: 35
-    codename: view_collectionviewrestriction
-- model: auth.permission
-  pk: 138
-  fields:
-    name: Can add Tag
-    content_type: 36
-    codename: add_tag
-- model: auth.permission
-  pk: 139
-  fields:
-    name: Can change Tag
-    content_type: 36
-    codename: change_tag
-- model: auth.permission
-  pk: 140
-  fields:
-    name: Can delete Tag
-    content_type: 36
-    codename: delete_tag
-- model: auth.permission
-  pk: 141
-  fields:
-    name: Can view Tag
-    content_type: 36
-    codename: view_tag
-- model: auth.permission
-  pk: 142
-  fields:
-    name: Can add Tagged Item
-    content_type: 37
-    codename: add_taggeditem
-- model: auth.permission
-  pk: 143
-  fields:
-    name: Can change Tagged Item
-    content_type: 37
-    codename: change_taggeditem
-- model: auth.permission
-  pk: 144
-  fields:
-    name: Can delete Tagged Item
-    content_type: 37
-    codename: delete_taggeditem
-- model: auth.permission
-  pk: 145
-  fields:
-    name: Can view Tagged Item
-    content_type: 37
-    codename: view_taggeditem
-- model: auth.permission
-  pk: 146
-  fields:
-    name: Can add vote
-    content_type: 38
-    codename: add_vote
-- model: auth.permission
-  pk: 147
-  fields:
-    name: Can change vote
-    content_type: 38
-    codename: change_vote
-- model: auth.permission
-  pk: 148
-  fields:
-    name: Can delete vote
-    content_type: 38
-    codename: delete_vote
-- model: auth.permission
-  pk: 149
-  fields:
-    name: Can view vote
-    content_type: 38
-    codename: view_vote
-- model: auth.permission
-  pk: 150
-  fields:
-    name: Can add money support
-    content_type: 39
-    codename: add_moneysupport
-- model: auth.permission
-  pk: 151
-  fields:
-    name: Can change money support
-    content_type: 39
-    codename: change_moneysupport
-- model: auth.permission
-  pk: 152
-  fields:
-    name: Can delete money support
-    content_type: 39
-    codename: delete_moneysupport
-- model: auth.permission
-  pk: 153
-  fields:
-    name: Can view money support
-    content_type: 39
-    codename: view_moneysupport
-- model: auth.permission
-  pk: 154
-  fields:
-    name: Can add time support
-    content_type: 40
-    codename: add_timesupport
-- model: auth.permission
-  pk: 155
-  fields:
-    name: Can change time support
-    content_type: 40
-    codename: change_timesupport
-- model: auth.permission
-  pk: 156
-  fields:
-    name: Can delete time support
-    content_type: 40
-    codename: delete_timesupport
-- model: auth.permission
-  pk: 157
-  fields:
-    name: Can view time support
-    content_type: 40
-    codename: view_timesupport
-- model: auth.permission
-  pk: 158
-  fields:
-    name: Can add terms and conditions
-    content_type: 41
-    codename: add_termsandconditions
-- model: auth.permission
-  pk: 159
-  fields:
-    name: Can change terms and conditions
-    content_type: 41
-    codename: change_termsandconditions
-- model: auth.permission
-  pk: 160
-  fields:
-    name: Can delete terms and conditions
-    content_type: 41
-    codename: delete_termsandconditions
-- model: auth.permission
-  pk: 161
-  fields:
-    name: Can view terms and conditions
-    content_type: 41
-    codename: view_termsandconditions
-- model: auth.permission
-  pk: 162
-  fields:
-    name: Can add announcement
-    content_type: 42
-    codename: add_announcement
-- model: auth.permission
-  pk: 163
-  fields:
-    name: Can change announcement
-    content_type: 42
-    codename: change_announcement
-- model: auth.permission
-  pk: 164
-  fields:
-    name: Can delete announcement
-    content_type: 42
-    codename: delete_announcement
-- model: auth.permission
-  pk: 165
-  fields:
-    name: Can view announcement
-    content_type: 42
-    codename: view_announcement
-- model: auth.permission
-  pk: 166
-  fields:
-    name: Can add time necessity
-    content_type: 43
-    codename: add_timenecessity
-- model: auth.permission
-  pk: 167
-  fields:
-    name: Can change time necessity
-    content_type: 43
-    codename: change_timenecessity
-- model: auth.permission
-  pk: 168
-  fields:
-    name: Can delete time necessity
-    content_type: 43
-    codename: delete_timenecessity
-- model: auth.permission
-  pk: 169
-  fields:
-    name: Can view time necessity
-    content_type: 43
-    codename: view_timenecessity
-- model: auth.permission
-  pk: 170
-  fields:
-    name: Can add money necessity
-    content_type: 44
-    codename: add_moneynecessity
-- model: auth.permission
-  pk: 171
-  fields:
-    name: Can change money necessity
-    content_type: 44
-    codename: change_moneynecessity
-- model: auth.permission
-  pk: 172
-  fields:
-    name: Can delete money necessity
-    content_type: 44
-    codename: delete_moneynecessity
-- model: auth.permission
-  pk: 173
-  fields:
-    name: Can view money necessity
-    content_type: 44
-    codename: view_moneynecessity
-- model: auth.permission
-  pk: 174
-  fields:
-    name: Can add thing necessity
-    content_type: 44
-    codename: add_thingnecessity
-- model: auth.permission
-  pk: 175
-  fields:
-    name: Can change thing necessity
-    content_type: 44
-    codename: change_thingnecessity
-- model: auth.permission
-  pk: 176
-  fields:
-    name: Can delete thing necessity
-    content_type: 44
-    codename: delete_thingnecessity
-- model: auth.permission
-  pk: 177
-  fields:
-    name: Can view thing necessity
-    content_type: 44
-    codename: view_thingnecessity
-- model: auth.permission
-  pk: 178
-  fields:
-    name: Can add thing support
-    content_type: 45
-    codename: add_thingsupport
-- model: auth.permission
-  pk: 179
-  fields:
-    name: Can change thing support
-    content_type: 45
-    codename: change_thingsupport
-- model: auth.permission
-  pk: 180
-  fields:
-    name: Can delete thing support
-    content_type: 45
-    codename: delete_thingsupport
-- model: auth.permission
-  pk: 181
-  fields:
-    name: Can view thing support
-    content_type: 45
-    codename: view_thingsupport
-- model: auth.group
-  pk: 1
-  fields:
-    name: Moderators
-    permissions:
-    - 1
-    - 2
-    - 3
-    - 4
-    - 5
-    - 6
-    - 7
-- model: auth.group
-  pk: 2
-  fields:
-    name: Editors
-    permissions:
-    - 1
-    - 2
-    - 3
-    - 4
-    - 5
-    - 6
-    - 7
-- model: sessions.session
-  pk: 4912a413bfe80onaht5jri5benk527tj
-  fields:
-    session_data: ZjNhOWY3MmRhNDEzNTAyZDc5Y2RiNTE3YzdlNjBlZjE2ZTljZTYyYjp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiYjEyMjk4MTdmNGUxMjE1MzM3MDZiYWQyMzI1ZTcwYTNlNmM4YjZmZiIsIl9zZXNzaW9uX2V4cGlyeSI6MTIwOTYwMCwiX2xhbmd1YWdlIjoiYmcifQ==
-    expire_date: 2020-01-01 11:32:12.083242+00:00
-- model: sessions.session
-  pk: aw1f40wszd92169cuwvpevtodrnu3ks9
-  fields:
-    session_data: NzkxY2Y3MDRhNWM5NmFmMDU3MDU3ZTk4ZWM5MjQyOWY0MGVhOGI4ZDp7Il9hdXRoX3VzZXJfaWQiOiIzIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiMjRiNDAxYmI5MWY0ZWI2Njc0ZDdkOWM1ZTZlZjhlYmQ1ZThiOGM2MSIsIl9zZXNzaW9uX2V4cGlyeSI6MTIwOTYwMCwiX2xhbmd1YWdlIjoiYmcifQ==
-    expire_date: 2019-11-26 07:32:44.666283+00:00
-- model: sessions.session
-  pk: bm8couvwrf0czl3eeleznhai5qnbquye
-  fields:
-    session_data: NTg1OTNlMWFlYmNlNDI4NjA3ZTU5YjU0OWE4NDIwMmUwN2QyMDU4ZDp7Il9hdXRoX3VzZXJfaWQiOiIzIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiMjRiNDAxYmI5MWY0ZWI2Njc0ZDdkOWM1ZTZlZjhlYmQ1ZThiOGM2MSIsIl9zZXNzaW9uX2V4cGlyeSI6MTIwOTYwMH0=
-    expire_date: 2019-11-20 12:21:28.353911+00:00
-- model: sessions.session
-  pk: ccegdrfmpf5rgqk1f6onav61oev0asjl
-  fields:
-    session_data: ZjQyZTE3ZGRkM2E2YjE5MDQ2YTcyODU5MTU3ZDQ1MjliNjUyZmI3ODp7Il9sYW5ndWFnZSI6ImJnIiwiX2F1dGhfdXNlcl9pZCI6IjIiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJhbGxhdXRoLmFjY291bnQuYXV0aF9iYWNrZW5kcy5BdXRoZW50aWNhdGlvbkJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJiMTIyOTgxN2Y0ZTEyMTUzMzcwNmJhZDIzMjVlNzBhM2U2YzhiNmZmIiwiX3Nlc3Npb25fZXhwaXJ5IjoxMjA5NjAwfQ==
-    expire_date: 2019-12-16 17:05:56.099159+00:00
-- model: sessions.session
-  pk: shnik52irnsaj3x1g47wk1ohp60nfvn7
-  fields:
-    session_data: YTZiNjc1NmE1MTkwMWJjMDQ1OTk2ODI3M2Y1NGNmYTIzZWQwNzQxODp7Il9sYW5ndWFnZSI6ImJnIiwiX2F1dGhfdXNlcl9pZCI6IjMiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJhbGxhdXRoLmFjY291bnQuYXV0aF9iYWNrZW5kcy5BdXRoZW50aWNhdGlvbkJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyNGI0MDFiYjkxZjRlYjY2NzRkN2Q5YzVlNmVmOGViZDVlOGI4YzYxIiwiX3Nlc3Npb25fZXhwaXJ5IjoxMjA5NjAwfQ==
-    expire_date: 2019-11-24 08:52:21.464185+00:00
-- model: sessions.session
-  pk: v4w16p0dac0but4klt17gpnz86nve6u6
-  fields:
-    session_data: NTg1OTNlMWFlYmNlNDI4NjA3ZTU5YjU0OWE4NDIwMmUwN2QyMDU4ZDp7Il9hdXRoX3VzZXJfaWQiOiIzIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiMjRiNDAxYmI5MWY0ZWI2Njc0ZDdkOWM1ZTZlZjhlYmQ1ZThiOGM2MSIsIl9zZXNzaW9uX2V4cGlyeSI6MTIwOTYwMH0=
-    expire_date: 2019-11-15 09:14:43.840173+00:00
-- model: sessions.session
-  pk: y2a3tmzrtedwinwtv94pl8vtwhyarxux
-  fields:
-    session_data: ZTE4MDAzMDVjZTllYmI4ZjUxMmJiYTk2NTBmMzYwYzRmYzdkYjc4Mzp7Il9sYW5ndWFnZSI6ImJnIiwiX2F1dGhfdXNlcl9pZCI6IjIiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJhbGxhdXRoLmFjY291bnQuYXV0aF9iYWNrZW5kcy5BdXRoZW50aWNhdGlvbkJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJiMTIyOTgxN2Y0ZTEyMTUzMzcwNmJhZDIzMjVlNzBhM2U2YzhiNmZmIiwiX3Nlc3Npb25fZXhwaXJ5IjowfQ==
-    expire_date: 2019-12-17 07:43:40.580280+00:00
-- model: sites.site
-  pk: 1
-  fields:
-    domain: horodeya.org
-    name: "\u0425\u043E\u0440\u043E\u0434\u0435\u044F"
-- model: wagtailcore.site
-  pk: 1
-  fields:
-    hostname: localhost
-    port: 80
-    site_name: null
-    root_page: 3
-    is_default_site: true
-- model: wagtailcore.grouppagepermission
-  pk: 1
-  fields:
-    group: 1
-    page: 1
-    permission_type: add
-- model: wagtailcore.grouppagepermission
-  pk: 2
-  fields:
-    group: 1
-    page: 1
-    permission_type: edit
-- model: wagtailcore.grouppagepermission
-  pk: 3
-  fields:
-    group: 1
-    page: 1
-    permission_type: publish
-- model: wagtailcore.grouppagepermission
-  pk: 4
-  fields:
-    group: 2
-    page: 1
-    permission_type: add
-- model: wagtailcore.grouppagepermission
-  pk: 5
-  fields:
-    group: 2
-    page: 1
-    permission_type: edit
-- model: wagtailcore.grouppagepermission
-  pk: 6
-  fields:
-    group: 1
-    page: 1
-    permission_type: lock
-- model: wagtailcore.collection
-  pk: 1
-  fields:
-    path: '0001'
-    depth: 1
-    numchild: 0
-    name: Root
-- model: wagtailcore.groupcollectionpermission
-  pk: 1
-  fields:
-    group: 1
-    collection: 1
-    permission: 2
-- model: wagtailcore.groupcollectionpermission
-  pk: 2
-  fields:
-    group: 2
-    collection: 1
-    permission: 2
-- model: wagtailcore.groupcollectionpermission
-  pk: 3
-  fields:
-    group: 1
-    collection: 1
-    permission: 3
-- model: wagtailcore.groupcollectionpermission
-  pk: 4
-  fields:
-    group: 2
-    collection: 1
-    permission: 3
-- model: wagtailcore.groupcollectionpermission
-  pk: 5
-  fields:
-    group: 1
-    collection: 1
-    permission: 5
-- model: wagtailcore.groupcollectionpermission
-  pk: 6
-  fields:
-    group: 2
-    collection: 1
-    permission: 5
-- model: wagtailcore.groupcollectionpermission
-  pk: 7
-  fields:
-    group: 1
-    collection: 1
-    permission: 6
-- model: wagtailcore.groupcollectionpermission
-  pk: 8
-  fields:
-    group: 2
-    collection: 1
-    permission: 6
-- model: vote.vote
-  pk: 24
-  fields:
-    user_id: 2
-    content_type: 7
-    object_id: 2
-    action: 1
-    create_at: 2019-10-31 15:23:21.447288+00:00
-- model: vote.vote
-  pk: 26
-  fields:
-    user_id: 2
-    content_type: 7
-    object_id: 4
-    action: 0
-    create_at: 2019-10-31 15:23:39.172441+00:00
-- model: vote.vote
-  pk: 27
-  fields:
-    user_id: 2
-    content_type: 7
-    object_id: 14
-    action: 0
-    create_at: 2019-12-03 07:51:40.448547+00:00
-- model: projects.user
-  pk: 2
-  fields:
-    password: pbkdf2_sha256$150000$vmrqsz3fTRZD$oxWYzS5XXK9w/P/iy7ot9cBR9bYqUqD3Ef08G56/xYg=
-    last_login: 2019-12-18 11:32:01.789122+00:00
-    is_superuser: true
-    username: alek
-    first_name: "\u0410\u043B\u0435\u043A\u0441\u0430\u043D\u0434\u044A\u0440"
-    last_name: "\u041A\u043E\u0434\u0436\u0430\u0431\u0430\u0448\u0435\u0432"
-    email: akodzhabashev@gmail.com
-    is_staff: true
-    is_active: true
-    date_joined: 2019-10-27 11:32:15.306572+00:00
-    bal: 20
-    groups: []
-    user_permissions: []
-    legal_entities:
-    - 1
-    - 4
-    - 5
-- model: projects.user
-  pk: 3
-  fields:
-    password: pbkdf2_sha256$150000$KhrdUKwj1Nw1$ch1jEw2znPIqjBjgEaUY8uX1LtF1uBF+9A7nIveijeg=
-    last_login: 2019-11-12 07:32:40.621512+00:00
-    is_superuser: false
-    username: xilunas
-    first_name: "\u0410\u043B\u0435\u043A"
-    last_name: "\u041A\u043E\u0434"
-    email: xilunas@gmail.com
-    is_staff: false
-    is_active: true
-    date_joined: 2019-10-28 09:58:48.949762+00:00
-    bal: 20
-    groups: []
-    user_permissions: []
-    legal_entities:
-    - 1
-    - 4
-- model: projects.legalentity
-  pk: 1
-  fields:
-    created_at: 2019-10-27 12:12:33.667266+00:00
-    updated_at: 2019-11-03 06:28:29.684740+00:00
-    name: "\u0417\u0435\u043B\u0435\u043D"
-    text: ''
-    bulstat: '12121314141'
-    email: akodzhabashev@gmail.com
-    phone: '212131456641'
-    admin: 2
-    payment: "IBAN: xxxxxxxxxxxxxxxxxx\r\n\u0418\u043C\u0435: \u0410\u043B\u0435\u043A\u043E
-      \u041A\u0430\u0440\u043B\u043E\u0432\u0441\u043A\u0438"
-    bal: 20
-- model: projects.legalentity
-  pk: 4
-  fields:
-    created_at: 2019-10-28 08:51:48.476288+00:00
-    updated_at: 2019-10-28 08:55:48.188412+00:00
-    name: "\u041F\u043B\u0430\u043C \u0415\u043D\u0435\u0440\u0434\u0436\u0438"
-    text: ''
-    bulstat: '1313131313'
-    email: akodzhabashev@gmail.com
-    phone: '1231213131'
-    admin: 2
-    payment: ''
-    bal: 20
-- model: projects.legalentity
-  pk: 5
-  fields:
-    created_at: 2019-11-09 14:13:11.124029+00:00
-    updated_at: 2019-11-09 14:13:11.124038+00:00
-    name: "\u0420\u0435\u0437\u0438\u0434\u0435\u043D\u0446\u0438\u044F \u0411\u0430\u0431\u0430"
-    text: ''
-    bulstat: '212321321321'
-    email: rezidencia-baba@gmail.com
-    phone: '8311431431'
-    admin: 2
-    payment: 'IBAN: feafeafeafeafa'
-    bal: 20
-- model: projects.legalentity
-  pk: 6
-  fields:
-    created_at: 2019-11-10 08:45:48.129983+00:00
-    updated_at: 2019-11-10 08:45:48.129992+00:00
-    name: "\u0410\u043B\u0435\u043A"
-    text: ''
-    bulstat: '930131'
-    email: akodzhabashev@gmail.com
-    phone: '93013980183'
-    admin: 3
-    payment: "\u043D\u044F\u043C\u0430"
-    bal: 20
 - model: home.homepage
   pk: 3
   fields:
@@ -5723,6 +4397,46 @@
     object_repr: Announcement object (4)
     action_flag: 2
     change_message: '[{"changed": {"fields": ["text"]}}]'
+- model: sessions.session
+  pk: 4912a413bfe80onaht5jri5benk527tj
+  fields:
+    session_data: ZjNhOWY3MmRhNDEzNTAyZDc5Y2RiNTE3YzdlNjBlZjE2ZTljZTYyYjp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiYjEyMjk4MTdmNGUxMjE1MzM3MDZiYWQyMzI1ZTcwYTNlNmM4YjZmZiIsIl9zZXNzaW9uX2V4cGlyeSI6MTIwOTYwMCwiX2xhbmd1YWdlIjoiYmcifQ==
+    expire_date: 2020-01-01 11:32:12.083242+00:00
+- model: sessions.session
+  pk: aw1f40wszd92169cuwvpevtodrnu3ks9
+  fields:
+    session_data: NzkxY2Y3MDRhNWM5NmFmMDU3MDU3ZTk4ZWM5MjQyOWY0MGVhOGI4ZDp7Il9hdXRoX3VzZXJfaWQiOiIzIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiMjRiNDAxYmI5MWY0ZWI2Njc0ZDdkOWM1ZTZlZjhlYmQ1ZThiOGM2MSIsIl9zZXNzaW9uX2V4cGlyeSI6MTIwOTYwMCwiX2xhbmd1YWdlIjoiYmcifQ==
+    expire_date: 2019-11-26 07:32:44.666283+00:00
+- model: sessions.session
+  pk: bm8couvwrf0czl3eeleznhai5qnbquye
+  fields:
+    session_data: NTg1OTNlMWFlYmNlNDI4NjA3ZTU5YjU0OWE4NDIwMmUwN2QyMDU4ZDp7Il9hdXRoX3VzZXJfaWQiOiIzIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiMjRiNDAxYmI5MWY0ZWI2Njc0ZDdkOWM1ZTZlZjhlYmQ1ZThiOGM2MSIsIl9zZXNzaW9uX2V4cGlyeSI6MTIwOTYwMH0=
+    expire_date: 2019-11-20 12:21:28.353911+00:00
+- model: sessions.session
+  pk: ccegdrfmpf5rgqk1f6onav61oev0asjl
+  fields:
+    session_data: ZjQyZTE3ZGRkM2E2YjE5MDQ2YTcyODU5MTU3ZDQ1MjliNjUyZmI3ODp7Il9sYW5ndWFnZSI6ImJnIiwiX2F1dGhfdXNlcl9pZCI6IjIiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJhbGxhdXRoLmFjY291bnQuYXV0aF9iYWNrZW5kcy5BdXRoZW50aWNhdGlvbkJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJiMTIyOTgxN2Y0ZTEyMTUzMzcwNmJhZDIzMjVlNzBhM2U2YzhiNmZmIiwiX3Nlc3Npb25fZXhwaXJ5IjoxMjA5NjAwfQ==
+    expire_date: 2019-12-16 17:05:56.099159+00:00
+- model: sessions.session
+  pk: shnik52irnsaj3x1g47wk1ohp60nfvn7
+  fields:
+    session_data: YTZiNjc1NmE1MTkwMWJjMDQ1OTk2ODI3M2Y1NGNmYTIzZWQwNzQxODp7Il9sYW5ndWFnZSI6ImJnIiwiX2F1dGhfdXNlcl9pZCI6IjMiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJhbGxhdXRoLmFjY291bnQuYXV0aF9iYWNrZW5kcy5BdXRoZW50aWNhdGlvbkJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyNGI0MDFiYjkxZjRlYjY2NzRkN2Q5YzVlNmVmOGViZDVlOGI4YzYxIiwiX3Nlc3Npb25fZXhwaXJ5IjoxMjA5NjAwfQ==
+    expire_date: 2019-11-24 08:52:21.464185+00:00
+- model: sessions.session
+  pk: v4w16p0dac0but4klt17gpnz86nve6u6
+  fields:
+    session_data: NTg1OTNlMWFlYmNlNDI4NjA3ZTU5YjU0OWE4NDIwMmUwN2QyMDU4ZDp7Il9hdXRoX3VzZXJfaWQiOiIzIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiMjRiNDAxYmI5MWY0ZWI2Njc0ZDdkOWM1ZTZlZjhlYmQ1ZThiOGM2MSIsIl9zZXNzaW9uX2V4cGlyeSI6MTIwOTYwMH0=
+    expire_date: 2019-11-15 09:14:43.840173+00:00
+- model: sessions.session
+  pk: y2a3tmzrtedwinwtv94pl8vtwhyarxux
+  fields:
+    session_data: ZTE4MDAzMDVjZTllYmI4ZjUxMmJiYTk2NTBmMzYwYzRmYzdkYjc4Mzp7Il9sYW5ndWFnZSI6ImJnIiwiX2F1dGhfdXNlcl9pZCI6IjIiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJhbGxhdXRoLmFjY291bnQuYXV0aF9iYWNrZW5kcy5BdXRoZW50aWNhdGlvbkJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJiMTIyOTgxN2Y0ZTEyMTUzMzcwNmJhZDIzMjVlNzBhM2U2YzhiNmZmIiwiX3Nlc3Npb25fZXhwaXJ5IjowfQ==
+    expire_date: 2019-12-17 07:43:40.580280+00:00
+- model: sites.site
+  pk: 1
+  fields:
+    domain: horodeya.org
+    name: "\u0425\u043E\u0440\u043E\u0434\u0435\u044F"
 - model: account.emailaddress
   pk: 1
   fields:
@@ -5737,6 +4451,14 @@
     email: xilunas@gmail.com
     verified: true
     primary: true
+- model: wagtailcore.site
+  pk: 1
+  fields:
+    hostname: localhost
+    port: 80
+    site_name: null
+    root_page: 3
+    is_default_site: true
 - model: wagtailcore.page
   pk: 1
   fields:
@@ -11027,3 +9749,171 @@
       <i>2019 \u2013 \u0412\u0441\u0438\u0447\u043a\u0438 \u043f\u0440\u0430\u0432\u0430
       \u0437\u0430\u043f\u0430\u0437\u0435\u043d\u0438!</i></p>"}'
     approved_go_live_at: null
+- model: wagtailcore.grouppagepermission
+  pk: 1
+  fields:
+    group: 1
+    page: 1
+    permission_type: add
+- model: wagtailcore.grouppagepermission
+  pk: 2
+  fields:
+    group: 1
+    page: 1
+    permission_type: edit
+- model: wagtailcore.grouppagepermission
+  pk: 3
+  fields:
+    group: 1
+    page: 1
+    permission_type: publish
+- model: wagtailcore.grouppagepermission
+  pk: 4
+  fields:
+    group: 2
+    page: 1
+    permission_type: add
+- model: wagtailcore.grouppagepermission
+  pk: 5
+  fields:
+    group: 2
+    page: 1
+    permission_type: edit
+- model: wagtailcore.grouppagepermission
+  pk: 6
+  fields:
+    group: 1
+    page: 1
+    permission_type: lock
+- model: wagtailcore.collection
+  pk: 1
+  fields:
+    path: '0001'
+    depth: 1
+    numchild: 0
+    name: Root
+- model: wagtailcore.groupcollectionpermission
+  pk: 1
+  fields:
+    group: 1
+    collection: 1
+    permission: 2
+- model: wagtailcore.groupcollectionpermission
+  pk: 2
+  fields:
+    group: 2
+    collection: 1
+    permission: 2
+- model: wagtailcore.groupcollectionpermission
+  pk: 3
+  fields:
+    group: 1
+    collection: 1
+    permission: 3
+- model: wagtailcore.groupcollectionpermission
+  pk: 4
+  fields:
+    group: 2
+    collection: 1
+    permission: 3
+- model: wagtailcore.groupcollectionpermission
+  pk: 5
+  fields:
+    group: 1
+    collection: 1
+    permission: 5
+- model: wagtailcore.groupcollectionpermission
+  pk: 6
+  fields:
+    group: 2
+    collection: 1
+    permission: 5
+- model: wagtailcore.groupcollectionpermission
+  pk: 7
+  fields:
+    group: 1
+    collection: 1
+    permission: 6
+- model: wagtailcore.groupcollectionpermission
+  pk: 8
+  fields:
+    group: 2
+    collection: 1
+    permission: 6
+- model: vote.vote
+  pk: 24
+  fields:
+    user_id: 2
+    content_type: 7
+    object_id: 2
+    action: 1
+    create_at: 2019-10-31 15:23:21.447288+00:00
+- model: vote.vote
+  pk: 26
+  fields:
+    user_id: 2
+    content_type: 7
+    object_id: 4
+    action: 0
+    create_at: 2019-10-31 15:23:39.172441+00:00
+- model: vote.vote
+  pk: 27
+  fields:
+    user_id: 2
+    content_type: 7
+    object_id: 14
+    action: 0
+    create_at: 2019-12-03 07:51:40.448547+00:00
+- model: projects.legalentity
+  pk: 1
+  fields:
+    created_at: 2019-10-27 12:12:33.667266+00:00
+    updated_at: 2019-11-03 06:28:29.684740+00:00
+    name: "\u0417\u0435\u043B\u0435\u043D"
+    text: ''
+    bulstat: '12121314141'
+    email: akodzhabashev@gmail.com
+    phone: '212131456641'
+    admin: 2
+    payment: "IBAN: xxxxxxxxxxxxxxxxxx\r\n\u0418\u043C\u0435: \u0410\u043B\u0435\u043A\u043E
+      \u041A\u0430\u0440\u043B\u043E\u0432\u0441\u043A\u0438"
+    bal: 20
+- model: projects.legalentity
+  pk: 4
+  fields:
+    created_at: 2019-10-28 08:51:48.476288+00:00
+    updated_at: 2019-10-28 08:55:48.188412+00:00
+    name: "\u041F\u043B\u0430\u043C \u0415\u043D\u0435\u0440\u0434\u0436\u0438"
+    text: ''
+    bulstat: '1313131313'
+    email: akodzhabashev@gmail.com
+    phone: '1231213131'
+    admin: 2
+    payment: ''
+    bal: 20
+- model: projects.legalentity
+  pk: 5
+  fields:
+    created_at: 2019-11-09 14:13:11.124029+00:00
+    updated_at: 2019-11-09 14:13:11.124038+00:00
+    name: "\u0420\u0435\u0437\u0438\u0434\u0435\u043D\u0446\u0438\u044F \u0411\u0430\u0431\u0430"
+    text: ''
+    bulstat: '212321321321'
+    email: rezidencia-baba@gmail.com
+    phone: '8311431431'
+    admin: 2
+    payment: 'IBAN: feafeafeafeafa'
+    bal: 20
+- model: projects.legalentity
+  pk: 6
+  fields:
+    created_at: 2019-11-10 08:45:48.129983+00:00
+    updated_at: 2019-11-10 08:45:48.129992+00:00
+    name: "\u0410\u043B\u0435\u043A"
+    text: ''
+    bulstat: '930131'
+    email: akodzhabashev@gmail.com
+    phone: '93013980183'
+    admin: 3
+    payment: "\u043D\u044F\u043C\u0430"
+    bal: 20
