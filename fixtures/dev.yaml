@@ -470,310 +470,6 @@
     price: 1000
     count: 5
     fulfilled: 0
-- model: contenttypes.contenttype
-  pk: 1
-  fields:
-    app_label: wagtailcore
-    model: page
-- model: contenttypes.contenttype
-  pk: 2
-  fields:
-    app_label: wagtailadmin
-    model: admin
-- model: contenttypes.contenttype
-  pk: 3
-  fields:
-    app_label: wagtaildocs
-    model: document
-- model: contenttypes.contenttype
-  pk: 4
-  fields:
-    app_label: wagtailimages
-    model: image
-- model: contenttypes.contenttype
-  pk: 5
-  fields:
-    app_label: projects
-    model: legalentity
-- model: contenttypes.contenttype
-  pk: 6
-  fields:
-    app_label: projects
-    model: project
-- model: contenttypes.contenttype
-  pk: 7
-  fields:
-    app_label: projects
-    model: report
-- model: contenttypes.contenttype
-  pk: 8
-  fields:
-    app_label: projects
-    model: user
-- model: contenttypes.contenttype
-  pk: 9
-  fields:
-    app_label: home
-    model: homepage
-- model: contenttypes.contenttype
-  pk: 10
-  fields:
-    app_label: home
-    model: list
-- model: contenttypes.contenttype
-  pk: 11
-  fields:
-    app_label: admin
-    model: logentry
-- model: contenttypes.contenttype
-  pk: 12
-  fields:
-    app_label: auth
-    model: permission
-- model: contenttypes.contenttype
-  pk: 13
-  fields:
-    app_label: auth
-    model: group
-- model: contenttypes.contenttype
-  pk: 14
-  fields:
-    app_label: contenttypes
-    model: contenttype
-- model: contenttypes.contenttype
-  pk: 15
-  fields:
-    app_label: sessions
-    model: session
-- model: contenttypes.contenttype
-  pk: 16
-  fields:
-    app_label: sites
-    model: site
-- model: contenttypes.contenttype
-  pk: 17
-  fields:
-    app_label: account
-    model: emailaddress
-- model: contenttypes.contenttype
-  pk: 18
-  fields:
-    app_label: account
-    model: emailconfirmation
-- model: contenttypes.contenttype
-  pk: 19
-  fields:
-    app_label: socialaccount
-    model: socialaccount
-- model: contenttypes.contenttype
-  pk: 20
-  fields:
-    app_label: socialaccount
-    model: socialapp
-- model: contenttypes.contenttype
-  pk: 21
-  fields:
-    app_label: socialaccount
-    model: socialtoken
-- model: contenttypes.contenttype
-  pk: 22
-  fields:
-    app_label: wagtailforms
-    model: formsubmission
-- model: contenttypes.contenttype
-  pk: 23
-  fields:
-    app_label: wagtailredirects
-    model: redirect
-- model: contenttypes.contenttype
-  pk: 24
-  fields:
-    app_label: wagtailembeds
-    model: embed
-- model: contenttypes.contenttype
-  pk: 25
-  fields:
-    app_label: wagtailusers
-    model: userprofile
-- model: contenttypes.contenttype
-  pk: 26
-  fields:
-    app_label: wagtailimages
-    model: rendition
-- model: contenttypes.contenttype
-  pk: 27
-  fields:
-    app_label: wagtailsearch
-    model: query
-- model: contenttypes.contenttype
-  pk: 28
-  fields:
-    app_label: wagtailsearch
-    model: querydailyhits
-- model: contenttypes.contenttype
-  pk: 29
-  fields:
-    app_label: wagtailcore
-    model: grouppagepermission
-- model: contenttypes.contenttype
-  pk: 30
-  fields:
-    app_label: wagtailcore
-    model: pagerevision
-- model: contenttypes.contenttype
-  pk: 31
-  fields:
-    app_label: wagtailcore
-    model: pageviewrestriction
-- model: contenttypes.contenttype
-  pk: 32
-  fields:
-    app_label: wagtailcore
-    model: site
-- model: contenttypes.contenttype
-  pk: 33
-  fields:
-    app_label: wagtailcore
-    model: collection
-- model: contenttypes.contenttype
-  pk: 34
-  fields:
-    app_label: wagtailcore
-    model: groupcollectionpermission
-- model: contenttypes.contenttype
-  pk: 35
-  fields:
-    app_label: wagtailcore
-    model: collectionviewrestriction
-- model: contenttypes.contenttype
-  pk: 36
-  fields:
-    app_label: taggit
-    model: tag
-- model: contenttypes.contenttype
-  pk: 37
-  fields:
-    app_label: taggit
-    model: taggeditem
-- model: contenttypes.contenttype
-  pk: 38
-  fields:
-    app_label: vote
-    model: vote
-- model: contenttypes.contenttype
-  pk: 39
-  fields:
-    app_label: projects
-    model: moneysupport
-- model: contenttypes.contenttype
-  pk: 40
-  fields:
-    app_label: projects
-    model: timesupport
-- model: contenttypes.contenttype
-  pk: 41
-  fields:
-    app_label: home
-    model: termsandconditions
-- model: contenttypes.contenttype
-  pk: 42
-  fields:
-    app_label: projects
-    model: announcement
-- model: contenttypes.contenttype
-  pk: 43
-  fields:
-    app_label: projects
-    model: timenecessity
-- model: contenttypes.contenttype
-  pk: 44
-  fields:
-    app_label: projects
-    model: thingnecessity
-- model: contenttypes.contenttype
-  pk: 45
-  fields:
-    app_label: projects
-    model: thingsupport
-- model: sessions.session
-  pk: 4912a413bfe80onaht5jri5benk527tj
-  fields:
-    session_data: ZjNhOWY3MmRhNDEzNTAyZDc5Y2RiNTE3YzdlNjBlZjE2ZTljZTYyYjp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiYjEyMjk4MTdmNGUxMjE1MzM3MDZiYWQyMzI1ZTcwYTNlNmM4YjZmZiIsIl9zZXNzaW9uX2V4cGlyeSI6MTIwOTYwMCwiX2xhbmd1YWdlIjoiYmcifQ==
-    expire_date: 2020-01-01 11:32:12.083242+00:00
-- model: sessions.session
-  pk: aw1f40wszd92169cuwvpevtodrnu3ks9
-  fields:
-    session_data: NzkxY2Y3MDRhNWM5NmFmMDU3MDU3ZTk4ZWM5MjQyOWY0MGVhOGI4ZDp7Il9hdXRoX3VzZXJfaWQiOiIzIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiMjRiNDAxYmI5MWY0ZWI2Njc0ZDdkOWM1ZTZlZjhlYmQ1ZThiOGM2MSIsIl9zZXNzaW9uX2V4cGlyeSI6MTIwOTYwMCwiX2xhbmd1YWdlIjoiYmcifQ==
-    expire_date: 2019-11-26 07:32:44.666283+00:00
-- model: sessions.session
-  pk: bm8couvwrf0czl3eeleznhai5qnbquye
-  fields:
-    session_data: NTg1OTNlMWFlYmNlNDI4NjA3ZTU5YjU0OWE4NDIwMmUwN2QyMDU4ZDp7Il9hdXRoX3VzZXJfaWQiOiIzIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiMjRiNDAxYmI5MWY0ZWI2Njc0ZDdkOWM1ZTZlZjhlYmQ1ZThiOGM2MSIsIl9zZXNzaW9uX2V4cGlyeSI6MTIwOTYwMH0=
-    expire_date: 2019-11-20 12:21:28.353911+00:00
-- model: sessions.session
-  pk: ccegdrfmpf5rgqk1f6onav61oev0asjl
-  fields:
-    session_data: ZjQyZTE3ZGRkM2E2YjE5MDQ2YTcyODU5MTU3ZDQ1MjliNjUyZmI3ODp7Il9sYW5ndWFnZSI6ImJnIiwiX2F1dGhfdXNlcl9pZCI6IjIiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJhbGxhdXRoLmFjY291bnQuYXV0aF9iYWNrZW5kcy5BdXRoZW50aWNhdGlvbkJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJiMTIyOTgxN2Y0ZTEyMTUzMzcwNmJhZDIzMjVlNzBhM2U2YzhiNmZmIiwiX3Nlc3Npb25fZXhwaXJ5IjoxMjA5NjAwfQ==
-    expire_date: 2019-12-16 17:05:56.099159+00:00
-- model: sessions.session
-  pk: shnik52irnsaj3x1g47wk1ohp60nfvn7
-  fields:
-    session_data: YTZiNjc1NmE1MTkwMWJjMDQ1OTk2ODI3M2Y1NGNmYTIzZWQwNzQxODp7Il9sYW5ndWFnZSI6ImJnIiwiX2F1dGhfdXNlcl9pZCI6IjMiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJhbGxhdXRoLmFjY291bnQuYXV0aF9iYWNrZW5kcy5BdXRoZW50aWNhdGlvbkJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyNGI0MDFiYjkxZjRlYjY2NzRkN2Q5YzVlNmVmOGViZDVlOGI4YzYxIiwiX3Nlc3Npb25fZXhwaXJ5IjoxMjA5NjAwfQ==
-    expire_date: 2019-11-24 08:52:21.464185+00:00
-- model: sessions.session
-  pk: v4w16p0dac0but4klt17gpnz86nve6u6
-  fields:
-    session_data: NTg1OTNlMWFlYmNlNDI4NjA3ZTU5YjU0OWE4NDIwMmUwN2QyMDU4ZDp7Il9hdXRoX3VzZXJfaWQiOiIzIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiMjRiNDAxYmI5MWY0ZWI2Njc0ZDdkOWM1ZTZlZjhlYmQ1ZThiOGM2MSIsIl9zZXNzaW9uX2V4cGlyeSI6MTIwOTYwMH0=
-    expire_date: 2019-11-15 09:14:43.840173+00:00
-- model: sessions.session
-  pk: y2a3tmzrtedwinwtv94pl8vtwhyarxux
-  fields:
-    session_data: ZTE4MDAzMDVjZTllYmI4ZjUxMmJiYTk2NTBmMzYwYzRmYzdkYjc4Mzp7Il9sYW5ndWFnZSI6ImJnIiwiX2F1dGhfdXNlcl9pZCI6IjIiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJhbGxhdXRoLmFjY291bnQuYXV0aF9iYWNrZW5kcy5BdXRoZW50aWNhdGlvbkJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJiMTIyOTgxN2Y0ZTEyMTUzMzcwNmJhZDIzMjVlNzBhM2U2YzhiNmZmIiwiX3Nlc3Npb25fZXhwaXJ5IjowfQ==
-    expire_date: 2019-12-17 07:43:40.580280+00:00
-- model: sites.site
-  pk: 1
-  fields:
-    domain: horodeya.org
-    name: "\u0425\u043E\u0440\u043E\u0434\u0435\u044F"
-- model: wagtailcore.site
-  pk: 1
-  fields:
-    hostname: localhost
-    port: 80
-    site_name: null
-    root_page: 3
-    is_default_site: true
-- model: wagtailcore.collection
-  pk: 1
-  fields:
-    path: '0001'
-    depth: 1
-    numchild: 0
-    name: Root
-- model: vote.vote
-  pk: 24
-  fields:
-    user_id: 2
-    content_type: 7
-    object_id: 2
-    action: 1
-    create_at: 2019-10-31 15:23:21.447288+00:00
-- model: vote.vote
-  pk: 26
-  fields:
-    user_id: 2
-    content_type: 7
-    object_id: 4
-    action: 0
-    create_at: 2019-10-31 15:23:39.172441+00:00
-- model: vote.vote
-  pk: 27
-  fields:
-    user_id: 2
-    content_type: 7
-    object_id: 14
-    action: 0
-    create_at: 2019-12-03 07:51:40.448547+00:00
 - model: auth.permission
   pk: 1
   fields:
@@ -1884,6 +1580,54 @@
     - 5
     - 6
     - 7
+- model: sessions.session
+  pk: 4912a413bfe80onaht5jri5benk527tj
+  fields:
+    session_data: ZjNhOWY3MmRhNDEzNTAyZDc5Y2RiNTE3YzdlNjBlZjE2ZTljZTYyYjp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiYjEyMjk4MTdmNGUxMjE1MzM3MDZiYWQyMzI1ZTcwYTNlNmM4YjZmZiIsIl9zZXNzaW9uX2V4cGlyeSI6MTIwOTYwMCwiX2xhbmd1YWdlIjoiYmcifQ==
+    expire_date: 2020-01-01 11:32:12.083242+00:00
+- model: sessions.session
+  pk: aw1f40wszd92169cuwvpevtodrnu3ks9
+  fields:
+    session_data: NzkxY2Y3MDRhNWM5NmFmMDU3MDU3ZTk4ZWM5MjQyOWY0MGVhOGI4ZDp7Il9hdXRoX3VzZXJfaWQiOiIzIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiMjRiNDAxYmI5MWY0ZWI2Njc0ZDdkOWM1ZTZlZjhlYmQ1ZThiOGM2MSIsIl9zZXNzaW9uX2V4cGlyeSI6MTIwOTYwMCwiX2xhbmd1YWdlIjoiYmcifQ==
+    expire_date: 2019-11-26 07:32:44.666283+00:00
+- model: sessions.session
+  pk: bm8couvwrf0czl3eeleznhai5qnbquye
+  fields:
+    session_data: NTg1OTNlMWFlYmNlNDI4NjA3ZTU5YjU0OWE4NDIwMmUwN2QyMDU4ZDp7Il9hdXRoX3VzZXJfaWQiOiIzIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiMjRiNDAxYmI5MWY0ZWI2Njc0ZDdkOWM1ZTZlZjhlYmQ1ZThiOGM2MSIsIl9zZXNzaW9uX2V4cGlyeSI6MTIwOTYwMH0=
+    expire_date: 2019-11-20 12:21:28.353911+00:00
+- model: sessions.session
+  pk: ccegdrfmpf5rgqk1f6onav61oev0asjl
+  fields:
+    session_data: ZjQyZTE3ZGRkM2E2YjE5MDQ2YTcyODU5MTU3ZDQ1MjliNjUyZmI3ODp7Il9sYW5ndWFnZSI6ImJnIiwiX2F1dGhfdXNlcl9pZCI6IjIiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJhbGxhdXRoLmFjY291bnQuYXV0aF9iYWNrZW5kcy5BdXRoZW50aWNhdGlvbkJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJiMTIyOTgxN2Y0ZTEyMTUzMzcwNmJhZDIzMjVlNzBhM2U2YzhiNmZmIiwiX3Nlc3Npb25fZXhwaXJ5IjoxMjA5NjAwfQ==
+    expire_date: 2019-12-16 17:05:56.099159+00:00
+- model: sessions.session
+  pk: shnik52irnsaj3x1g47wk1ohp60nfvn7
+  fields:
+    session_data: YTZiNjc1NmE1MTkwMWJjMDQ1OTk2ODI3M2Y1NGNmYTIzZWQwNzQxODp7Il9sYW5ndWFnZSI6ImJnIiwiX2F1dGhfdXNlcl9pZCI6IjMiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJhbGxhdXRoLmFjY291bnQuYXV0aF9iYWNrZW5kcy5BdXRoZW50aWNhdGlvbkJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyNGI0MDFiYjkxZjRlYjY2NzRkN2Q5YzVlNmVmOGViZDVlOGI4YzYxIiwiX3Nlc3Npb25fZXhwaXJ5IjoxMjA5NjAwfQ==
+    expire_date: 2019-11-24 08:52:21.464185+00:00
+- model: sessions.session
+  pk: v4w16p0dac0but4klt17gpnz86nve6u6
+  fields:
+    session_data: NTg1OTNlMWFlYmNlNDI4NjA3ZTU5YjU0OWE4NDIwMmUwN2QyMDU4ZDp7Il9hdXRoX3VzZXJfaWQiOiIzIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiMjRiNDAxYmI5MWY0ZWI2Njc0ZDdkOWM1ZTZlZjhlYmQ1ZThiOGM2MSIsIl9zZXNzaW9uX2V4cGlyeSI6MTIwOTYwMH0=
+    expire_date: 2019-11-15 09:14:43.840173+00:00
+- model: sessions.session
+  pk: y2a3tmzrtedwinwtv94pl8vtwhyarxux
+  fields:
+    session_data: ZTE4MDAzMDVjZTllYmI4ZjUxMmJiYTk2NTBmMzYwYzRmYzdkYjc4Mzp7Il9sYW5ndWFnZSI6ImJnIiwiX2F1dGhfdXNlcl9pZCI6IjIiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJhbGxhdXRoLmFjY291bnQuYXV0aF9iYWNrZW5kcy5BdXRoZW50aWNhdGlvbkJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJiMTIyOTgxN2Y0ZTEyMTUzMzcwNmJhZDIzMjVlNzBhM2U2YzhiNmZmIiwiX3Nlc3Npb25fZXhwaXJ5IjowfQ==
+    expire_date: 2019-12-17 07:43:40.580280+00:00
+- model: sites.site
+  pk: 1
+  fields:
+    domain: horodeya.org
+    name: "\u0425\u043E\u0440\u043E\u0434\u0435\u044F"
+- model: wagtailcore.site
+  pk: 1
+  fields:
+    hostname: localhost
+    port: 80
+    site_name: null
+    root_page: 3
+    is_default_site: true
 - model: wagtailcore.grouppagepermission
   pk: 1
   fields:
@@ -1920,6 +1664,13 @@
     group: 1
     page: 1
     permission_type: lock
+- model: wagtailcore.collection
+  pk: 1
+  fields:
+    path: '0001'
+    depth: 1
+    numchild: 0
+    name: Root
 - model: wagtailcore.groupcollectionpermission
   pk: 1
   fields:
@@ -1968,6 +1719,30 @@
     group: 2
     collection: 1
     permission: 6
+- model: vote.vote
+  pk: 24
+  fields:
+    user_id: 2
+    content_type: 7
+    object_id: 2
+    action: 1
+    create_at: 2019-10-31 15:23:21.447288+00:00
+- model: vote.vote
+  pk: 26
+  fields:
+    user_id: 2
+    content_type: 7
+    object_id: 4
+    action: 0
+    create_at: 2019-10-31 15:23:39.172441+00:00
+- model: vote.vote
+  pk: 27
+  fields:
+    user_id: 2
+    content_type: 7
+    object_id: 14
+    action: 0
+    create_at: 2019-12-03 07:51:40.448547+00:00
 - model: projects.user
   pk: 2
   fields:
