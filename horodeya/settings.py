@@ -119,9 +119,9 @@ WSGI_APPLICATION = 'horodeya.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'horodeya',
+        'NAME': os.getenv('DB_NAME'),
         'USER': 'horodeya',
-        'PASSWORD': 'horodeya',
+        'PASSWORD': os.getenv('DB_PASSWORD'),
         'HOST': os.getenv('DB_HOST')
     }
 }
