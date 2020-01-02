@@ -1,0 +1,55 @@
+- hosts: all
+  roles:
+    - role: horodeya
+      tags: horodeya
+    - role: cchurch.uwsgi
+      become: yes
+      vars:
+        uwsgi_install: pkg
+        uwsgi_os_packages: [uwsgi, uwsgi-plugin-python3]
+        uwsgi_vassals:
+          - name: horodeya
+            plugin: python3
+            chdir: '{{root}}'
+            module: horodeya.wsgi
+            home: '{{root}}venv'
+            env: |
+              DB_HOST=localhost
+              env = SECRET_KEY={{secret_key}}
+              env = AWS_ACCESS_KEY_ID={{aws_access_key_id}}
+              env = AWS_SECRET_ACCESS_KEY={{aws_secret_access_key}}
+              env = AWS_DEFAULT_REGION=eu-west-1
+              env = ANYMAIL_WEBHOOK_SECRET={{anymail_webhook_secret}}
+              env = STREAM_API_KEY={{stream_api_key}}
+              env = STREAM_API_SECRET={{stream_api_secret}}
+              env = DB_NAME={{db_name}}
+              env = DB_PASSWORD={{db_password}}
+            processes: 4
+            socket: 127.0.0.1:8000
+            uid: horodeya
+            gid: www-data
+      tags: uwsgi
+    - role: geerlingguy.nginx
+      become: yes
+      vars:
+        nginx_vhosts:
+          - listen: "80"
+            server_name: "nov.horodeya.org"
+            #server_name_redirect: "nov"
+            root: '{{root}}'
+            #error_page: ""
+            #access_log: ""
+            #error_log: ""
+            state: "present"
+            template: "{{ nginx_vhost_template }}"
+            filename: "horodeya.org.conf"
+            extra_parameters: |
+              location /static {
+                alias {{root}}/home/static;
+              }
+
+              location / {
+                include uwsgi_params;
+                uwsgi_pass 127.0.0.1:8000;
+              }
+      tags: nginx

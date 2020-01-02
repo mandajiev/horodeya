@@ -1,0 +1,71 @@
+- name: изтегли най-новия код
+  become: yes
+  git:
+    repo: "{{repo_url}}"
+    dest: '{{root}}'
+    version: "{{repo_version}}"
+    key_file: "{{repo_key_file}}"
+    accept_hostkey: yes
+    force: yes
+  register: code
+  tags: push
+
+  #- name: Restart horodeya
+  #  debug:
+  #    msg: Restart horodeya
+  #  notify: restart horodeya
+  #  changed_when: True
+  #  tags: restart
+
+- name: fix permissions 0
+  become: yes
+  file:
+    path: '{{root}}'
+    state: directory
+    owner: horodeya
+    group: www-data
+    mode: u=rwx,g=rwx,o=r
+    recurse: yes
+
+- name: fix permissions 2
+  become: yes
+  file:
+    path: '{{root}}/.git'
+    state: directory
+    owner: '{{admin_user}}'
+    group: '{{admin_user}}'
+    recurse: yes
+
+- name: generate manage.sh
+  become: yes
+  template:
+    src: 'files/manage.sh'
+    dest: '{{root}}/manage.sh'
+    owner: horodeya
+    group: www-data
+    #no_log: true
+
+    #- name: fix permissions 3
+    #  become: yes
+    #  file:
+    #    path: '{{root}}'
+    #    state: directory
+    #    owner: bet-robot
+    #    group: www-data
+    #    #mode: u=rwx,g=rwx,o=r
+    #    recurse: yes
+
+- name: install python dependencies
+  become: yes
+  pip:
+    requirements: '{{root}}/requirements.txt'
+    virtualenv: '{{root}}/venv'
+    virtualenv_python: python3
+  tags: install
+
+- name: apply migrations to database
+  shell: '{{root}}/manage.sh migrate'
+  args:
+    chdir: '{{root}}'
+  tags:
+    migrate

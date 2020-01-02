@@ -1,0 +1,107 @@
+- name: make horodeya user
+  become: yes
+  user:
+    name: horodeya
+    system: yes
+
+- name: install needed software
+  become: yes
+  apt:
+    name:
+      - acl # for running Ansible tasks as non-privileged user
+      - git
+      - virtualenv
+      - gcc
+      - python3-dev
+
+    #- name: install needed software
+    #  become: yes
+    #  apt:
+    #    name: 
+    #      - rsync
+    #      - virtualenv
+    #      - gcc
+    #      - python3-dev
+    #      - firefoxdriver
+    #      - nginx
+    #      - uwsgi
+    #      - uwsgi-plugin-python3 
+    #      - python-setuptools
+    #      - default-jre
+    #      - graphviz
+    #      - libgraphviz-dev
+    #      - git
+
+  # Following instructions at https://www.freedesktop.org/software/systemd/man/systemd-journald.service.html
+- name: make journald logs persistent
+  become: yes
+  block:
+    - name: make /var/log/journal directory
+      file:
+        name: /var/log/journal
+        state: directory
+        recurse: yes
+      notify:
+        restart journald
+
+    - name: make sure logs directory has the correct permissions
+      command: 'systemd-tmpfiles --create --prefix /var/log/journal'
+      changed_when: no
+
+    - name: allow logs to use up to 5G
+      lineinfile:
+        dest: /etc/systemd/journald.conf
+        state: present
+        regexp: "^#?SystemMaxUse="
+        line: "SystemMaxUse=5G"
+      notify:
+        restart journald
+
+- name: install postgres
+  become: yes
+  apt: 
+    name: [postgresql, libpq-dev, python-psycopg2]
+
+- name: create horodeya databases
+  become: yes
+  become_user: postgres
+  postgresql_db: name={{item}}
+  with_items:
+    - '{{test_db_name}}'
+    - '{{db_name}}'
+
+- name: make horodeya database user have access to the horodeya database
+  become: yes
+  become_user: postgres
+  postgresql_user: db={{item}} name={{db_user}} password={{db_password}} priv=ALL
+  with_items:
+    - '{{db_name}}'
+    - '{{test_db_name}}'
+
+- name: направи config папката
+  become: yes
+  file:
+    path: '{{config}}'
+    state: directory
+    owner: horodeya
+    group: www-data
+    mode: u=rwx,g=rx,o=r
+    recurse: yes
+
+- name: направи root папката
+  become: yes
+  file:
+    path: '{{root}}'
+    state: directory
+    owner: horodeya
+    group: www-data
+    mode: u=rwx,g=rx,o=r
+    recurse: yes
+
+- name: сложи ключ за достъп до хранилището
+  become: yes
+  become_user: horodeya
+  copy:
+    src: files/id_rsa_horodeya_repo
+    dest: "{{repo_key_file}}"
+    mode: 0600

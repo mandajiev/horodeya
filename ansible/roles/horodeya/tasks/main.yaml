@@ -1,0 +1,11 @@
+- import_tasks: initial.yaml
+  tags:
+    - initial
+
+- import_tasks: configure.yaml
+  tags:
+    - configure
+
+- import_tasks: deploy.yaml
+  tags:
+    - deploy

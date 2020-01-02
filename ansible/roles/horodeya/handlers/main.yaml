@@ -1,0 +1,62 @@
+- name: restart sshd
+  become: yes
+  service: 
+    name: sshd
+    state: restarted
+
+    #- name: stop uwsgi
+    #  become: yes
+    #  service: 
+    #    name: uwsgi
+    #    state: stopped 
+    #  listen: restart betrobot
+    #
+    #- name: stop selenium
+    #  become: yes
+    #  service: 
+    #    name: selenium-server
+    #    state: stopped
+    #  listen: restart betrobot
+    #
+    #- name: kill firefox
+    #  become: yes
+    #  shell: 'ps aux | grep firefox | tr -s " " | cut -d" " -f2 | xargs kill'
+    #  listen: restart betrobot
+    #  ignore_errors: yes
+    #
+    #- name: start selenium
+    #  become: yes
+    #  service: 
+    #    name: selenium-server
+    #    state: started
+    #  listen: restart betrobot
+    #
+    #- name: restart uwsgi
+    #  become: yes
+    #  service: 
+    #    name: uwsgi
+    #    state: restarted
+    #  listen: restart betrobot
+    #
+    #- name: restart nginx
+    #  become: yes
+    #  service: 
+    #    name: nginx
+    #    state: restarted
+    #
+    #- name: restart server
+    #  become: yes
+    #  reboot:
+    #    
+    #- name: restart selenium
+    #  become: yes
+    #  service: 
+    #    name: selenium-server
+    #    state: restarted
+    #
+    
+- name: restart journald
+  become: yes
+  service:
+    name: systemd-journald
+    state: restarted

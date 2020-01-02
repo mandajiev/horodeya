@@ -1,0 +1,33 @@
+- name: ansible needs passwordless sudo
+  become: yes
+  block:
+  - name: make a sudo group
+    group: 
+      name: sudo
+      state: present
+
+  - name: make a horodeya group
+    group: 
+      name: horodeya 
+      state: present
+
+  - name: allow group sudo to have passwordless sudo
+    lineinfile:
+      dest: /etc/sudoers
+      state: present
+      regexp: '^%sudo'
+      line: '%sudo ALL = (ALL) NOPASSWD:ALL'
+      validate: 'visudo -cf %s'
+
+- name: make a www-data group
+  become: yes
+  group: 
+    name: www-data
+    state: present
+
+- name: add admin to www-data group
+  become: yes
+  user: 
+    name: '{{admin_user}}'
+    append: yes
+    groups: www-data
