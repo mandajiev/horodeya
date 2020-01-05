@@ -64,7 +64,6 @@ INSTALLED_APPS = [
     'wagtail.snippets',
     'wagtail.documents',
     'wagtail.images',
-    'wagtail.search',
     'wagtail.admin',
     'wagtail.core',
 

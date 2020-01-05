@@ -45,7 +45,7 @@
             filename: "horodeya.org.conf"
             extra_parameters: |
               location /static {
-                alias {{root}}/home/static;
+                alias {{root}}/static;
               }
 
               location / {

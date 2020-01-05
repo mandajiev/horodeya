@@ -76,6 +76,12 @@
     chdir: '{{root}}'
   tags: translate
 
+- name: arrange static files
+  shell: '{{root}}/manage.sh collectstatic'
+  args:
+    chdir: '{{root}}'
+  tags: static
+
 - name: restart
   become: yes
   file: 

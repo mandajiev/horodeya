@@ -1,42 +1,3 @@
-- model: projects.user
-  pk: 2
-  fields:
-    password: pbkdf2_sha256$150000$vmrqsz3fTRZD$oxWYzS5XXK9w/P/iy7ot9cBR9bYqUqD3Ef08G56/xYg=
-    last_login: 2019-12-18 11:32:01.789122+00:00
-    is_superuser: true
-    username: alek
-    first_name: "\u0410\u043B\u0435\u043A\u0441\u0430\u043D\u0434\u044A\u0440"
-    last_name: "\u041A\u043E\u0434\u0436\u0430\u0431\u0430\u0448\u0435\u0432"
-    email: akodzhabashev@gmail.com
-    is_staff: true
-    is_active: true
-    date_joined: 2019-10-27 11:32:15.306572+00:00
-    bal: 20
-    groups: []
-    user_permissions: []
-    legal_entities:
-    - 1
-    - 4
-    - 5
-- model: projects.user
-  pk: 3
-  fields:
-    password: pbkdf2_sha256$150000$KhrdUKwj1Nw1$ch1jEw2znPIqjBjgEaUY8uX1LtF1uBF+9A7nIveijeg=
-    last_login: 2019-11-12 07:32:40.621512+00:00
-    is_superuser: false
-    username: xilunas
-    first_name: "\u0410\u043B\u0435\u043A"
-    last_name: "\u041A\u043E\u0434"
-    email: xilunas@gmail.com
-    is_staff: false
-    is_active: true
-    date_joined: 2019-10-28 09:58:48.949762+00:00
-    bal: 20
-    groups: []
-    user_permissions: []
-    legal_entities:
-    - 1
-    - 4
 - model: projects.project
   pk: 1
   fields:
@@ -509,6 +470,326 @@
     price: 1000
     count: 5
     fulfilled: 0
+- model: auth.group
+  pk: 1
+  fields:
+    name: Moderators
+    permissions:
+    - - access_admin
+      - wagtailadmin
+      - admin
+    - - add_document
+      - wagtaildocs
+      - document
+    - - change_document
+      - wagtaildocs
+      - document
+    - - delete_document
+      - wagtaildocs
+      - document
+    - - add_image
+      - wagtailimages
+      - image
+    - - change_image
+      - wagtailimages
+      - image
+    - - delete_image
+      - wagtailimages
+      - image
+- model: auth.group
+  pk: 2
+  fields:
+    name: Editors
+    permissions:
+    - - access_admin
+      - wagtailadmin
+      - admin
+    - - add_document
+      - wagtaildocs
+      - document
+    - - change_document
+      - wagtaildocs
+      - document
+    - - delete_document
+      - wagtaildocs
+      - document
+    - - add_image
+      - wagtailimages
+      - image
+    - - change_image
+      - wagtailimages
+      - image
+    - - delete_image
+      - wagtailimages
+      - image
+- model: sites.site
+  pk: 1
+  fields:
+    domain: horodeya.org
+    name: "\u0425\u043E\u0440\u043E\u0434\u0435\u044F"
+- model: wagtailcore.site
+  pk: 1
+  fields:
+    hostname: localhost
+    port: 80
+    site_name: null
+    root_page: 3
+    is_default_site: true
+- model: wagtailcore.grouppagepermission
+  pk: 1
+  fields:
+    group:
+    - Moderators
+    page: 1
+    permission_type: add
+- model: wagtailcore.grouppagepermission
+  pk: 2
+  fields:
+    group:
+    - Moderators
+    page: 1
+    permission_type: edit
+- model: wagtailcore.grouppagepermission
+  pk: 3
+  fields:
+    group:
+    - Moderators
+    page: 1
+    permission_type: publish
+- model: wagtailcore.grouppagepermission
+  pk: 4
+  fields:
+    group:
+    - Editors
+    page: 1
+    permission_type: add
+- model: wagtailcore.grouppagepermission
+  pk: 5
+  fields:
+    group:
+    - Editors
+    page: 1
+    permission_type: edit
+- model: wagtailcore.grouppagepermission
+  pk: 6
+  fields:
+    group:
+    - Moderators
+    page: 1
+    permission_type: lock
+- model: wagtailcore.collection
+  pk: 1
+  fields:
+    path: '0001'
+    depth: 1
+    numchild: 0
+    name: Root
+- model: wagtailcore.groupcollectionpermission
+  pk: 1
+  fields:
+    group:
+    - Moderators
+    collection: 1
+    permission:
+    - add_document
+    - wagtaildocs
+    - document
+- model: wagtailcore.groupcollectionpermission
+  pk: 2
+  fields:
+    group:
+    - Editors
+    collection: 1
+    permission:
+    - add_document
+    - wagtaildocs
+    - document
+- model: wagtailcore.groupcollectionpermission
+  pk: 3
+  fields:
+    group:
+    - Moderators
+    collection: 1
+    permission:
+    - change_document
+    - wagtaildocs
+    - document
+- model: wagtailcore.groupcollectionpermission
+  pk: 4
+  fields:
+    group:
+    - Editors
+    collection: 1
+    permission:
+    - change_document
+    - wagtaildocs
+    - document
+- model: wagtailcore.groupcollectionpermission
+  pk: 5
+  fields:
+    group:
+    - Moderators
+    collection: 1
+    permission:
+    - add_image
+    - wagtailimages
+    - image
+- model: wagtailcore.groupcollectionpermission
+  pk: 6
+  fields:
+    group:
+    - Editors
+    collection: 1
+    permission:
+    - add_image
+    - wagtailimages
+    - image
+- model: wagtailcore.groupcollectionpermission
+  pk: 7
+  fields:
+    group:
+    - Moderators
+    collection: 1
+    permission:
+    - change_image
+    - wagtailimages
+    - image
+- model: wagtailcore.groupcollectionpermission
+  pk: 8
+  fields:
+    group:
+    - Editors
+    collection: 1
+    permission:
+    - change_image
+    - wagtailimages
+    - image
+- model: vote.vote
+  pk: 24
+  fields:
+    user_id: 2
+    content_type:
+    - projects
+    - report
+    object_id: 2
+    action: 1
+    create_at: 2019-10-31 15:23:21.447288+00:00
+- model: vote.vote
+  pk: 26
+  fields:
+    user_id: 2
+    content_type:
+    - projects
+    - report
+    object_id: 4
+    action: 0
+    create_at: 2019-10-31 15:23:39.172441+00:00
+- model: vote.vote
+  pk: 27
+  fields:
+    user_id: 2
+    content_type:
+    - projects
+    - report
+    object_id: 14
+    action: 0
+    create_at: 2019-12-03 07:51:40.448547+00:00
+- model: projects.user
+  pk: 2
+  fields:
+    password: pbkdf2_sha256$150000$vmrqsz3fTRZD$oxWYzS5XXK9w/P/iy7ot9cBR9bYqUqD3Ef08G56/xYg=
+    last_login: 2020-01-05 10:57:35.793504+00:00
+    is_superuser: true
+    username: alek
+    first_name: "\u0410\u043B\u0435\u043A\u0441\u0430\u043D\u0434\u044A\u0440"
+    last_name: "\u041A\u043E\u0434\u0436\u0430\u0431\u0430\u0448\u0435\u0432"
+    email: akodzhabashev@gmail.com
+    is_staff: true
+    is_active: true
+    date_joined: 2019-10-27 11:32:15.306572+00:00
+    bal: 20
+    groups: []
+    user_permissions: []
+    legal_entities:
+    - 1
+    - 4
+    - 5
+- model: projects.user
+  pk: 3
+  fields:
+    password: pbkdf2_sha256$150000$KhrdUKwj1Nw1$ch1jEw2znPIqjBjgEaUY8uX1LtF1uBF+9A7nIveijeg=
+    last_login: 2019-11-12 07:32:40.621512+00:00
+    is_superuser: false
+    username: xilunas
+    first_name: "\u0410\u043B\u0435\u043A"
+    last_name: "\u041A\u043E\u0434"
+    email: xilunas@gmail.com
+    is_staff: false
+    is_active: true
+    date_joined: 2019-10-28 09:58:48.949762+00:00
+    bal: 20
+    groups: []
+    user_permissions: []
+    legal_entities:
+    - 1
+    - 4
+- model: projects.legalentity
+  pk: 1
+  fields:
+    created_at: 2019-10-27 12:12:33.667266+00:00
+    updated_at: 2019-11-03 06:28:29.684740+00:00
+    name: "\u0417\u0435\u043B\u0435\u043D"
+    text: ''
+    bulstat: '12121314141'
+    email: akodzhabashev@gmail.com
+    phone: '212131456641'
+    admin:
+    - alek
+    payment: "IBAN: xxxxxxxxxxxxxxxxxx\r\n\u0418\u043C\u0435: \u0410\u043B\u0435\u043A\u043E
+      \u041A\u0430\u0440\u043B\u043E\u0432\u0441\u043A\u0438"
+    bal: 20
+- model: projects.legalentity
+  pk: 4
+  fields:
+    created_at: 2019-10-28 08:51:48.476288+00:00
+    updated_at: 2019-10-28 08:55:48.188412+00:00
+    name: "\u041F\u043B\u0430\u043C \u0415\u043D\u0435\u0440\u0434\u0436\u0438"
+    text: ''
+    bulstat: '1313131313'
+    email: akodzhabashev@gmail.com
+    phone: '1231213131'
+    admin:
+    - alek
+    payment: ''
+    bal: 20
+- model: projects.legalentity
+  pk: 5
+  fields:
+    created_at: 2019-11-09 14:13:11.124029+00:00
+    updated_at: 2019-11-09 14:13:11.124038+00:00
+    name: "\u0420\u0435\u0437\u0438\u0434\u0435\u043D\u0446\u0438\u044F \u0411\u0430\u0431\u0430"
+    text: ''
+    bulstat: '212321321321'
+    email: rezidencia-baba@gmail.com
+    phone: '8311431431'
+    admin:
+    - alek
+    payment: 'IBAN: feafeafeafeafa'
+    bal: 20
+- model: projects.legalentity
+  pk: 6
+  fields:
+    created_at: 2019-11-10 08:45:48.129983+00:00
+    updated_at: 2019-11-10 08:45:48.129992+00:00
+    name: "\u0410\u043B\u0435\u043A"
+    text: ''
+    bulstat: '930131'
+    email: akodzhabashev@gmail.com
+    phone: '93013980183'
+    admin:
+    - xilunas
+    payment: "\u043D\u044F\u043C\u0430"
+    bal: 20
 - model: home.homepage
   pk: 3
   fields:
@@ -4247,218 +4528,22 @@
       \u0438 \u043D\u0435 \u0441\u0435 \u043F\u043E\u0434\u043C\u0435\u043D\u044F
       \u0446\u0435\u043D\u043D\u043E\u0441\u0442\u043D\u0430\u0442\u0430 \u043C\u0443
       \ \u043E\u0441\u043D\u043E\u0432\u0430.</p>"
-- model: admin.logentry
-  pk: 1
-  fields:
-    action_time: 2019-10-31 14:49:34.572150+00:00
-    user: 2
-    content_type: 38
-    object_id: '2'
-    object_repr: Vote object (2)
-    action_flag: 3
-    change_message: ''
-- model: admin.logentry
-  pk: 2
-  fields:
-    action_time: 2019-10-31 14:49:34.612319+00:00
-    user: 2
-    content_type: 38
-    object_id: '1'
-    object_repr: Vote object (1)
-    action_flag: 3
-    change_message: ''
-- model: admin.logentry
-  pk: 3
-  fields:
-    action_time: 2019-10-31 14:53:10.377529+00:00
-    user: 2
-    content_type: 38
-    object_id: '3'
-    object_repr: Vote object (3)
-    action_flag: 2
-    change_message: '[{"changed": {"fields": ["action"]}}]'
-- model: admin.logentry
-  pk: 4
-  fields:
-    action_time: 2019-10-31 14:55:21.014050+00:00
-    user: 2
-    content_type: 38
-    object_id: '4'
-    object_repr: Vote object (4)
-    action_flag: 3
-    change_message: ''
-- model: admin.logentry
-  pk: 5
-  fields:
-    action_time: 2019-11-01 08:48:06.820102+00:00
-    user: 2
-    content_type: 39
-    object_id: '1'
-    object_repr: "\u0417\u0435\u043B\u0435\u043D-10.00"
-    action_flag: 2
-    change_message: '[{"changed": {"fields": ["accepted", "delivered"]}}]'
-- model: admin.logentry
-  pk: 6
-  fields:
-    action_time: 2019-11-01 08:48:16.753541+00:00
-    user: 2
-    content_type: 39
-    object_id: '2'
-    object_repr: "\u0417\u0435\u043B\u0435\u043D-10.00"
-    action_flag: 2
-    change_message: '[{"changed": {"fields": ["accepted", "delivered"]}}]'
-- model: admin.logentry
-  pk: 7
-  fields:
-    action_time: 2019-11-01 08:56:35.620907+00:00
-    user: 2
-    content_type: 39
-    object_id: '1'
-    object_repr: "\u0417\u0435\u043B\u0435\u043D-10.00"
-    action_flag: 3
-    change_message: ''
-- model: admin.logentry
-  pk: 8
-  fields:
-    action_time: 2019-11-01 08:56:46.801836+00:00
-    user: 2
-    content_type: 39
-    object_id: '2'
-    object_repr: "\u0417\u0435\u043B\u0435\u043D-10.00"
-    action_flag: 2
-    change_message: '[{"changed": {"fields": ["accepted"]}}]'
-- model: admin.logentry
-  pk: 9
-  fields:
-    action_time: 2019-11-01 09:03:23.795803+00:00
-    user: 2
-    content_type: 39
-    object_id: '2'
-    object_repr: "\u0417\u0435\u043B\u0435\u043D-10.00"
-    action_flag: 2
-    change_message: '[{"changed": {"fields": ["accepted_at"]}}]'
-- model: admin.logentry
-  pk: 10
-  fields:
-    action_time: 2019-11-01 09:23:57.362677+00:00
-    user: 2
-    content_type: 39
-    object_id: '2'
-    object_repr: "\u0417\u0435\u043B\u0435\u043D-10.00"
-    action_flag: 2
-    change_message: '[{"changed": {"fields": ["accepted", "delivered"]}}]'
-- model: admin.logentry
-  pk: 11
-  fields:
-    action_time: 2019-11-01 09:24:40.575132+00:00
-    user: 2
-    content_type: 39
-    object_id: '2'
-    object_repr: "\u0417\u0435\u043B\u0435\u043D-10.00"
-    action_flag: 2
-    change_message: '[{"changed": {"fields": ["accepted_at", "delivered"]}}]'
-- model: admin.logentry
-  pk: 12
-  fields:
-    action_time: 2019-11-03 06:24:15.033394+00:00
-    user: 2
-    content_type: 6
-    object_id: '1'
-    object_repr: "\u0417\u0435\u043B\u0435\u043D"
-    action_flag: 2
-    change_message: '[{"changed": {"fields": ["bal"]}}]'
-- model: admin.logentry
-  pk: 13
-  fields:
-    action_time: 2019-11-06 12:42:16.613772+00:00
-    user: 2
-    content_type: 39
-    object_id: '2'
-    object_repr: "\u0417\u0435\u043B\u0435\u043D-10.00"
-    action_flag: 2
-    change_message: '[{"changed": {"fields": ["delivered"]}}]'
-- model: admin.logentry
-  pk: 14
-  fields:
-    action_time: 2019-12-02 17:10:12.513075+00:00
-    user: 2
-    content_type: 42
-    object_id: '4'
-    object_repr: Announcement object (4)
-    action_flag: 2
-    change_message: '[{"changed": {"fields": ["text"]}}]'
-- model: admin.logentry
-  pk: 15
-  fields:
-    action_time: 2019-12-02 17:10:21.794601+00:00
-    user: 2
-    content_type: 42
-    object_id: '4'
-    object_repr: Announcement object (4)
-    action_flag: 2
-    change_message: '[{"changed": {"fields": ["text"]}}]'
-- model: sessions.session
-  pk: 4912a413bfe80onaht5jri5benk527tj
-  fields:
-    session_data: ZjNhOWY3MmRhNDEzNTAyZDc5Y2RiNTE3YzdlNjBlZjE2ZTljZTYyYjp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiYjEyMjk4MTdmNGUxMjE1MzM3MDZiYWQyMzI1ZTcwYTNlNmM4YjZmZiIsIl9zZXNzaW9uX2V4cGlyeSI6MTIwOTYwMCwiX2xhbmd1YWdlIjoiYmcifQ==
-    expire_date: 2020-01-01 11:32:12.083242+00:00
-- model: sessions.session
-  pk: aw1f40wszd92169cuwvpevtodrnu3ks9
-  fields:
-    session_data: NzkxY2Y3MDRhNWM5NmFmMDU3MDU3ZTk4ZWM5MjQyOWY0MGVhOGI4ZDp7Il9hdXRoX3VzZXJfaWQiOiIzIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiMjRiNDAxYmI5MWY0ZWI2Njc0ZDdkOWM1ZTZlZjhlYmQ1ZThiOGM2MSIsIl9zZXNzaW9uX2V4cGlyeSI6MTIwOTYwMCwiX2xhbmd1YWdlIjoiYmcifQ==
-    expire_date: 2019-11-26 07:32:44.666283+00:00
-- model: sessions.session
-  pk: bm8couvwrf0czl3eeleznhai5qnbquye
-  fields:
-    session_data: NTg1OTNlMWFlYmNlNDI4NjA3ZTU5YjU0OWE4NDIwMmUwN2QyMDU4ZDp7Il9hdXRoX3VzZXJfaWQiOiIzIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiMjRiNDAxYmI5MWY0ZWI2Njc0ZDdkOWM1ZTZlZjhlYmQ1ZThiOGM2MSIsIl9zZXNzaW9uX2V4cGlyeSI6MTIwOTYwMH0=
-    expire_date: 2019-11-20 12:21:28.353911+00:00
-- model: sessions.session
-  pk: ccegdrfmpf5rgqk1f6onav61oev0asjl
-  fields:
-    session_data: ZjQyZTE3ZGRkM2E2YjE5MDQ2YTcyODU5MTU3ZDQ1MjliNjUyZmI3ODp7Il9sYW5ndWFnZSI6ImJnIiwiX2F1dGhfdXNlcl9pZCI6IjIiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJhbGxhdXRoLmFjY291bnQuYXV0aF9iYWNrZW5kcy5BdXRoZW50aWNhdGlvbkJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJiMTIyOTgxN2Y0ZTEyMTUzMzcwNmJhZDIzMjVlNzBhM2U2YzhiNmZmIiwiX3Nlc3Npb25fZXhwaXJ5IjoxMjA5NjAwfQ==
-    expire_date: 2019-12-16 17:05:56.099159+00:00
-- model: sessions.session
-  pk: shnik52irnsaj3x1g47wk1ohp60nfvn7
-  fields:
-    session_data: YTZiNjc1NmE1MTkwMWJjMDQ1OTk2ODI3M2Y1NGNmYTIzZWQwNzQxODp7Il9sYW5ndWFnZSI6ImJnIiwiX2F1dGhfdXNlcl9pZCI6IjMiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJhbGxhdXRoLmFjY291bnQuYXV0aF9iYWNrZW5kcy5BdXRoZW50aWNhdGlvbkJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyNGI0MDFiYjkxZjRlYjY2NzRkN2Q5YzVlNmVmOGViZDVlOGI4YzYxIiwiX3Nlc3Npb25fZXhwaXJ5IjoxMjA5NjAwfQ==
-    expire_date: 2019-11-24 08:52:21.464185+00:00
-- model: sessions.session
-  pk: v4w16p0dac0but4klt17gpnz86nve6u6
-  fields:
-    session_data: NTg1OTNlMWFlYmNlNDI4NjA3ZTU5YjU0OWE4NDIwMmUwN2QyMDU4ZDp7Il9hdXRoX3VzZXJfaWQiOiIzIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiMjRiNDAxYmI5MWY0ZWI2Njc0ZDdkOWM1ZTZlZjhlYmQ1ZThiOGM2MSIsIl9zZXNzaW9uX2V4cGlyeSI6MTIwOTYwMH0=
-    expire_date: 2019-11-15 09:14:43.840173+00:00
-- model: sessions.session
-  pk: y2a3tmzrtedwinwtv94pl8vtwhyarxux
-  fields:
-    session_data: ZTE4MDAzMDVjZTllYmI4ZjUxMmJiYTk2NTBmMzYwYzRmYzdkYjc4Mzp7Il9sYW5ndWFnZSI6ImJnIiwiX2F1dGhfdXNlcl9pZCI6IjIiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJhbGxhdXRoLmFjY291bnQuYXV0aF9iYWNrZW5kcy5BdXRoZW50aWNhdGlvbkJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJiMTIyOTgxN2Y0ZTEyMTUzMzcwNmJhZDIzMjVlNzBhM2U2YzhiNmZmIiwiX3Nlc3Npb25fZXhwaXJ5IjowfQ==
-    expire_date: 2019-12-17 07:43:40.580280+00:00
-- model: sites.site
-  pk: 1
-  fields:
-    domain: horodeya.org
-    name: "\u0425\u043E\u0440\u043E\u0434\u0435\u044F"
 - model: account.emailaddress
   pk: 1
   fields:
-    user: 2
+    user:
+    - alek
     email: akodzhabashev@gmail.com
     verified: true
     primary: true
 - model: account.emailaddress
   pk: 2
   fields:
-    user: 3
+    user:
+    - xilunas
     email: xilunas@gmail.com
     verified: true
     primary: true
-- model: wagtailcore.site
-  pk: 1
-  fields:
-    hostname: localhost
-    port: 80
-    site_name: null
-    root_page: 3
-    is_default_site: true
 - model: wagtailcore.page
   pk: 1
   fields:
@@ -4468,7 +4553,9 @@
     title: Root
     draft_title: Root
     slug: root
-    content_type: 1
+    content_type:
+    - wagtailcore
+    - page
     live: true
     has_unpublished_changes: false
     url_path: /
@@ -4493,11 +4580,14 @@
     title: "\u041D\u0430\u0447\u0430\u043B\u043E"
     draft_title: "\u041D\u0430\u0447\u0430\u043B\u043E"
     slug: "\u043D\u0430\u0447\u0430\u043B\u043E"
-    content_type: 9
+    content_type:
+    - home
+    - homepage
     live: true
     has_unpublished_changes: false
     url_path: "/\u043D\u0430\u0447\u0430\u043B\u043E/"
-    owner: 2
+    owner:
+    - alek
     seo_title: ''
     show_in_menus: false
     search_description: ''
@@ -4518,11 +4608,14 @@
     title: "\u041A\u0430\u0443\u0437\u0438"
     draft_title: "\u041A\u0430\u0443\u0437\u0438"
     slug: "\u043A\u0430\u0443\u0437\u0438"
-    content_type: 10
+    content_type:
+    - home
+    - list
     live: true
     has_unpublished_changes: false
     url_path: "/\u043D\u0430\u0447\u0430\u043B\u043E/\u043A\u0430\u0443\u0437\u0438/"
-    owner: 2
+    owner:
+    - alek
     seo_title: ''
     show_in_menus: false
     search_description: ''
@@ -4543,11 +4636,14 @@
     title: "\u0411\u0438\u0437\u043D\u0435\u0441\u0438"
     draft_title: "\u0411\u0438\u0437\u043D\u0435\u0441\u0438"
     slug: "\u0431\u0438\u0437\u043D\u0435\u0441\u0438"
-    content_type: 10
+    content_type:
+    - home
+    - list
     live: true
     has_unpublished_changes: false
     url_path: "/\u043D\u0430\u0447\u0430\u043B\u043E/\u0431\u0438\u0437\u043D\u0435\u0441\u0438/"
-    owner: 2
+    owner:
+    - alek
     seo_title: ''
     show_in_menus: false
     search_description: ''
@@ -4568,11 +4664,14 @@
     title: "\u0423\u0441\u043B\u043E\u0432\u0438\u044F \u0437\u0430 \u043F\u043E\u043B\u0437\u0432\u0430\u043D\u0435"
     draft_title: "\u0423\u0441\u043B\u043E\u0432\u0438\u044F \u0437\u0430 \u043F\u043E\u043B\u0437\u0432\u0430\u043D\u0435"
     slug: "\u0443\u0441\u043B\u043E\u0432\u0438\u044F-\u0437\u0430-\u043F\u043E\u043B\u0437\u0432\u0430\u043D\u0435"
-    content_type: 41
+    content_type:
+    - home
+    - termsandconditions
     live: true
     has_unpublished_changes: false
     url_path: "/\u043D\u0430\u0447\u0430\u043B\u043E/\u0443\u0441\u043B\u043E\u0432\u0438\u044F-\u0437\u0430-\u043F\u043E\u043B\u0437\u0432\u0430\u043D\u0435/"
-    owner: 2
+    owner:
+    - alek
     seo_title: ''
     show_in_menus: false
     search_description: ''
@@ -4593,11 +4692,14 @@
     title: "\u041F\u043E\u043B\u0438\u0442\u0438\u043A\u0430 \u0437\u0430 \u043F\u043E\u0432\u0435\u0440\u0438\u0442\u0435\u043B\u043D\u043E\u0441\u0442"
     draft_title: "\u041F\u043E\u043B\u0438\u0442\u0438\u043A\u0430 \u0437\u0430 \u043F\u043E\u0432\u0435\u0440\u0438\u0442\u0435\u043B\u043D\u043E\u0441\u0442"
     slug: "\u043F\u043E\u043B\u0438\u0442\u0438\u043A\u0430-\u0437\u0430-\u043F\u043E\u0432\u0435\u0440\u0438\u0442\u0435\u043B\u043D\u043E\u0441\u0442"
-    content_type: 41
+    content_type:
+    - home
+    - termsandconditions
     live: true
     has_unpublished_changes: false
     url_path: "/\u043D\u0430\u0447\u0430\u043B\u043E/\u043F\u043E\u043B\u0438\u0442\u0438\u043A\u0430-\u0437\u0430-\u043F\u043E\u0432\u0435\u0440\u0438\u0442\u0435\u043B\u043D\u043E\u0441\u0442/"
-    owner: 2
+    owner:
+    - alek
     seo_title: ''
     show_in_menus: false
     search_description: ''
@@ -4618,11 +4720,14 @@
     title: "\u041F\u043E\u043B\u0438\u0442\u0438\u043A\u0430 \u0437\u0430 \u0431\u0438\u0441\u043A\u0432\u0438\u0442\u043A\u0438"
     draft_title: "\u041F\u043E\u043B\u0438\u0442\u0438\u043A\u0430 \u0437\u0430 \u0431\u0438\u0441\u043A\u0432\u0438\u0442\u043A\u0438"
     slug: "\u043F\u043E\u043B\u0438\u0442\u0438\u043A\u0430-\u0437\u0430-\u0431\u0438\u0441\u043A\u0432\u0438\u0442\u043A\u0438"
-    content_type: 41
+    content_type:
+    - home
+    - termsandconditions
     live: true
     has_unpublished_changes: false
     url_path: "/\u043D\u0430\u0447\u0430\u043B\u043E/\u043F\u043E\u043B\u0438\u0442\u0438\u043A\u0430-\u0437\u0430-\u0431\u0438\u0441\u043A\u0432\u0438\u0442\u043A\u0438/"
-    owner: 2
+    owner:
+    - alek
     seo_title: ''
     show_in_menus: false
     search_description: ''
@@ -4644,11 +4749,14 @@
     draft_title: "\u0423\u0447\u0440\u0435\u0434\u0438\u0442\u0435\u043B\u0435\u043D
       \u0430\u043A\u0442"
     slug: "\u0443\u0447\u0440\u0435\u0434\u0438\u0442\u0435\u043B\u0435\u043D-\u0430\u043A\u0442"
-    content_type: 41
+    content_type:
+    - home
+    - termsandconditions
     live: true
     has_unpublished_changes: false
     url_path: "/\u043D\u0430\u0447\u0430\u043B\u043E/\u0443\u0447\u0440\u0435\u0434\u0438\u0442\u0435\u043B\u0435\u043D-\u0430\u043A\u0442/"
-    owner: 2
+    owner:
+    - alek
     seo_title: ''
     show_in_menus: false
     search_description: ''
@@ -4669,11 +4777,14 @@
     title: "\u041F\u0440\u0430\u0432\u0438\u043B\u0430 \u0437\u0430 \u0434\u0435\u0439\u043D\u043E\u0441\u0442\u0442\u0430"
     draft_title: "\u041F\u0440\u0430\u0432\u0438\u043B\u0430 \u0437\u0430 \u0434\u0435\u0439\u043D\u043E\u0441\u0442\u0442\u0430"
     slug: "\u043F\u0440\u0430\u0432\u0438\u043B\u0430-\u0437\u0430-\u0434\u0435\u0439\u043D\u043E\u0441\u0442\u0442\u0430"
-    content_type: 41
+    content_type:
+    - home
+    - termsandconditions
     live: true
     has_unpublished_changes: false
     url_path: "/\u043D\u0430\u0447\u0430\u043B\u043E/\u043F\u0440\u0430\u0432\u0438\u043B\u0430-\u0437\u0430-\u0434\u0435\u0439\u043D\u043E\u0441\u0442\u0442\u0430/"
-    owner: 2
+    owner:
+    - alek
     seo_title: ''
     show_in_menus: false
     search_description: ''
@@ -4694,11 +4805,14 @@
     title: "\u0415\u0442\u0438\u0447\u0435\u043D \u041A\u043E\u0434\u0435\u043A\u0441"
     draft_title: "\u0415\u0442\u0438\u0447\u0435\u043D \u041A\u043E\u0434\u0435\u043A\u0441"
     slug: "\u0435\u0442\u0438\u0447\u0435\u043D-\u043A\u043E\u0434\u0435\u043A\u0441"
-    content_type: 41
+    content_type:
+    - home
+    - termsandconditions
     live: true
     has_unpublished_changes: false
     url_path: "/\u043D\u0430\u0447\u0430\u043B\u043E/\u0435\u0442\u0438\u0447\u0435\u043D-\u043A\u043E\u0434\u0435\u043A\u0441/"
-    owner: 2
+    owner:
+    - alek
     seo_title: ''
     show_in_menus: false
     search_description: ''
@@ -4716,7 +4830,8 @@
     page: 3
     submitted_for_moderation: false
     created_at: 2019-10-27 11:34:35.304752+00:00
-    user: 2
+    user:
+    - alek
     content_json: '{"pk": 3, "path": "00010002", "depth": 2, "numchild": 0, "title":
       "\u041d\u0430\u0447\u0430\u043b\u043e", "draft_title": "\u041d\u0430\u0447\u0430\u043b\u043e",
       "slug": "\u043d\u0430\u0447\u0430\u043b\u043e", "content_type": 9, "live": true,
@@ -4733,7 +4848,8 @@
     page: 4
     submitted_for_moderation: false
     created_at: 2019-10-27 11:35:39.671066+00:00
-    user: 2
+    user:
+    - alek
     content_json: '{"pk": 4, "path": "00010003", "depth": 2, "numchild": 0, "title":
       "\u041a\u0430\u0443\u0437\u0438", "draft_title": "\u041a\u0430\u0443\u0437\u0438",
       "slug": "\u043a\u0430\u0443\u0437\u0438", "content_type": 10, "live": true,
@@ -4750,7 +4866,8 @@
     page: 5
     submitted_for_moderation: false
     created_at: 2019-10-27 11:35:59.417101+00:00
-    user: 2
+    user:
+    - alek
     content_json: '{"pk": 5, "path": "00010004", "depth": 2, "numchild": 0, "title":
       "\u0411\u0438\u0437\u043d\u0435\u0441\u0438", "draft_title": "\u0411\u0438\u0437\u043d\u0435\u0441\u0438",
       "slug": "\u0431\u0438\u0437\u043d\u0435\u0441\u0438", "content_type": 10, "live":
@@ -4767,7 +4884,8 @@
     page: 3
     submitted_for_moderation: false
     created_at: 2019-10-28 08:41:23.348771+00:00
-    user: 2
+    user:
+    - alek
     content_json: '{"pk": 3, "path": "00010002", "depth": 2, "numchild": 2, "title":
       "\u041d\u0430\u0447\u0430\u043b\u043e", "draft_title": "\u041d\u0430\u0447\u0430\u043b\u043e",
       "slug": "\u043d\u0430\u0447\u0430\u043b\u043e", "content_type": 9, "live": true,
@@ -4788,7 +4906,8 @@
     page: 3
     submitted_for_moderation: false
     created_at: 2019-10-28 08:42:13.713068+00:00
-    user: 2
+    user:
+    - alek
     content_json: '{"pk": 3, "path": "00010002", "depth": 2, "numchild": 2, "title":
       "\u041d\u0430\u0447\u0430\u043b\u043e", "draft_title": "\u041d\u0430\u0447\u0430\u043b\u043e",
       "slug": "\u043d\u0430\u0447\u0430\u043b\u043e", "content_type": 9, "live": true,
@@ -4814,7 +4933,8 @@
     page: 3
     submitted_for_moderation: false
     created_at: 2019-10-28 08:42:42.216546+00:00
-    user: 2
+    user:
+    - alek
     content_json: '{"pk": 3, "path": "00010002", "depth": 2, "numchild": 2, "title":
       "\u041d\u0430\u0447\u0430\u043b\u043e", "draft_title": "\u041d\u0430\u0447\u0430\u043b\u043e",
       "slug": "\u043d\u0430\u0447\u0430\u043b\u043e", "content_type": 9, "live": true,
@@ -4840,7 +4960,8 @@
     page: 6
     submitted_for_moderation: false
     created_at: 2019-11-04 10:58:49.670215+00:00
-    user: 2
+    user:
+    - alek
     content_json: '{"pk": 6, "path": "000100020003", "depth": 3, "numchild": 0, "title":
       "\u0423\u0441\u043b\u043e\u0432\u0438\u044f \u0437\u0430 \u0440\u0430\u0431\u043e\u0442\u0430
       \u0441 \u043f\u043b\u0430\u0442\u0444\u043e\u0440\u043c\u0430\u0442\u0430",
@@ -5337,7 +5458,8 @@
     page: 7
     submitted_for_moderation: false
     created_at: 2019-11-04 11:21:09.264326+00:00
-    user: 2
+    user:
+    - alek
     content_json: '{"pk": 7, "path": "000100020004", "depth": 3, "numchild": 0, "title":
       "\u041f\u043e\u043b\u0438\u0442\u0438\u043a\u0430 \u0437\u0430 \u043f\u043e\u0432\u0435\u0440\u0438\u0442\u0435\u043b\u043d\u043e\u0441\u0442",
       "draft_title": "\u041f\u043e\u043b\u0438\u0442\u0438\u043a\u0430 \u0437\u0430
@@ -6249,7 +6371,8 @@
     page: 8
     submitted_for_moderation: false
     created_at: 2019-11-04 11:23:32.437870+00:00
-    user: 2
+    user:
+    - alek
     content_json: '{"pk": 8, "path": "000100020005", "depth": 3, "numchild": 0, "title":
       "\u041f\u043e\u043b\u0438\u0442\u0438\u043a\u0430 \u0437\u0430 \u0431\u0438\u0441\u043a\u0432\u0438\u0442\u043a\u0438",
       "draft_title": "\u041f\u043e\u043b\u0438\u0442\u0438\u043a\u0430 \u0437\u0430
@@ -6458,7 +6581,8 @@
     page: 9
     submitted_for_moderation: false
     created_at: 2019-11-04 11:24:48.810883+00:00
-    user: 2
+    user:
+    - alek
     content_json: '{"pk": 9, "path": "000100020006", "depth": 3, "numchild": 0, "title":
       "\u0423\u0447\u0440\u0435\u0434\u0438\u0442\u0435\u043b\u0435\u043d \u0430\u043a\u0442",
       "draft_title": "\u0423\u0447\u0440\u0435\u0434\u0438\u0442\u0435\u043b\u0435\u043d
@@ -7422,7 +7546,8 @@
     page: 10
     submitted_for_moderation: false
     created_at: 2019-11-04 11:26:09.959181+00:00
-    user: 2
+    user:
+    - alek
     content_json: '{"pk": 10, "path": "000100020007", "depth": 3, "numchild": 0, "title":
       "\u041f\u0440\u0430\u0432\u0438\u043b\u0430 \u0437\u0430 \u0434\u0435\u0439\u043d\u043e\u0441\u0442\u0442\u0430",
       "draft_title": "\u041f\u0440\u0430\u0432\u0438\u043b\u0430 \u0437\u0430 \u0434\u0435\u0439\u043d\u043e\u0441\u0442\u0442\u0430",
@@ -8084,7 +8209,8 @@
     page: 11
     submitted_for_moderation: false
     created_at: 2019-11-04 11:26:36.941440+00:00
-    user: 2
+    user:
+    - alek
     content_json: '{"pk": 11, "path": "000100020008", "depth": 3, "numchild": 0, "title":
       "\u0415\u0442\u0438\u0447\u0435\u043d \u041a\u043e\u0434\u0435\u043a\u0441",
       "draft_title": "\u0415\u0442\u0438\u0447\u0435\u043d \u041a\u043e\u0434\u0435\u043a\u0441",
@@ -8474,7 +8600,8 @@
     page: 3
     submitted_for_moderation: false
     created_at: 2019-11-04 11:32:08.683212+00:00
-    user: 2
+    user:
+    - alek
     content_json: '{"pk": 3, "path": "00010002", "depth": 2, "numchild": 8, "title":
       "\u041d\u0430\u0447\u0430\u043b\u043e", "draft_title": "\u041d\u0430\u0447\u0430\u043b\u043e",
       "slug": "\u043d\u0430\u0447\u0430\u043b\u043e", "content_type": 9, "live": true,
@@ -8579,7 +8706,8 @@
     page: 3
     submitted_for_moderation: false
     created_at: 2019-11-04 11:34:49.737224+00:00
-    user: 2
+    user:
+    - alek
     content_json: '{"pk": 3, "path": "00010002", "depth": 2, "numchild": 8, "title":
       "\u041d\u0430\u0447\u0430\u043b\u043e", "draft_title": "\u041d\u0430\u0447\u0430\u043b\u043e",
       "slug": "\u043d\u0430\u0447\u0430\u043b\u043e", "content_type": 9, "live": true,
@@ -8691,7 +8819,8 @@
     page: 3
     submitted_for_moderation: false
     created_at: 2019-11-04 11:42:13.031960+00:00
-    user: 2
+    user:
+    - alek
     content_json: '{"pk": 3, "path": "00010002", "depth": 2, "numchild": 8, "title":
       "\u041d\u0430\u0447\u0430\u043b\u043e", "draft_title": "\u041d\u0430\u0447\u0430\u043b\u043e",
       "slug": "\u043d\u0430\u0447\u0430\u043b\u043e", "content_type": 9, "live": true,
@@ -8803,7 +8932,8 @@
     page: 3
     submitted_for_moderation: false
     created_at: 2019-11-04 11:55:43.595343+00:00
-    user: 2
+    user:
+    - alek
     content_json: '{"pk": 3, "path": "00010002", "depth": 2, "numchild": 8, "title":
       "\u041d\u0430\u0447\u0430\u043b\u043e", "draft_title": "\u041d\u0430\u0447\u0430\u043b\u043e",
       "slug": "\u043d\u0430\u0447\u0430\u043b\u043e", "content_type": 9, "live": true,
@@ -8918,7 +9048,8 @@
     page: 3
     submitted_for_moderation: false
     created_at: 2019-11-04 12:11:14.239223+00:00
-    user: 2
+    user:
+    - alek
     content_json: '{"pk": 3, "path": "00010002", "depth": 2, "numchild": 8, "title":
       "\u041d\u0430\u0447\u0430\u043b\u043e", "draft_title": "\u041d\u0430\u0447\u0430\u043b\u043e",
       "slug": "\u043d\u0430\u0447\u0430\u043b\u043e", "content_type": 9, "live": true,
@@ -9030,7 +9161,8 @@
     page: 3
     submitted_for_moderation: false
     created_at: 2019-11-04 12:28:48.487734+00:00
-    user: 2
+    user:
+    - alek
     content_json: '{"pk": 3, "path": "00010002", "depth": 2, "numchild": 8, "title":
       "\u041d\u0430\u0447\u0430\u043b\u043e", "draft_title": "\u041d\u0430\u0447\u0430\u043b\u043e",
       "slug": "\u043d\u0430\u0447\u0430\u043b\u043e", "content_type": 9, "live": true,
@@ -9143,7 +9275,8 @@
     page: 3
     submitted_for_moderation: false
     created_at: 2019-11-04 12:29:18.247115+00:00
-    user: 2
+    user:
+    - alek
     content_json: '{"pk": 3, "path": "00010002", "depth": 2, "numchild": 8, "title":
       "\u041d\u0430\u0447\u0430\u043b\u043e", "draft_title": "\u041d\u0430\u0447\u0430\u043b\u043e",
       "slug": "\u043d\u0430\u0447\u0430\u043b\u043e", "content_type": 9, "live": true,
@@ -9256,7 +9389,8 @@
     page: 6
     submitted_for_moderation: false
     created_at: 2019-11-05 10:31:37.404926+00:00
-    user: 2
+    user:
+    - alek
     content_json: '{"pk": 6, "path": "000100020003", "depth": 3, "numchild": 0, "title":
       "\u0423\u0441\u043b\u043e\u0432\u0438\u044f \u0437\u0430 \u043f\u043e\u043b\u0437\u0432\u0430\u043d\u0435",
       "draft_title": "\u0423\u0441\u043b\u043e\u0432\u0438\u044f \u0437\u0430 \u0440\u0430\u0431\u043e\u0442\u0430
@@ -9749,171 +9883,3 @@
       <i>2019 \u2013 \u0412\u0441\u0438\u0447\u043a\u0438 \u043f\u0440\u0430\u0432\u0430
       \u0437\u0430\u043f\u0430\u0437\u0435\u043d\u0438!</i></p>"}'
     approved_go_live_at: null
-- model: wagtailcore.grouppagepermission
-  pk: 1
-  fields:
-    group: 1
-    page: 1
-    permission_type: add
-- model: wagtailcore.grouppagepermission
-  pk: 2
-  fields:
-    group: 1
-    page: 1
-    permission_type: edit
-- model: wagtailcore.grouppagepermission
-  pk: 3
-  fields:
-    group: 1
-    page: 1
-    permission_type: publish
-- model: wagtailcore.grouppagepermission
-  pk: 4
-  fields:
-    group: 2
-    page: 1
-    permission_type: add
-- model: wagtailcore.grouppagepermission
-  pk: 5
-  fields:
-    group: 2
-    page: 1
-    permission_type: edit
-- model: wagtailcore.grouppagepermission
-  pk: 6
-  fields:
-    group: 1
-    page: 1
-    permission_type: lock
-- model: wagtailcore.collection
-  pk: 1
-  fields:
-    path: '0001'
-    depth: 1
-    numchild: 0
-    name: Root
-- model: wagtailcore.groupcollectionpermission
-  pk: 1
-  fields:
-    group: 1
-    collection: 1
-    permission: 2
-- model: wagtailcore.groupcollectionpermission
-  pk: 2
-  fields:
-    group: 2
-    collection: 1
-    permission: 2
-- model: wagtailcore.groupcollectionpermission
-  pk: 3
-  fields:
-    group: 1
-    collection: 1
-    permission: 3
-- model: wagtailcore.groupcollectionpermission
-  pk: 4
-  fields:
-    group: 2
-    collection: 1
-    permission: 3
-- model: wagtailcore.groupcollectionpermission
-  pk: 5
-  fields:
-    group: 1
-    collection: 1
-    permission: 5
-- model: wagtailcore.groupcollectionpermission
-  pk: 6
-  fields:
-    group: 2
-    collection: 1
-    permission: 5
-- model: wagtailcore.groupcollectionpermission
-  pk: 7
-  fields:
-    group: 1
-    collection: 1
-    permission: 6
-- model: wagtailcore.groupcollectionpermission
-  pk: 8
-  fields:
-    group: 2
-    collection: 1
-    permission: 6
-- model: vote.vote
-  pk: 24
-  fields:
-    user_id: 2
-    content_type: 7
-    object_id: 2
-    action: 1
-    create_at: 2019-10-31 15:23:21.447288+00:00
-- model: vote.vote
-  pk: 26
-  fields:
-    user_id: 2
-    content_type: 7
-    object_id: 4
-    action: 0
-    create_at: 2019-10-31 15:23:39.172441+00:00
-- model: vote.vote
-  pk: 27
-  fields:
-    user_id: 2
-    content_type: 7
-    object_id: 14
-    action: 0
-    create_at: 2019-12-03 07:51:40.448547+00:00
-- model: projects.legalentity
-  pk: 1
-  fields:
-    created_at: 2019-10-27 12:12:33.667266+00:00
-    updated_at: 2019-11-03 06:28:29.684740+00:00
-    name: "\u0417\u0435\u043B\u0435\u043D"
-    text: ''
-    bulstat: '12121314141'
-    email: akodzhabashev@gmail.com
-    phone: '212131456641'
-    admin: 2
-    payment: "IBAN: xxxxxxxxxxxxxxxxxx\r\n\u0418\u043C\u0435: \u0410\u043B\u0435\u043A\u043E
-      \u041A\u0430\u0440\u043B\u043E\u0432\u0441\u043A\u0438"
-    bal: 20
-- model: projects.legalentity
-  pk: 4
-  fields:
-    created_at: 2019-10-28 08:51:48.476288+00:00
-    updated_at: 2019-10-28 08:55:48.188412+00:00
-    name: "\u041F\u043B\u0430\u043C \u0415\u043D\u0435\u0440\u0434\u0436\u0438"
-    text: ''
-    bulstat: '1313131313'
-    email: akodzhabashev@gmail.com
-    phone: '1231213131'
-    admin: 2
-    payment: ''
-    bal: 20
-- model: projects.legalentity
-  pk: 5
-  fields:
-    created_at: 2019-11-09 14:13:11.124029+00:00
-    updated_at: 2019-11-09 14:13:11.124038+00:00
-    name: "\u0420\u0435\u0437\u0438\u0434\u0435\u043D\u0446\u0438\u044F \u0411\u0430\u0431\u0430"
-    text: ''
-    bulstat: '212321321321'
-    email: rezidencia-baba@gmail.com
-    phone: '8311431431'
-    admin: 2
-    payment: 'IBAN: feafeafeafeafa'
-    bal: 20
-- model: projects.legalentity
-  pk: 6
-  fields:
-    created_at: 2019-11-10 08:45:48.129983+00:00
-    updated_at: 2019-11-10 08:45:48.129992+00:00
-    name: "\u0410\u043B\u0435\u043A"
-    text: ''
-    bulstat: '930131'
-    email: akodzhabashev@gmail.com
-    phone: '93013980183'
-    admin: 3
-    payment: "\u043D\u044F\u043C\u0430"
-    bal: 20
