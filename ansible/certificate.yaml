@@ -1,0 +1,18 @@
+- hosts: all
+  vars:
+    certbot_auto_renew_user: admin
+    certbot_auto_renew_minute: "20"
+    certbot_auto_renew_hour: "5"
+    certbot_create_if_missing: yes
+    certbot_create_method: standalone
+    certbot_admin_email: akodzhabashev@gmail.com
+    certbot_certs: 
+      - domains:
+          - nov.horodeya.org
+    certbot_create_standalone_stop_services:
+      - nginx
+
+  roles:
+    - role: geerlingguy.certbot
+      become: yes
+

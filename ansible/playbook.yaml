@@ -32,16 +32,15 @@
     - role: geerlingguy.nginx
       become: yes
       vars:
+        nginx_remove_default_vhost: true
         nginx_vhosts:
-          - listen: "80"
+          - listen: "443 ssl"
             server_name: "nov.horodeya.org"
-            #server_name_redirect: "nov"
             root: '{{root}}'
             #error_page: ""
             #access_log: ""
             #error_log: ""
             state: "present"
-            template: "{{ nginx_vhost_template }}"
             filename: "horodeya.org.conf"
             extra_parameters: |
               location /static {
@@ -52,4 +51,16 @@
                 include uwsgi_params;
                 uwsgi_pass 127.0.0.1:8000;
               }
+
+              ssl_certificate     /etc/letsencrypt/live/nov.horodeya.org/fullchain.pem;
+              ssl_certificate_key /etc/letsencrypt/live/nov.horodeya.org/privkey.pem;
+              ssl_protocols       TLSv1.1 TLSv1.2;
+              ssl_ciphers         HIGH:!aNULL:!MD5;
+
+          - listen: "80"
+            server_name: "nov.horodeya.org"
+            return: "301 https://nov.horodeya.org$request_uri"
+            filename: "horodeya.org.80.conf"
+            state: "present"
+
       tags: nginx
