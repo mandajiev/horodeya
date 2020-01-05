@@ -69,3 +69,16 @@
     chdir: '{{root}}'
   tags:
     migrate
+
+- name: make translations
+  shell: '{{root}}/manage.sh compilemessages -l bg'
+  args:
+    chdir: '{{root}}'
+  tags: translate
+
+- name: restart
+  become: yes
+  file: 
+    path: /etc/uwsgi-emperor/vassals/horodeya.ini
+    state: touch
+  tags: restart

@@ -13,6 +13,9 @@
       - virtualenv
       - gcc
       - python3-dev
+      - gettext
+  tags:
+    packages
 
     #- name: install needed software
     #  become: yes
