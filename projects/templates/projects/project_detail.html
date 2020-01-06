@@ -16,6 +16,11 @@
   <li class="nav-item">
     <a class="nav-link text-white" href="{% url 'projects:report_create' object.pk %}">{% trans 'New report' %}</a>
   </li>
+  <li class="nav-item">
+    <a class="nav-link text-white" href="{% url 'projects:time_necessity_update' object.pk %}">{% trans 'Time necessities' %}</a> </li>
+  <li class="nav-item">
+    <a class="nav-link text-white" href="{% url 'projects:thing_necessity_update' object.pk %}">{% trans 'Thing necessities' %}</a>
+  </li>
 {% endblock %}
 
 {% block content %}
@@ -69,14 +74,17 @@
     {% endif %}
   </div>
 
-  {% include "projects/timenecessity_list.html" with object_list=object.timenecessity_set.all  only %}
+  <h3>{% trans 'Time necessities' %}</h3>
+  {% include "projects/timenecessity_list_fragment.html" with necessity_list=object.timenecessity_set.all  only %}
 
-  {% include "projects/thingnecessity_list.html" with object_list=object.thingnecessity_set.all only %}
+  <h3>{% trans 'Thing necessities' %}</h3>
+  {% include "projects/thingnecessity_list_fragment.html" with necessity_list=object.thingnecessity_set.all only %}
 
+  <h3>{% trans 'Announcements' %}</h3>
   {% if admin %}
   <form method="post" class="form" action="{% url 'projects:announcement_create' object.pk %}" >
     {% csrf_token %}
-    {% bootstrap_form announcement_form %}
+    {% bootstrap_form announcement_form layout='inline'%}
     {% buttons %}
     <button type="submit" class="btn btn-success">{% trans 'Publish' %}</button>
     {% endbuttons %}

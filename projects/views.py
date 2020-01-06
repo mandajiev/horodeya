@@ -115,14 +115,15 @@ ThingNecessityFormset = inlineformset_factory(
         },
         extra=1) 
 
-def thing_necessity_create(request, project_id):
-    return necessity_create(request, project_id, ThingNecessityFormset)
+def thing_necessity_update(request, project_id):
+    return necessity_update(request, project_id, 'thing')
 
-def time_necessity_create(request, project_id):
-    return necessity_create(request, project_id, TimeNecessityFormset)
+def time_necessity_update(request, project_id):
+    return necessity_update(request, project_id, 'time')
 
-def necessity_create(request, project_id, cls):
-    template_name = 'projects/time_necessity_form.html'
+def necessity_update(request, project_id, type):
+    cls = TimeNecessityFormset if type == 'time' else ThingNecessityFormset
+    template_name = 'projects/necessity_form.html'
     project = get_object_or_404(Project, pk=project_id)
 
     if request.method == 'GET':
@@ -145,9 +146,10 @@ def necessity_create(request, project_id, cls):
             else:
                 return redirect(project)
 
-    return render(request, 'projects/time_necessity_form.html', {
+    return render(request, 'projects/necessity_form.html', {
         'formset': formset,
-        'project': project
+        'project': project,
+        'type': type
     })
 
 
@@ -742,4 +744,33 @@ class AnnouncementDetails(AutoPermissionRequiredMixin, generic.DetailView):
         context = super().get_context_data(**kwargs)
         return context
 
+class TimeNecessityList(AutoPermissionRequiredMixin, generic.ListView):
+    permission_type = 'view'
+    model = TimeNecessity
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        project_pk = self.kwargs['project_id']
+        context['project'] = get_object_or_404(Project, pk=project_pk)
+
+        context['necessity_list'] = context['project'].timenecessity_set.all()
+        context['type'] = 'time'
+
+        return context
+
+class ThingNecessityList(AutoPermissionRequiredMixin, generic.ListView):
+    permission_type = 'view'
+    model = ThingNecessity
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        project_pk = self.kwargs['project_id']
+        context['project'] = get_object_or_404(Project, pk=project_pk)
+
+        context['necessity_list'] = context['project'].thingnecessity_set.all()
+        context['type'] = 'thing'
+
+        return context
 

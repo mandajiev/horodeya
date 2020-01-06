@@ -1,0 +1,20 @@
+{% load i18n %}
+{% include "projects/project_breadcrumb.html" with project=project only %}
+<li class="breadcrumb-item {% if list %} {{active}} {% endif %}">
+  {% if type == 'time' %}
+    <a href="{% url 'projects:time_necessity_list' project.pk %}">
+      {% trans 'Time Necessity' %}
+    </a>
+  {% else %}
+    <a href="{% url 'projects:thing_necessity_list' project.pk %}">
+      {% trans 'Thing Necessity' %}
+    </a>
+  {% endif %}
+</li>
+{% if not list %}
+  <li class="breadcrumb-item {{active}}"> 
+    <a href='{% url 'projects:time_necessity_list' project.pk %}'>{% trans 'Update' %}</a>
+  </li>
+{% endif %}
+
+

@@ -1,0 +1,28 @@
+{% load i18n %}
+
+<div class="table-responsive">
+  <table class="table table-sm">
+  <thead>
+    <tr>
+      <th scope='col'>{% trans 'Name' %}</th>
+      <th scope='col'>{% trans 'Description' %}</th>
+      <th scope='col'>{% trans 'Price' %}</th>
+      <th scope='col'>{% trans 'Count' %}</th>
+      <th scope='col'>{% trans 'Start date' %}</th>
+      <th scope='col'>{% trans 'End date' %}</th>
+      <th scope='col'>{% trans 'Fulfulled' %}</th>
+    </tr>
+  </thead>
+  {% for necessity in necessity_list %}
+    <tr>
+      <td>{{necessity.name}}</td>
+      <td>{{necessity.description}}</td>
+      <td>{{necessity.price}}</td>
+      <td>{{necessity.count}}</td>
+      <td>{{necessity.start_date}}</td>
+      <td>{{necessity.end_date}}</td>
+      <td>{{necessity.fulfilled|yesno}}</td>
+    </tr>
+  {% endfor %}
+  </table>
+</div>

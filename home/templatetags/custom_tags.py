@@ -15,13 +15,13 @@ class NavSelectedNode(template.Node):
         self.patterns = patterns
 
     def render(self, context):
-        path = context['request'].path
-        if path == '/':
-            path = 'начало'
+        #path = context['request'].path
+        #if path == '/':
+        #    path = 'начало'
 
-        for p in self.patterns:
-            if p in path:
-                return "active" # change this if needed for other bootstrap version (compatible with 3.2)
+        #for p in self.patterns:
+        #    if p in path:
+        #        return "active" # change this if needed for other bootstrap version (compatible with 3.2)
         return ""
 
 @register.simple_tag

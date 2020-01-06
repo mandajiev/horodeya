@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}
+    {% include "projects/necessity_breadcrumb.html" with project=project list=True active="active" type=type only %}
+{% endblock %}
+
+{% block admin_tools %}
+  <li class="nav-item">
+    <a href="{% url 'projects:time_necessity_update' project_id=project.pk %}" class="btn btn-success">{% trans 'Update' %}</a>
+  </li>
+{% endblock %}
+
+{% block content %}
+{% if project.legal_entity.admin.pk == user.pk %}
+  {{ block.super }}
+{% endif %}
+
+  {% include "projects/timenecessity_list_fragment.html" with necessity_list=necessity_list only%}
+
+{% endblock %}
