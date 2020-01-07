@@ -27,7 +27,8 @@ urlpatterns = [
     path('report/<int:pk>/vote-down', views.report_vote_down, name='report_vote_down'),
 
     path('<int:project_id>/support/create/', views.support_create, name='support_create'),
-    path('<int:project>/moneysupport/create/', views.MoneySupportCreate.as_view(), name='money_support_create'),
+    path('<int:project>/moneysupport/create/', views.MoneySupportCreate.as_view(), kwargs={'necessity': None}, name='money_support_create'),
+    path('<int:project>/moneysupport/create/<int:necessity>', views.MoneySupportCreate.as_view(), name='money_support_create'),
     path('support/<int:pk>', views.support_details, name='support_details'),
     path('moneysupport/<int:pk>', views.MoneySupportDetails.as_view(), name='money_support_details'),
     path('moneysupport/<int:pk>/update', views.MoneySupportUpdate.as_view(), name='money_support_update'),
@@ -52,6 +53,7 @@ urlpatterns = [
     path('<int:project_id>/necessity/thing/update', views.thing_necessity_update, name='thing_necessity_update'),
     path('<int:project_id>/necessity/time', views.TimeNecessityList.as_view(), name='time_necessity_list'),
     path('necessity/time/<int:pk>', views.TimeNecessityDetails.as_view(), name='time_necessity_details'),
+    path('necessity/thing/<int:pk>', views.ThingNecessityDetails.as_view(), name='thing_necessity_details'),
     path('<int:project_id>/necessity/thing', views.ThingNecessityList.as_view(), name='thing_necessity_list'),
 
 ]

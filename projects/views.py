@@ -411,12 +411,29 @@ def report_vote(request, pk, action):
 
     return redirect(report)
 
-MONEY_SUPPORT_FIELDS = ['leva', 'necessity', 'comment']
+class MoneySupportForm(AutoPermissionRequiredMixin, ModelForm):
+    class Meta:
+        model = MoneySupport
+        fields=['leva', 'comment' ]
+        widgets = {
+        }
+
+    def __init__(self, *args, **kwargs):
+        necessity = kwargs.pop('necessity')
+        super().__init__(*args, **kwargs)
+        self.fields['leva'].initial = necessity.price
 
 class MoneySupportCreate(AutoPermissionRequiredMixin, CreateView):
     model = MoneySupport
-    fields = MONEY_SUPPORT_FIELDS
+    form_class = MoneySupportForm
     template_name = 'projects/support_form.html'
+
+    def get_form_kwargs(self):
+        necessity_id = self.kwargs['necessity']
+        necessity = get_object_or_404(ThingNecessity, pk=necessity_id)
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'necessity': necessity})
+        return kwargs
 
     def get_context_data(self, **kwargs):
 
@@ -424,6 +441,11 @@ class MoneySupportCreate(AutoPermissionRequiredMixin, CreateView):
         project_pk = self.kwargs['project']
         self.project = get_object_or_404(Project, pk=project_pk)
         context['project'] = self.project
+
+        necessity_id = self.kwargs['necessity']
+        necessity = get_object_or_404(ThingNecessity, pk=necessity_id)
+        context['necessity'] = necessity
+
         return context
 
     def form_valid(self, form):
@@ -434,12 +456,17 @@ class MoneySupportCreate(AutoPermissionRequiredMixin, CreateView):
         user = self.request.user
         form.instance.user = user
 
+        necessity_id = self.kwargs['necessity']
+        necessity = get_object_or_404(ThingNecessity, pk=necessity_id)
+
+        form.instance.necessity = necessity
+
         return super().form_valid(form)
 
 #TODO only allow if support is not accepted
 class MoneySupportUpdate(AutoPermissionRequiredMixin, UpdateView):
     model = MoneySupport
-    fields = MONEY_SUPPORT_FIELDS
+    form_class = MoneySupportForm
     template_name = 'projects/support_form.html'
 
     def get_context_data(self, **kwargs):
@@ -820,6 +847,16 @@ class TimeNecessityDetails(AutoPermissionRequiredMixin, generic.DetailView):
         context = super().get_context_data(**kwargs)
         context['type'] = 'time'
         return context
+
+class ThingNecessityDetails(AutoPermissionRequiredMixin, generic.DetailView):
+    model = ThingNecessity
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        context['type'] = 'thing'
+        return context
+
 
 
 

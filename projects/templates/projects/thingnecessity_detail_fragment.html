@@ -11,30 +11,26 @@
       <th scope='col'>{% trans 'Description' %}</th>
       <th scope='col'>{% trans 'Price' %}</th>
       <th scope='col'>{% trans 'Count' %}</th>
-      <th scope='col'>{% trans 'Start date' %}</th>
-      <th scope='col'>{% trans 'End date' %}</th>
-      {% if not list_candidates %}
-        <th scope='col'>{% trans 'Candidates' %}</th>
-      {% endif %}
+      <th scope='col'>{% trans 'Candidates' %}</th>
     </tr>
   </thead>
 {% endif %}
 
 {% if not headings_only %}
 <tr>
-  <td>{{object.name}}</td>
-  <td>{{object.description}}</td>
-  <td>{{object.price}}</td>
-  <td>{{object.accepted_support}}/{{object.count}}</td>
-  <td>{{object.start_date}}</td>
-  <td>{{object.end_date}}</td>
+      <td>{{object.name}}</td>
+      <td>{{object.description}}</td>
+      <td>{{object.price}}</td>
+      <td>
+
+        {{object.accepted_money_support|add:object.accepted_support}}/{{object.total_price}}</td>
     <td>
-      {{object.support_candidates.count}}
+      {{object.support_candidates_count}}
       {% if not list_candidates and not hide_details_link %}
         <a href="{{ object.get_absolute_url }}">{% trans 'See all' %}</a>
       {% endif %}
       {% if not hide_support_action %}
-        <a class="" href="{% url 'projects:time_support_create' object.project.pk object.pk %}">{% trans 'Volunteer' %}</a>
+        <a class="" href="{% url 'projects:money_support_create' object.project.pk object.pk %}">{% trans 'Donate' %}</a>
       {% endif %}
     </td>
 </tr>
@@ -48,5 +44,9 @@
   {% for support in object.supports.all %}
     {% include "projects/support_detail_fragment.html" with object=support user=user only %}
   {% endfor %}
+  {% for support in object.money_supports.all %}
+    {% include "projects/support_detail_fragment.html" with object=support user=user only %}
+  {% endfor %}
+
 {% endif %}
 

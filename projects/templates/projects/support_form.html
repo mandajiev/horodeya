@@ -6,6 +6,10 @@
 {% endblock %}
 
 {% block content %}
-  {% include 'projects/timenecessity_detail_fragment.html' with object=necessity table=True headings=True only %}
+{% if type == 'time' %}
+{% include 'projects/timenecessity_detail_fragment.html' with object=necessity table=True headings=True hide_support_action=True hide_details_link=True only %}
+{% else %}
+{% include 'projects/thingnecessity_detail_fragment.html' with object=necessity table=True headings=True hide_support_action=True hide_details_link=True only %}
+{% endif %}
   {{ block.super }}
 {% endblock %}

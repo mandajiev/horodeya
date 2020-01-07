@@ -317,10 +317,16 @@ class ThingNecessity(Timestamped):
         return self.name
 
     def accepted_support(self):
-        return self.supports.filter(accepted=True).count()
+        return self.supports.filter(accepted=True).count() * self.price
 
-    def support_candidates(self):
-        return self.supports.filter(accepted=None)
+    def total_price(self):
+        return self.count * self.price
+
+    def accepted_money_support(self):
+        return sum(self.money_supports.filter(accepted=True).values_list('leva', flat=True))
+
+    def support_candidates_count(self):
+        return self.supports.filter(accepted=None).count() + self.money_supports.filter(accepted=None).count()
 
     def get_absolute_url(self):
         return reverse('projects:thing_necessity_details', kwargs={'pk': self.pk})
@@ -379,7 +385,7 @@ class MoneySupport(Support):
         return 'money'
 
     def __str__(self):
-        return "%s-%.2f" % (self.project, self.leva)
+        return "%s (%s)" % (self.user.first_name, self.leva)
 
 #TODO notify in feed
 class ThingSupport(Support):
@@ -405,7 +411,7 @@ class ThingSupport(Support):
         return 'thing'
 
     def __str__(self):
-        return "%s-%.2f" % (self.project, self.leva)
+        return "%s (%s)" % (self.user.first_name, self.necessity.name)
 
 #TODO notify in feed
 class TimeSupport(Support):
