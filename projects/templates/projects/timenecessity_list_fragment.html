@@ -2,27 +2,11 @@
 
 <div class="table-responsive">
   <table class="table table-sm">
-  <thead>
-    <tr>
-      <th scope='col'>{% trans 'Name' %}</th>
-      <th scope='col'>{% trans 'Description' %}</th>
-      <th scope='col'>{% trans 'Price' %}</th>
-      <th scope='col'>{% trans 'Count' %}</th>
-      <th scope='col'>{% trans 'Start date' %}</th>
-      <th scope='col'>{% trans 'End date' %}</th>
-      <th scope='col'>{% trans 'Fulfulled' %}</th>
-    </tr>
-  </thead>
+
+  {% include "projects/timenecessity_detail_fragment.html" with headings=True headings_only=True %}
+
   {% for necessity in necessity_list %}
-    <tr>
-      <td>{{necessity.name}}</td>
-      <td>{{necessity.description}}</td>
-      <td>{{necessity.price}}</td>
-      <td>{{necessity.count}}</td>
-      <td>{{necessity.start_date}}</td>
-      <td>{{necessity.end_date}}</td>
-      <td>{{necessity.fulfilled|yesno}}</td>
-    </tr>
+    {% include "projects/timenecessity_detail_fragment.html" with object=necessity support_action=support_action %}
   {% endfor %}
   </table>
 </div>

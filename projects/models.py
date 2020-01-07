@@ -18,6 +18,8 @@ from stream_django.activity import Activity
 
 from requests.exceptions import ConnectionError
 
+from django.utils.translation import gettext_lazy
+
 def determine_legal_entity(object):
     if isinstance(object, Project):
         return object.legal_entity
@@ -177,9 +179,8 @@ class Project(Timestamped):
 
     def things_fulfilled(self):
         s = 0
-        for thing in self.thingnecessity_set.all():
-            s += thing.fulfilled
-
+        for necessity in self.thingnecessity_set.all():
+            s += necessity.accepted_support()
         return s
 
     def things_needed(self):
@@ -191,8 +192,9 @@ class Project(Timestamped):
 
     def time_fulfilled(self):
         s = 0
-        for time in self.timenecessity_set.all():
-            s += time.fulfilled
+        for necessity in self.timenecessity_set.all():
+            s += necessity.accepted_support()
+
 
         return s
 
@@ -206,7 +208,7 @@ class Project(Timestamped):
     def money_needed(self):
         s = 0
         for thing in self.thingnecessity_set.all():
-            s += (thing.count - thing.fulfilled) * thing.price
+            s += (thing.count - thing.accepted_support()) * thing.price
 
         return s
 
@@ -290,7 +292,18 @@ class TimeNecessity(Timestamped):
     count = models.IntegerField(default=1)
     start_date = models.DateField()
     end_date = models.DateField()
-    fulfilled = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.name
+
+    def accepted_support(self):
+        return self.supports.filter(accepted=True).count()
+
+    def support_candidates(self):
+        return self.supports.filter(accepted=None)
+
+    def get_absolute_url(self):
+        return reverse('projects:time_necessity_details', kwargs={'pk': self.pk})
 
 #TODO notify in feed
 class ThingNecessity(Timestamped):
@@ -299,13 +312,24 @@ class ThingNecessity(Timestamped):
     description = models.CharField(max_length=300)
     price = models.IntegerField()
     count = models.IntegerField()
-    fulfilled = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.name
+
+    def accepted_support(self):
+        return self.supports.filter(accepted=True).count()
+
+    def support_candidates(self):
+        return self.supports.filter(accepted=None)
+
+    def get_absolute_url(self):
+        return reverse('projects:thing_necessity_details', kwargs={'pk': self.pk})
 
 class Support(Timestamped):
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     
-    comment = models.TextField()
+    comment = models.TextField(blank=True)
     accepted = models.BooleanField(null=True, blank=True)
     accepted_at = models.DateTimeField(null=True, blank=True)
     delivered = models.BooleanField(null=True, blank=True)
@@ -345,10 +369,11 @@ class MoneySupport(Support):
             "list-user": myself
         }
 
+    necessity = models.ForeignKey(ThingNecessity, on_delete=models.PROTECT, related_name='money_supports', null=True, blank=True)
     leva = models.FloatField()
 
     def get_absolute_url(self):
-        return reverse('projects:msupport_details', kwargs={'pk': self.pk})
+        return reverse('projects:money_support_details', kwargs={'pk': self.pk})
 
     def get_type(self):
         return 'money'
@@ -374,7 +399,7 @@ class ThingSupport(Support):
     price = models.IntegerField()
 
     def get_absolute_url(self):
-        return reverse('projects:msupport_details', kwargs={'pk': self.pk})
+        return reverse('projects:thing_support_details', kwargs={'pk': self.pk})
 
     def get_type(self):
         return 'thing'
@@ -401,11 +426,15 @@ class TimeSupport(Support):
     end_date = models.DateField()
 
     def get_absolute_url(self):
-        return reverse('projects:tsupport_details', kwargs={'pk': self.pk})
+        return reverse('projects:time_support_details', kwargs={'pk': self.pk})
 
     def get_type(self):
         return 'time'
 
     def duration(self):
-        return self.end_date - self.start_date
+        return (self.end_date - self.start_date).days
+
+    def __str__(self):
+        return "%s (%s %s)" % (self.user.first_name, self.duration(), gettext_lazy('days'))
+
 

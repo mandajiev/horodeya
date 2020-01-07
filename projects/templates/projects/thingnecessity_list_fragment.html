@@ -8,7 +8,9 @@
       <th scope='col'>{% trans 'Description' %}</th>
       <th scope='col'>{% trans 'Price' %}</th>
       <th scope='col'>{% trans 'Count' %}</th>
-      <th scope='col'>{% trans 'Fulfulled' %}</th>
+      {% if member %}
+        <th scope='col'>{% trans 'Candidates' %}</th>
+      {% endif %}
     </tr>
   </thead>
   {% for necessity in necessity_list %}
@@ -16,8 +18,10 @@
       <td>{{necessity.name}}</td>
       <td>{{necessity.description}}</td>
       <td>{{necessity.price}}</td>
-      <td>{{necessity.count}}</td>
-      <td>{{necessity.fulfilled|yesno}}</td>
+      <td>{{necessity.accepted_support}}/{{necessity.count}}</td>
+      {% if member %}
+        <td>{{necessity.support_candidates}}</td>
+      {% endif %}
     </tr>
   {% endfor %}
   </table>

@@ -4,3 +4,8 @@
     {% include "projects/support_breadcrumb.html" with project=project support=object only %}
     {% include "projects/form_breadcrumb.html" with object=object only %}
 {% endblock %}
+
+{% block content %}
+  {% include 'projects/timenecessity_detail_fragment.html' with object=necessity table=True headings=True only %}
+  {{ block.super }}
+{% endblock %}

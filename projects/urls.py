@@ -27,13 +27,13 @@ urlpatterns = [
     path('report/<int:pk>/vote-down', views.report_vote_down, name='report_vote_down'),
 
     path('<int:project_id>/support/create/', views.support_create, name='support_create'),
-    path('<int:project>/msupport/create/', views.MoneySupportCreate.as_view(), name='msupport_create'),
+    path('<int:project>/moneysupport/create/', views.MoneySupportCreate.as_view(), name='money_support_create'),
     path('support/<int:pk>', views.support_details, name='support_details'),
-    path('msupport/<int:pk>', views.MoneySupportDetails.as_view(), name='msupport_details'),
-    path('msupport/<int:pk>/update', views.MoneySupportUpdate.as_view(), name='msupport_update'),
-    path('<int:project>/tsupport/create/', views.TimeSupportCreate.as_view(), name='tsupport_create'),
-    path('tsupport/<int:pk>', views.TimeSupportDetails.as_view(), name='tsupport_details'),
-    path('tsupport/<int:pk>/update', views.TimeSupportUpdate.as_view(), name='tsupport_update'),
+    path('moneysupport/<int:pk>', views.MoneySupportDetails.as_view(), name='money_support_details'),
+    path('moneysupport/<int:pk>/update', views.MoneySupportUpdate.as_view(), name='money_support_update'),
+    path('<int:project>/timesupport/create/<int:necessity>', views.TimeSupportCreate.as_view(), name='time_support_create'),
+    path('timesupport/<int:pk>', views.TimeSupportDetails.as_view(), name='time_support_details'),
+    path('timesupport/<int:pk>/update', views.TimeSupportUpdate.as_view(), name='time_support_update'),
 
     path('support/<int:pk>/<str:type>/delete', views.SupportDelete.as_view(), name='support_delete'),
     path('support/<int:pk>/<str:type>/accept', views.support_accept, name='support_accept'),
@@ -51,6 +51,7 @@ urlpatterns = [
     path('<int:project_id>/necessity/time/update', views.time_necessity_update, name='time_necessity_update'),
     path('<int:project_id>/necessity/thing/update', views.thing_necessity_update, name='thing_necessity_update'),
     path('<int:project_id>/necessity/time', views.TimeNecessityList.as_view(), name='time_necessity_list'),
+    path('necessity/time/<int:pk>', views.TimeNecessityDetails.as_view(), name='time_necessity_details'),
     path('<int:project_id>/necessity/thing', views.ThingNecessityList.as_view(), name='thing_necessity_list'),
 
 ]

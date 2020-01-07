@@ -11,7 +11,14 @@
     </a>
   {% endif %}
 </li>
-{% if not list %}
+{% if details %}
+  <li class="breadcrumb-item active"> 
+    <a href="{% url 'projects:thing_necessity_list' project.pk %}">
+      {{details.name}}
+    </a>
+  </li>
+{% endif %}
+{% if not list and not details %}
   <li class="breadcrumb-item {{active}}"> 
     <a href='{% url 'projects:time_necessity_list' project.pk %}'>{% trans 'Update' %}</a>
   </li>

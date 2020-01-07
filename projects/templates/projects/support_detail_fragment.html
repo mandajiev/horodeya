@@ -1,0 +1,52 @@
+{% load projects_tags %}
+{% load i18n %}
+
+<div class="row">
+  {% if object.project.legal_entity.admin == user %}
+<div class="col-4 text-right">
+  {% if object.accepted == None %}
+    <a class="btn btn-success" href="{% url 'projects:support_accept' object.pk object.get_type %}">Приеми</a>
+    <a class="btn btn-danger" href="{% url 'projects:support_decline' object.pk object.get_type %}">Откажи</a>
+  {% elif object.accepted == False %}
+    <span class='text-warning'>Отказана</span>
+  {% else %}
+    {% if object.expired %}
+    {% elif not object.delivered %}
+      <a class="btn btn-primary" href="{% url 'projects:support_delivered' object.pk 'm' %}">Отбележи като получена</a>
+    {% else %}
+      <span class='text-success'>Получена</span>
+    {% endif %}
+  {% endif %}
+</div>
+
+{% endif %}
+
+<div class="col-8 ">
+  {{ object }}
+{% if object.user == user %} 
+  {% if object.accepted == None %}
+  {% if object.get_type == 'money' %}
+    <a class="btn btn-primary" href="{% url 'projects:money_support_update' object.pk %}">Промени</a>
+  {% else %}
+    <a class="btn btn-primary" href="{% url 'projects:time_support_update' object.pk %}">Промени</a>
+  {% endif %}
+  <a class="btn btn-danger" href="{% url 'projects:support_delete' object.pk 'm' %}">Изтрий</a>
+  {% endif %}
+{% endif %}
+
+{% if object.expired %}
+  <span class='text-warning'>Изтекла на {{object.delivery_expires}}</span>
+{% elif object.delivered %}
+  <span class='text-success'>Получена</span>
+{% elif object.accepted %}
+  <span class='text-success'>Приета</span>
+  <span class='text-warning'>Изчаква получаване</span>
+  <span class='text-info'>Изтича на {{object.delivery_expires}}</span>
+{% elif object.accepted == False%}
+  <span class='text-warning'>Отказана</span>
+{% else %}
+  <span class='text-warning'>Изчаква приемане</span>
+
+{% endif %}
+</div>
+</div>

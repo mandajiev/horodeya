@@ -411,9 +411,12 @@ def report_vote(request, pk, action):
 
     return redirect(report)
 
+MONEY_SUPPORT_FIELDS = ['leva', 'necessity', 'comment']
+
 class MoneySupportCreate(AutoPermissionRequiredMixin, CreateView):
     model = MoneySupport
-    fields = ['leva']
+    fields = MONEY_SUPPORT_FIELDS
+    template_name = 'projects/support_form.html'
 
     def get_context_data(self, **kwargs):
 
@@ -424,6 +427,8 @@ class MoneySupportCreate(AutoPermissionRequiredMixin, CreateView):
         return context
 
     def form_valid(self, form):
+        project_pk = self.kwargs['project']
+        self.project = get_object_or_404(Project, pk=project_pk)
         form.instance.project = self.project
 
         user = self.request.user
@@ -434,7 +439,8 @@ class MoneySupportCreate(AutoPermissionRequiredMixin, CreateView):
 #TODO only allow if support is not accepted
 class MoneySupportUpdate(AutoPermissionRequiredMixin, UpdateView):
     model = MoneySupport
-    fields = ['leva']
+    fields = MONEY_SUPPORT_FIELDS
+    template_name = 'projects/support_form.html'
 
     def get_context_data(self, **kwargs):
 
@@ -583,10 +589,24 @@ class TimeSupportForm(AutoPermissionRequiredMixin, ModelForm):
             ),
         }
 
+    def __init__(self, *args, **kwargs):
+        necessity = kwargs.pop('necessity')
+        super().__init__(*args, **kwargs)
+        self.fields['price'].initial = necessity.price
+        self.fields['start_date'].initial = necessity.start_date
+        self.fields['end_date'].initial = necessity.end_date
+
 class TimeSupportCreate(AutoPermissionRequiredMixin, CreateView):
     model = TimeSupport
     form_class = TimeSupportForm
-    template_name = 'projects/project_form.html'
+    template_name = 'projects/support_form.html'
+
+    def get_form_kwargs(self):
+        necessity_id = self.kwargs['necessity']
+        necessity = get_object_or_404(TimeNecessity, pk=necessity_id)
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'necessity': necessity})
+        return kwargs
 
     def get_context_data(self, **kwargs):
 
@@ -594,13 +614,25 @@ class TimeSupportCreate(AutoPermissionRequiredMixin, CreateView):
         project_pk = self.kwargs['project']
         self.project = get_object_or_404(Project, pk=project_pk)
         context['project'] = self.project
+
+        necessity_id = self.kwargs['necessity']
+        necessity = get_object_or_404(TimeNecessity, pk=necessity_id)
+        context['necessity'] = necessity
+
         return context
 
     def form_valid(self, form):
+        project_pk = self.kwargs['project']
+        self.project = get_object_or_404(Project, pk=project_pk)
         form.instance.project = self.project
 
         user = self.request.user
         form.instance.user = user
+
+        necessity_id = self.kwargs['necessity']
+        necessity = get_object_or_404(TimeNecessity, pk=necessity_id)
+
+        form.instance.necessity = necessity
 
         return super().form_valid(form)
 
@@ -608,7 +640,7 @@ class TimeSupportCreate(AutoPermissionRequiredMixin, CreateView):
 class TimeSupportUpdate(AutoPermissionRequiredMixin, UpdateView):
     model = TimeSupport
     form_class = TimeSupportForm
-    template_name = 'projects/project_form.html'
+    template_name = 'projects/support_form.html'
 
     def get_context_data(self, **kwargs):
 
@@ -752,10 +784,13 @@ class TimeNecessityList(AutoPermissionRequiredMixin, generic.ListView):
         context = super().get_context_data(**kwargs)
 
         project_pk = self.kwargs['project_id']
-        context['project'] = get_object_or_404(Project, pk=project_pk)
+        project = get_object_or_404(Project, pk=project_pk)
+        context['project'] = project
 
-        context['necessity_list'] = context['project'].timenecessity_set.all()
+        context['necessity_list'] = project.timenecessity_set.all()
         context['type'] = 'time'
+
+        context['member'] = self.request.user.member_of(project.legal_entity.pk)
 
         return context
 
@@ -767,10 +802,24 @@ class ThingNecessityList(AutoPermissionRequiredMixin, generic.ListView):
         context = super().get_context_data(**kwargs)
 
         project_pk = self.kwargs['project_id']
-        context['project'] = get_object_or_404(Project, pk=project_pk)
+        project = get_object_or_404(Project, pk=project_pk)
+        context['project'] = project
 
-        context['necessity_list'] = context['project'].thingnecessity_set.all()
+        context['necessity_list'] = project.thingnecessity_set.all()
         context['type'] = 'thing'
 
+        context['member'] = self.request.user.member_of(project.legal_entity.pk)
+
         return context
+
+class TimeNecessityDetails(AutoPermissionRequiredMixin, generic.DetailView):
+    model = TimeNecessity
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        context['type'] = 'time'
+        return context
+
+
 

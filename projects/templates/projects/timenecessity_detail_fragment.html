@@ -1,0 +1,52 @@
+{% load i18n %}
+
+{% if table %}
+  <table class="table table-sm">
+{% endif %}
+
+{% if headings %}
+  <thead>
+    <tr>
+      <th scope='col'>{% trans 'Name' %}</th>
+      <th scope='col'>{% trans 'Description' %}</th>
+      <th scope='col'>{% trans 'Price' %}</th>
+      <th scope='col'>{% trans 'Count' %}</th>
+      <th scope='col'>{% trans 'Start date' %}</th>
+      <th scope='col'>{% trans 'End date' %}</th>
+      {% if not list_candidates %}
+        <th scope='col'>{% trans 'Candidates' %}</th>
+      {% endif %}
+    </tr>
+  </thead>
+{% endif %}
+
+{% if not headings_only %}
+<tr>
+  <td>{{object.name}}</td>
+  <td>{{object.description}}</td>
+  <td>{{object.price}}</td>
+  <td>{{object.accepted_support}}/{{object.count}}</td>
+  <td>{{object.start_date}}</td>
+  <td>{{object.end_date}}</td>
+  {% if not list_candidates %}
+    <td>
+      {{object.support_candidates.count}}
+      <a href="{{ object.get_absolute_url }}">{% trans 'See all' %}</a>
+  {% if support_action %}
+      <a class="" href="{% url 'projects:time_support_create' object.pk necessity.pk %}">{% trans 'Volunteer' %}</a>
+  {% endif %}
+    </td>
+  {% endif %}
+</tr>
+{% endif %}
+
+{% if table %}
+  </table>
+{% endif %}
+
+{% if list_candidates %}
+  {% for support in object.supports.all %}
+    {% include "projects/support_detail_fragment.html" with object=support user=user only %}
+  {% endfor %}
+{% endif %}
+

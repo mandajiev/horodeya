@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block breadcrumbs %}
+    {% include "projects/necessity_breadcrumb.html" with project=object.project active="active" type=type details=object only %}
+{% endblock %}
+
+{% block content %}
+
+{% include "projects/timenecessity_detail_fragment.html" with object=object headings=True table=True list_candidates=True user=user only %}
+
+{% endblock %}

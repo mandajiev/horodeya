@@ -16,7 +16,7 @@
 
 <ul class="list-group">
 {% for money_support in money_support_list %}
-  <a href="{% url 'projects:msupport_details' money_support.pk %}" class="list-group-item list-group-item-action">
+  <a href="{% url 'projects:money_support_details' money_support.pk %}" class="list-group-item list-group-item-action">
     {{money_support.leva | leva}} от
     {{money_support.user.first_name}}
   </a>
@@ -25,7 +25,7 @@
 
 <ul class="list-group">
 {% for time_support in time_support_list %}
-  <a href="{% url 'projects:tsupport_details' time_support.pk %}" class="list-group-item list-group-item-action">
+  <a href="{% url 'projects:time_support_details' time_support.pk %}" class="list-group-item list-group-item-action">
     {{time_support.duration}} от
     {{time_support.user.first_name}}
   </a>
