@@ -422,42 +422,54 @@
   pk: 1
   fields:
     created_at: 2019-12-08 07:00:11.575965+00:00
-    updated_at: 2019-12-08 07:45:56.677101+00:00
+    updated_at: 2020-01-06 14:40:42.674977+00:00
     project: 1
     name: "\u041F\u0440\u0435\u0434-\u0444\u0435\u0441\u0442\u0438\u0432\u0430\u043B\u043D\u0438
       \u0434\u043E\u0431\u0440\u043E\u0432\u043E\u043B\u0446\u0438"
-    description: '...'
+    description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      Duis aute irure dolor in reprehenderit in voluptate velit esse cillu
     price: 30
-    count: 1
+    count: 30
     start_date: 2019-12-08
     end_date: 2019-12-12
-    fulfilled: 0
 - model: projects.timenecessity
   pk: 2
   fields:
     created_at: 2019-12-08 07:00:11.607624+00:00
-    updated_at: 2019-12-08 07:45:56.712031+00:00
+    updated_at: 2020-01-06 14:40:42.698746+00:00
     project: 1
     name: "\u0421\u043B\u0435\u0434-\u0444\u0435\u0441\u0442\u0438\u0432\u0430\u043B\u043D\u0438-\u0434\u043E\u0431\u0440\u043E\u0432\u043E\u043B\u0446\u0438"
     description: '....'
     price: 40
-    count: 1
+    count: 20
     start_date: 2019-12-13
     end_date: 2019-12-14
-    fulfilled: 0
 - model: projects.timenecessity
   pk: 3
   fields:
     created_at: 2019-12-08 07:31:26.529885+00:00
-    updated_at: 2019-12-08 07:45:56.739823+00:00
+    updated_at: 2020-01-06 14:40:42.720766+00:00
     project: 1
     name: "\u0414\u0440\u0443\u0433\u0438 \u0434\u043E\u0431\u0440\u043E\u0432\u043E\u043B\u0446\u0438"
     description: '......'
     price: 59
-    count: 1
+    count: 10
     start_date: 2019-12-08
     end_date: 2019-12-12
-    fulfilled: 0
+- model: projects.timenecessity
+  pk: 8
+  fields:
+    created_at: 2020-01-07 13:57:36.809829+00:00
+    updated_at: 2020-01-07 13:57:36.809839+00:00
+    project: 3
+    name: "\u0414\u043E\u0431\u0440\u043E\u0432\u043E\u043B\u0435\u0446"
+    description: '...'
+    price: 30
+    count: 1
+    start_date: 2020-01-07
+    end_date: 2020-01-10
 - model: projects.thingnecessity
   pk: 2
   fields:
@@ -469,7 +481,6 @@
       \u0431\u0435\u043D\u0437\u0438\u043D\u043E\u0432\u0438 \u0433\u0435\u043D\u0435\u0440\u0430\u0442\u043E\u0440\u0438"
     price: 1000
     count: 5
-    fulfilled: 0
 - model: auth.group
   pk: 1
   fields:
@@ -790,6 +801,85 @@
     - xilunas
     payment: "\u043D\u044F\u043C\u0430"
     bal: 20
+- model: projects.moneysupport
+  pk: 3
+  fields:
+    created_at: 2020-01-07 09:34:07.462683+00:00
+    updated_at: 2020-01-07 09:34:07.462693+00:00
+    project: 1
+    user:
+    - alek
+    comment: ''
+    accepted: null
+    accepted_at: null
+    delivered: null
+    delivered_at: null
+    necessity: null
+    leva: 10.0
+- model: projects.moneysupport
+  pk: 4
+  fields:
+    created_at: 2020-01-07 09:35:01.185565+00:00
+    updated_at: 2020-01-07 09:35:01.185575+00:00
+    project: 1
+    user:
+    - alek
+    comment: ''
+    accepted: null
+    accepted_at: null
+    delivered: null
+    delivered_at: null
+    necessity: null
+    leva: 10.0
+- model: projects.moneysupport
+  pk: 5
+  fields:
+    created_at: 2020-01-07 15:07:31.820729+00:00
+    updated_at: 2020-01-07 15:19:05.821727+00:00
+    project: 1
+    user:
+    - alek
+    comment: ''
+    accepted: true
+    accepted_at: 2020-01-07 15:19:05.821714+00:00
+    delivered: null
+    delivered_at: null
+    necessity: 2
+    leva: 1000.0
+- model: projects.timesupport
+  pk: 1
+  fields:
+    created_at: 2020-01-07 09:42:52.030613+00:00
+    updated_at: 2020-01-07 13:33:42.293434+00:00
+    project: 1
+    user:
+    - alek
+    comment: ''
+    accepted: true
+    accepted_at: 2020-01-07 13:33:42.293413+00:00
+    delivered: null
+    delivered_at: null
+    necessity: 1
+    price: 30
+    start_date: 2020-01-07
+    end_date: 2020-01-11
+- model: projects.timesupport
+  pk: 2
+  fields:
+    created_at: 2020-01-07 14:40:19.831957+00:00
+    updated_at: 2020-01-07 14:40:19.831972+00:00
+    project: 1
+    user:
+    - alek
+    comment: ''
+    accepted: null
+    accepted_at: null
+    delivered: null
+    delivered_at: null
+    necessity: 1
+    price: 30
+    start_date: 2019-12-08
+    end_date: 2019-12-12
 - model: home.homepage
   pk: 3
   fields:
