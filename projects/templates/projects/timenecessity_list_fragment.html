@@ -6,7 +6,7 @@
   {% include "projects/timenecessity_detail_fragment.html" with headings=True headings_only=True %}
 
   {% for necessity in necessity_list %}
-    {% include "projects/timenecessity_detail_fragment.html" with object=necessity support_action=support_action %}
+    {% include "projects/timenecessity_detail_fragment.html" with object=necessity support_action=support_action short=short only %}
   {% endfor %}
   </table>
 </div>

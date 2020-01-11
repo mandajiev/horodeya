@@ -32,7 +32,7 @@ urlpatterns = [
     path('support/<int:pk>', views.support_details, name='support_details'),
     path('moneysupport/<int:pk>', views.MoneySupportDetails.as_view(), name='money_support_details'),
     path('moneysupport/<int:pk>/update', views.MoneySupportUpdate.as_view(), name='money_support_update'),
-    path('<int:project>/timesupport/create/<int:necessity>', views.TimeSupportCreate.as_view(), name='time_support_create'),
+    path('<int:project_id>/timesupport/create', views.time_support_create, name='time_support_create'),
     path('timesupport/<int:pk>', views.TimeSupportDetails.as_view(), name='time_support_details'),
     path('timesupport/<int:pk>/update', views.TimeSupportUpdate.as_view(), name='time_support_update'),
 

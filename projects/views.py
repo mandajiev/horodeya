@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from django.utils.html import format_html
-from django.forms import ModelForm, ValidationError, inlineformset_factory
+from django.forms import ModelForm, ValidationError, inlineformset_factory, modelformset_factory
 
 from django import forms
 
@@ -600,24 +600,10 @@ def support_details(request, pk):
 class TimeSupportForm(AutoPermissionRequiredMixin, ModelForm):
     class Meta:
         model = TimeSupport
-        fields=['price', 'start_date', 'end_date', 'comment' ]
-        widgets = {
-            'start_date': DatePicker(
-                options={
-                    'useCurrent': True,
-                    'collapse': False,
-                },
-            ),
-            'end_date': DatePicker(
-                options={
-                    'useCurrent': True,
-                    'collapse': False,
-                },
-            ),
-        }
+        fields=['comment']
 
     def __init__(self, *args, **kwargs):
-        necessity = kwargs.pop('necessity')
+        necessities = kwargs.pop('necessity_ids')
         super().__init__(*args, **kwargs)
         self.fields['price'].initial = necessity.price
         self.fields['start_date'].initial = necessity.start_date
@@ -629,10 +615,9 @@ class TimeSupportCreate(AutoPermissionRequiredMixin, CreateView):
     template_name = 'projects/support_form.html'
 
     def get_form_kwargs(self):
-        necessity_id = self.kwargs['necessity']
-        necessity = get_object_or_404(TimeNecessity, pk=necessity_id)
+        necessity_ids = self.kwargs['necessities'].split(',')
         kwargs = super().get_form_kwargs()
-        kwargs.update({'necessity': necessity})
+        kwargs.update({'necessity_ids': necessity_ids})
         return kwargs
 
     def get_context_data(self, **kwargs):
@@ -642,9 +627,9 @@ class TimeSupportCreate(AutoPermissionRequiredMixin, CreateView):
         self.project = get_object_or_404(Project, pk=project_pk)
         context['project'] = self.project
 
-        necessity_id = self.kwargs['necessity']
-        necessity = get_object_or_404(TimeNecessity, pk=necessity_id)
-        context['necessity'] = necessity
+        necessity_ids = self.kwargs['necessities'].split(',')
+        necessity_list = map(lambda n: get_object_or_404(TimeNecessity, pk=n), necessity_ids)
+        context['necessity_list'] = necessity
 
         return context
 
@@ -802,6 +787,64 @@ class AnnouncementDetails(AutoPermissionRequiredMixin, generic.DetailView):
 
         context = super().get_context_data(**kwargs)
         return context
+
+def time_support_create(request, project_id):
+    project = get_object_or_404(Project, pk=project_id)
+    
+    context = {}
+    context['project'] = project
+    necessity_list = project.timenecessity_set.all()
+    context['necessity_list'] = necessity_list
+
+    TimeSupportFormset = modelformset_factory(
+        TimeSupport,
+        fields=['necessity', 'comment', 'start_date', 'end_date', 'price' ],
+        widgets={
+            'start_date': forms.HiddenInput(),
+            'end_date': forms.HiddenInput(),
+            'price': forms.HiddenInput(),
+            'comment': forms.Textarea({
+                'rows': 1,
+                'cols': 30
+                }
+        )},
+        extra=len(necessity_list))
+
+    initial = list(map(lambda n: {'necessity': n, 'start_date': n.start_date, 'end_date': n.end_date, 'price': n.price}, necessity_list))
+    if request.method == 'GET':
+        formset = TimeSupportFormset(
+            queryset=TimeSupport.objects.none(),
+            initial=initial)
+
+    elif request.method == 'POST':
+        formset = TimeSupportFormset(
+            request.POST,
+            queryset=TimeSupport.objects.none(),
+            initial=initial)
+
+        selected_necessities = request.POST.getlist('necessity')
+        selected_necessities = list(map(int, selected_necessities))
+
+        if not selected_necessities:
+            messages.error(request, _("Choose at least one necessity"))
+
+        else:
+            if formset.is_valid():
+                saved = 0
+                for form in formset:
+                    necessity = form.cleaned_data.get('necessity')
+                    if necessity and necessity.pk in selected_necessities:
+                        form.instance.project = project
+                        form.instance.user = request.user
+                        form.save()
+                        saved += 1
+                if saved > 0:
+                    messages.success(request, _('Submitted %d support candidates' % saved))
+                    return redirect(project)
+
+    context['formset'] = formset
+
+    return render(request, 'projects/time_support_create.html', context)
 
 class TimeNecessityList(AutoPermissionRequiredMixin, generic.ListView):
     permission_type = 'view'

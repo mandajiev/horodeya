@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}
+    {% include "projects/necessity_breadcrumb.html" with project=project list=True active="active" type=type only %}
+{% endblock %}
+
+
+{% block content %}
+{% load bootstrap4 %}
+{{ formset.media }}
+{% bootstrap_messages %}
+<form method="post" class="form">
+  {% csrf_token %}
+  {{ formset.management_form }}
+  {% bootstrap_formset_errors formset %}
+  {% for form in formset %}
+    {% for hidden in form.hidden_fields %}
+      {{ hidden }}
+    {% endfor %}
+    <div>
+    {% for field in form.visible_fields %}
+      {% if field.name == 'necessity' %}
+      {% with field.initial as necessity %}
+      <div class="form-check">
+        <input class="form-check-input toggles-comment" type="checkbox" value="{{necessity.id}}" id="{{necessity.id}}" name='necessity'>
+        <label class="form-check-label" for="{{necessity.id}}">
+          <h4>{{ necessity.name }}
+          <small>{{ necessity.start_date|date:"j M"}} to {{necessity.end_date|date:"j M" }}</small>
+          </h4>
+          <p>
+          {{ necessity.description|linebreaks }}
+          </p>
+        </label>
+      </div>
+      {{ field.as_hidden }}
+      {% endwith %}
+
+      {% else %}
+        {% bootstrap_field field layout='inline' %}
+      {% endif %}
+    {% endfor %}
+    </div>
+  {% endfor %}
+
+  <script>
+    var func = function() {
+      var comment = $(this).parent().siblings()[1];
+      if (this.checked) {
+        comment.style.display='inherit';
+      }
+      else {
+        comment.style.display='none';
+      }
+    };
+    $('.toggles-comment').each(func);
+    $('.toggles-comment').change(func);
+  </script>
+
+  {% buttons %}
+  <button type="submit" class="btn btn-primary">{% trans 'Apply to selected' %}</button>
+  {% endbuttons %}
+</form>
+
+{% endblock %}
