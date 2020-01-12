@@ -38,9 +38,6 @@
       {% if not list_candidates and not hide_details_link %}
         <a href="{{ object.get_absolute_url }}">{% trans 'See all' %}</a>
       {% endif %}
-      {% if not hide_support_action %}
-        <a class="" href="{% url 'projects:time_support_create' object.project.pk object.pk %}">{% trans 'Volunteer' %}</a>
-      {% endif %}
     </td>
     {% endif %}
 </tr>

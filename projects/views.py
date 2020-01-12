@@ -411,29 +411,10 @@ def report_vote(request, pk, action):
 
     return redirect(report)
 
-class MoneySupportForm(AutoPermissionRequiredMixin, ModelForm):
-    class Meta:
-        model = MoneySupport
-        fields=['leva', 'comment' ]
-        widgets = {
-        }
-
-    def __init__(self, *args, **kwargs):
-        necessity = kwargs.pop('necessity')
-        super().__init__(*args, **kwargs)
-        self.fields['leva'].initial = necessity.price
-
 class MoneySupportCreate(AutoPermissionRequiredMixin, CreateView):
     model = MoneySupport
-    form_class = MoneySupportForm
     template_name = 'projects/support_form.html'
-
-    def get_form_kwargs(self):
-        necessity_id = self.kwargs['necessity']
-        necessity = get_object_or_404(ThingNecessity, pk=necessity_id)
-        kwargs = super().get_form_kwargs()
-        kwargs.update({'necessity': necessity})
-        return kwargs
+    fields=['leva', 'comment' ]
 
     def get_context_data(self, **kwargs):
 
@@ -441,10 +422,6 @@ class MoneySupportCreate(AutoPermissionRequiredMixin, CreateView):
         project_pk = self.kwargs['project']
         self.project = get_object_or_404(Project, pk=project_pk)
         context['project'] = self.project
-
-        necessity_id = self.kwargs['necessity']
-        necessity = get_object_or_404(ThingNecessity, pk=necessity_id)
-        context['necessity'] = necessity
 
         return context
 
@@ -466,7 +443,7 @@ class MoneySupportCreate(AutoPermissionRequiredMixin, CreateView):
 #TODO only allow if support is not accepted
 class MoneySupportUpdate(AutoPermissionRequiredMixin, UpdateView):
     model = MoneySupport
-    form_class = MoneySupportForm
+    fields=['leva', 'comment' ]
     template_name = 'projects/support_form.html'
 
     def get_context_data(self, **kwargs):

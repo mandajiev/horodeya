@@ -9,4 +9,7 @@
     {% include "projects/thingnecessity_detail_fragment.html" with object=necessity support_action=support_action %}
   {% endfor %}
   </table>
+  <div class="text-center">
+    <a class="btn btn-primary" href="{% url 'projects:money_support_create' project.pk %}">{% trans "Donate" %}</a>
+  </div>
 </div>

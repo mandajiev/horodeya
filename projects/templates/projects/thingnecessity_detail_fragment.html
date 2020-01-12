@@ -11,7 +11,9 @@
       <th scope='col'>{% trans 'Description' %}</th>
       <th scope='col'>{% trans 'Price' %}</th>
       <th scope='col'>{% trans 'Count' %}</th>
-      <th scope='col'>{% trans 'Candidates' %}</th>
+      {% if member %}
+        <th scope='col'>{% trans 'Candidates' %}</th>
+      {% endif %}
     </tr>
   </thead>
 {% endif %}
@@ -24,15 +26,15 @@
       <td>
 
         {{object.accepted_money_support|add:object.accepted_support}}/{{object.total_price}}</td>
+
+    {% if member %}
     <td>
       {{object.support_candidates_count}}
       {% if not list_candidates and not hide_details_link %}
         <a href="{{ object.get_absolute_url }}">{% trans 'See all' %}</a>
       {% endif %}
-      {% if not hide_support_action %}
-        <a class="" href="{% url 'projects:money_support_create' object.project.pk object.pk %}">{% trans 'Donate' %}</a>
-      {% endif %}
     </td>
+    {% endif %}
 </tr>
 {% endif %}
 

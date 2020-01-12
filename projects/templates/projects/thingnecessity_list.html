@@ -3,12 +3,12 @@
 {% load i18n %}
 
 {% block breadcrumbs %}
-    {% include "projects/necessity_breadcrumb.html" with project=project list=True active="active" type=type only %}
+    {% include "projects/necessity_breadcrumb.html" with project=project list=True active="active" type=type  %}
 {% endblock %}
 
 {% block admin_tools %}
   <li class="nav-item">
-    <a href="{% url 'projects:time_necessity_update' project_id=project.pk %}" class="btn btn-success">{% trans 'Update' %}</a>
+    <a href="{% url 'projects:thing_necessity_update' project_id=project.pk %}" class="btn btn-success">{% trans 'Update' %}</a>
   </li>
 {% endblock %}
 
@@ -17,6 +17,6 @@
   {{ block.super }}
 {% endif %}
 
-  {% include "projects/thingnecessity_list_fragment.html" with necessity_list=necessity_list member=member only%}
+  {% include "projects/thingnecessity_list_fragment.html" with necessity_list=necessity_list member=member %}
 
 {% endblock %}
