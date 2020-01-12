@@ -34,6 +34,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('projects/', include('projects.urls')),
     path('admin/', admin.site.urls),
+    re_path(r'^photologue/', include('photologue.urls', namespace='photologue')),
     re_path(r'^cms/', include(wagtailadmin_urls)),
     re_path(r'^documents/', include(wagtaildocs_urls)),
     re_path(r'', include(wagtail_urls)),

@@ -71,7 +71,10 @@ INSTALLED_APPS = [
     'taggit',
 
     'debug_toolbar',
-    'vote'
+    'vote',
+    
+    'photologue',
+    'sortedm2m',
 ]
 
 MIDDLEWARE = [

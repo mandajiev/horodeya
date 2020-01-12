@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
+from django.utils.text import slugify
 from django.utils.html import format_html
 from django.forms import ModelForm, ValidationError, inlineformset_factory, modelformset_factory
 
@@ -24,6 +25,8 @@ from projects.models import Project, LegalEntity, Report, MoneySupport, TimeSupp
 from tempus_dominus.widgets import DateTimePicker, DatePicker
 
 from vote.models import UP, DOWN
+
+from photologue.models import Photo 
 
 from dal import autocomplete
 
@@ -877,6 +880,24 @@ class ThingNecessityDetails(AutoPermissionRequiredMixin, generic.DetailView):
         context['type'] = 'thing'
         return context
 
+class UploadFileForm(forms.Form):
+    title = forms.CharField(max_length=50)
+    caption = forms.CharField(widget=forms.Textarea, required=False)
+    file = forms.FileField()
 
-
+def gallery_add(request, project_id):
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            image = Photo()
+            image.image = request.FILES['file']
+            image.title = form.cleaned_data['title']
+            image.caption = form.cleaned_data.get('caption')
+            image.slug = slugify(image.title)
+            image.save()
+            messages.success(request, _('Image uploaded'))
+            return redirect(request.GET['next'])
+    else:
+        form = UploadFileForm()
+    return render(request, 'file_form.html', {'form': form})
 
