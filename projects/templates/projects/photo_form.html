@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}
+    {% include "projects/project_breadcrumb.html" with project=project only %}
+    <li class="breadcrumb-item active">
+      <a href=''>{% trans 'Update images' %}</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+{% load bootstrap4 %}
+{{ formset.media }}
+{% bootstrap_messages %}
+<form method="post" class="form-inline" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ formset.management_form }}
+  <div class="table-responsive">
+    {% bootstrap_formset_errors formset %}
+    <table class="table table-sm">
+    {% for form in formset %}
+      <tr>
+          {% if form.instance.image %}
+          <td>
+            <img src="{{form.instance.get_admin_thumbnail_url}}">
+          </td>
+          {% endif %}
+      {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+      {% endfor %}
+      {% for field in form.visible_fields %}
+          {% if field.name != 'image' or not form.instance.image %}
+        <td>
+            {% bootstrap_field field layout='inline'  %}
+        </td>
+          {% endif %}
+      {% endfor %}
+      </tr>
+    {% endfor %}
+    </table>
+  </div>
+  <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
+</form>
+{% endblock %}

@@ -891,16 +891,6 @@ def gallery_add(request, project_id, primary=False):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            #TODO make project.name unique
-            gallery, created = Gallery.objects.get_or_create(
-                title=project.name,
-                defaults={
-                    'slug': slugify(project.name, allow_unicode=True)
-                })
-
-            if created:
-                project.gallery = gallery
-                project.save()
 
             title = form.cleaned_data['title']
             primary = form.cleaned_data['primary']
@@ -925,4 +915,62 @@ def gallery_add(request, project_id, primary=False):
     else:
         form = UploadFileForm(initial={'primary': primary})
     return render(request, 'file_form.html', {'form': form})
+
+PhotoFormset = modelformset_factory(
+    Photo,
+    fields=['image'],
+    extra=1,
+    can_delete=True,
+    can_order=True)
+
+def gallery_update(request, project_id):
+    template_name = 'projects/photo_form.html'
+    project = get_object_or_404(Project, pk=project_id)
+
+    #TODO make project.name unique
+    gallery, created = Gallery.objects.get_or_create(
+        title=project.name,
+        defaults={
+            'slug': slugify(project.name, allow_unicode=True)
+        })
+
+    if created:
+        project.gallery = gallery
+        project.save()
+
+    if request.method == 'GET':
+        # we don't want to display the already saved model instances
+        formset = PhotoFormset(queryset=gallery.photos.all())
+
+    elif request.method == 'POST':
+        formset = PhotoFormset(request.POST, queryset=gallery.photos.all())
+        if formset.is_valid():
+            for form in formset:
+                image = request.FILES.get("%s-image" % (form.prefix))
+                order = form.cleaned_data.get('ORDER', len(formset))
+                if form.cleaned_data.get('DELETE'):
+                    form.instance.delete()
+                elif image:
+                    form.instance.project = project
+                    form.instance.title = image
+                    form.instance.image = image
+                    form.instance.slug = slugify(image)
+                    image = form.save()
+                    image.galleries.add(gallery)
+
+                    through = gallery.photos.through.objects.get(photo_id=image.pk, gallery_id=gallery.pk)
+                    through.sort_value = order
+                    through.save()
+                elif form.instance.image:
+                    image = form.instance
+                    through = gallery.photos.through.objects.get(photo_id=image.pk, gallery_id=gallery.pk)
+                    through.sort_value = order
+                    through.save()
+
+            return redirect(project)
+
+    return render(request, 'projects/photo_form.html', {
+        'formset': formset,
+        'project': project,
+    })
 
