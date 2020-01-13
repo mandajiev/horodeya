@@ -20,6 +20,8 @@ from requests.exceptions import ConnectionError
 
 from django.utils.translation import gettext_lazy
 
+from photologue.models import Photo, Gallery
+
 def determine_legal_entity(object):
     if isinstance(object, Project):
         return object.legal_entity
@@ -135,6 +137,8 @@ class Project(Timestamped):
     published = models.BooleanField()
     legal_entity = models.ForeignKey(LegalEntity, on_delete=models.CASCADE)
     end_date = models.DateField(null=True, blank=True)
+    primary_image = models.ForeignKey(Photo, on_delete=models.PROTECT, null=True)
+    gallery = models.ForeignKey(Gallery, on_delete=models.PROTECT, null=True)
 
     def key(self):
         return 'project-%d' % self.id

@@ -26,7 +26,7 @@ from tempus_dominus.widgets import DateTimePicker, DatePicker
 
 from vote.models import UP, DOWN
 
-from photologue.models import Photo 
+from photologue.models import Photo , Gallery
 
 from dal import autocomplete
 
@@ -884,20 +884,45 @@ class UploadFileForm(forms.Form):
     title = forms.CharField(max_length=50)
     caption = forms.CharField(widget=forms.Textarea, required=False)
     file = forms.FileField()
+    primary = forms.BooleanField(initial=False, required=False)
 
-def gallery_add(request, project_id):
+def gallery_add(request, project_id, primary=False):
+    project = get_object_or_404(Project, pk=project_id)
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            image = Photo()
-            image.image = request.FILES['file']
-            image.title = form.cleaned_data['title']
-            image.caption = form.cleaned_data.get('caption')
-            image.slug = slugify(image.title)
-            image.save()
+            #TODO make project.name unique
+            gallery, created = Gallery.objects.get_or_create(
+                title=project.name,
+                defaults={
+                    'slug': slugify(project.name, allow_unicode=True)
+                })
+
+            if created:
+                project.gallery = gallery
+                project.save()
+
+            title = form.cleaned_data['title']
+            primary = form.cleaned_data['primary']
+
+            image = gallery.photos.create(
+                image = request.FILES['file'],
+                title = title,
+                caption = form.cleaned_data.get('caption'),
+                slug = slugify(title, allow_unicode=True)
+                )
+
+            if primary:
+                project.primary_image = image
+                project.save()
+
             messages.success(request, _('Image uploaded'))
-            return redirect(request.GET['next'])
+            next = request.GET.get('next')
+            if next:
+                return redirect(request.GET['next'])
+            else:
+                return redirect(project)
     else:
-        form = UploadFileForm()
+        form = UploadFileForm(initial={'primary': primary})
     return render(request, 'file_form.html', {'form': form})
 

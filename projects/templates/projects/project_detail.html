@@ -14,6 +14,9 @@
     <a class="nav-link text-white" href="{% url 'projects:update' project.pk %}">{% trans 'Update' %}</a>
   </li>
   <li class="nav-item">
+    <a class="nav-link text-white" href="{% url 'projects:gallery_add' project.pk %}">{% trans 'Add image' %}</a>
+  </li>
+  <li class="nav-item">
     <a class="nav-link text-white" href="{% url 'projects:report_create' object.pk %}">{% trans 'New report' %}</a>
   </li>
   <li class="nav-item">
@@ -31,7 +34,20 @@
 
   <div class="row mt-4">
     <div class="col-md-8">
-      <img src="holder.js/640x320"></img>
+      {% if object.primary_image %}
+      {% with object.primary_image as image %}
+        <a href="{{ image.image.url }}">
+          <img src="{{image.get_details_url}}" alt="{{ image.title }}">
+        </a>
+      {% endwith %}
+      {% else %}
+        <a href="{% url 'projects:gallery_add' object.id %}?primary=True">{% trans "Add image" %}</a>
+      {% endif %}
+      {% for photo in object.gallery.sample %}
+        <a href="{{ photo.get_absolute_url }}">
+          <img src="{{ photo.get_thumbnail_url }}" class="thumbnail" alt="{{ photo.title }}">
+        </a>
+      {% endfor %}
     </div>
     <div class="col-md-4 mt-4">
 
