@@ -31,25 +31,25 @@
   {% if admin %}
     {{ block.super }}
   {% endif %}
+  <script>
+    function changeImage(image) {
+      document.getElementById('image').src=image;
+    }
+  </script>
 
   <div class="row mt-4">
     <div class="col-md-8">
       {% if object.gallery.public|length == 0 %}
         <a href="{% url 'projects:gallery_update' object.id %}?primary=True">{% trans "Add image" %}</a>
+      {% else %}
+        {% with object.gallery.public|first as image %}
+          <img id="image" src="{{image.get_details_url}}" alt="image.title" class="card-img">
+        {% endwith %}
       {% endif %}
-      {% for photo in object.gallery.public %}
-        {% if forloop.first %}
-          {% with photo as image %}
-            <a href="{{ image.image.url }}">
-              <img src="{{image.get_details_url}}" alt="{{ image.title }}">
-            </a>
-          {% endwith %}
-          <br>
-        {% else %}
-        <a href="{{ photo.get_absolute_url }}">
+      {% for photo in object.gallery.public|slice:":7" %}
+        <button onclick="changeImage('{{ photo.get_details_url }}')">
           <img src="{{ photo.get_thumbnail_url }}" class="thumbnail" alt="{{ photo.title }}">
         </a>
-        {% endif %}
       {% endfor %}
     </div>
     <div class="col-md-4 mt-4">
