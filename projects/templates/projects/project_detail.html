@@ -32,7 +32,9 @@
     {{ block.super }}
   {% endif %}
   <script>
-    function changeImage(image) {
+    function changeImage(btn, image) {
+      $('.thumbnails').removeClass('active')
+      $(btn).addClass('active');
       document.getElementById('image').src=image;
     }
   </script>
@@ -47,7 +49,7 @@
         {% endwith %}
       {% endif %}
       {% for photo in object.gallery.public|slice:":7" %}
-        <button onclick="changeImage('{{ photo.get_details_url }}')">
+        <button class="btn btn-light thumbnails {% if forloop.first %} active {% endif %}" onclick="changeImage(this, '{{ photo.get_details_url }}')">
           <img src="{{ photo.get_thumbnail_url }}" class="thumbnail" alt="{{ photo.title }}">
         </a>
       {% endfor %}
