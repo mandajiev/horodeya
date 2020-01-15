@@ -182,9 +182,15 @@ class Project(Timestamped):
 
     def things_fulfilled(self):
         s = 0
+        money_support = self.money_support()
         for necessity in self.thingnecessity_set.all():
-            s += necessity.accepted_support()
+            accepted = necessity.accepted_support()
+            s += accepted
+
         return s
+
+    def things_still_needed(self):
+        return self.things_needed() - self.things_fulfilled()
 
     def things_needed(self):
         s = 0
@@ -198,8 +204,10 @@ class Project(Timestamped):
         for necessity in self.timenecessity_set.all():
             s += necessity.accepted_support()
 
-
         return s
+
+    def time_still_needed(self):
+        return self.time_needed() - self.time_fulfilled()
 
     def time_needed(self):
         s = 0
@@ -208,6 +216,9 @@ class Project(Timestamped):
 
         return s
     
+    def money_still_needed(self):
+        return self.money_needed() - self.money_support()
+
     def money_needed(self):
         s = 0
         for thing in self.thingnecessity_set.all():
@@ -299,6 +310,9 @@ class TimeNecessity(Timestamped):
     def __str__(self):
         return self.name
 
+    def still_needed(self):
+        return self.count - self.accepted_support()
+
     def accepted_support(self):
         return self.supports.filter(accepted=True).count()
 
@@ -319,13 +333,23 @@ class ThingNecessity(Timestamped):
     def __str__(self):
         return self.name
 
+    def still_needed(self):
+        return self.count - self.accepted_support()
+
     def accepted_support(self):
-        return self.supports.filter(accepted=True).count() * self.price
+        return self.supports.filter(accepted=True).count()
+
+    def accepted_support_price(self):
+        return self.accepted_support() * self.price
+
 
     def total_price(self):
         return self.count * self.price
 
     def accepted_money_support(self):
+        return self.money_supports.filter(accepted=True).all()
+
+    def accepted_money_support_leva(self):
         return sum(self.money_supports.filter(accepted=True).values_list('leva', flat=True))
 
     def support_candidates_count(self):
@@ -406,6 +430,7 @@ class ThingSupport(Support):
 
     necessity = models.ForeignKey(ThingNecessity, on_delete=models.PROTECT, related_name='supports')
     price = models.IntegerField()
+    from_money_supports = models.ManyToManyField(MoneySupport, blank=True)
 
     def get_absolute_url(self):
         return reverse('projects:thing_support_details', kwargs={'pk': self.pk})

@@ -509,6 +509,37 @@ def support_accept(request, pk, type):
 def support_decline(request, pk, type):
     return support_change_accept(request, pk, type, False)
 
+def create_thing_support_from_unused_money_support(necessity):
+    unused_money_support = filter(
+        lambda s: s.thingsupport_set.length() == 0,
+        necessity.accepted_money_support_leva().all())
+    can_fulfill = int(necessity.accepted_money_support_leva() // necessity.still_needed())
+    for i in range(can_fulfill):
+        price = necessity.price
+        use_supports = []
+        fully_used = 0
+        for support in unused_money_support:
+            use_supports.append(support)
+            if support.leva < price: 
+                fully_used += 1
+                price -= support.leva
+            else:
+                support.leva -= price # do not save, only temporary stored for calculation 
+                price = 0
+                break
+
+        necessity.supports.create(
+                price=necessity.price,
+                project=necessity.project,
+                user=necessity.project.legal_entity.admin,
+                comment='Auto generated',
+                accepted=True,
+                accepted_at = timezone.now(),
+                from_money_supports=use_supports
+        )
+
+        unused_money_support = unused_money_support[fully_used:] 
+
 @permission_required('projects.accept_support', fn=get_support_request)
 def support_change_accept(request, pk, type, accepted):
     if type in ['money', 'm']:
@@ -525,6 +556,13 @@ def support_change_accept(request, pk, type, accepted):
         else:
             support.accepted_at = None
         support.save()
+
+        if accepted and type in ['money', 'm']:
+            necessity = support.necessity
+            if not necesity:
+                return redirect('projects:money_support_update', support.pk)
+            else:
+                create_thing_support_from_unused_money_support(necessity)
 
         messages.success(request, _('Support accepted') if accepted else _('Support declined'))
 
