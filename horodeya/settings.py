@@ -75,6 +75,8 @@ INSTALLED_APPS = [
     
     'photologue',
     'sortedm2m',
+
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [
@@ -234,3 +236,6 @@ INTERNAL_IPS = [
 
 STREAM_API_KEY = os.getenv('STREAM_API_KEY')
 STREAM_API_SECRET = os.getenv('STREAM_API_SECRET')
+
+DATE_FORMAT = 'Y-m-d'
+DATETIME_FORMAT = 'Y-m-d H:m:s'

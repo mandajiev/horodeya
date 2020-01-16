@@ -118,9 +118,11 @@ ThingNecessityFormset = inlineformset_factory(
         },
         extra=1) 
 
+@permission_required('projects.change_thing_necessity', fn=objectgetter(Project, 'project_id'))
 def thing_necessity_update(request, project_id):
     return necessity_update(request, project_id, 'thing')
 
+@permission_required('projects.change_time_necessity', fn=objectgetter(Project, 'project_id'))
 def time_necessity_update(request, project_id):
     return necessity_update(request, project_id, 'time')
 
@@ -147,7 +149,10 @@ def necessity_update(request, project_id, type):
                     
                 formset = cls(instance=project) # за да добави празен ред
             else:
-                return redirect(project)
+                if type == 'time':
+                    return redirect('projects:time_necessity_list', project.pk)
+                else:
+                    return redirect('projects:thing_necessity_list', project.pk)
 
     return render(request, 'projects/necessity_form.html', {
         'formset': formset,
@@ -162,12 +167,13 @@ class ProjectDetails(AutoPermissionRequiredMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
 
         context = super().get_context_data(**kwargs)
-        feed = feed_manager.get_feed('project', context['object'].id)
-        enricher = Enrich()
         try:
+            feed = feed_manager.get_feed('project', context['object'].id)
+            enricher = Enrich()
             timeline = enricher.enrich_activities(feed.get(limit=25)['results'])
             context['timeline'] = timeline
-        except ConnectionError:
+        except (Timeout, ConnectionError):
+            messages.error(_('Could not get timeline'))
             context['timeline'] = None 
 
         context['announcement_form'] = AnnouncementForm()
@@ -581,44 +587,13 @@ def support_delivered(request, pk, type):
 
     return redirect(support)
 
-@permission_required('projects.list_support', fn=objectgetter(Project, 'project_id'))
-def support_list(request, project_id):
-    project = get_object_or_404(Project, pk=project_id)
-    money_support_list = MoneySupport.objects.filter(project_id=project_id).all()
-    time_support_list = TimeSupport.objects.filter(project_id=project_id).all()
-    return render(request, 'projects/support_list.html', context={
-        'money_support_list': money_support_list,
-        'time_support_list': time_support_list,
-        'project': project
-        }
-    )
-
-@permission_required('projects.add_support', fn=objectgetter(Project, 'project_id'))
-def support_create(request, project_id):
-    project = get_object_or_404(Project, pk=project_id)
-    return render(request, 'projects/support_create.html', context={
-        'project': project,
-        }
-    )
-
-def support_details(request, pk):
-    support = MoneySupport.objects.get(pk=pk)
-    if not support:
-        support = TimeSupport.objects.get(pk=pk)
-
-    return redirect(support)
-
 class TimeSupportForm(AutoPermissionRequiredMixin, ModelForm):
     class Meta:
         model = TimeSupport
         fields=['comment']
 
     def __init__(self, *args, **kwargs):
-        necessities = kwargs.pop('necessity_ids')
         super().__init__(*args, **kwargs)
-        self.fields['price'].initial = necessity.price
-        self.fields['start_date'].initial = necessity.start_date
-        self.fields['end_date'].initial = necessity.end_date
 
 #TODO only allow if support is not accepted
 class TimeSupportUpdate(AutoPermissionRequiredMixin, UpdateView):
@@ -811,7 +786,7 @@ def time_support_create(request, project_id):
                         form.save()
                         saved += 1
                 if saved > 0:
-                    messages.success(request, _('Submitted %d support candidates' % saved))
+                    messages.success(request, _('Applied to %d volunteer positions' % saved))
                     return redirect(project)
 
     context['formset'] = formset

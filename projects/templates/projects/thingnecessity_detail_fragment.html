@@ -11,9 +11,6 @@
       <th scope='col'>{% trans 'Description' %}</th>
       <th scope='col'>{% trans 'Price' %}</th>
       <th scope='col'>{% trans 'Collected' %}</th>
-      {% if member %}
-        <th scope='col'>{% trans 'Candidates' %}</th>
-      {% endif %}
     </tr>
   </thead>
 {% endif %}
@@ -27,14 +24,6 @@
 
         {{object.accepted_money_support_leva}}/{{object.total_price}}</td>
 
-    {% if member %}
-    <td>
-      {{object.support_candidates_count}}
-      {% if not list_candidates and not hide_details_link %}
-        <a href="{{ object.get_absolute_url }}">{% trans 'See all' %}</a>
-      {% endif %}
-    </td>
-    {% endif %}
 </tr>
 {% endif %}
 

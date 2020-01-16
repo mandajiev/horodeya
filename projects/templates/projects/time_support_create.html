@@ -3,7 +3,12 @@
 {% load i18n %}
 
 {% block breadcrumbs %}
-    {% include "projects/necessity_breadcrumb.html" with project=project list=True active="active" type='time' only %}
+    {% include "projects/project_breadcrumb.html" with project=project only %}
+
+  <li class="breadcrumb-item active">
+    <a href="">{% trans 'Apply as a volunteer' %}</a>
+  </li>
+
 {% endblock %}
 
 

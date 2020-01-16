@@ -1,11 +1,43 @@
 {% extends "base.html" %}
 
+{% load projects_tags %}
+{% load i18n %}
+
 {% block breadcrumbs %}
     {% include "projects/support_breadcrumb.html" with project=object.project support=object active="active" only %}
 {% endblock %}
 
+{% block admin_tools %}
+{% if admin %}
+  {% if object.status == 'review' %}
+  <li class="nav-item">
+    <a class="nav-link text-white" href="{% url 'projects:support_accept' object.pk object.get_type %}">{% trans 'Accept' %}</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link text-white" href="{% url 'projects:support_decline' object.pk object.get_type %}">{% trans 'Decline' %}</a>
+  </li>
+  {% elif object.status == 'accepted' %}
+  <li class="nav-item">
+    <a class="nav-link text-white" href="{% url 'projects:support_delivered' object.pk object.get_type %}">{% trans 'Mark as delivered' %}</a>
+  </li>
+  {% endif %}
+{% endif %}
+  <li class="nav-item">
+    {% if object.type == 'time' %}
+      <a class="nav-link text-white" href="{% url 'projects:time_support_update' object.pk %}">{% trans 'Update' %}</a>
+    {% else %}
+      <a class="nav-link text-white" href="{% url 'projects:money_support_update' object.pk %}">{% trans 'Update' %}</a>
+    {% endif %}
+  </li>
+{% endblock %}
+
 
 {% block content %}
+
+{% member_of user object.project.legal_entity_id as admin %}
+{% if admin or user == object.user %}
+  {{ block.super }}
+{% endif %}
 
 {% include "projects/support_detail_fragment.html" with object=object user=user only %}
 

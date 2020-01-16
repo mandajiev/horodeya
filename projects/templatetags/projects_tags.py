@@ -1,5 +1,6 @@
 from django import template
 from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy
 
 from vote.models import UP, DOWN
 
@@ -23,3 +24,18 @@ def leva(value):
 
     return "%.2f " % value + _('lv') 
 
+
+STATUS_COLOR = {
+    'review': 'warning',
+    'delivered': 'success',
+    'accepted': 'default',
+    'declined': 'danger',
+    }
+
+@register.filter
+def status_color(status):
+    return STATUS_COLOR.get(status, 'default')
+
+@register.filter
+def status_text(status):
+    return gettext_lazy(status)

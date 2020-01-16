@@ -1,13 +1,22 @@
 {% load i18n %}
 {% include "projects/project_breadcrumb.html" with project=project only %}
 <li class="breadcrumb-item {% if not support %} {{active}} {% endif %}">
-  <a href="{% url 'projects:support_list' project.pk %}">
-  {% trans "Support" %} 
+  {% if support %}
+    {% if support.get_type == 'time' %}
+      <a href="{% url 'projects:time_necessity_list' project.pk %}">
+        {% trans "Volunteers" %} 
+      </a>
+    {% else %}
+      <a href="{% url 'projects:thing_necessity_list' project.pk %}">
+        {% trans "Donations" %} 
+      </a>
+    {% endif %}
+  {% endif %}
   </a>
 </li>
 {% if support %}
   <li class="breadcrumb-item {{active}}"> 
-    <a href='{% url 'projects:support_details' support.pk %}'>{{ support }}</a>
+    <a href="{{ support.get_absolute_url }}">{{ support }}</a>
   </li>
 {% endif %}
 

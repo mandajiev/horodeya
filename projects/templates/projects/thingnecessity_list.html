@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
 {% load i18n %}
+{% load humanize %}
+{% load projects_tags %}
 
 {% block breadcrumbs %}
     {% include "projects/necessity_breadcrumb.html" with project=project list=True active="active" type=type  %}
@@ -18,5 +20,26 @@
 {% endif %}
 
   {% include "projects/thingnecessity_list_fragment.html" with necessity_list=necessity_list member=member %}
+
+  <div class="text-center">
+    <h4>{% trans 'Donations' %}</h4>
+  </div>
+
+  <table class="table table-hover">
+    <thead>
+      <th>{% trans 'Status' %}</th>
+      <th>{% trans 'Since' %}</th>
+      <th>{% trans 'Donation' %}</th>
+      <th>{% trans 'Action' %}</th>
+    </thead>
+  {% for support in project.recent_money_support.all %}
+  <tr class="table-{{support.status|status_color}}">
+      <td>{{support.status}}</td>
+      <td>{{support.status_since|naturaltime}}</td>
+      <td>{{ support.leva|leva }}{% if support.necessity %} {% trans 'for' %} {{support.necessity}} {% endif %}</td>
+      <td><a href="{% url 'projects:money_support_details' support.id %}">{% trans 'Details' %}</a></td>
+    </tr>
+  {% endfor %}
+  </table>
 
 {% endblock %}

@@ -4,6 +4,7 @@ import datetime
 from django.db import models
 from django.utils import timezone
 from django.urls import reverse
+from django.db.models.functions import Coalesce
 
 from django.core.validators import MaxValueValidator
 
@@ -40,14 +41,17 @@ def admin_of_legal_entity(user, object):
 
 @rules.predicate
 def myself(user, user2):
-    return user == user2
+    if isinstance(user2, User):
+        return user == user2
+
+    return user == user2.user
 
 @rules.predicate
 def has_a_legal_entity(user):
     return user.legal_entities.count() > 0
 
 @rules.predicate
-def is_accepted(support):
+def is_accepted(user, support):
     return support.accepted
 
 class Timestamped(RulesModelMixin, models.Model, metaclass=RulesModelBase):
@@ -222,7 +226,7 @@ class Project(Timestamped):
     def money_needed(self):
         s = 0
         for thing in self.thingnecessity_set.all():
-            s += (thing.count - thing.accepted_support()) * thing.price
+            s += thing.count * thing.price
 
         return s
 
@@ -246,6 +250,14 @@ class Project(Timestamped):
             return 0
 
         return int(100*self.time_fulfilled() / time_needed)
+
+    def recent_time_support(self):
+        return self.timesupport_set.order_by(Coalesce('created_at', 'accepted_at', 'delivered_at').desc())
+
+    def recent_money_support(self):
+        return self.moneysupport_set.order_by(Coalesce('created_at', 'accepted_at', 'delivered_at').desc())
+
+
 
 class Announcement(Timestamped, Activity):
     class Meta:
@@ -299,6 +311,15 @@ class Report(VoteModel, Timestamped, Activity):
 
 #TODO notify in feed
 class TimeNecessity(Timestamped):
+    class Meta:
+        rules_permissions = {
+            "add": member_of_legal_entity,
+            "delete": member_of_legal_entity,
+            "change": member_of_legal_entity,
+            "view": rules.is_authenticated,
+            "list": rules.is_authenticated,
+        }
+
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=300)
@@ -324,6 +345,14 @@ class TimeNecessity(Timestamped):
 
 #TODO notify in feed
 class ThingNecessity(Timestamped):
+    class Meta:
+        rules_permissions = {
+            "add": member_of_legal_entity,
+            "delete": member_of_legal_entity,
+            "change": member_of_legal_entity,
+            "view": rules.is_authenticated,
+            "list": rules.is_authenticated,
+        }
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=300)
@@ -414,6 +443,10 @@ class ThingNecessity(Timestamped):
         return reverse('projects:thing_necessity_details', kwargs={'pk': self.pk})
 
 class Support(Timestamped):
+
+    class Meta:
+        abstract = True
+
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     
@@ -442,19 +475,34 @@ class Support(Timestamped):
 
     def set_accepted(self, accepted=True):
         self.accepted = accepted
-
-        if accepted:
+        if accepted is not None:
             self.accepted_at = timezone.now()
-
-        else:
-            self.accepted_at = None
 
         self.save()
 
         return accepted
 
-    class Meta:
-        abstract = True
+    def status(self):
+        if self.delivered:
+            return 'delivered'
+
+        if self.accepted:
+            return 'accepted'
+        
+        if self.accepted == False: 
+            return 'declined'
+
+        return 'review'
+ 
+    def status_since(self):
+        status = self.status()
+        if status in ['accepted', 'declined']:
+            return self.accepted_at
+
+        if status == 'delivered':
+            return self.delivered_at
+
+        return self.created_at
 
 #TODO notify in feed
 class MoneySupport(Support):
@@ -489,7 +537,7 @@ class MoneySupport(Support):
             new_accepted = self.necessity.create_thing_support_from_unused_money_support()
 
             if new_accepted != accepted:
-                return super(MoneySupport, self).set_accepted(new_accepted)
+                return super(MoneySupport, self).set_accepted(None)
 
         return accepted
 
@@ -529,12 +577,13 @@ class TimeSupport(Support):
         rules_permissions = {
             "add": rules.is_authenticated,
             "delete": myself & ~is_accepted,
-            "change": myself & ~is_accepted,
+            "change": (myself & ~is_accepted) | member_of_legal_entity,
             "view": myself | member_of_legal_entity,
             "accept": member_of_legal_entity,
             "mark_delivered": member_of_legal_entity,
             "list": member_of_legal_entity
         }
+        unique_together = ['necessity', 'user']
 
     necessity = models.ForeignKey(TimeNecessity, on_delete=models.PROTECT, related_name='supports')
     price = models.IntegerField()
@@ -551,6 +600,6 @@ class TimeSupport(Support):
         return (self.end_date - self.start_date).days
 
     def __str__(self):
-        return "%s (%s %s)" % (self.user.first_name, self.duration(), gettext_lazy('days'))
+        return "%s: %s" % (self.necessity, self.user.first_name)
 
 

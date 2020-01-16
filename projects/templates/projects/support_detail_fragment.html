@@ -1,56 +1,36 @@
 {% load projects_tags %}
 {% load i18n %}
+{% load humanize %}
 
-<div class="row">
-  {% if object.project.legal_entity.admin == user %}
-<div class="col-4 text-right">
-  {% if object.accepted == None %}
-    <a class="btn btn-success" href="{% url 'projects:support_accept' object.pk object.get_type %}">Приеми</a>
-    <a class="btn btn-danger" href="{% url 'projects:support_decline' object.pk object.get_type %}">Откажи</a>
-  {% elif object.accepted == False %}
-    <span class='text-warning'>Отказана</span>
+  {% if object.get_type == 'time' %}
+    {% include "projects/timenecessity_detail_fragment.html" with object=object.necessity table=True headings=True %}
   {% else %}
-    {% if object.expired %}
-    {% elif not object.delivered %}
-      <a class="btn btn-primary" href="{% url 'projects:support_delivered' object.pk 'm' %}">Отбележи като получена</a>
-    {% else %}
-      <span class='text-success'>Получена</span>
+    {% if object.necessity %}
+      {% include "projects/thingnecessity_detail_fragment.html" with object=object.necessity table=True headings=True %}
     {% endif %}
   {% endif %}
-</div>
 
-{% endif %}
 
-<div class="col-8 ">
-  {{ object }}
-{% if object.user == user %} 
-  {% if object.accepted == None %}
-  {% if object.get_type == 'money' %}
-    <a class="btn btn-primary" href="{% url 'projects:money_support_update' object.pk %}">Промени</a>
-  {% else %}
-    <a class="btn btn-primary" href="{% url 'projects:time_support_update' object.pk %}">Промени</a>
-  {% endif %}
-  {% if object.type == 'time' %}
-    <a class="btn btn-danger" href="{% url 'projects:timesupport_delete' object.pk %}">Изтрий</a>
-  {% endif %}
-  {% else %}
-    <a class="btn btn-danger" href="{% url 'projects:moneysupport_delete' object.pk %}">Изтрий</a>
-  {% endif %}
-{% endif %}
+<div class="card mt-3 mx-auto" style="max-width: 720;">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item list-group-item-{{ object.status|status_color}}">
+        {% trans "Status" %}: {{ object.status|status_text|upper }}
+      </li>
+      <li class="list-group-item">
+        {% trans "Since" %}: {{ object.status_since }} ({{object.status_since|naturaltime}})
+      </li>
+      <li class="list-group-item">
+        {% if object.type == 'time' %}
+          {% trans "Volunteer" %}: 
+        {% else %}
+          {% trans "Donor" %}: 
+        {% endif %}
+        {{ object.user }} <a href="{{ object.user.get_absolute_url }}">{% trans 'See profile' %}</a>
+      </li>
 
-{% if object.expired %}
-  <span class='text-warning'>Изтекла на {{object.delivery_expires}}</span>
-{% elif object.delivered %}
-  <span class='text-success'>Получена</span>
-{% elif object.accepted %}
-  <span class='text-success'>Приета</span>
-  <span class='text-warning'>Изчаква получаване</span>
-  <span class='text-info'>Изтича на {{object.delivery_expires}}</span>
-{% elif object.accepted == False%}
-  <span class='text-warning'>Отказана</span>
-{% else %}
-  <span class='text-warning'>Изчаква приемане</span>
-
-{% endif %}
-</div>
+      <li class="list-group-item">
+        {% trans "Comment" %}:<br> {{ object.comment }}
+      </li>
+    </ul>
+  </div>
 </div>

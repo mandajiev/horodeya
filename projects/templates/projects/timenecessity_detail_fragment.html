@@ -11,12 +11,8 @@
       <th scope='col'>{% trans 'Period' %}</th>
       <th scope='col'>{% trans 'Description' %}</th>
       {% if not short %}
+        <th scope='col'>{% trans 'Accepted' %}</th>
         <th scope='col'>{% trans 'Price' %}</th>
-        <th scope='col'>{% trans 'Count' %}</th>
-      {% endif %}
-
-      {% if member %}
-        <th scope='col'>{% trans 'Candidates' %}</th>
       {% endif %}
     </tr>
   </thead>
@@ -29,17 +25,9 @@
   <td>{{object.description|truncatewords:10}}</td>
 
   {% if not short %}
-    <td>{{object.price}}</td>
     <td>{{object.accepted_support}}/{{object.count}}</td>
+    <td>{{object.price}}</td>
   {% endif %}
-    {% if member %}
-    <td>
-      {{object.support_candidates.count}}
-      {% if not list_candidates and not hide_details_link %}
-        <a href="{{ object.get_absolute_url }}">{% trans 'See all' %}</a>
-      {% endif %}
-    </td>
-    {% endif %}
 </tr>
 {% endif %}
 
