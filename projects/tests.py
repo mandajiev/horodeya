@@ -4,100 +4,68 @@ from django.test import TestCase
 from django.utils import timezone
 from django.urls import reverse
 
-from .models import Question
+from .models import User, LegalEntity, Project, MoneySupport, ThingSupport, ThingNecessity
 
-class QuestionModelTests(TestCase):
+class MoneySupportTestCase(TestCase):
+    def setUp(self):
+        admin = User.objects.create(first_name="Test", last_name="Testing")
+        legal_entity = LegalEntity.objects.create(
+            name='test legal entity',
+            bulstat='000',
+            text='',
+            email='test@email.com',
+            phone='000',
+            admin=admin,
+            payment='IBAN: XXX',
+            )
+        project = Project.objects.create(
+            type='c',
+            name='test project',
+            description='',
+            text='',
+            legal_entity=legal_entity,
+            published=True,
+            )
+        necessity = ThingNecessity.objects.create(
+            project=project,
+            name='test thing necessity',
+            description='',
+            price=100,
+            count=3,
+            )
 
-    def test_was_published_recently_with_future_question(self):
-        """
-        was_published_recently() returns False for questions whose pub_date
-        is in the future.
-        """
-        time = timezone.now() + datetime.timedelta(days=30)
-        future_question = Question(pub_date=time)
-        self.assertIs(future_question.was_published_recently(), False)
+        self.money_support = lambda leva: MoneySupport.objects.create(
+            leva=leva,
+            project=project,
+            user=admin,
+            necessity=necessity)
 
-    def test_was_published_recently_with_old_question(self):
-        """
-        was_published_recently() returns False for questions whose pub_date
-        is older than 1 day.
-        """
-        time = timezone.now() - datetime.timedelta(days=1, seconds=1)
-        old_question = Question(pub_date=time)
-        self.assertIs(old_question.was_published_recently(), False)
+    def test_simple(self):
+        """When big enough money support is accepted a thing support is created"""
+        self.money_support(100).set_accepted()
+        self.assertQuerysetEqual(ThingSupport.objects.all(), ['<ThingSupport: Test (test thing necessity)>'])
 
-    def test_was_published_recently_with_recent_question(self):
-        """
-        was_published_recently() returns True for questions whose pub_date
-        is within the last day.
-        """
-        time = timezone.now() - datetime.timedelta(hours=23, minutes=59, seconds=59)
-        recent_question = Question(pub_date=time)
-        self.assertIs(recent_question.was_published_recently(), True)
+    def test_multiple(self):
+        """When enough money supports are accepted a thing support is created"""
+        self.money_support(50).set_accepted()
+        self.money_support(50).set_accepted()
 
-def create_question(question_text, days):
-    """
-    Create a question with the given `question_text` and published the
-    given number of `days` offset to now (negative for questions published
-    in the past, positive for questions that have yet to be published).
-    """
-    time = timezone.now() + datetime.timedelta(days=days)
-    return Question.objects.create(question_text=question_text, pub_date=time)
+        self.assertQuerysetEqual(ThingSupport.objects.all(), ['<ThingSupport: Test (test thing necessity)>'])
 
-class QuestionIndexViewTests(TestCase):
-    def test_no_questions(self):
-        """
-        If no questions exist, an appropriate message is displayed.
-        """
-        response = self.client.get(reverse('polls:index'))
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "No polls are available.")
-        self.assertQuerysetEqual(response.context['latest_question_list'], [])
+    def test_huge(self):
+        """When a huge money support is accepted multiple thing supports are created up to the amount needed, the reminder goes to an unaccepted money support"""
 
-    def test_past_question(self):
-        """
-        Questions with a pub_date in the past are displayed on the
-        index page.
-        """
-        create_question(question_text="Past question.", days=-30)
-        response = self.client.get(reverse('polls:index'))
-        self.assertQuerysetEqual(
-            response.context['latest_question_list'],
-            ['<Question: Past question.>']
-        )
+        money_support = self.money_support(400)
+        money_support.set_accepted()
 
-    def test_future_question(self):
-        """
-        Questions with a pub_date in the future aren't displayed on
-        the index page.
-        """
-        create_question(question_text="Future question.", days=30)
-        response = self.client.get(reverse('polls:index'))
-        self.assertContains(response, "No polls are available.")
-        self.assertQuerysetEqual(response.context['latest_question_list'], [])
+        self.assertQuerysetEqual(ThingSupport.objects.all(), 3*['<ThingSupport: Test (test thing necessity)>'], ordered=False)
 
-    def test_future_question_and_past_question(self):
-        """
-        Even if both past and future questions exist, only past questions
-        are displayed.
-        """
-        create_question(question_text="Past question.", days=-30)
-        create_question(question_text="Future question.", days=30)
-        response = self.client.get(reverse('polls:index'))
-        self.assertQuerysetEqual(
-            response.context['latest_question_list'],
-            ['<Question: Past question.>']
-        )
+        self.assertQuerysetEqual(MoneySupport.objects.filter(comment='reminder from %d' % money_support.id ).all(), ['<MoneySupport: Test (100.0)>'])
 
-    def test_two_past_questions(self):
-        """
-        The questions index page may display multiple questions.
-        """
-        create_question(question_text="Past question 1.", days=-30)
-        create_question(question_text="Past question 2.", days=-5)
-        response = self.client.get(reverse('polls:index'))
-        self.assertQuerysetEqual(
-            response.context['latest_question_list'],
-            ['<Question: Past question 2.>', '<Question: Past question 1.>']
-        )
+    def test_little(self):
+        """When a little money support is accepted no thing support is created"""
+
+        self.money_support(10).set_accepted()
+
+        self.assertQuerysetEqual(ThingSupport.objects.all(), [])
 

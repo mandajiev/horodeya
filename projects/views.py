@@ -414,10 +414,35 @@ def report_vote(request, pk, action):
 
     return redirect(report)
 
+class MoneySupportForm(ModelForm):
+    class Meta:
+        model = MoneySupport
+        fields = ['necessity', 'leva', 'comment']
+
+    def __init__(self, *args, **kwargs):
+        if 'project' in kwargs:
+            project = kwargs.pop('project')
+        else:
+            project = None
+
+        super().__init__(*args, **kwargs)
+
+        if not project:
+            project = kwargs.get('instance').project
+
+        self.fields['necessity'].queryset = project.thingnecessity_set
+
 class MoneySupportCreate(AutoPermissionRequiredMixin, CreateView):
     model = MoneySupport
     template_name = 'projects/support_form.html'
-    fields=['leva', 'comment' ]
+    form_class = MoneySupportForm
+
+    def get_form_kwargs(self):
+        project_pk = self.kwargs['project']
+        project = get_object_or_404(Project, pk=project_pk)
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'project': project})
+        return kwargs
 
     def get_context_data(self, **kwargs):
 
@@ -436,23 +461,20 @@ class MoneySupportCreate(AutoPermissionRequiredMixin, CreateView):
         user = self.request.user
         form.instance.user = user
 
-        necessity_id = self.kwargs['necessity']
-        necessity = get_object_or_404(ThingNecessity, pk=necessity_id)
-
-        form.instance.necessity = necessity
-
         return super().form_valid(form)
 
 #TODO only allow if support is not accepted
 class MoneySupportUpdate(AutoPermissionRequiredMixin, UpdateView):
     model = MoneySupport
-    fields=['leva', 'comment' ]
     template_name = 'projects/support_form.html'
+    form_class=MoneySupportForm
 
     def get_context_data(self, **kwargs):
 
         context = super().get_context_data(**kwargs)
+
         context['project'] = self.object.project
+
         return context
 
 class MoneySupportDetails(AutoPermissionRequiredMixin, generic.DetailView):
@@ -460,12 +482,20 @@ class MoneySupportDetails(AutoPermissionRequiredMixin, generic.DetailView):
     template_name = 'projects/support_detail.html'
 
 #TODO only allow if support is not accepted
-class SupportDelete(AutoPermissionRequiredMixin, DeleteView):
+class MoneySupportDelete(AutoPermissionRequiredMixin, DeleteView):
     model = MoneySupport
     template_name = 'projects/project_confirm_delete.html'
 
     def get_success_url(self):
         return reverse_lazy('projects:details', kwargs={'pk': self.object.project.pk})
+
+class TimeSupportDelete(AutoPermissionRequiredMixin, DeleteView):
+    model = TimeSupport
+    template_name = 'projects/project_confirm_delete.html'
+
+    def get_success_url(self):
+        return reverse_lazy('projects:details', kwargs={'pk': self.object.project.pk})
+
 
 def report_vote(request, pk, action):
     user = request.user
@@ -509,37 +539,6 @@ def support_accept(request, pk, type):
 def support_decline(request, pk, type):
     return support_change_accept(request, pk, type, False)
 
-def create_thing_support_from_unused_money_support(necessity):
-    unused_money_support = filter(
-        lambda s: s.thingsupport_set.length() == 0,
-        necessity.accepted_money_support_leva().all())
-    can_fulfill = int(necessity.accepted_money_support_leva() // necessity.still_needed())
-    for i in range(can_fulfill):
-        price = necessity.price
-        use_supports = []
-        fully_used = 0
-        for support in unused_money_support:
-            use_supports.append(support)
-            if support.leva < price: 
-                fully_used += 1
-                price -= support.leva
-            else:
-                support.leva -= price # do not save, only temporary stored for calculation 
-                price = 0
-                break
-
-        necessity.supports.create(
-                price=necessity.price,
-                project=necessity.project,
-                user=necessity.project.legal_entity.admin,
-                comment='Auto generated',
-                accepted=True,
-                accepted_at = timezone.now(),
-                from_money_supports=use_supports
-        )
-
-        unused_money_support = unused_money_support[fully_used:] 
-
 @permission_required('projects.accept_support', fn=get_support_request)
 def support_change_accept(request, pk, type, accepted):
     if type in ['money', 'm']:
@@ -550,21 +549,15 @@ def support_change_accept(request, pk, type, accepted):
     if support.accepted == accepted:
         messages.info(request, _('Support already accepted') if accepted else _('Support already declined'))
     else:
-        support.accepted = accepted
-        if accepted:
-            support.accepted_at = timezone.now()
+        if type in ['money', 'm'] and not support.necessity:
+            messages.info(request, _('Select a necessity for the money support'))
+            return redirect('projects:money_support_update', support.pk)
+
+        result = support.set_accepted(accepted)
+        if result == accepted:
+            messages.success(request, _('Support accepted') if accepted else _('Support declined'))
         else:
-            support.accepted_at = None
-        support.save()
-
-        if accepted and type in ['money', 'm']:
-            necessity = support.necessity
-            if not necesity:
-                return redirect('projects:money_support_update', support.pk)
-            else:
-                create_thing_support_from_unused_money_support(necessity)
-
-        messages.success(request, _('Support accepted') if accepted else _('Support declined'))
+            messages.error(request, _('Support could not be accepted') if accepted else _('Support could not be declined'))
 
     return redirect(support)
 
@@ -626,45 +619,6 @@ class TimeSupportForm(AutoPermissionRequiredMixin, ModelForm):
         self.fields['price'].initial = necessity.price
         self.fields['start_date'].initial = necessity.start_date
         self.fields['end_date'].initial = necessity.end_date
-
-class TimeSupportCreate(AutoPermissionRequiredMixin, CreateView):
-    model = TimeSupport
-    form_class = TimeSupportForm
-    template_name = 'projects/support_form.html'
-
-    def get_form_kwargs(self):
-        necessity_ids = self.kwargs['necessities'].split(',')
-        kwargs = super().get_form_kwargs()
-        kwargs.update({'necessity_ids': necessity_ids})
-        return kwargs
-
-    def get_context_data(self, **kwargs):
-
-        context = super().get_context_data(**kwargs)
-        project_pk = self.kwargs['project']
-        self.project = get_object_or_404(Project, pk=project_pk)
-        context['project'] = self.project
-
-        necessity_ids = self.kwargs['necessities'].split(',')
-        necessity_list = map(lambda n: get_object_or_404(TimeNecessity, pk=n), necessity_ids)
-        context['necessity_list'] = necessity
-
-        return context
-
-    def form_valid(self, form):
-        project_pk = self.kwargs['project']
-        self.project = get_object_or_404(Project, pk=project_pk)
-        form.instance.project = self.project
-
-        user = self.request.user
-        form.instance.user = user
-
-        necessity_id = self.kwargs['necessity']
-        necessity = get_object_or_404(TimeNecessity, pk=necessity_id)
-
-        form.instance.necessity = necessity
-
-        return super().form_valid(form)
 
 #TODO only allow if support is not accepted
 class TimeSupportUpdate(AutoPermissionRequiredMixin, UpdateView):

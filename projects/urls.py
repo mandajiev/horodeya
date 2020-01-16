@@ -25,10 +25,7 @@ urlpatterns = [
     path('<int:project>/report/list', views.ReportList.as_view(), name='report_list'),
     path('report/<int:pk>/vote-up', views.report_vote_up, name='report_vote_up'),
     path('report/<int:pk>/vote-down', views.report_vote_down, name='report_vote_down'),
-
-    path('<int:project_id>/support/create/', views.support_create, name='support_create'),
-    path('<int:project>/moneysupport/create/', views.MoneySupportCreate.as_view(), kwargs={'necessity': None}, name='money_support_create'),
-    path('<int:project>/moneysupport/create/<int:necessity>', views.MoneySupportCreate.as_view(), name='money_support_create'),
+    path('<int:project>/moneysupport/create', views.MoneySupportCreate.as_view(), name='money_support_create'),
     path('support/<int:pk>', views.support_details, name='support_details'),
     path('moneysupport/<int:pk>', views.MoneySupportDetails.as_view(), name='money_support_details'),
     path('moneysupport/<int:pk>/update', views.MoneySupportUpdate.as_view(), name='money_support_update'),
@@ -36,7 +33,8 @@ urlpatterns = [
     path('timesupport/<int:pk>', views.TimeSupportDetails.as_view(), name='time_support_details'),
     path('timesupport/<int:pk>/update', views.TimeSupportUpdate.as_view(), name='time_support_update'),
 
-    path('support/<int:pk>/<str:type>/delete', views.SupportDelete.as_view(), name='support_delete'),
+    path('moneysupport/<int:pk>/delete', views.MoneySupportDelete.as_view(), name='moneysupport_delete'),
+    path('timesupport/<int:pk>/delete', views.TimeSupportDelete.as_view(), name='timesupport_delete'),
     path('support/<int:pk>/<str:type>/accept', views.support_accept, name='support_accept'),
     path('support/<int:pk>/<str:type>/decline', views.support_decline, name='support_decline'),
     path('support/<int:pk>/<str:type>/delivered', views.support_delivered, name='support_delivered'),

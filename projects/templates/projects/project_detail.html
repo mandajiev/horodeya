@@ -20,9 +20,9 @@
     <a class="nav-link text-white" href="{% url 'projects:report_create' object.pk %}">{% trans 'New report' %}</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link text-white" href="{% url 'projects:time_necessity_list' object.pk %}">{% trans 'Time necessities' %}</a> </li>
+    <a class="nav-link text-white" href="{% url 'projects:time_necessity_list' object.pk %}">{% trans 'Volunteers' %}</a> </li>
   <li class="nav-item">
-    <a class="nav-link text-white" href="{% url 'projects:thing_necessity_list' object.pk %}">{% trans 'Thing necessities' %}</a>
+    <a class="nav-link text-white" href="{% url 'projects:thing_necessity_list' object.pk %}">{% trans 'Donations' %}</a>
   </li>
 {% endblock %}
 
@@ -59,7 +59,7 @@
       {% include "projects/project_stats.html" with project=object only %}
 
       <a class="btn btn-primary btn-lg" href="{% url 'projects:time_support_create' object.pk %}">{% trans 'Volunteer' %}</a>
-    <a class="btn btn-primary btn-lg" href="{% url 'projects:thing_necessity_list' object.pk %}">{% trans 'Donate' %}</a>
+      <a class="btn btn-primary btn-lg" href="{% url 'projects:money_support_create' object.pk %}">{% trans 'Donate' %}</a>
       <a class="btn btn-link" href="{% url 'projects:follow_project' object.pk %}">{% trans 'Follow' %}</a>
 
     </div>

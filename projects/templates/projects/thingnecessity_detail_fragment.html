@@ -10,7 +10,7 @@
       <th scope='col'>{% trans 'Name' %}</th>
       <th scope='col'>{% trans 'Description' %}</th>
       <th scope='col'>{% trans 'Price' %}</th>
-      <th scope='col'>{% trans 'Count' %}</th>
+      <th scope='col'>{% trans 'Collected' %}</th>
       {% if member %}
         <th scope='col'>{% trans 'Candidates' %}</th>
       {% endif %}
@@ -22,10 +22,10 @@
 <tr>
       <td>{{object.name}}</td>
       <td>{{object.description}}</td>
-      <td>{{object.price}}</td>
+      <td>{{object.count}} x {{object.price}}</td>
       <td>
 
-        {{object.accepted_money_support|add:object.accepted_support}}/{{object.total_price}}</td>
+        {{object.accepted_money_support_leva}}/{{object.total_price}}</td>
 
     {% if member %}
     <td>

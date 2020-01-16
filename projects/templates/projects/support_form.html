@@ -1,17 +1,25 @@
 {% extends "form.html" %}
 
+{% block delete %}
+  {% if type == 'time' %}
+    {% with delete_label='projects:timesupport_delete' %}
+      {{ block.super }}
+    {% endwith %}
+  {% else%}
+    {% with delete_label='projects:moneysupport_delete' %}
+      {{ block.super }}
+    {% endwith %}
+  {% endif %}
+{% endblock %}
+
 {% block breadcrumbs %}
     {% include "projects/support_breadcrumb.html" with project=project support=object only %}
     {% include "projects/form_breadcrumb.html" with object=object only %}
 {% endblock %}
 
 {% block content %}
-{% if necessity %}
-  {% if type == 'time' %}
-  {% include 'projects/timenecessity_detail_fragment.html' with object=necessity table=True headings=True hide_support_action=True hide_details_link=True only %}
-  {% else %}
-  {% include 'projects/thingnecessity_detail_fragment.html' with object=necessity table=True headings=True hide_support_action=True hide_details_link=True only %}
-  {% endif %}
-{% endif %}
+
+  {% include "projects/thingnecessity_list_fragment.html" with necessity_list=project.thingnecessity_set.all %}
+
   {{ block.super }}
 {% endblock %}

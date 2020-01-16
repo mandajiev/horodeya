@@ -3,7 +3,7 @@
 <li class="breadcrumb-item {% if list %} {{active}} {% endif %}">
   {% if type == 'time' %}
     <a href="{% url 'projects:time_necessity_list' project.pk %}">
-      {% trans 'Time Necessity' %}
+      {% trans 'Volunteer' %}
     </a>
   {% else %}
     <a href="{% url 'projects:thing_necessity_list' project.pk %}">

@@ -330,8 +330,64 @@ class ThingNecessity(Timestamped):
     price = models.IntegerField()
     count = models.IntegerField()
 
+    def create_thing_support_from_unused_money_support(self):
+        unused_money_support = list(filter(
+            lambda s: not s.thingsupport_set.all().exists(),
+            self.accepted_money_support()
+            ))
+
+        price = self.price
+        use_supports = []
+
+        
+        if self.still_needed() == 0:
+            return False
+
+        for support in unused_money_support:
+            use_supports.append(support)
+
+            if support.leva < price:
+                price -= support.leva
+                continue
+
+            remaining = support.leva - price
+            while remaining >= 0:
+                thing_support = self.supports.create(
+                        price=self.price,
+                        project=self.project,
+                        user=self.project.legal_entity.admin,
+                        comment='Auto generated',
+                        accepted=True,
+                        accepted_at = timezone.now(),
+                )
+
+                thing_support.from_money_supports.set(use_supports)
+                use_supports = []
+                price = self.price
+
+                if remaining == 0:
+                    break
+
+                if self.still_needed() == 0:
+                    self.money_supports.create(
+                        leva=remaining,
+                        project=self.project,
+                        user=support.user,
+                        comment='reminder from %d' % support.id,
+                        accepted=None, # so that admin is forced to choose Necessity to spend it on
+                        )
+                    return True
+
+                if remaining > 0:
+                    use_supports.append(support)
+                    saved_price = price
+                    price -= remaining
+                    remaining -= saved_price
+
+        return True
+
     def __str__(self):
-        return self.name
+        return "%s" % self.name
 
     def still_needed(self):
         return self.count - self.accepted_support()
@@ -341,7 +397,6 @@ class ThingNecessity(Timestamped):
 
     def accepted_support_price(self):
         return self.accepted_support() * self.price
-
 
     def total_price(self):
         return self.count * self.price
@@ -385,6 +440,19 @@ class Support(Timestamped):
 
         return False
 
+    def set_accepted(self, accepted=True):
+        self.accepted = accepted
+
+        if accepted:
+            self.accepted_at = timezone.now()
+
+        else:
+            self.accepted_at = None
+
+        self.save()
+
+        return accepted
+
     class Meta:
         abstract = True
 
@@ -394,7 +462,7 @@ class MoneySupport(Support):
         rules_permissions = {
             "add": rules.is_authenticated,
             "delete": myself & ~is_accepted,
-            "change": myself & ~is_accepted,
+            "change": (myself & ~is_accepted) | member_of_legal_entity,
             "view": myself | member_of_legal_entity,
             "accept": member_of_legal_entity,
             "mark_delivered": member_of_legal_entity,
@@ -410,6 +478,20 @@ class MoneySupport(Support):
 
     def get_type(self):
         return 'money'
+
+    def set_accepted(self, accepted=True):
+        super(MoneySupport, self).set_accepted(accepted)
+
+        if accepted:
+            if not self.necessity:
+                raise RuntimeError('Expected necessity to be set when accepting money support')
+
+            new_accepted = self.necessity.create_thing_support_from_unused_money_support()
+
+            if new_accepted != accepted:
+                return super(MoneySupport, self).set_accepted(new_accepted)
+
+        return accepted
 
     def __str__(self):
         return "%s (%s)" % (self.user.first_name, self.leva)
