@@ -1,8 +1,6 @@
 {% extends "base.html" %}
 
 {% load i18n %}
-{% load humanize %}
-{% load projects_tags %}
 
 {% block breadcrumbs %}
   <li class="breadcrumb-item">
@@ -25,45 +23,17 @@
   <div class="text-center">
     <h4>
       {% if type == 'time' %}
-        {% blocktrans %}
-          {{account}}'s volunteering
+        {% blocktrans with name=account.first_name %}
+          {{name}}'s volunteering
         {% endblocktrans %}
       {% else %}
-        {% blocktrans %}
-          {{account}}'s donations 
+        {% blocktrans with name=account.first_name%}
+          {{name}}'s donations 
         {% endblocktrans %}
       {% endif%}
     </h4>
   </div>
 
-  <table class="table table-hover">
-    <thead>
-      <th>{% trans 'Status' %}</th>
-      <th>{% trans 'Since' %}</th>
-      <th>
-        {% if type == 'time' %}
-          {% trans 'Applied for' %}
-        {% else %}
-          {% trans 'Donation' %}
-        {% endif %}
-      </th>
-      <th>{% trans 'Action' %}</th>
-    </thead>
-
-  {% for support in support_list %}
-  <tr class="table-{{support.status|status_color}}">
-      <td>{{support.status}}</td>
-      <td>{{support.status_since|naturaltime}}</td>
-      <td>
-        {% if type == 'time' %}
-          {{support.necessity}}
-        {% else %}
-          {{ support.leva|leva }}{% if support.necessity %} {% trans 'for' %} {{support.necessity}} {% endif %}
-        {% endif %}
-      </td>
-      <td><a href="{% url 'projects:time_support_details' support.id %}">{% trans 'Details' %}</a></td>
-    </tr>
-  {% endfor %}
-  </table>
+  {% include 'projects/support_list_fragment.html' %}
 
 {% endblock %}

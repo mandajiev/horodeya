@@ -1,6 +1,5 @@
 from django.utils import timezone
 
-from django.db.models.functions import Coalesce
 from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -553,7 +552,7 @@ def support_change_accept(request, pk, type, accepted):
     else:
         support = get_object_or_404(TimeSupport, pk=pk)
 
-    if support.accepted == accepted:
+    if support.status == support.STATUS.accepted:
         messages.info(request, _('Support already accepted') if accepted else _('Support already declined'))
     else:
         if type in ['money', 'm'] and not support.necessity:
@@ -615,10 +614,10 @@ class TimeSupportDetails(AutoPermissionRequiredMixin, generic.DetailView):
 def user_support_list(request, user_id, type):
     user = get_object_or_404(User, pk=user_id)
     if type == 'time':
-        support_list = user.timesupport_set.order_by(Coalesce('created_at', 'accepted_at', 'delivered_at').desc())
+        support_list = user.timesupport_set.order_by('-status_since')
 
     else:
-        support_list = user.moneysupport_set.order_by(Coalesce('created_at', 'accepted_at', 'delivered_at').desc())
+        support_list = user.moneysupport_set.order_by('-status_since')
 
     return render(request, 'projects/user_support_list.html', context={
         'account': user,

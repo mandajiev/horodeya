@@ -3,6 +3,7 @@ from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
 
 from vote.models import UP, DOWN
+from ..models import Support
 
 register = template.Library()
 
@@ -26,10 +27,11 @@ def leva(value):
 
 
 STATUS_COLOR = {
-    'review': 'warning',
-    'delivered': 'success',
-    'accepted': 'default',
-    'declined': 'danger',
+    Support.STATUS.review: 'warning',
+    Support.STATUS.delivered: 'success',
+    Support.STATUS.accepted: 'default',
+    Support.STATUS.declined: 'danger',
+    Support.STATUS.expired: 'light',
     }
 
 @register.filter

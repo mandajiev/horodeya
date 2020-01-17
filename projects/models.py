@@ -4,11 +4,12 @@ import datetime
 from django.db import models
 from django.utils import timezone
 from django.urls import reverse
-from django.db.models.functions import Coalesce
 
 from django.core.validators import MaxValueValidator
 
 from django.contrib.auth.models import AbstractUser
+
+from model_utils import Choices
 
 import rules
 from rules.contrib.models import RulesModelBase, RulesModelMixin
@@ -52,7 +53,7 @@ def has_a_legal_entity(user):
 
 @rules.predicate
 def is_accepted(user, support):
-    return support.accepted
+    return support.status == support.STATUS.accepted
 
 class Timestamped(RulesModelMixin, models.Model, metaclass=RulesModelBase):
     created_at = models.DateTimeField(editable=False)
@@ -130,11 +131,8 @@ class Project(Timestamped):
             "view": rules.always_allow,
         }
 
-    TYPES = [
-        ('b', 'business'),
-        ('c', 'cause'),
-    ]
-    type = models.CharField(max_length=1, choices=TYPES)
+    TYPES = Choices('business', 'cause')
+    type = models.CharField(max_length=20, choices=TYPES)
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=300)
     text = models.TextField()
@@ -179,7 +177,7 @@ class Project(Timestamped):
 
     def money_support(self):
         s = 0
-        for money_support in self.moneysupport_set.all():
+        for money_support in self.moneysupport_set.filter(status__in=[Support.STATUS.accepted, Support.STATUS.delivered]):
             s += money_support.leva
 
         return s
@@ -252,12 +250,10 @@ class Project(Timestamped):
         return int(100*self.time_fulfilled() / time_needed)
 
     def recent_time_support(self):
-        return self.timesupport_set.order_by(Coalesce('created_at', 'accepted_at', 'delivered_at').desc())
+        return self.timesupport_set.order_by('-status_since')
 
     def recent_money_support(self):
-        return self.moneysupport_set.order_by(Coalesce('created_at', 'accepted_at', 'delivered_at').desc())
-
-
+        return self.moneysupport_set.order_by('-status_since')
 
 class Announcement(Timestamped, Activity):
     class Meta:
@@ -335,10 +331,10 @@ class TimeNecessity(Timestamped):
         return self.count - self.accepted_support()
 
     def accepted_support(self):
-        return self.supports.filter(accepted=True).count()
+        return self.supports.filter(status=Support.STATUS.accepted).count()
 
     def support_candidates(self):
-        return self.supports.filter(accepted=None)
+        return self.supports.filter(status=Support.STATUS.review)
 
     def get_absolute_url(self):
         return reverse('projects:time_necessity_details', kwargs={'pk': self.pk})
@@ -422,7 +418,7 @@ class ThingNecessity(Timestamped):
         return self.count - self.accepted_support()
 
     def accepted_support(self):
-        return self.supports.filter(accepted=True).count()
+        return self.supports.filter(status=Support.STATUS.accepted).count()
 
     def accepted_support_price(self):
         return self.accepted_support() * self.price
@@ -431,13 +427,13 @@ class ThingNecessity(Timestamped):
         return self.count * self.price
 
     def accepted_money_support(self):
-        return self.money_supports.filter(accepted=True).all()
+        return self.money_supports.filter(status=Support.STATUS.accepted).all()
 
     def accepted_money_support_leva(self):
-        return sum(self.money_supports.filter(accepted=True).values_list('leva', flat=True))
+        return sum(self.money_supports.filter(status=Support.STATUS.accepted).values_list('leva', flat=True))
 
     def support_candidates_count(self):
-        return self.supports.filter(accepted=None).count() + self.money_supports.filter(accepted=None).count()
+        return self.supports.filter(status=Support.STATUS.review).count() + self.money_supports.filter(status=Support.STATUS.review).count()
 
     def get_absolute_url(self):
         return reverse('projects:thing_necessity_details', kwargs={'pk': self.pk})
@@ -451,58 +447,61 @@ class Support(Timestamped):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     
     comment = models.TextField(blank=True)
-    accepted = models.BooleanField(null=True, blank=True)
-    accepted_at = models.DateTimeField(null=True, blank=True)
-    delivered = models.BooleanField(null=True, blank=True)
-    delivered_at = models.DateTimeField(null=True, blank=True)
+    STATUS = Choices(
+            'review',
+            'delivered',
+            'accepted',
+            'declined',
+            'expired')
+
+    status = models.CharField(max_length=20, choices=STATUS, default=STATUS.review)
+    status_since = models.DateTimeField(default=timezone.now)
+    __original_status = None
+
+    def __init__(self, *args, **kwargs):
+        super(Support, self).__init__(*args, **kwargs)
+        self.__original_status = self.status
+    
+    def save(self, *args, **kwargs):
+        if self.status != self.__original_status:
+            self.status_since = timezone.now()
+
+        res = super(Support, self).save(*args, **kwargs)
+        self.__original_status = self.status
+        return res
 
     def delivery_expires(self):
-        if not self.accepted_at:
+        if not self.status == 'ccepted':
             return None
 
-        return self.accepted_at + datetime.timedelta(days=30)
+        return self.status_since + datetime.timedelta(days=30)
 
     def expired(self):
-        if self.delivered == False:
+        if self.status == 'expired':
             return True
+
         expires = self.delivery_expires()
         if expires and expires < timezone.now():
-            self.delivered = False
+            self.status = 'expired' 
             self.save()
             return True
 
         return False
 
     def set_accepted(self, accepted=True):
-        self.accepted = accepted
-        if accepted is not None:
-            self.accepted_at = timezone.now()
+        if accepted is True:
+            self.status = self.STATUS.accepted
+        elif accepted is False:
+            self.status = self.STATUS.declined
+        else:
+            self.status = self.STATUS.review
+
+#        if accepted is not None:
+#            self.accepted_at = timezone.now()
 
         self.save()
 
         return accepted
-
-    def status(self):
-        if self.delivered:
-            return 'delivered'
-
-        if self.accepted:
-            return 'accepted'
-        
-        if self.accepted == False: 
-            return 'declined'
-
-        return 'review'
- 
-    def status_since(self):
-        status = self.status()
-        if status in ['accepted', 'declined']:
-            return self.accepted_at
-
-        if status == 'delivered':
-            return self.delivered_at
-
-        return self.created_at
 
 #TODO notify in feed
 class MoneySupport(Support):

@@ -42,3 +42,5 @@ PyYAML==5.2
 django-photologue==3.11
 django-sortedm2m==3.0.0
 ExifRead==2.1.2
+## The following requirements were added by pip freeze:
+django-model-utils==4.0.0

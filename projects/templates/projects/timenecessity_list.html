@@ -25,21 +25,6 @@
     <h4>{% trans 'Applications' %}</h4>
   </div>
 
-  <table class="table table-hover">
-    <thead>
-      <th>{% trans 'Status' %}</th>
-      <th>{% trans 'Since' %}</th>
-      <th>{% trans 'Applied for' %}</th>
-      <th>{% trans 'Action' %}</th>
-    </thead>
-  {% for support in project.recent_time_support.all %}
-  <tr class="table-{{support.status|status_color}}">
-      <td>{{support.status}}</td>
-      <td>{{support.status_since|naturaltime}}</td>
-      <td>{{support.necessity}}</td>
-      <td><a href="{% url 'projects:time_support_details' support.id %}">{% trans 'Details' %}</a></td>
-    </tr>
-  {% endfor %}
-  </table>
+  {% include 'projects/support_list_fragment.html' with support_list=project.recent_time_support type='time'%}
 
 {% endblock %}
