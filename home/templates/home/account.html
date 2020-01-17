@@ -46,11 +46,18 @@
         {% endfor %}
       </li>
       <li class="list-group-item">
-        {% blocktrans with count=account.total_support_count%}
-        Supported {{count}} causes/businesses.
+        {% blocktrans with count=account.timesupport_set.count %}
+        Donated {{count}} times.
         {% endblocktrans %}
-        <a href="{% url 'projects:user_support_list' account.pk %}"> {% trans 'See all' %} </a>
+        <a href="{% url 'projects:user_support_list' account.pk 'time' %}"> {% trans 'See all' %} </a>
       </li>
+      <li class="list-group-item">
+        {% blocktrans with count=account.moneysupport_set.count %}
+        Volunteered {{count}} times.
+        {% endblocktrans %}
+        <a href="{% url 'projects:user_support_list' account.pk 'time' %}"> {% trans 'See all' %} </a>
+      </li>
+
       <li class="list-group-item">
         {% blocktrans with votes=account.total_votes_count%}
         Voted {{votes}} times.

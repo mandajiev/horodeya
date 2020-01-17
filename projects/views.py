@@ -1,5 +1,6 @@
 from django.utils import timezone
 
+from django.db.models.functions import Coalesce
 from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -611,15 +612,18 @@ class TimeSupportDetails(AutoPermissionRequiredMixin, generic.DetailView):
     model = TimeSupport
     template_name = 'projects/support_detail.html'
 
-def user_support_list(request, user_id):
+def user_support_list(request, user_id, type):
     user = get_object_or_404(User, pk=user_id)
-    money_supports = MoneySupport.objects.filter(user=user).all()
-    time_supports = TimeSupport.objects.filter(user=user).all()
+    if type == 'time':
+        support_list = user.timesupport_set.order_by(Coalesce('created_at', 'accepted_at', 'delivered_at').desc())
+
+    else:
+        support_list = user.moneysupport_set.order_by(Coalesce('created_at', 'accepted_at', 'delivered_at').desc())
 
     return render(request, 'projects/user_support_list.html', context={
         'account': user,
-        'money_support_list': money_supports,
-        'time_support_list': time_supports
+        'type': type,
+        'support_list': support_list,
         }
     )
 
