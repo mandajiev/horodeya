@@ -129,6 +129,7 @@ class Project(Timestamped):
             "delete": admin_of_legal_entity,
             "change": member_of_legal_entity,
             "view": rules.always_allow,
+            "follow": rules.is_authenticated
         }
 
     TYPES = Choices('business', 'cause')

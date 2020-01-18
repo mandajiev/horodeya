@@ -685,8 +685,7 @@ class UserAutocomplete(autocomplete.Select2QuerySetView):
     def get_result_label(self, item):
         return format_html('%s %s' % (item.first_name, item.last_name))
 
-@permission_required('projects.accept_support', fn=objectgetter(Project, 'pk'))
-
+@permission_required('projects.follow_project', fn=objectgetter(Project, 'pk'))
 def follow_project(request, pk):
 
     project = get_object_or_404(Project, pk=pk)
