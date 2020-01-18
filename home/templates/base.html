@@ -61,7 +61,7 @@
 
               <a class="nav-link {% active каузи %}" href="/каузи/">{% trans 'Causes' %}</a>
 
-              <a class="nav-link {% active бизнеси %}" href="/бизнеси/">{% trans 'Businesses' %}</a>
+              <a class="nav-link {% active бизнеси %}" href="/за-нас/">{% trans 'About us' %}</a>
 
               {% if user.is_authenticated %}
               <a class="nav-link {% active profile %}" href="{% url 'my_account' %}">
@@ -163,8 +163,8 @@
                 <h6> Навигация </h6>
 
                 <ul class="list-group list-group-flush">
-                  <a class="list-group-item {% active каузи %}" href="/каузи/">Каузи</a>
-                  <a class="list-group-item {% active бизнеси %}" href="/бизнеси/">Бизнеси</a>
+                  <a class="list-group-item {% active каузи %}" href="/каузи/">{% trans 'Causes' %}</a>
+                  <a class="list-group-item {% active бизнеси %}" href="/за-нас/">{% trans 'About us' %}</a>
                   {% if user.is_authenticated %}
                   <a class="list-group-item {% active account %}" href="{% url 'my_account' %}">{% trans 'Account' %}</a>
                   <a class="list-group-item {% active logout %}" href="{% url 'account_logout' %}">{% trans 'Sign out' %}</a>

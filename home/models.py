@@ -61,9 +61,19 @@ class HomePage(Page):
             'timeline': timeline,
         })
 
+class AboutUs(Page):
+    body = StreamField([
+        ('text', blocks.RichTextBlock()),
+        ('image', ImageChooserBlock()),
+    ])
+
+    content_panels = Page.content_panels + [
+        StreamFieldPanel('body'),
+    ]
+
 class List(Page):
     body = RichTextField(blank=True)
-    type = models.CharField(max_length=1, choices=Project.TYPES)
+    type = models.CharField(max_length=20, choices=Project.TYPES)
 
     content_panels = Page.content_panels + [
         FieldPanel('body', classname="full"),

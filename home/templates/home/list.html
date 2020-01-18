@@ -13,7 +13,7 @@
     <div class="mt-3 text-center">
       <div class="body">{{ page.body|richtext }}</div>
       <a id="apply-btn" href="{% url 'projects:create' page.type %}" class="btn btn-primary }} ">
-        {% if page.type == 'b' %}
+        {% if page.type == 'business' %}
         Кaндидатствай с твой бизнес
         {% else %}
         Кaндидатствай с твоя кауза
