@@ -37,5 +37,7 @@
 {% endif %}
 </p>
 {% if not short %}
-<p>{% trans 'End date' %}: {{ project.end_date }} <a href="{% url 'projects:report_list' project.pk %}">{% trans 'Reports' %}</a></p>
+<p>{% trans 'End date' %}: {{ project.end_date }}
+{% comment %}<a href="{% url 'projects:report_list' project.pk %}">{% trans 'Reports' %}</a> {% endcomment %}
+</p>
 {% endif %}
