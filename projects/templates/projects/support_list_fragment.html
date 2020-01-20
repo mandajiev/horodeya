@@ -26,7 +26,13 @@
           {{ support.leva|leva }}{% if support.necessity %} {% trans 'for' %} {{support.necessity}} {% endif %}
         {% endif %}
       </td>
-      <td><a href="{% url 'projects:time_support_details' support.id %}">{% trans 'Details' %}</a></td>
+      <td>
+      {% if type == 'time' %}
+        <a href="{% url 'projects:time_support_details' support.id %}">{% trans 'Details' %}</a>
+      {% else %}
+        <a href="{% url 'projects:money_support_details' support.id %}">{% trans 'Details' %}</a>
+      {% endif %}
+      </td>
     </tr>
   {% endfor %}
 </table>

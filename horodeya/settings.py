@@ -83,6 +83,7 @@ MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'horodeya.force_default_language_middleware.ForceDefaultLanguageMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -160,8 +161,6 @@ AUTHENTICATION_BACKENDS = (
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
@@ -222,7 +221,8 @@ AWS_DEFAULT_REGION = os.getenv('AWS_DEFAULT_REGION')
 
 AUTH_USER_MODEL = 'projects.User'
 
-LANGAUGE_CODE = 'bg'
+LANGUAGE_CODE = 'bg-bg'
+
 LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale'),
     os.path.join(BASE_DIR, 'locale-allauth')
@@ -239,3 +239,8 @@ STREAM_API_SECRET = os.getenv('STREAM_API_SECRET')
 
 DATE_FORMAT = 'Y-m-d'
 DATETIME_FORMAT = 'Y-m-d H:m:s'
+
+LANGUAGES = (
+    ('en', 'English'),
+    ('bg', 'Бъларски')
+)
