@@ -9,5 +9,6 @@ export STREAM_API_KEY='{{stream_api_key}}'
 export STREAM_API_SECRET='{{stream_api_secret}}'
 export DB_PASSWORD='{{db_password}}'
 export DB_NAME='{{db_name}}'
+export DB_USER='{{db_user}}'
 
 venv/bin/python manage.py $@
