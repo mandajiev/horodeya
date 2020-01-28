@@ -24,21 +24,21 @@ from django.utils.translation import gettext_lazy
 
 from photologue.models import Photo, Gallery
 
-def determine_legal_entity(object):
+def determine_community(object):
     if isinstance(object, Project):
-        return object.legal_entity
+        return object.community
     elif isinstance(object, Report) or isinstance(object, Support):
-        return object.project.legal_entity
+        return object.project.community
 
     return object
 
 @rules.predicate
-def member_of_legal_entity(user, object):
-    return user.member_of(determine_legal_entity(object).id)
+def member_of_community(user, object):
+    return user.member_of(determine_community(object).id)
 
 @rules.predicate
-def admin_of_legal_entity(user, object):
-    return user == determine_legal_entity(object).admin
+def admin_of_community(user, object):
+    return user == determine_community(object).admin
 
 @rules.predicate
 def myself(user, user2):
@@ -48,8 +48,8 @@ def myself(user, user2):
     return user == user2.user
 
 @rules.predicate
-def has_a_legal_entity(user):
-    return user.legal_entities.count() > 0
+def has_a_community(user):
+    return user.communities.count() > 0
 
 @rules.predicate
 def is_accepted(user, support):
@@ -69,19 +69,19 @@ class Timestamped(RulesModelMixin, models.Model, metaclass=RulesModelBase):
     class Meta:
         abstract = True
 
-class LegalEntity(Timestamped):
+class Community(Timestamped):
     class Meta:
         rules_permissions = {
             "add": rules.is_authenticated,
-            "delete": admin_of_legal_entity,
-            "change": admin_of_legal_entity,
+            "delete": admin_of_community,
+            "change": admin_of_community,
             "view": rules.is_authenticated,
-            "leave": member_of_legal_entity & ~admin_of_legal_entity
+            "leave": member_of_community & ~admin_of_community
         }
 
     name = models.CharField(max_length=100)
     text = models.TextField()
-    bulstat = models.DecimalField(blank=True, max_digits=20, decimal_places=0)
+    bulstat = models.DecimalField(blank=True, null=True, max_digits=20, decimal_places=0)
     email = models.EmailField()
     phone = models.DecimalField(max_digits=20, decimal_places=0)
     admin = models.ForeignKey('User', on_delete=models.PROTECT)
@@ -103,7 +103,7 @@ class User(AbstractUser, RulesModelMixin, metaclass=RulesModelBase):
             "view": rules.is_authenticated,
         }
 
-    legal_entities = models.ManyToManyField(LegalEntity)
+    communities = models.ManyToManyField(Community)
     bal = models.IntegerField(default=20, validators=[MaxValueValidator(100)])
 
     def __str__(self):
@@ -112,8 +112,8 @@ class User(AbstractUser, RulesModelMixin, metaclass=RulesModelBase):
     def get_absolute_url(self):
         return reverse('account', kwargs={'pk': self.pk})
 
-    def member_of(self, legal_entity_pk):
-        return self.legal_entities.filter(pk=legal_entity_pk).exists()
+    def member_of(self, community_pk):
+        return self.communities.filter(pk=community_pk).exists()
 
     def total_support_count(self):
         return self.moneysupport_set.count() + self.timesupport_set.count()
@@ -125,9 +125,9 @@ class User(AbstractUser, RulesModelMixin, metaclass=RulesModelBase):
 class Project(Timestamped):
     class Meta:
         rules_permissions = {
-            "add": admin_of_legal_entity,
-            "delete": admin_of_legal_entity,
-            "change": member_of_legal_entity,
+            "add": admin_of_community,
+            "delete": admin_of_community,
+            "change": member_of_community,
             "view": rules.always_allow,
             "follow": rules.is_authenticated
         }
@@ -138,7 +138,7 @@ class Project(Timestamped):
     description = models.CharField(max_length=300)
     text = models.TextField()
     published = models.BooleanField()
-    legal_entity = models.ForeignKey(LegalEntity, on_delete=models.CASCADE)
+    community = models.ForeignKey(Community, on_delete=models.CASCADE)
     end_date = models.DateField(null=True, blank=True)
     gallery = models.ForeignKey(Gallery, on_delete=models.PROTECT, null=True)
 
@@ -146,7 +146,7 @@ class Project(Timestamped):
         return 'project-%d' % self.id
 
     def __str__(self):
-        return ' - '.join([self.legal_entity.name, self.name])
+        return ' - '.join([self.community.name, self.name])
 
     def get_absolute_url(self):
         return reverse('projects:details', kwargs={'pk': self.pk})
@@ -259,9 +259,9 @@ class Project(Timestamped):
 class Announcement(Timestamped, Activity):
     class Meta:
         rules_permissions = {
-            "add": member_of_legal_entity,
-            "delete": admin_of_legal_entity,
-            "change": member_of_legal_entity,
+            "add": member_of_community,
+            "delete": admin_of_community,
+            "change": member_of_community,
             "view": rules.is_authenticated,
         }
 
@@ -282,9 +282,9 @@ class Announcement(Timestamped, Activity):
 class Report(VoteModel, Timestamped, Activity):
     class Meta:
         rules_permissions = {
-            "add": member_of_legal_entity,
-            "delete": admin_of_legal_entity,
-            "change": member_of_legal_entity,
+            "add": member_of_community,
+            "delete": admin_of_community,
+            "change": member_of_community,
             "view": rules.is_authenticated,
         }
     name = models.CharField(max_length=50)
@@ -310,9 +310,9 @@ class Report(VoteModel, Timestamped, Activity):
 class TimeNecessity(Timestamped):
     class Meta:
         rules_permissions = {
-            "add": member_of_legal_entity,
-            "delete": member_of_legal_entity,
-            "change": member_of_legal_entity,
+            "add": member_of_community,
+            "delete": member_of_community,
+            "change": member_of_community,
             "view": rules.is_authenticated,
             "list": rules.is_authenticated,
         }
@@ -344,9 +344,9 @@ class TimeNecessity(Timestamped):
 class ThingNecessity(Timestamped):
     class Meta:
         rules_permissions = {
-            "add": member_of_legal_entity,
-            "delete": member_of_legal_entity,
-            "change": member_of_legal_entity,
+            "add": member_of_community,
+            "delete": member_of_community,
+            "change": member_of_community,
             "view": rules.is_authenticated,
             "list": rules.is_authenticated,
         }
@@ -381,7 +381,7 @@ class ThingNecessity(Timestamped):
                 thing_support = self.supports.create(
                         price=self.price,
                         project=self.project,
-                        user=self.project.legal_entity.admin,
+                        user=self.project.community.admin,
                         comment='Auto generated',
                         accepted=True,
                         accepted_at = timezone.now(),
@@ -510,11 +510,11 @@ class MoneySupport(Support):
         rules_permissions = {
             "add": rules.is_authenticated,
             "delete": myself & ~is_accepted,
-            "change": (myself & ~is_accepted) | member_of_legal_entity,
-            "view": myself | member_of_legal_entity,
-            "accept": member_of_legal_entity,
-            "mark_delivered": member_of_legal_entity,
-            "list": member_of_legal_entity,
+            "change": (myself & ~is_accepted) | member_of_community,
+            "view": myself | member_of_community,
+            "accept": member_of_community,
+            "mark_delivered": member_of_community,
+            "list": member_of_community,
             "list-user": myself
         }
 
@@ -551,10 +551,10 @@ class ThingSupport(Support):
             "add": rules.is_authenticated,
             "delete": myself & ~is_accepted,
             "change": myself & ~is_accepted,
-            "view": myself | member_of_legal_entity,
-            "accept": member_of_legal_entity,
-            "mark_delivered": member_of_legal_entity,
-            "list": member_of_legal_entity,
+            "view": myself | member_of_community,
+            "accept": member_of_community,
+            "mark_delivered": member_of_community,
+            "list": member_of_community,
             "list-user": myself
         }
 
@@ -577,11 +577,11 @@ class TimeSupport(Support):
         rules_permissions = {
             "add": rules.is_authenticated,
             "delete": myself & ~is_accepted,
-            "change": (myself & ~is_accepted) | member_of_legal_entity,
-            "view": myself | member_of_legal_entity,
-            "accept": member_of_legal_entity,
-            "mark_delivered": member_of_legal_entity,
-            "list": member_of_legal_entity
+            "change": (myself & ~is_accepted) | member_of_community,
+            "view": myself | member_of_community,
+            "accept": member_of_community,
+            "mark_delivered": member_of_community,
+            "list": member_of_community
         }
         unique_together = ['necessity', 'user']
 

@@ -4,12 +4,12 @@ from django.test import TestCase
 from django.utils import timezone
 from django.urls import reverse
 
-from .models import User, LegalEntity, Project, MoneySupport, ThingSupport, ThingNecessity
+from .models import User, Community, Project, MoneySupport, ThingSupport, ThingNecessity
 
 class MoneySupportTestCase(TestCase):
     def setUp(self):
         admin = User.objects.create(first_name="Test", last_name="Testing")
-        legal_entity = LegalEntity.objects.create(
+        community = Community.objects.create(
             name='test legal entity',
             bulstat='000',
             text='',
@@ -23,7 +23,7 @@ class MoneySupportTestCase(TestCase):
             name='test project',
             description='',
             text='',
-            legal_entity=legal_entity,
+            community=community,
             published=True,
             )
         necessity = ThingNecessity.objects.create(

@@ -40,8 +40,8 @@
         {%comment%}<li class="list-group-item"> {% trans "Rating" %}: {{ account.bal }}</li>{%endcomment%}
         <li class="list-group-item">
           {% trans "Legal entities" %}:
-          {% for legal_entity in account.legal_entities.all %}
-            <a class="" href="{% url 'projects:legal_details' legal_entity.pk %}">{{ legal_entity }}</a>
+          {% for community in account.communities.all %}
+            <a class="" href="{% url 'projects:legal_details' community.pk %}">{{ community }}</a>
             {% if not forloop.last %}
             |
             {% endif %}

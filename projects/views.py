@@ -20,7 +20,7 @@ from django.utils.translation import gettext as _
 
 from rules.contrib.views import AutoPermissionRequiredMixin, permission_required, objectgetter
 
-from projects.models import Project, LegalEntity, Report, MoneySupport, TimeSupport, User, Announcement, TimeNecessity, ThingNecessity
+from projects.models import Project, Community, Report, MoneySupport, TimeSupport, User, Announcement, TimeNecessity, ThingNecessity
 
 from tempus_dominus.widgets import DateTimePicker, DatePicker
 
@@ -36,7 +36,7 @@ from stream_django.enrich import Enrich
 class ProjectForm(ModelForm):
     class Meta:
         model = Project
-        fields = ['name', 'description', 'text', 'published', 'legal_entity', 'end_date' ]
+        fields = ['name', 'description', 'text', 'published', 'community', 'end_date' ]
         widgets = {
             'end_date': DatePicker(
                 options={
@@ -49,7 +49,7 @@ class ProjectForm(ModelForm):
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
-        self.fields['legal_entity'].queryset = LegalEntity.objects.filter(admin=user)
+        self.fields['community'].queryset = Community.objects.filter(admin=user)
 
 class AnnouncementForm(ModelForm):
     class Meta:
@@ -199,9 +199,9 @@ class ProjectCreate(AutoPermissionRequiredMixin, CreateView):
     def form_valid(self, form):
         user = self.request.user
         project = form.instance
-        legal_entity = project.legal_entity
-        if legal_entity.admin != user:
-            form.add_error('legal_entity', 'You must be the admin of the legal entity. Admin for %s is %s' % (legal_entity, legal_entity.admin))
+        community = project.community
+        if community.admin != user:
+            form.add_error('community', 'You must be the admin of the legal entity. Admin for %s is %s' % (community, community.admin))
             return super().form_invalid(form)
 
         project.type = self.request.kwargs['type']
@@ -219,9 +219,9 @@ class ProjectUpdate(AutoPermissionRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         user = self.request.user
-        legal_entity = form.instance.legal_entity
-        if legal_entity.admin != user:
-            form.add_error('legal_entity', 'You must be the admin of the legal entity. Admin for %s is %s' % (legal_entity, legal_entity.admin))
+        community = form.instance.community
+        if community.admin != user:
+            form.add_error('community', 'You must be the admin of the legal entity. Admin for %s is %s' % (community, community.admin))
             return super().form_invalid(form)
         return super().form_valid(form)
 
@@ -229,8 +229,8 @@ class ProjectDelete(AutoPermissionRequiredMixin, DeleteView):
     model = Project
     success_url = '/'
 
-class LegalEntityCreate(AutoPermissionRequiredMixin, CreateView):
-    model = LegalEntity
+class CommunityCreate(AutoPermissionRequiredMixin, CreateView):
+    model = Community
     fields = ['name', 'bulstat', 'email', 'phone', 'payment']
 
     def form_valid(self, form):
@@ -238,8 +238,8 @@ class LegalEntityCreate(AutoPermissionRequiredMixin, CreateView):
         form.instance.admin = user
         return super().form_valid(form)
 
-class LegalEntityUpdate(AutoPermissionRequiredMixin, UpdateView):
-    model = LegalEntity
+class CommunityUpdate(AutoPermissionRequiredMixin, UpdateView):
+    model = Community
     fields = ['name', 'bulstat', 'email', 'phone', 'admin', 'payment']
 
     def form_valid(self, form):
@@ -249,12 +249,12 @@ class LegalEntityUpdate(AutoPermissionRequiredMixin, UpdateView):
 
         return super().form_valid(form)
 
-class LegalEntityDelete(AutoPermissionRequiredMixin, DeleteView):
-    model = LegalEntity
+class CommunityDelete(AutoPermissionRequiredMixin, DeleteView):
+    model = Community
     success_url = reverse_lazy('projects:legal_list')
 
-class LegalEntityDetails(AutoPermissionRequiredMixin, generic.DetailView):
-    model = LegalEntity
+class CommunityDetails(AutoPermissionRequiredMixin, generic.DetailView):
+    model = Community
 
     def get_context_data(self, **kwargs):
 
@@ -263,14 +263,14 @@ class LegalEntityDetails(AutoPermissionRequiredMixin, generic.DetailView):
         return context
 
 
-class LegalEntityList(AutoPermissionRequiredMixin, generic.ListView):
+class CommunityList(AutoPermissionRequiredMixin, generic.ListView):
     permission_type = 'view'
-    model = LegalEntity
+    model = Community
 
-class LegalEntityMemberList(AutoPermissionRequiredMixin, generic.DetailView):
+class CommunityMemberList(AutoPermissionRequiredMixin, generic.DetailView):
     permission_type = 'change'
     template_name = 'projects/legalentity_member_list.html'
-    model = LegalEntity
+    model = Community
 
     def get_context_data(self, **kwargs):
 
@@ -278,24 +278,24 @@ class LegalEntityMemberList(AutoPermissionRequiredMixin, generic.DetailView):
         context['form'] = UserAutocompleteForm()
         return context
 
-@permission_required('projects.change_legal_entity', fn=objectgetter(LegalEntity, 'legal_entity_id'))
-def legal_member_add(request, legal_entity_id):
+@permission_required('projects.change_community', fn=objectgetter(Community, 'community_id'))
+def legal_member_add(request, community_id):
     user_id = request.POST.get('user')
     user = get_object_or_404(User, pk=user_id)
-    legal_entity = get_object_or_404(LegalEntity, pk=legal_entity_id)
-    user.legal_entities.add(legal_entity)
+    community = get_object_or_404(Community, pk=community_id)
+    user.legal_entities.add(community)
     messages.success(request, _("Success"))
 
-    return redirect('projects:legal_member_list', legal_entity_id)
+    return redirect('projects:legal_member_list', community_id)
 
-@permission_required('projects.change_legal_entity', fn=objectgetter(LegalEntity, 'legal_entity_id'))
-def legal_member_remove(request, legal_entity_id, user_id):
+@permission_required('projects.change_community', fn=objectgetter(Community, 'community_id'))
+def legal_member_remove(request, community_id, user_id):
     user = get_object_or_404(User, pk=user_id)
-    legal_entity = get_object_or_404(LegalEntity, pk=legal_entity_id)
-    user.legal_entities.remove(legal_entity)
+    community = get_object_or_404(Community, pk=community_id)
+    user.legal_entities.remove(community)
     messages.success(request, _("Success"))
 
-    return redirect('projects:legal_member_list', legal_entity_id)
+    return redirect('projects:legal_member_list', community_id)
 
 class ReportForm(AutoPermissionRequiredMixin, ModelForm):
     class Meta:
@@ -809,7 +809,7 @@ class TimeNecessityList(AutoPermissionRequiredMixin, generic.ListView):
         context['necessity_list'] = project.timenecessity_set.all()
         context['type'] = 'time'
 
-        context['member'] = self.request.user.member_of(project.legal_entity.pk)
+        context['member'] = self.request.user.member_of(project.community.pk)
 
         return context
 
@@ -827,7 +827,7 @@ class ThingNecessityList(AutoPermissionRequiredMixin, generic.ListView):
         context['necessity_list'] = project.thingnecessity_set.all()
         context['type'] = 'thing'
 
-        context['member'] = self.request.user.member_of(project.legal_entity.pk)
+        context['member'] = self.request.user.member_of(project.community.pk)
 
         return context
 

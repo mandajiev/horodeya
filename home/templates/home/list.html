@@ -20,7 +20,7 @@
         {% endif %}
       </a>
 
-      {% if user.legal_entities.count == 0 %} 
+      {% if user.communities.count == 0 %} 
         <script>
           $("#apply-btn").addClass('disabled')
         </script>
@@ -54,7 +54,7 @@
         <div class="card-body">
           <h5 class="card-title">{{ project.name }}
             <small class="text-muted">
-              {{project.legal_entity}}
+              {{project.community}}
             </small>
           </h5>
           <p class="card-text">{{ project.description }}</p>

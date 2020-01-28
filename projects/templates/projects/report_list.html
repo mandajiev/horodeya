@@ -14,7 +14,7 @@
 
 {% block content %}
 
-{% if project.legal_entity.admin.pk == user.pk %}
+{% if project.community.admin.pk == user.pk %}
   {{ block.super }}
 {% endif %}
 
@@ -24,7 +24,7 @@
   {{project.name}}
 </h2>
 
-{% with admin_pk=project.legal_entity.admin.pk %}
+{% with admin_pk=project.community.admin.pk %}
 {% if admin_pk == user.pk and unpublished_reports %}
 <div class="card">
   <div class="card-header">

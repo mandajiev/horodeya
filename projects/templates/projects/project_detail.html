@@ -27,7 +27,7 @@
 {% endblock %}
 
 {% block content %}
-  {% member_of user object.legal_entity_id as admin %}
+  {% member_of user object.community_id as admin %}
   {% if admin %}
     {{ block.super }}
   {% endif %}
@@ -68,7 +68,7 @@
     <h3>
       {{ object.name }}
       <small>
-        <a href="{{ project.legal_entity.get_absolute_url }}">{{project.legal_entity}}</a>
+        <a href="{{ project.community.get_absolute_url }}">{{project.community}}</a>
       </small>
     </h3>
   </div>

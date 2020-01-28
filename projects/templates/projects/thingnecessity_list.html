@@ -15,7 +15,7 @@
 {% endblock %}
 
 {% block content %}
-{% if project.legal_entity.admin.pk == user.pk %}
+{% if project.community.admin.pk == user.pk %}
   {{ block.super }}
 {% endif %}
 

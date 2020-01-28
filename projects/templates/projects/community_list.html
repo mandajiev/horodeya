@@ -10,8 +10,8 @@
     <h2>{% trans 'Legal entities' %}</h2>
     <a class="btn btn-primary" href="{% url 'projects:legal_create' %}">Добави юредическо лице</a>
     <ul class="list-group mt-3">
-        {% for legal_entity in object_list %}
-              <a class="list-group-item" href="{% url 'projects:legal_details' legal_entity.pk %}">{{ legal_entity.name }}</a>
+        {% for community in object_list %}
+              <a class="list-group-item" href="{% url 'projects:legal_details' community.pk %}">{{ community.name }}</a>
         {% endfor %}
     </ul>
 {% endblock %}

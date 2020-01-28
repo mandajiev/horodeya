@@ -4,10 +4,10 @@
   <div class="card-header bg-transparent border-bottom-0">
     <div class="media">
       <img class="mr-3" src="holder.js/64x64"> 
-      {% with legal_entity=activity.actor.legal_entity %}
+      {% with community=activity.actor.community %}
       <div class="media-body">
         <div>
-          <a href="{{ legal_entity.get_absolute_url }}">{{ legal_entity }}</a>
+          <a href="{{ community.get_absolute_url }}">{{ community }}</a>
           {% trans "posted an announcement for" %}
           <a href="{{activity.actor.get_absolute_url }}">{{ activity.actor }}</a> 
         </div>

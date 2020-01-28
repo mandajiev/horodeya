@@ -34,7 +34,7 @@
 
 {% block content %}
 
-{% member_of user object.project.legal_entity_id as admin %}
+{% member_of user object.project.community_id as admin %}
 {% if admin or user == object.user %}
   {{ block.super }}
 {% endif %}
