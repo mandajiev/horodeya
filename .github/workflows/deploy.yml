@@ -1,32 +1,26 @@
-name: Deploy to prod
+name: Python application
 
 on: 
   push:
-    branches: 
+    branches:
       - master
+
 jobs:
   deploy:
-
     runs-on: ubuntu-latest
 
     steps:
-    - name: Execute Ansible Playbook
-      uses: saubermacherag/ansible-playbook-docker-action@v1.2
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v1
       with:
-        # Name of the playbook in your workspace.
-        playbookName: ansible/playbook.yaml
-        # Name of the inventory file to use.
-        inventoryFile: ansible/production 
-        # name of the requirements file to use.
-        # If inventoryFile is set you can also specify a custom roles path to install your required roles in.
-        rolesPath: ansible/roles
-        # Keyfile to use for host connections.
-        keyFile: ansible/id_rsa_horodeya.pem.encrypted
-        # Vault Password to decrypt keyFile.
-        keyFileVaultPass: ${{ secrets.VAULT_PASS }}
-        # String containing all extraVars which you want to be injected into the run.
-        extraVars: # optional
-        # File containing extra vars.
-        extraFile: ansible/ansible.cfg
-        # Choose one of 4 verbosity levels. See Ansible documentation for details.
-        verbosity: # optional
+        python-version: 3.8
+    - name: Run ansible playbook
+      run: |
+        cd ansible
+        ansible-galaxy install cchurch.uwsgi
+        ansible-galaxy install geerlingguy.certbot
+        ansible-galaxy install geerlingguy.nginx
+        echo '${{ secrets.VAULT_PASS }}' > vault-pass.txt
+        ansible-vault decrypt id_rsa_horodeya.pem.encrypted --vault-password-file=vault-pass.txt
+        ansible-playbook -i production playbook.yaml --private-key=id_rsa_horodeya.pem.encrypted --vault-password-file=vault-pass.txt
