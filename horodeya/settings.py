@@ -21,7 +21,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-if sys.argv[1] == 'test':
+if len(sys.argv) > 0 and sys.argv[1] == 'test':
+    TEST = True
+else:
+    TEST = False
+
+if TEST:
     SECRET_KEY = 'testing'
 else:
     SECRET_KEY = os.getenv('SECRET_KEY')
@@ -82,7 +87,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
 ]
 
-if sys.argv[1] != 'test':
+if TEST:
     INSTALLED_APPS += ['stream_django']
 
 
@@ -128,7 +133,7 @@ WSGI_APPLICATION = 'horodeya.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-if sys.argv[1] == 'test':
+if TEST:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
