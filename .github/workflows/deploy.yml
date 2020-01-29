@@ -23,7 +23,7 @@ jobs:
         # Keyfile to use for host connections.
         keyFile: ansible/id_rsa_horodeya.pem.encrypted
         # Vault Password to decrypt keyFile.
-        keyFileVaultPass: '59g1-Oih%V0fJ,6/~%2S"`9x1'
+        keyFileVaultPass: ${{ secrets.VAULT_PASS }}
         # String containing all extraVars which you want to be injected into the run.
         extraVars: # optional
         # File containing extra vars.
