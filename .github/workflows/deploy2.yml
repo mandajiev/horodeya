@@ -16,6 +16,9 @@ jobs:
     - name: Run ansible playbook
       run: |
         cd ansible
+        ansible-galaxy install cchurch.uwsgi
+        ansible-galaxy install geerlingguy.certbot
+        ansible-galaxy install geerlingguy.nginx
         echo '${{ secrets.VAULT_PASS }}' > vault-pass.txt
         ansible-vault decrypt id_rsa_horodeya.pem.encrypted --vault-password-file=vault-pass.txt
         ansible-playbook -i production playbook.yaml --private-key=id_rsa_horodeya.pem.encrypted --vault-password-file=vault-pass.txt
