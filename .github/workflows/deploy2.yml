@@ -16,5 +16,6 @@ jobs:
     - name: Install dependencies
       run: |
         cd ansible
-        ansible-vault decrypt id_rsa_horodeya.pem.encrypted --vault-password='${{ secrets.VAULT_PASS }}'
-        ansible-playbook -i production playbook.yaml --private-key=id_rsa_horodeya.pem.encrypted --vault-password='${{ secrets.VAULT_PASS }}'
+        echo "${{ secrets.VAULT_PASS }}" > vault-pass.txt
+        ansible-vault decrypt id_rsa_horodeya.pem.encrypted --vault-password-file=vault-pass.txt
+        ansible-playbook -i production playbook.yaml --private-key=id_rsa_horodeya.pem.encrypted --vault-password-file=vault-pass.txt
