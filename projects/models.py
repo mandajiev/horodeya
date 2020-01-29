@@ -383,7 +383,7 @@ class ThingNecessity(Timestamped):
                         project=self.project,
                         user=self.project.community.admin,
                         comment='Auto generated',
-                        status=Support.accepted,
+                        status=Support.STATUS.accepted,
                         status_since = timezone.now(),
                 )
 
@@ -400,7 +400,7 @@ class ThingNecessity(Timestamped):
                         project=self.project,
                         user=support.user,
                         comment='reminder from %d' % support.id,
-                        status=Support.review, # so that admin is forced to choose Necessity to spend it on
+                        status=Support.STATUS.review, # so that admin is forced to choose Necessity to spend it on
                         status_since = timezone.now(),
                         )
                     return True
