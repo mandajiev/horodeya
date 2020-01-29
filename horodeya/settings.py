@@ -87,7 +87,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
 ]
 
-if TEST:
+if not TEST:
     INSTALLED_APPS += ['stream_django']
 
 
