@@ -1,7 +1,8 @@
 {% load static wagtailuserbar %}
 {% load bootstrap4 %}
 {% load i18n %}
-{% load activity_tags %}
+{% load activity_tags %} 
+
 
 {% bootstrap_css %}
 {% bootstrap_javascript jquery='full' %}
@@ -38,12 +39,7 @@
     {% load wagtailcore_tags %}
 
     <body>
-        {% wagtailuserbar %}
-
-        {% block jumbotron %}
-        {% endblock %}
-
-        <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
+      <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
             <a class="nav-link nav-link-logo d-md-block d-lg-none" href="/">
               <img src="{% static 'media/horodeya-logo.png' %}" class="logo">
               Хородея
@@ -55,7 +51,7 @@
           <div class="collapse navbar-collapse justify-content-md-center" id="navbarSupportedContent">
             <ul class="navbar-nav">
               <a class="nav-link d-none d-lg-block {% active начало %}" href="/">
-                <img src="{% static 'media/horodeya-logo.png' %}" class="logo p-absolute align-top" style="max-height:30px">
+                <img src="{% static 'media/logo_horodeia_main-03.png' %}" class="logo p-absolute align-top float-left" style="max-height:70px">
                 {% trans 'Home' %}
               </a>
 
@@ -110,6 +106,12 @@
           </ul>
 				</div>
         </nav>
+        {% wagtailuserbar %}
+
+        {% block jumbotron %}
+        {% endblock %}
+
+        
 
         <div class="container">
           {% block breadcrumbs_container %}
@@ -199,7 +201,7 @@
               url: '{% url "notifications" %}',
               success: populateNotifications
             });
-          });
+          });zzzzzz
 
           function populateNotifications(data) {
             document.querySelector('#notifications').innerHTML = data;

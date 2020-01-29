@@ -21,9 +21,9 @@
       </a>
 
       {% if user.communities.count == 0 %} 
-        <script>
+        <sc3ript>
           $("#apply-btn").addClass('disabled')
-        </script>
+        </sc3ript>
         {% trans 'You need to be part of a Legal entity to apply' %}<a href="{% url 'projects:legal_list' %}"/>{% trans 'Join a legal entity' %}</a>
       {% endif %}
       

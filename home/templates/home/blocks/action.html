@@ -1,17 +1,20 @@
-{% load static %}
-{% load wagtailcore_tags %}
+{% load static %} {% load wagtailcore_tags %}
 
 <div class="card mx-auto mb-3">
   <div class="row no-gutters">
     <div class="col-md-5 order-{{value.image_order }}">
-      <img src="holder.js/300x300" class="card-img action-img">
+      <img src="holder.js/300x300" class="card-img-top action-img" />
     </div>
 
     <div class="col-md-7">
       <div class="card-body">
         <h5 class="card-title">{{ value.heading }}</h5>
         <p class="card-text">{{ value.text }}</p>
-        <a class="btn btn-primary stretched-link" href="{% pageurl value.page %}">Научи повече </a>
+        <a
+          class="btn btn-primary stretched-link"
+          href="{% pageurl value.page %}"
+          >Научи повече
+        </a>
       </div>
     </div>
   </div>
