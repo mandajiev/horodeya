@@ -582,7 +582,7 @@ msgstr "Промени"
 
 #: projects/templates/projects/project_breadcrumb.html:6
 msgid "Businesses"
-msgstr "Бизнеси"
+msgstr "Задруги"
 
 #: projects/templates/projects/project_confirm_delete.html:7
 #, python-format

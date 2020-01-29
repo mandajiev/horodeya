@@ -3,14 +3,14 @@
 {% load static %}
 
 {% block breadcrumbs %}
-{% include 'projects/legalentity_breadcrumb.html' with object=object active="active" only %}
+{% include 'projects/community_breadcrumb.html' with object=object active="active" only %}
 {% endblock %}
 
 {% block admin_tools %}
   <li class="nav-item">
-    <a class="nav-link text-white" href="{% url 'projects:legal_update' object.pk %}">{% trans 'Update' %}</a>
+    <a class="nav-link text-white" href="{% url 'projects:community_update' object.pk %}">{% trans 'Update' %}</a>
   </li>
-  <a class="nav-link text-white" href="{% url 'projects:legal_member_list' object.pk %}">{% trans 'Update members' %}</a>
+  <a class="nav-link text-white" href="{% url 'projects:community_member_list' object.pk %}">{% trans 'Update members' %}</a>
 {% endblock %}
 
 {% block content %}
@@ -29,11 +29,13 @@
         <h5 class="card-title">{{ object.name }}</h5>
       </div>
         <ul class="list-group list-group-flush">
+          {% if object.bulstat %}
           <li class="list-group-item">
-            Булстат: {{ object.bulstat }}
+            {% trans 'Bulstat' %}: {{ object.bulstat }}
           </li>
+          {% endif %}
           <li class="list-group-item">
-            Е-поща: {{ object.email }}
+            {% trans 'Email' %}: {{ object.email }}
           </li>
           <li class="list-group-item">
             Телефон: {{ object.phone }}

@@ -1,12 +1,12 @@
 {% load i18n %}
 <li class="breadcrumb-item {% if not object %} {{active}} {% endif %}">
-  <a href="{% url 'projects:legal_list' %}">
-  {% trans "Legal entities" %} 
+  <a href="{% url 'projects:community_list' %}">
+  {% trans "Communities" %} 
   </a>
 </li>
 {% if object %}
   <li class="breadcrumb-item {{active}}"> 
-    <a href='{% url 'projects:legal_details' object.pk %}'>{{ object }}</a>
+    <a href='{% url 'projects:community_details' object.pk %}'>{{ object }}</a>
   </li>
 {% endif %}
 

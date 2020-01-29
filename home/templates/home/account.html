@@ -39,9 +39,9 @@
       <ul class="list-group list-group-flush">
         {%comment%}<li class="list-group-item"> {% trans "Rating" %}: {{ account.bal }}</li>{%endcomment%}
         <li class="list-group-item">
-          {% trans "Legal entities" %}:
+          {% trans "Communities" %}:
           {% for community in account.communities.all %}
-            <a class="" href="{% url 'projects:legal_details' community.pk %}">{{ community }}</a>
+            <a class="" href="{% url 'projects:community_details' community.pk %}">{{ community }}</a>
             {% if not forloop.last %}
             |
             {% endif %}

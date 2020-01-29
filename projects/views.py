@@ -201,10 +201,10 @@ class ProjectCreate(AutoPermissionRequiredMixin, CreateView):
         project = form.instance
         community = project.community
         if community.admin != user:
-            form.add_error('community', 'You must be the admin of the legal entity. Admin for %s is %s' % (community, community.admin))
+            form.add_error('community', 'You must be the admin of the community entity. Admin for %s is %s' % (community, community.admin))
             return super().form_invalid(form)
 
-        project.type = self.request.kwargs['type']
+        project.type = self.kwargs['type']
 
         return super().form_valid(form)
 
@@ -221,7 +221,7 @@ class ProjectUpdate(AutoPermissionRequiredMixin, UpdateView):
         user = self.request.user
         community = form.instance.community
         if community.admin != user:
-            form.add_error('community', 'You must be the admin of the legal entity. Admin for %s is %s' % (community, community.admin))
+            form.add_error('community', 'You must be the admin of the community entity. Admin for %s is %s' % (community, community.admin))
             return super().form_invalid(form)
         return super().form_valid(form)
 
@@ -244,14 +244,14 @@ class CommunityUpdate(AutoPermissionRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         admin = form.instance.admin
-        if not admin.legal_entities.filter(pk=form.instance.pk).exists():
-            admin.legal_entities.add(form.instance)
+        if not admin.community_entities.filter(pk=form.instance.pk).exists():
+            admin.community_entities.add(form.instance)
 
         return super().form_valid(form)
 
 class CommunityDelete(AutoPermissionRequiredMixin, DeleteView):
     model = Community
-    success_url = reverse_lazy('projects:legal_list')
+    success_url = reverse_lazy('projects:community_list')
 
 class CommunityDetails(AutoPermissionRequiredMixin, generic.DetailView):
     model = Community
@@ -269,7 +269,7 @@ class CommunityList(AutoPermissionRequiredMixin, generic.ListView):
 
 class CommunityMemberList(AutoPermissionRequiredMixin, generic.DetailView):
     permission_type = 'change'
-    template_name = 'projects/legalentity_member_list.html'
+    template_name = 'projects/communityentity_member_list.html'
     model = Community
 
     def get_context_data(self, **kwargs):
@@ -279,23 +279,23 @@ class CommunityMemberList(AutoPermissionRequiredMixin, generic.DetailView):
         return context
 
 @permission_required('projects.change_community', fn=objectgetter(Community, 'community_id'))
-def legal_member_add(request, community_id):
+def community_member_add(request, community_id):
     user_id = request.POST.get('user')
     user = get_object_or_404(User, pk=user_id)
     community = get_object_or_404(Community, pk=community_id)
-    user.legal_entities.add(community)
+    user.community_entities.add(community)
     messages.success(request, _("Success"))
 
-    return redirect('projects:legal_member_list', community_id)
+    return redirect('projects:community_member_list', community_id)
 
 @permission_required('projects.change_community', fn=objectgetter(Community, 'community_id'))
-def legal_member_remove(request, community_id, user_id):
+def community_member_remove(request, community_id, user_id):
     user = get_object_or_404(User, pk=user_id)
     community = get_object_or_404(Community, pk=community_id)
-    user.legal_entities.remove(community)
+    user.community_entities.remove(community)
     messages.success(request, _("Success"))
 
-    return redirect('projects:legal_member_list', community_id)
+    return redirect('projects:community_member_list', community_id)
 
 class ReportForm(AutoPermissionRequiredMixin, ModelForm):
     class Meta:
@@ -693,12 +693,13 @@ def follow_project(request, pk):
     user = request.user
 
     news_feeds = feed_manager.get_news_feeds(user.id)
-    notification_feed = feed_manager.get_notification_feed(user.id)
 
     for feed in news_feeds.values():
         feed.follow('project', project.id)
 
+    notification_feed = feed_manager.get_notification_feed(user.id)
     notification_feed.follow('project', project.id)
+
     messages.success(request, "%s %s" % (_("Started following"),project))
 
     return redirect(project)

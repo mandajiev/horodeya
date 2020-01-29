@@ -14,16 +14,16 @@
   {% endblock %}
 	<div class="row mt-4">
     <div class="col-8 mx-auto">
+      <div class="body">
+        {% include_block page.body %}
+      </div>
+      
       {% if user.is_authenticated %}
         {% for activity in timeline %}
           {% render_activity activity %}
         {% empty %}
-          <p class="text-center">{% trans 'Your news feed is empty. Follow some causes/businesses first!' %}</p>
+          <p class="text-center">{% trans 'Follow some causes/businesses to see their activity here' %}</p>
         {% endfor %}
-      {% else %}
-      <div class="body">
-        {% include_block page.body %}
-      </div>
       {% endif %}
     </div>
 	</div>
