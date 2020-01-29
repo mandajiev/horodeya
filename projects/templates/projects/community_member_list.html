@@ -4,14 +4,14 @@
 {% load bootstrap4 %}
 
 {% block breadcrumbs %}
-{% include 'projects/legalentity_breadcrumb.html' with object=object only %}
+{% include 'projects/community_breadcrumb.html' with object=object only %}
   <li class="breadcrumb-item active"> {% trans "Members" %} </li>
 {% endblock %}
 
 {% block content %}
     {{ form.media }}
     <div>
-      <form class="form-inline" action="{% url 'projects:legal_member_add' object.pk %}" method="post">
+      <form class="form-inline" action="{% url 'projects:community_member_add' object.pk %}" method="post">
         {% csrf_token %}
         {% bootstrap_form form %}
         {% buttons %}
@@ -22,8 +22,8 @@
     <ul class="list-group mt-3">
         {% for user in object.user_set.all %}
           <li class="list-group-item">
-            <a href="{% url 'projects:legal_details' user.pk %}">{{ user }}</a>
-            <a class="btn btn-danger" href="{% url 'projects:legal_member_remove' object.pk user.pk %}">{% trans 'Remove' %}</a>
+            <a href="{% url 'projects:community_details' user.pk %}">{{ user }}</a>
+            <a class="btn btn-danger" href="{% url 'projects:community_member_remove' object.pk user.pk %}">{% trans 'Remove' %}</a>
           </li>
         {% endfor %}
     </ul>

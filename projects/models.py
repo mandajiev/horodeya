@@ -92,7 +92,7 @@ class Community(Timestamped):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('projects:legal_details', kwargs={'pk': self.pk})
+        return reverse('projects:community_details', kwargs={'pk': self.pk})
 
 class User(AbstractUser, RulesModelMixin, metaclass=RulesModelBase):
     class Meta:
@@ -383,8 +383,8 @@ class ThingNecessity(Timestamped):
                         project=self.project,
                         user=self.project.community.admin,
                         comment='Auto generated',
-                        accepted=True,
-                        accepted_at = timezone.now(),
+                        status=Support.accepted,
+                        status_since = timezone.now(),
                 )
 
                 thing_support.from_money_supports.set(use_supports)
@@ -400,7 +400,8 @@ class ThingNecessity(Timestamped):
                         project=self.project,
                         user=support.user,
                         comment='reminder from %d' % support.id,
-                        accepted=None, # so that admin is forced to choose Necessity to spend it on
+                        status=Support.review, # so that admin is forced to choose Necessity to spend it on
+                        status_since = timezone.now(),
                         )
                     return True
 

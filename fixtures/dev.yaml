@@ -100,6 +100,20 @@
     community: 5
     end_date: 2019-11-07
     gallery: 3
+- model: projects.project
+  pk: 4
+  fields:
+    created_at: 2020-01-29 09:00:53.863283+00:00
+    updated_at: 2020-01-29 09:01:03.717459+00:00
+    type: business
+    name: "\u0425\u043E\u0440\u043E\u0434\u0435\u044F 2020"
+    description: "\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435 \u043D\u0430 \u0425\u043E\u0440\u043E\u0434\u0435\u044F"
+    text: "\u0414\u044A\u043B\u044A\u0433 \u0442\u0435\u043A\u0441\u0442 \u043D\u0430
+      \u0425\u043E\u0440\u043E\u0434\u0435\u044F"
+    published: true
+    community: 7
+    end_date: 2020-12-31
+    gallery: 4
 - model: projects.announcement
   pk: 1
   fields:
@@ -754,6 +768,17 @@
     - 29
     sites:
     - - horodeya.org
+- model: photologue.gallery
+  pk: 4
+  fields:
+    date_added: 2020-01-29 09:01:03.629499+00:00
+    title: "\u0425\u043E\u0440\u043E\u0434\u0435\u044F 2020"
+    slug: "\u0445\u043E\u0440\u043E\u0434\u0435\u044F-2020"
+    description: ''
+    is_public: true
+    photos: []
+    sites:
+    - - horodeya.org
 - model: photologue.photo
   pk: 3
   fields:
@@ -820,7 +845,7 @@
   fields:
     image: photologue/photos/1maison-1_xVfJfP1.jpg
     date_taken: null
-    view_count: 264
+    view_count: 268
     crop_from: center
     effect: null
     title: "\u041A\u044A\u0449\u0430 \u043D\u0430 \u0417\u0435\u043B\u0435\u043D"
@@ -835,7 +860,7 @@
   fields:
     image: photologue/photos/logo-en.png
     date_taken: null
-    view_count: 120
+    view_count: 122
     crop_from: center
     effect: null
     title: Logo
@@ -925,11 +950,24 @@
     increment_count: false
     effect: null
     watermark: null
+- model: photologue.photosize
+  pk: 6
+  fields:
+    name: profile
+    width: 240
+    height: 240
+    quality: 70
+    upscale: false
+    crop: true
+    pre_cache: true
+    increment_count: true
+    effect: null
+    watermark: null
 - model: projects.user
   pk: 2
   fields:
     password: pbkdf2_sha256$150000$tEIP0BMifJBs$oCHt0ItFlBk3H8IRlld11fHNgBshO87uXYtUZO5zZJk=
-    last_login: 2020-01-18 06:46:43.913037+00:00
+    last_login: 2020-01-28 13:37:45.268162+00:00
     is_superuser: true
     username: alek
     first_name: "\u0410\u043B\u0435\u043A\u0441\u0430\u043D\u0434\u044A\u0440"
@@ -1019,6 +1057,20 @@
     admin:
     - xilunas
     payment: "\u043D\u044F\u043C\u0430"
+    bal: 20
+- model: projects.community
+  pk: 7
+  fields:
+    created_at: 2020-01-29 08:43:31.514063+00:00
+    updated_at: 2020-01-29 08:43:31.514074+00:00
+    name: "\u0425\u043E\u0440\u043E\u0434\u0435\u044F"
+    text: ''
+    bulstat: null
+    email: horodeyabg@gmail.com
+    phone: '0'
+    admin:
+    - alek
+    payment: "\u041D\u044F\u043C\u0430"
     bal: 20
 - model: projects.moneysupport
   pk: 8
@@ -1146,6 +1198,11 @@
   pk: 5
   fields:
     body: "<p>\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435 \u043D\u0430 \u0431\u0438\u0437\u043D\u0435\u0441\u0438\u0442\u0435</p>"
+    type: business
+- model: home.list
+  pk: 15
+  fields:
+    body: "<p>\u0422\u0435\u043A\u0441\u0442 \u0437\u0430 \u0437\u0430\u0434\u0440\u0443\u0433\u0438</p>"
     type: business
 - model: home.termsandconditions
   pk: 6
@@ -4830,11 +4887,38 @@
     latest_revision_created_at: null
     live_revision: null
 - model: wagtailcore.page
+  pk: 2
+  fields:
+    path: '00010001'
+    depth: 2
+    numchild: 0
+    title: Welcome to your new Wagtail site!
+    draft_title: Welcome to your new Wagtail site!
+    slug: home
+    content_type:
+    - wagtailcore
+    - page
+    live: true
+    has_unpublished_changes: false
+    url_path: /home/
+    owner: null
+    seo_title: ''
+    show_in_menus: false
+    search_description: ''
+    go_live_at: null
+    expire_at: null
+    expired: false
+    locked: false
+    first_published_at: null
+    last_published_at: null
+    latest_revision_created_at: null
+    live_revision: null
+- model: wagtailcore.page
   pk: 3
   fields:
     path: '00010002'
     depth: 2
-    numchild: 9
+    numchild: 10
     title: "\u041D\u0430\u0447\u0430\u043B\u043E"
     draft_title: "\u041D\u0430\u0447\u0430\u043B\u043E"
     slug: "\u043D\u0430\u0447\u0430\u043B\u043E"
@@ -5166,6 +5250,34 @@
     last_published_at: 2020-01-18 06:30:38.874377+00:00
     latest_revision_created_at: 2020-01-18 06:30:38.666192+00:00
     live_revision: 28
+- model: wagtailcore.page
+  pk: 15
+  fields:
+    path: 00010002000A
+    depth: 3
+    numchild: 0
+    title: "\u0417\u0430\u0434\u0440\u0443\u0433\u0438"
+    draft_title: "\u0417\u0430\u0434\u0440\u0443\u0433\u0438"
+    slug: "\u0437\u0430\u0434\u0440\u0443\u0433\u0438"
+    content_type:
+    - home
+    - list
+    live: true
+    has_unpublished_changes: false
+    url_path: "/\u043D\u0430\u0447\u0430\u043B\u043E/\u0437\u0430\u0434\u0440\u0443\u0433\u0438/"
+    owner:
+    - alek
+    seo_title: ''
+    show_in_menus: false
+    search_description: ''
+    go_live_at: null
+    expire_at: null
+    expired: false
+    locked: false
+    first_published_at: 2020-01-29 08:36:18.274559+00:00
+    last_published_at: 2020-01-29 08:36:18.274559+00:00
+    latest_revision_created_at: 2020-01-29 08:36:18.043935+00:00
+    live_revision: 29
 - model: wagtailcore.pagerevision
   pk: 1
   fields:
@@ -10376,4 +10488,22 @@
       "body": "[{\"type\": \"text\", \"value\": \"<p>\\u0422\\u0435\\u043a\\u0441\\u0442
       \\u0443\\u043f\\u0440\\u0430\\u0432\\u043b\\u0435\\u043d\\u0438\\u0435</p>\",
       \"id\": \"635d0ba9-80f8-46ad-8c82-0b1f6fc01ca9\"}]"}'
+    approved_go_live_at: null
+- model: wagtailcore.pagerevision
+  pk: 29
+  fields:
+    page: 15
+    submitted_for_moderation: false
+    created_at: 2020-01-29 08:36:18.043935+00:00
+    user:
+    - alek
+    content_json: '{"pk": 15, "path": "00010002000A", "depth": 3, "numchild": 0, "title":
+      "\u0417\u0430\u0434\u0440\u0443\u0433\u0438", "draft_title": "\u0417\u0430\u0434\u0440\u0443\u0433\u0438",
+      "slug": "\u0437\u0430\u0434\u0440\u0443\u0433\u0438", "content_type": 17, "live":
+      true, "has_unpublished_changes": false, "url_path": "/\u043d\u0430\u0447\u0430\u043b\u043e/\u0437\u0430\u0434\u0440\u0443\u0433\u0438/",
+      "owner": 2, "seo_title": "", "show_in_menus": false, "search_description": "",
+      "go_live_at": null, "expire_at": null, "expired": false, "locked": false, "first_published_at":
+      null, "last_published_at": null, "latest_revision_created_at": null, "live_revision":
+      null, "body": "<p>\u0422\u0435\u043a\u0441\u0442 \u0437\u0430 \u0437\u0430\u0434\u0440\u0443\u0433\u0438</p>",
+      "type": "business"}'
     approved_go_live_at: null

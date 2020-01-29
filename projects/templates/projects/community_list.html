@@ -3,15 +3,15 @@
 {% load i18n %}
 
 {% block breadcrumbs %}
-{% include 'projects/legalentity_breadcrumb.html' with object=object only %}
+{% include 'projects/community_breadcrumb.html' with object=object active='active' only %}
 {% endblock %}
 
 {% block content %}
-    <h2>{% trans 'Legal entities' %}</h2>
-    <a class="btn btn-primary" href="{% url 'projects:legal_create' %}">Добави юредическо лице</a>
+    <h2>{% trans 'Communities' %}</h2>
+    <a class="btn btn-primary" href="{% url 'projects:community_create' %}">{% trans 'Add community' %}</a>
     <ul class="list-group mt-3">
         {% for community in object_list %}
-              <a class="list-group-item" href="{% url 'projects:legal_details' community.pk %}">{{ community.name }}</a>
+              <a class="list-group-item" href="{% url 'projects:community_details' community.pk %}">{{ community.name }}</a>
         {% endfor %}
     </ul>
 {% endblock %}

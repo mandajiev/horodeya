@@ -29,11 +29,17 @@ $ manage.py loaddata fixtures/dev.yaml
 ### Превод
 
 ```
-$ django-admin makemessages -l bg -i venv/bin
+$ manage.py makemessages -l bg -i venv/bin
 ```
 
 После редактирай преводите в `locale` и `locale-allauth`. Накрая компилирай преводите:
 
 ```
-$ django-admin compilemessages -l bg
+$ manage.py compilemessages -l bg
+```
+
+### Запазване на локална информация
+
+```
+./manage.sh dumpdata --natural-foreign --format yaml -o fixtures/dev.yaml -e auth.Permission -e sessions -e admin.logentry --exclude contenttypes
 ```
