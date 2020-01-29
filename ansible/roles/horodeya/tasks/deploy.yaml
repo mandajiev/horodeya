@@ -77,7 +77,7 @@
   tags: translate
 
 - name: arrange static files
-  shell: '{{root}}/manage.sh collectstatic'
+  shell: '{{root}}/manage.sh collectstatic --noinput'
   args:
     chdir: '{{root}}'
   tags: static

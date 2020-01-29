@@ -23,6 +23,7 @@
               env = STREAM_API_KEY={{stream_api_key}}
               env = STREAM_API_SECRET={{stream_api_secret}}
               env = DB_NAME={{db_name}}
+              env = DB_USER={{db_user}}
               env = DB_PASSWORD={{db_password}}
             processes: 4
             socket: 127.0.0.1:8000
