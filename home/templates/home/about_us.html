@@ -8,21 +8,7 @@
 {% block breadcrumbs_container %}
 {% endblock %}
 
-<div class="row mt-4">
-  <div class="col-3">
-    <ul class="list-group list-group-flush sticky-top" style="top:4rem">
-      <li class="list-group-item">
-        <a href="#{{page.slug}}">{{ page.title }}</a>
-        <ul class="list-group list-group-flush">
-        {% for page in self.get_children %}
-          <li class="list-group-item">
-            <a href="#{{page.slug}}">{{page.title}}</a>
-          </li>
-        {% endfor %}
-        </ul>
-      </li>
-    </ul>
-  </div>
+
 
   <div class="col-9">
     <h3 id="{{page.slug}}"> {{page.title}} </h3>
