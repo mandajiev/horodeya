@@ -13,9 +13,9 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: 3.8
-    - name: Install dependencies
+    - name: Run ansible playbook
       run: |
         cd ansible
-        echo "${{ secrets.VAULT_PASS }}" > vault-pass.txt
+        echo '${{ secrets.VAULT_PASS }}' > vault-pass.txt
         ansible-vault decrypt id_rsa_horodeya.pem.encrypted --vault-password-file=vault-pass.txt
         ansible-playbook -i production playbook.yaml --private-key=id_rsa_horodeya.pem.encrypted --vault-password-file=vault-pass.txt
