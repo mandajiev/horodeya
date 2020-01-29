@@ -3,7 +3,7 @@ name: Test
 on: 
   push:
     branches-ignore:
-      - deploy-action
+      - master
 
 jobs:
   test:

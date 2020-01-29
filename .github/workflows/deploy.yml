@@ -3,7 +3,7 @@ name: Deploy
 on: 
   push:
     branches:
-      - deploy-action
+      - master
 
 jobs:
   test:
@@ -24,6 +24,8 @@ jobs:
 
 
   deploy:
+    needs: test
+
     runs-on: ubuntu-latest
 
     steps:
