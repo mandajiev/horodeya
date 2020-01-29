@@ -83,7 +83,7 @@ INSTALLED_APPS = [
 ]
 
 if sys.argv[1] != 'test':
-    INSTALLED_APPS += 'stream_django'
+    INSTALLED_APPS += ['stream_django']
 
 
 MIDDLEWARE = [
