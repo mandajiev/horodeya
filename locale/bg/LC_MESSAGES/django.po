@@ -677,10 +677,6 @@ msgstr "Публикувай"
 
 #: projects/templates/projects/project_stats.html:8
 #, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "Collected <strong>%(collected)s</strong> out of <strong>%(needed)s</"
-#| "strong>\n"
 msgid ""
 "\n"
 "<strong>%(collected)s</strong> out of <strong>%(needed)s</strong>\n"
@@ -689,31 +685,21 @@ msgstr ""
 "Събрани <strong>%(collected)s</strong> от <strong>%(needed)s</strong>\n"
 
 #: projects/templates/projects/project_stats.html:19
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "Collected <strong>%(collected)s</strong> out of <strong>%(needed)s</"
-#| "strong>\n"
 msgid ""
 "\n"
 "<strong>%(fulfilled)s</strong> out of <strong>%(needed)s</strong> things \n"
 msgstr ""
 "\n"
-"Събрани <strong>%(collected)s</strong> от <strong>%(needed)s</strong>\n"
+"Събрани <strong>%(fulfilled)s</strong> от <strong>%(needed)s</strong>\n"
 
 #: projects/templates/projects/project_stats.html:30
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "Collected <strong>%(collected)s</strong> out of <strong>%(needed)s</"
-#| "strong>\n"
 msgid ""
 "\n"
 "<strong>%(fulfilled)s</strong> out of <strong>%(needed)s</strong> "
 "volunteers\n"
 msgstr ""
 "\n"
-"Събрани <strong>%(collected)s</strong> от <strong>%(needed)s</strong>\n"
+"Събрани <strong>%(fulfilled)s</strong> от <strong>%(needed)s</strong>\n"
 
 #: projects/templates/projects/project_stats.html:40
 msgid "End date"
