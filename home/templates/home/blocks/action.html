@@ -1,6 +1,7 @@
 {% load static %} {% load wagtailcore_tags %}
+<div  class="row">
+  <div class="col-md-6">
 <div class="card mx-auto mb-3" style="width: 16rem;">
-  <div class="row">
     <div class="card  bg-dark text-white">
       <img
         class="card-img"
@@ -8,8 +9,8 @@
         alt="Card image"
       />
       <div class="card-img-overlay d-flex flex-column">
-        <h5 class="card-title">{{ value.heading }}</h5>
-        <p class="card-text align-self-center">{{ value.text }}</p>
+        <h5 class="card-title">{{ value.heading1 }}</h5>
+        <p class="card-text align-self-center">{{ value.text1 }}</p>
         <a
           class=" card-link btn btn-block btn-primary mt-auto"
           href="{% pageurl value.page1 %}"
@@ -17,7 +18,31 @@
         </a>
       </div>
     </div>
-  </div>
+</div>
+</div>
+
+
+<div class="col-md-6">
+<div class="card mx-auto mb-3" style="width: 16rem;">
+    <div class="card  bg-dark text-white">
+      <img
+        class="card-img"
+        src="holder.js/300x300?bg=000000"
+        alt="Card image"
+      />
+      <div class="card-img-overlay d-flex flex-column">
+        <h5 class="card-title">{{ value.heading2 }}</h5>
+        <p class="card-text align-self-center">{{ value.text2 }}</p>
+        <a
+          class=" card-link btn btn-block btn-primary mt-auto"
+          href="{% pageurl value.page1 %}"
+          >Научи повече
+        </a>
+      </div>
+    </div>
+</div>
+</div>
+</div>
 </div>
 
 {%comment%}

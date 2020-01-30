@@ -18,13 +18,7 @@
         {% include_block page.body %}
       </div>
       
-      {% if user.is_authenticated %}
-        {% for activity in timeline %}
-          {% render_activity activity %}
-        {% empty %}
-          <p class="text-center">{% trans 'Follow some causes/businesses to see their activity here' %}</p>
-        {% endfor %}
-      {% endif %}
+  
     </div>
   </div>
 </div>
