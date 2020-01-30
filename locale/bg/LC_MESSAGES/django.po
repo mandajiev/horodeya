@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-22 15:54+0000\n"
+"POT-Creation-Date: 2020-01-30 10:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,8 +37,7 @@ msgstr "Профил"
 msgid "This account is inactive."
 msgstr ""
 
-#: home/templates/account/email.html:6 home/templates/base.html:169
-#: home/templates/home/account.html:8
+#: home/templates/account/email.html:6 home/templates/home/account.html:8
 #: projects/templates/projects/user_support_list.html:8
 msgid "Account"
 msgstr "Профил"
@@ -72,7 +71,7 @@ msgid "Re-send Verification"
 msgstr ""
 
 #: home/templates/account/email.html:37
-#: projects/templates/projects/legalentity_member_list.html:26
+#: projects/templates/projects/community_member_list.html:26
 msgid "Remove"
 msgstr ""
 
@@ -402,37 +401,29 @@ msgid ""
 "mail address</a>."
 msgstr ""
 
-#: home/templates/base.html:59 home/templates/base.html:119
+#: home/templates/base.html:54 home/templates/base.html:103
 msgid "Home"
 msgstr "Начало"
 
-#: home/templates/base.html:62 home/templates/base.html:166
+#: home/templates/base.html:57
 #: projects/templates/projects/project_breadcrumb.html:4
 msgid "Causes"
 msgstr "Каузи"
 
-#: home/templates/base.html:64 home/templates/base.html:167
+#: home/templates/base.html:59
+#: projects/templates/projects/project_breadcrumb.html:6
+msgid "Businesses"
+msgstr "Задруги"
+
+#: home/templates/base.html:61
 msgid "About us"
 msgstr ""
 
-#: home/templates/base.html:80 home/templates/base.html:170
-msgid "Sign out"
-msgstr "Излез"
-
-#: home/templates/base.html:82 home/templates/base.html:172
-msgid "Sign in"
-msgstr "Влез"
-
-#: home/templates/base.html:84 home/templates/base.html:173
-#: home/templates/home/list.html:34
-msgid "Sign up"
-msgstr "Запиши се"
-
 #: home/templates/home/account.html:43
-#: projects/templates/projects/legalentity_breadcrumb.html:4
-#: projects/templates/projects/legalentity_list.html:10
-msgid "Legal entities"
-msgstr "Юридически лица"
+#: projects/templates/projects/community_breadcrumb.html:4
+#: projects/templates/projects/community_list.html:10
+msgid "Communities"
+msgstr ""
 
 #: home/templates/home/account.html:54
 #, fuzzy, python-format
@@ -468,8 +459,16 @@ msgstr ""
 "        %(votes)s гласа.\n"
 "        "
 
-#: home/templates/home/home_page.html:21
-msgid "Your news feed is empty. Follow some causes/businesses first!"
+#: home/templates/home/home_page.html:25
+msgid "Follow some causes/businesses to see their activity here"
+msgstr ""
+
+#: home/templates/home/list.html:17
+msgid "Apply with your business"
+msgstr ""
+
+#: home/templates/home/list.html:19
+msgid "Apply with your cause"
 msgstr ""
 
 #: home/templates/home/list.html:27
@@ -477,8 +476,14 @@ msgid "You need to be part of a Legal entity to apply"
 msgstr "Трябва да си част от Юредическо лице за да кандидатстваш"
 
 #: home/templates/home/list.html:27
-msgid "Join a legal entity"
+#, fuzzy
+#| msgid "Join a legal entity"
+msgid "Join a community"
 msgstr "Влез в юридическо лице"
+
+#: home/templates/home/list.html:34
+msgid "Sign up"
+msgstr "Запиши се"
 
 #: home/templates/home/list.html:34
 msgid "sign in"
@@ -487,10 +492,6 @@ msgstr "влез"
 #: home/templates/home/list.html:34
 msgid "to vote"
 msgstr "за да гласуваш"
-
-#: home/templates/home/list.html:37
-msgid "Highest rated"
-msgstr ""
 
 #: projects/templates/activity/aggregated/report.html:7
 #, fuzzy, python-format
@@ -526,8 +527,8 @@ msgstr "Запиши"
 msgid "Delete"
 msgstr "Изтрий"
 
+#: projects/templates/projects/community_detail.html:11
 #: projects/templates/projects/form_breadcrumb.html:4
-#: projects/templates/projects/legalentity_detail.html:11
 #: projects/templates/projects/necessity_breadcrumb.html:23
 #: projects/templates/projects/project_detail.html:14
 #: projects/templates/projects/support_detail.html:27
@@ -537,23 +538,35 @@ msgstr "Изтрий"
 msgid "Update"
 msgstr "Промени"
 
-#: projects/templates/projects/form_breadcrumb.html:6
-msgid "Create"
-msgstr "Създай"
-
-#: projects/templates/projects/legalentity_detail.html:13
+#: projects/templates/projects/community_detail.html:13
 #, fuzzy
 #| msgid "Not a member"
 msgid "Update members"
 msgstr "Не си част от юредическото лице"
 
-#: projects/templates/projects/legalentity_member_list.html:8
+#: projects/templates/projects/community_detail.html:34
+msgid "Bulstat"
+msgstr ""
+
+#: projects/templates/projects/community_detail.html:38
+msgid "Email"
+msgstr ""
+
+#: projects/templates/projects/community_list.html:11
+msgid "Add community"
+msgstr ""
+
+#: projects/templates/projects/community_member_list.html:8
 msgid "Members"
 msgstr ""
 
-#: projects/templates/projects/legalentity_member_list.html:18
+#: projects/templates/projects/community_member_list.html:18
 msgid "Добави"
 msgstr ""
+
+#: projects/templates/projects/form_breadcrumb.html:6
+msgid "Create"
+msgstr "Създай"
 
 #: projects/templates/projects/necessity_breadcrumb.html:6
 #: projects/templates/projects/project_detail.html:23
@@ -579,10 +592,6 @@ msgstr ""
 #| msgid "Update"
 msgid "Update images"
 msgstr "Промени"
-
-#: projects/templates/projects/project_breadcrumb.html:6
-msgid "Businesses"
-msgstr "Задруги"
 
 #: projects/templates/projects/project_confirm_delete.html:7
 #, python-format
@@ -961,20 +970,20 @@ msgstr "Подкрепата е отбелязана като изпълнена
 msgid "Email:"
 msgstr ""
 
-#: projects/views.py:702
+#: projects/views.py:703
 msgid "Started following"
 msgstr ""
 
-#: projects/views.py:778
+#: projects/views.py:779
 msgid "Choose at least one necessity"
 msgstr ""
 
-#: projects/views.py:791
+#: projects/views.py:792
 #, python-format
 msgid "Applied to %d volunteer positions"
 msgstr ""
 
-#: projects/views.py:878
+#: projects/views.py:879
 msgid "Image uploaded"
 msgstr ""
 
@@ -2206,6 +2215,15 @@ msgstr ""
 #: venv/lib/python3.8/site-packages/wagtail/tests/testapp/templates/tests/form_page_with_custom_submission.html:21
 msgid "You must log in first."
 msgstr ""
+
+#~ msgid "Sign out"
+#~ msgstr "Излез"
+
+#~ msgid "Sign in"
+#~ msgstr "Влез"
+
+#~ msgid "Legal entities"
+#~ msgstr "Юридически лица"
 
 #~ msgid "Hello"
 #~ msgstr "Здравей"
