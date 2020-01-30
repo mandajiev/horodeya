@@ -417,13 +417,13 @@ msgstr "Задруги"
 
 #: home/templates/base.html:61
 msgid "About us"
-msgstr ""
+msgstr "За нас"
 
 #: home/templates/home/account.html:43
 #: projects/templates/projects/community_breadcrumb.html:4
 #: projects/templates/projects/community_list.html:10
 msgid "Communities"
-msgstr ""
+msgstr "Общности"
 
 #: home/templates/home/account.html:54
 #, fuzzy, python-format
@@ -461,15 +461,15 @@ msgstr ""
 
 #: home/templates/home/home_page.html:25
 msgid "Follow some causes/businesses to see their activity here"
-msgstr ""
+msgstr "Следвай каузи и задруги"
 
 #: home/templates/home/list.html:17
 msgid "Apply with your business"
-msgstr ""
+msgstr "Кандидатствай с твоята задруга"
 
 #: home/templates/home/list.html:19
 msgid "Apply with your cause"
-msgstr ""
+msgstr "Кандидатствай с твоята кауза"
 
 #: home/templates/home/list.html:27
 msgid "You need to be part of a Legal entity to apply"
@@ -510,11 +510,11 @@ msgstr ""
 
 #: projects/templates/activity/announcement.html:11
 msgid "posted an announcement for"
-msgstr ""
+msgstr "публикува обявление за"
 
 #: projects/templates/activity/report.html:11
 msgid "published new report for"
-msgstr ""
+msgstr "публикува нов доклад за"
 
 #: projects/templates/file_form.html:12 projects/templates/form.html:12
 #: projects/templates/projects/necessity_form.html:43
@@ -546,23 +546,23 @@ msgstr "Не си част от юредическото лице"
 
 #: projects/templates/projects/community_detail.html:34
 msgid "Bulstat"
-msgstr ""
+msgstr "Булстат"
 
 #: projects/templates/projects/community_detail.html:38
 msgid "Email"
-msgstr ""
+msgstr "Имейл"
 
 #: projects/templates/projects/community_list.html:11
 msgid "Add community"
-msgstr ""
+msgstr "Добави общност"
 
 #: projects/templates/projects/community_member_list.html:8
 msgid "Members"
-msgstr ""
+msgstr "Членове"
 
 #: projects/templates/projects/community_member_list.html:18
-msgid "Добави"
-msgstr ""
+msgid "Add"
+msgstr "Добави"
 
 #: projects/templates/projects/form_breadcrumb.html:6
 msgid "Create"
@@ -572,7 +572,7 @@ msgstr "Създай"
 #: projects/templates/projects/project_detail.html:23
 #: projects/templates/projects/support_breadcrumb.html:7
 msgid "Volunteers"
-msgstr ""
+msgstr "Доброволци"
 
 #: projects/templates/projects/necessity_breadcrumb.html:10
 #: projects/templates/projects/project_detail.html:25
@@ -580,11 +580,11 @@ msgstr ""
 #: projects/templates/projects/thingnecessity_list.html:25
 #: projects/templates/projects/user_support_list.html:15
 msgid "Donations"
-msgstr ""
+msgstr "Дарения"
 
 #: projects/templates/projects/necessity_form.html:42
 msgid "Add row"
-msgstr ""
+msgstr "Добави ред"
 
 #: projects/templates/projects/photo_form.html:8
 #: projects/templates/projects/project_detail.html:17
@@ -611,31 +611,31 @@ msgstr "Нов доклад"
 
 #: projects/templates/projects/project_detail.html:45
 msgid "Add image"
-msgstr ""
+msgstr "Добави изображение"
 
 #: projects/templates/projects/project_detail.html:61
 #: projects/templates/projects/project_detail.html:112
 #: projects/templates/projects/support_detail_fragment.html:24
 msgid "Volunteer"
-msgstr ""
+msgstr "Доброволствай"
 
 #: projects/templates/projects/project_detail.html:62
 #: projects/templates/projects/project_detail.html:132
 #: projects/templates/projects/support_form.html:20
 msgid "Donate"
-msgstr ""
+msgstr "Дари"
 
 #: projects/templates/projects/project_detail.html:63
 msgid "Follow"
-msgstr ""
+msgstr "Следвай"
 
 #: projects/templates/projects/project_detail.html:84
 msgid "Show more"
-msgstr ""
+msgstr "Покажи още"
 
 #: projects/templates/projects/project_detail.html:90
 msgid "Show less"
-msgstr ""
+msgstr "Скрий"
 
 #: projects/templates/projects/project_detail.html:99
 #, fuzzy, python-format
@@ -649,7 +649,7 @@ msgid ""
 "      "
 msgstr ""
 "\n"
-"        %(votes)s гласа.\n"
+"       Търси %(votes)s доброволци\n"
 "        "
 
 #: projects/templates/projects/project_detail.html:118
@@ -664,16 +664,16 @@ msgid ""
 "      "
 msgstr ""
 "\n"
-"        Подкрепени %(count)s каузи/бизнеси.\n"
+"        Търси %(count)s ресурси, струващи\n"
 "        "
 
 #: projects/templates/projects/project_detail.html:135
 msgid "Announcements"
-msgstr ""
+msgstr "Обявления"
 
 #: projects/templates/projects/project_detail.html:141
 msgid "Publish"
-msgstr ""
+msgstr "Публикувай"
 
 #: projects/templates/projects/project_stats.html:8
 #, fuzzy, python-format
@@ -717,7 +717,7 @@ msgstr ""
 
 #: projects/templates/projects/project_stats.html:40
 msgid "End date"
-msgstr ""
+msgstr "Крайна дата"
 
 #: projects/templates/projects/report_breadcrumb.html:5
 #: projects/templates/projects/report_list.html:22
@@ -732,15 +732,15 @@ msgstr "за"
 
 #: projects/templates/projects/report_list.html:31
 msgid "Unpublished"
-msgstr ""
+msgstr "Не публикуван"
 
 #: projects/templates/projects/support_detail.html:14
 msgid "Accept"
-msgstr ""
+msgstr "Приеми"
 
 #: projects/templates/projects/support_detail.html:17
 msgid "Decline"
-msgstr ""
+msgstr "Откажи"
 
 #: projects/templates/projects/support_detail.html:21
 #, fuzzy
@@ -751,24 +751,24 @@ msgstr "Подкрепата е отбелязана като изпълнена
 #: projects/templates/projects/support_detail_fragment.html:17
 #: projects/templates/projects/support_list_fragment.html:7
 msgid "Status"
-msgstr ""
+msgstr "Статус"
 
 #: projects/templates/projects/support_detail_fragment.html:20
 #: projects/templates/projects/support_list_fragment.html:8
 msgid "Since"
-msgstr ""
+msgstr "От"
 
 #: projects/templates/projects/support_detail_fragment.html:26
 msgid "Donor"
-msgstr ""
+msgstr "Дарител"
 
 #: projects/templates/projects/support_detail_fragment.html:28
 msgid "See profile"
-msgstr ""
+msgstr "Виж профила"
 
 #: projects/templates/projects/support_detail_fragment.html:32
 msgid "Comment"
-msgstr ""
+msgstr "Коментирай"
 
 #: projects/templates/projects/support_list.html:12
 msgid "Support"
@@ -776,20 +776,20 @@ msgstr "Подкрепи"
 
 #: projects/templates/projects/support_list_fragment.html:11
 msgid "Applied for"
-msgstr ""
+msgstr "Кандидатствал за"
 
 #: projects/templates/projects/support_list_fragment.html:13
 msgid "Donation"
-msgstr ""
+msgstr "Дарение"
 
 #: projects/templates/projects/support_list_fragment.html:16
 msgid "Action"
-msgstr ""
+msgstr "Действие"
 
 #: projects/templates/projects/support_list_fragment.html:31
 #: projects/templates/projects/support_list_fragment.html:33
 msgid "Details"
-msgstr ""
+msgstr "Детайли"
 
 #: projects/templates/projects/thingnecessity_detail_fragment.html:10
 #: projects/templates/projects/timenecessity_detail_fragment.html:10
@@ -801,40 +801,40 @@ msgstr "Фамилия"
 #: projects/templates/projects/thingnecessity_detail_fragment.html:11
 #: projects/templates/projects/timenecessity_detail_fragment.html:12
 msgid "Description"
-msgstr ""
+msgstr "Описание"
 
 #: projects/templates/projects/thingnecessity_detail_fragment.html:12
 #: projects/templates/projects/timenecessity_detail_fragment.html:15
 msgid "Price"
-msgstr ""
+msgstr "Стойност"
 
 #: projects/templates/projects/thingnecessity_detail_fragment.html:13
 msgid "Collected"
-msgstr ""
+msgstr "Събрани"
 
 #: projects/templates/projects/time_support_create.html:9
 msgid "Apply as a volunteer"
-msgstr ""
+msgstr "Кандидатствай за доброволец"
 
 #: projects/templates/projects/time_support_create.html:67
 msgid "Apply to selected"
-msgstr ""
+msgstr "Кандидатствай за избраното"
 
 #: projects/templates/projects/timenecessity_detail_fragment.html:11
 msgid "Period"
-msgstr ""
+msgstr "Период"
 
 #: projects/templates/projects/timenecessity_detail_fragment.html:14
 msgid "Accepted"
-msgstr ""
+msgstr "Приети"
 
 #: projects/templates/projects/timenecessity_list.html:25
 msgid "Applications"
-msgstr ""
+msgstr "Кандидатури"
 
 #: projects/templates/projects/user_support_list.html:13
 msgid "Volunteering"
-msgstr ""
+msgstr "Доброволстване"
 
 #: projects/templates/projects/user_support_list.html:26
 #, fuzzy, python-format
@@ -848,7 +848,7 @@ msgid ""
 "        "
 msgstr ""
 "\n"
-"        %(votes)s гласа.\n"
+"        %(name)s доброволстване\n"
 "        "
 
 #: projects/templates/projects/user_support_list.html:30
@@ -863,7 +863,7 @@ msgid ""
 "        "
 msgstr ""
 "\n"
-"        %(votes)s гласа.\n"
+"        %(name)s дарения\n"
 "        "
 
 #: projects/templates/projects/user_vote_list.html:11
@@ -936,7 +936,7 @@ msgstr "Подкрепата вече е била отказана"
 
 #: projects/views.py:559
 msgid "Select a necessity for the money support"
-msgstr ""
+msgstr "Избери ресурс за парична подкрепа"
 
 #: projects/views.py:564
 msgid "Support accepted"
@@ -968,24 +968,24 @@ msgstr "Подкрепата е отбелязана като изпълнена
 
 #: projects/views.py:661
 msgid "Email:"
-msgstr ""
+msgstr "Имейл:"
 
 #: projects/views.py:703
 msgid "Started following"
-msgstr ""
+msgstr "Започна да следва"
 
 #: projects/views.py:779
 msgid "Choose at least one necessity"
-msgstr ""
+msgstr "Избери поне един необходим ресурс"
 
 #: projects/views.py:792
 #, python-format
 msgid "Applied to %d volunteer positions"
-msgstr ""
+msgstr "Кандидатства за %d доброволчески позиции"
 
 #: projects/views.py:879
 msgid "Image uploaded"
-msgstr ""
+msgstr "Изображението е качено"
 
 #: venv/lib/python3.8/site-packages/bootstrap4/components.py:17
 #: venv/lib/python3.8/site-packages/bootstrap4/templates/bootstrap4/form_errors.html:3
@@ -995,7 +995,7 @@ msgstr "затвори"
 
 #: venv/lib/python3.8/site-packages/django/contrib/messages/apps.py:7
 msgid "Messages"
-msgstr ""
+msgstr "Съобщения"
 
 #: venv/lib/python3.8/site-packages/django/contrib/sitemaps/apps.py:7
 msgid "Site Maps"
