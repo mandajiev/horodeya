@@ -962,6 +962,7 @@ class UserPhotoUpdate(AutoPermissionRequiredMixin, UpdateView):
 
         return super().form_valid(form)
 
+@permission_required('projects.change_user', fn=objectgetter(User, 'user_id'))
 def user_photo_update(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     if request.method == 'POST':
