@@ -994,7 +994,7 @@ def user_photo_update(request, user_id):
             else:
                 return redirect(user)
     else:
-        form = UploadFileForm(initial={'file':user.photo.image})
+        form = UploadFileForm(initial={'file': user.photo.image if user.photo else None})
 
     return render(request, 'projects/user_photo_update.html', {'form': form, 'user': user})
 
