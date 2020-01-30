@@ -1,14 +1,13 @@
 {% load static %} {% load wagtailcore_tags %}
-<div class="card mx-auto mb-3">
+<div class="card mx-auto mb-3" style="width: 16rem;">
   <div class="row">
-    <div class="card d-flex flex-column bg-dark text-white">
+    <div class="card  bg-dark text-white">
       <img class="card-img" src="holder.js/300x300" alt="Card image" />
-      <div class="card-img-overlay">
+      <div class="card-img-overlay d-flex flex-column">
         <h5 class="card-title">{{ value.heading }}</h5>
-        <p class="card-text">{{ value.text }}</p>
+        <p class="card-text align-self-center">{{ value.text }}</p>
         <a
-          style="width:100%;margin-top:90px"
-          class=" card-link btn btn-block btn-primary stretched-link"
+          class=" card-link btn btn-block btn-primary mt-auto"
           href="{% pageurl value.page %}"
           >Научи повече
         </a>
