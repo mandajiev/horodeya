@@ -38,6 +38,8 @@ urlpatterns = [
     path('support/<int:pk>/<str:type>/decline', views.support_decline, name='support_decline'),
     path('support/<int:pk>/<str:type>/delivered', views.support_delivered, name='support_delivered'),
     path('accounts/<int:user_id>/support/<str:type>/list', views.user_support_list, name='user_support_list'),
+
+    path('accounts/<int:user_id>/photo/update', views.user_photo_update, name='user_photo_update'),
     path('accounts/<int:user_id>/vote/list', views.user_vote_list, name='user_vote_list'),
     path('user-autocomplete/', views.UserAutocomplete.as_view(), name='user_autocomplete'),
     path('<int:pk>/follow', views.follow_project, name='follow_project'),

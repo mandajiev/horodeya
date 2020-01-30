@@ -1,3 +1,5 @@
+import os
+
 from django.utils import timezone
 
 from django.contrib import messages
@@ -851,10 +853,7 @@ class ThingNecessityDetails(AutoPermissionRequiredMixin, generic.DetailView):
         return context
 
 class UploadFileForm(forms.Form):
-    title = forms.CharField(max_length=50)
-    caption = forms.CharField(widget=forms.Textarea, required=False)
     file = forms.FileField()
-    primary = forms.BooleanField(initial=False, required=False)
 
 def gallery_add(request, project_id, primary=False):
     project = get_object_or_404(Project, pk=project_id)
@@ -943,4 +942,60 @@ def gallery_update(request, project_id):
         'formset': formset,
         'project': project,
     })
+
+class UserPhotoUpdate(AutoPermissionRequiredMixin, UpdateView):
+    model = User 
+    fields = ['photo']
+    template_name = 'file_form.html'
+
+    def form_valid(self, form):
+        user = form.instance 
+        title = str(user)
+        image = Photo.objects.create(
+            image=self.request.FILES['file'],
+            title=title,
+            caption=title,
+            slug=slugify(title, allow_unicode=True)
+            )
+
+        user.photo = image
+
+        return super().form_valid(form)
+
+def user_photo_update(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+
+            title = str(user)
+            slug = slugify(title, allow_unicode=True)
+
+            if user.photo:
+                user.photo.delete()
+
+            f = request.FILES['file']
+            path, extension = os.path.splitext(f.name)
+            f.name = 'user-%d%s' % (user_id, extension)
+            photo = Photo.objects.create(
+                image = f,
+                title = title,
+                caption = title,
+                slug = slug 
+                )
+
+            user.photo = photo
+            user.save()
+
+            messages.success(request, _('Image uploaded'))
+            next = request.GET.get('next')
+            if next:
+                return redirect(request.GET['next'])
+            else:
+                return redirect(user)
+    else:
+        form = UploadFileForm(initial={'file':user.photo.image})
+
+    return render(request, 'projects/user_photo_update.html', {'form': form, 'user': user})
+
 

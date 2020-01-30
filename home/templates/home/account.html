@@ -9,6 +9,7 @@
 {% endblock %}
 
 {% block admin_tools %}
+  <a class="nav-link text-white" href="{% url 'projects:user_photo_update' user.id %}">{% trans "Update photo" %}</a>
   <li class="nav-item">
     <a class="nav-link text-white" href="{% url 'user_update' account.pk %}">Редактирай</a>
   </li>
@@ -30,7 +31,11 @@
   <div class="card mt-3 mx-auto" style="max-width: 720px;">
   <div class="row no-gutters">
     <div class="col-md-4">
-      <img class="card-img" src="holder.js/240x240' %}"></img>
+      {% if account.photo %}
+        <img class="card-img" src="{{ account.photo.get_profile_url }}" alt="{{user.first_name}}"></img>
+      {% else %}
+        <a href="{% url 'projects:user_photo_update' user.id %}">{% trans "Add photo" %}</a>
+      {% endif %}
     </div>
     <div class="col-md-8">
       <div class="card-body">

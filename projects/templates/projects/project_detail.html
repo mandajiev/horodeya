@@ -42,10 +42,10 @@
   <div class="row mt-4">
     <div class="col-md-8">
       {% if object.gallery.public|length == 0 %}
-        <a href="{% url 'projects:gallery_update' object.id %}?primary=True">{% trans "Add image" %}</a>
+        <a href="{% url 'projects:gallery_update' object.id %}">{% trans "Add image" %}</a>
       {% else %}
         {% with object.gallery.public|first as image %}
-          <img id="image" src="{{image.get_details_url}}" alt="image.title" class="card-img">
+          <img id="image" src="{{image.get_details_url}}" alt="{{image.title}}" class="card-img">
         {% endwith %}
       {% endif %}
       {% for photo in object.gallery.public|slice:":7" %}

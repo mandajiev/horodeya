@@ -105,6 +105,7 @@ class User(AbstractUser, RulesModelMixin, metaclass=RulesModelBase):
 
     communities = models.ManyToManyField(Community)
     bal = models.IntegerField(default=20, validators=[MaxValueValidator(100)])
+    photo = models.ForeignKey(Photo, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return '%s %s' % (self.first_name, self.last_name)
