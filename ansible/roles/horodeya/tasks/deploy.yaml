@@ -88,3 +88,9 @@
     path: /etc/uwsgi-emperor/vassals/horodeya.ini
     state: touch
   tags: restart
+
+- name: schedule hourly backups
+  cron:
+    name: 'Hourly backups'
+    special_time: hourly
+    job: '/opt/horodeya/backup.sh'
