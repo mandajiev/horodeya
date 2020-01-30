@@ -271,7 +271,7 @@ class CommunityList(AutoPermissionRequiredMixin, generic.ListView):
 
 class CommunityMemberList(AutoPermissionRequiredMixin, generic.DetailView):
     permission_type = 'change'
-    template_name = 'projects/communityentity_member_list.html'
+    template_name = 'projects/community_member_list.html'
     model = Community
 
     def get_context_data(self, **kwargs):
