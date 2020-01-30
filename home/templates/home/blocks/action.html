@@ -2,13 +2,17 @@
 <div class="card mx-auto mb-3" style="width: 16rem;">
   <div class="row">
     <div class="card  bg-dark text-white">
-      <img class="card-img" src="holder.js/300x300" alt="Card image" />
+      <img
+        class="card-img"
+        src="holder.js/300x300?bg=000000"
+        alt="Card image"
+      />
       <div class="card-img-overlay d-flex flex-column">
         <h5 class="card-title">{{ value.heading }}</h5>
         <p class="card-text align-self-center">{{ value.text }}</p>
         <a
           class=" card-link btn btn-block btn-primary mt-auto"
-          href="{% pageurl value.page %}"
+          href="{% pageurl value.page1 %}"
           >Научи повече
         </a>
       </div>
@@ -16,7 +20,8 @@
   </div>
 </div>
 
-<!-- <div class="card mx-auto mb-3">
+{%comment%}
+<div class="card mx-auto mb-3">
   <div class="row no-gutters">
     <div class="col-md-5 order-{{value.image_order }}">
       <img src="holder.js/300x300" class="card-img-top action-img" />
@@ -34,4 +39,5 @@
       </div>
     </div>
   </div>
-</div> -->
+</div>
+{%endcomment%}

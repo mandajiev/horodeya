@@ -14,8 +14,8 @@ from stream_django.enrich import Enrich
 
 from projects.models import Project
 
-## TODO how to add anitial pages
-#class HorodeyaPage(Page):
+# TODO how to add anitial pages
+# class HorodeyaPage(Page):
 #    def get_context(self, request):
 #        context = super().get_context(request)
 #
@@ -25,19 +25,22 @@ from projects.models import Project
 #    class Meta:
 #        abstract = True
 
+
 class HomePage(Page):
     body = StreamField([
         ('text', blocks.RichTextBlock()),
         ('image', ImageChooserBlock()),
         ('action', blocks.StructBlock([
-            ('heading', blocks.CharBlock()),
-            ('text', blocks.RichTextBlock()),
-            ('page', blocks.PageChooserBlock()),
-            ('image_order', blocks.IntegerBlock(min_value=0, max_value=1, default=0)),
-            ], 
+            ('heading1', blocks.CharBlock()),
+            ('heading2', blocks.CharBlock()),
+            ('text1', blocks.RichTextBlock()),
+            ('text2', blocks.RichTextBlock()),
+            ('page1', blocks.PageChooserBlock()),
+            ('page2', blocks.PageChooserBlock()),
+        ],
             template='home/blocks/action.html')),
         ('action_register', blocks.StructBlock([
-            ('text', blocks.RichTextBlock())], 
+            ('text', blocks.RichTextBlock())],
             template='home/blocks/action_register.html')),
     ])
 
@@ -47,11 +50,12 @@ class HomePage(Page):
 
     def serve(self, request):
         user = request.user
-        
+
         if user.is_authenticated:
             feed = feed_manager.get_feed('timeline', user.id)
             enricher = Enrich()
-            timeline = enricher.enrich_activities(feed.get(limit=25)['results'])
+            timeline = enricher.enrich_activities(
+                feed.get(limit=25)['results'])
 
         else:
             timeline = None
@@ -60,6 +64,7 @@ class HomePage(Page):
             'page': self,
             'timeline': timeline,
         })
+
 
 class AboutUs(Page):
     body = StreamField([
@@ -70,6 +75,7 @@ class AboutUs(Page):
     content_panels = Page.content_panels + [
         StreamFieldPanel('body'),
     ]
+
 
 class List(Page):
     body = RichTextField(blank=True)
@@ -85,6 +91,7 @@ class List(Page):
             'page': self,
             'items': Project.objects.filter(type=self.type).order_by('-community__bal'),
         })
+
 
 class TermsAndConditions(Page):
     body = RichTextField(blank=True)

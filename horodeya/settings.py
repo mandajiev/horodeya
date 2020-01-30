@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-if len(sys.argv) > 0 and sys.argv[1] == 'test':
+if len(sys.argv) > 1 and sys.argv[1] == 'test':
     TEST = True
 else:
     TEST = False
