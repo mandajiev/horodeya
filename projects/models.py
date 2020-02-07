@@ -87,6 +87,7 @@ class Community(Timestamped):
     admin = models.ForeignKey('User', on_delete=models.PROTECT)
     payment = models.TextField()
     bal = models.IntegerField(default=20, validators=[MaxValueValidator(100)])
+    photo = models.ForeignKey(Photo, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.name

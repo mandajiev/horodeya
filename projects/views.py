@@ -853,7 +853,8 @@ class ThingNecessityDetails(AutoPermissionRequiredMixin, generic.DetailView):
         return context
 
 class UploadFileForm(forms.Form):
-    file = forms.FileField()
+    file = forms.FileField(required=False)
+    delete = forms.BooleanField(initial=False)
 
 def gallery_add(request, project_id, primary=False):
     project = get_object_or_404(Project, pk=project_id)
@@ -943,25 +944,6 @@ def gallery_update(request, project_id):
         'project': project,
     })
 
-class UserPhotoUpdate(AutoPermissionRequiredMixin, UpdateView):
-    model = User 
-    fields = ['photo']
-    template_name = 'file_form.html'
-
-    def form_valid(self, form):
-        user = form.instance 
-        title = str(user)
-        image = Photo.objects.create(
-            image=self.request.FILES['file'],
-            title=title,
-            caption=title,
-            slug=slugify(title, allow_unicode=True)
-            )
-
-        user.photo = image
-
-        return super().form_valid(form)
-
 @permission_required('projects.change_user', fn=objectgetter(User, 'user_id'))
 def user_photo_update(request, user_id):
     user = get_object_or_404(User, pk=user_id)
@@ -975,20 +957,23 @@ def user_photo_update(request, user_id):
             if user.photo:
                 user.photo.delete()
 
-            f = request.FILES['file']
-            path, extension = os.path.splitext(f.name)
-            f.name = 'user-%d%s' % (user_id, extension)
-            photo = Photo.objects.create(
-                image = f,
-                title = title,
-                caption = title,
-                slug = slug 
-                )
+            if form.cleaned_data.get('delete'):
+                messages.success(request, _('Image deleted'))
+            else:
+                f = request.FILES['file']
+                path, extension = os.path.splitext(f.name)
+                f.name = 'user-%d%s' % (user_id, extension)
+                photo = Photo.objects.create(
+                    image = f,
+                    title = title,
+                    caption = title,
+                    slug = slug 
+                    )
 
-            user.photo = photo
-            user.save()
+                user.photo = photo
+                user.save()
 
-            messages.success(request, _('Image uploaded'))
+                messages.success(request, _('Image uploaded'))
             next = request.GET.get('next')
             if next:
                 return redirect(request.GET['next'])
@@ -998,5 +983,45 @@ def user_photo_update(request, user_id):
         form = UploadFileForm(initial={'file': user.photo.image if user.photo else None})
 
     return render(request, 'projects/user_photo_update.html', {'form': form, 'user': user})
+
+@permission_required('projects.change_community', fn=objectgetter(Community, 'pk'))
+def community_photo_update(request, pk):
+    community = get_object_or_404(Community, pk=pk)
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            title = str(community)
+            slug = slugify(title, allow_unicode=True)
+
+            if community.photo:
+                community.photo.delete()
+
+            if form.cleaned_data.get('delete'):
+                messages.success(request, _('Image deleted'))
+            else:
+                f = request.FILES['file']
+                path, extension = os.path.splitext(f.name)
+                f.name = 'community-%d%s' % (pk, extension)
+                photo = Photo.objects.create(
+                    image = f,
+                    title = title,
+                    caption = title,
+                    slug = slug 
+                    )
+
+                community.photo = photo
+                community.save()
+
+                messages.success(request, _('Image uploaded'))
+
+            next = request.GET.get('next')
+            if next:
+                return redirect(request.GET['next'])
+            else:
+                return redirect(community)
+    else:
+        form = UploadFileForm(initial={'file': community.photo.image if community.photo else None})
+
+    return render(request, 'projects/community_photo_update.html', {'form': form, 'community': community})
 
 
