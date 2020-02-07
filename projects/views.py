@@ -208,6 +208,9 @@ class ProjectCreate(AutoPermissionRequiredMixin, CreateView):
 
         project.type = self.kwargs['type']
 
+        # Потребител 0 следва всички проекти
+        user_follow_project(0, project)
+
         return super().form_valid(form)
 
 class ProjectUpdate(AutoPermissionRequiredMixin, UpdateView):
@@ -694,17 +697,20 @@ def follow_project(request, pk):
 
     user = request.user
 
-    news_feeds = feed_manager.get_news_feeds(user.id)
-
-    for feed in news_feeds.values():
-        feed.follow('project', project.id)
-
-    notification_feed = feed_manager.get_notification_feed(user.id)
-    notification_feed.follow('project', project.id)
+    user_follow_project(user.id, project)
 
     messages.success(request, "%s %s" % (_("Started following"),project))
 
     return redirect(project)
+
+def user_follow_project(user_id, project):
+    news_feeds = feed_manager.get_news_feeds(user_id)
+
+    for feed in news_feeds.values():
+        feed.follow('project', project.id)
+
+    notification_feed = feed_manager.get_notification_feed(user_id)
+    notification_feed.follow('project', project.id)
 
 class AnnouncementCreate(AutoPermissionRequiredMixin, CreateView):
     model = Announcement

@@ -14,18 +14,6 @@ from stream_django.enrich import Enrich
 
 from projects.models import Project
 
-# TODO how to add anitial pages
-# class HorodeyaPage(Page):
-#    def get_context(self, request):
-#        context = super().get_context(request)
-#
-#        context['menu_items'] = Page.objects.live().in_menu() #TODO cache
-#        return context
-#
-#    class Meta:
-#        abstract = True
-
-
 class HomePage(Page):
     body = StreamField([
         ('text', blocks.RichTextBlock()),
@@ -53,12 +41,11 @@ class HomePage(Page):
 
         if user.is_authenticated:
             feed = feed_manager.get_feed('timeline', user.id)
-            enricher = Enrich()
-            timeline = enricher.enrich_activities(
-                feed.get(limit=25)['results'])
-
         else:
-            timeline = None
+            feed = feed_manager.get_feed('timeline', 0)
+
+        enricher = Enrich()
+        timeline = enricher.enrich_activities(feed.get(limit=25)['results'])
 
         return render(request, 'home/home_page.html', {
             'page': self,
