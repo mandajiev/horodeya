@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}
+{% include "projects/project_breadcrumb.html" with project=project only %}
+<li class="breadcrumb-item">
+    <a href="{% url 'projects:time_necessity_list' project.pk %}">
+      {% trans 'Volunteers' %}
+    </a>
+</li>
+<li class="breadcrumb-item active">
+  {% trans 'Update questions' %}
+</li>
+{% endblock %}
+
+{% block content %}
+{% load bootstrap4 %}
+{{ formset.media }}
+{% bootstrap_messages %}
+<form method="post" class="form-inline">
+  {% csrf_token %}
+  {{ formset.management_form }}
+  <div class="table-responsive">
+    {% bootstrap_formset_errors formset %}
+    <table class="table table-sm">
+    <thead>
+    {% with form=formset.0 %}
+      <tr>
+        {% for field in form.visible_fields %}
+          <th scope='col'>{{field.label}}</th>
+        {% endfor %}
+
+        <td>
+        </td>
+      </tr>
+    {% endwith %}
+    </thead>
+    {% for form in formset %}
+      <tr>
+      {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+      {% endfor %}
+      {% for field in form.visible_fields %}
+        <td>
+          {% bootstrap_field field layout='inline'  %}
+        </td>
+      {% endfor %}
+        {% if not form.instance.prototype %} 
+        <td>
+          <a class="delete_action btn btn-danger" href="#">{% trans "Delete" %}</a>
+        </td>
+        {% endif %}
+      </tr>
+    {% endfor %}
+    </table>
+  </div>
+  <a class="btn btn-primary" href="#" id="add_more">{% trans 'Add row' %}</a>
+  <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
+  <div style="display:none">
+    {% with form=formset.empty_form %}
+    <table>
+      <tbody id="empty_form" >
+      <tr>
+      {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+      {% endfor %}
+      {% for field in form.visible_fields %}
+        {% if field.name != 'DELETE'%}
+        <td>
+            {% bootstrap_field field layout='inline'  %}
+        </td>
+        {% endif %}
+      {% endfor %}
+
+        <td>
+          <a class="delete_action btn btn-danger" href="#">{% trans "Delete" %}</a>
+        </td>
+
+      </tr>
+      </tbody>
+    </table>
+      {% endwith %}
+  </div>
+</form>
+
+<script>
+    $('#add_more').click(function() {
+        event.preventDefault();
+        var form_idx = $('#id_form-TOTAL_FORMS').val();
+        $('.table tr:last').after($('#empty_form').html().replace(/__prefix__/g, form_idx));
+      $('.delete_action').click(delete_action);
+        $('#id_question_set-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+    });
+    function delete_action() {
+        event.preventDefault();
+      var total_forms = $('#id_question_set-TOTAL_FORMS').val();
+      console.log($(this).parent().parent())
+      console.log($(this).parent().parent())
+      $(this).parent().parent().remove()
+      $('#id_question_set-TOTAL_FORMS').val(parseInt(total_forms) - 1);
+    }
+    $('.delete_action').click(delete_action);
+
+</script>
+
+{% endblock %}

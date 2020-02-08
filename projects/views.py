@@ -22,7 +22,7 @@ from django.utils.translation import gettext as _
 
 from rules.contrib.views import AutoPermissionRequiredMixin, permission_required, objectgetter
 
-from projects.models import Project, Community, Report, MoneySupport, TimeSupport, User, Announcement, TimeNecessity, ThingNecessity
+from projects.models import Project, Community, Report, MoneySupport, TimeSupport, User, Announcement, TimeNecessity, ThingNecessity, Question, QuestionPrototype
 
 from tempus_dominus.widgets import DateTimePicker, DatePicker
 
@@ -1029,5 +1029,53 @@ def community_photo_update(request, pk):
         form = UploadFileForm(initial={'file': community.photo.image if community.photo else None})
 
     return render(request, 'projects/community_photo_update.html', {'form': form, 'community': community})
+
+@permission_required('projects.change_question', fn=objectgetter(Project, 'project_id'))
+def questions_update(request, project_id):
+    project = get_object_or_404(Project, pk=project_id)
+    if project.question_set.count() == 0:
+        prototypes = QuestionPrototype.objects.all()
+    else:
+        prototypes = []
+
+    initial = list(map(lambda p: {'prototype': p, 'required': True}, prototypes))
+
+    QuestionFormset = inlineformset_factory(
+            Project,
+            Question,
+            fields=['prototype', 'description', 'required' ],
+            widgets={
+                'description': forms.Textarea({
+                    'rows': 1,
+                    'cols': 30
+                    }
+                ),
+            },
+            can_order=True,
+            extra=len(prototypes)) 
+
+    cls = QuestionFormset
+    template_name = 'projects/questions_form.html'
+
+    if request.method == 'GET':
+        formset = cls(instance=project, initial=initial)
+
+    elif request.method == 'POST':
+        formset = cls(request.POST, instance=project)
+        if formset.is_valid():
+            for form in formset:
+                if form.cleaned_data.get('DELETE'):
+                    form.instance.delete()
+
+                elif form.cleaned_data.get('prototype'):
+                    form.instance.project = project
+                    form.save()
+
+            return redirect('projects:time_necessity_list', project.pk)
+
+    return render(request, template_name, {
+        'formset': formset,
+        'project': project
+    })
 
 

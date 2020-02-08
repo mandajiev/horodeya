@@ -574,6 +574,21 @@ class ThingSupport(Support):
     def __str__(self):
         return "%s (%s)" % (self.user.first_name, self.necessity.name)
 
+class Answer(Support):
+    class Meta:
+        rules_permissions = {
+            "add": rules.is_authenticated,
+            "delete": myself & ~is_accepted,
+            "change": myself & ~is_accepted,
+            "view": myself | member_of_community,
+            "list": myself & member_of_community
+        }
+        unique_together = ['time_support', 'question']
+
+    time_support = models.ForeignKey('TimeSupport', on_delete=models.PROTECT)
+    question = models.ForeignKey('Question', on_delete=models.PROTECT)
+    answer = models.TextField()
+
 #TODO notify in feed
 class TimeSupport(Support):
     class Meta:
@@ -605,4 +620,40 @@ class TimeSupport(Support):
     def __str__(self):
         return "%s: %s" % (self.necessity, self.user.first_name)
 
+
+class QuestionPrototype(Timestamped):
+    class Meta:
+        rules_permissions = {
+            "add": rules.always_deny,
+            "delete": rules.always_deny,
+            "change": rules.always_deny,
+            "view": rules.always_allow,
+            "list": rules.always_allow 
+            }
+
+    text = models.CharField(max_length=50)
+    TYPES = Choices('CharField', 'TextField')
+    type = models.CharField(max_length=20, choices=TYPES)
+
+    def __str__(self):
+        return self.text
+
+class Question(Timestamped):
+    class Meta:
+        rules_permissions = {
+            "add": member_of_community,
+            "delete": member_of_community,
+            "change": member_of_community,
+            "view": rules.always_allow,
+            "list": rules.always_allow 
+            }
+        unique_together=['prototype', 'project']
+
+    prototype = models.ForeignKey(QuestionPrototype, on_delete=models.PROTECT)
+    project = models.ForeignKey(Project, on_delete=models.PROTECT)
+    description = models.TextField(blank=True)
+    required = models.BooleanField(default=True)
+
+    def __str__(self):
+        return str(self.prototype) + ('*' if self.required else '')
 

@@ -9,15 +9,27 @@
 {% endblock %}
 
 {% block admin_tools %}
-  <li class="nav-item">
-    <a href="{% url 'projects:time_necessity_update' project_id=project.pk %}" class="btn btn-success">{% trans 'Update' %}</a>
-  </li>
+<a href="{% url 'projects:volunteer_questions_update' project.pk %}" class="nav-item nav-link text-white">{% trans 'Update questions' %}</a>
+  <a href="{% url 'projects:time_necessity_update' project_id=project.pk %}" class="nav-item nav-link text-white">{% trans 'Update types' %}</a>
 {% endblock %}
 
 {% block content %}
 {% if project.community.admin.pk == user.pk %}
   {{ block.super }}
 {% endif %}
+
+  <div class="text-center">
+    <h4>{% trans 'Questions' %}</h4>
+  </div>
+  <ul class="list-group list-group-horizontal">
+    {% for question in project.volunteer_questions.all %}
+      <li class="list-group-item">{{question}}</li>
+    {% endfor %}
+  </ul>
+
+  <div class="text-center">
+    <h4>{% trans 'Types' %}</h4>
+  </div>
 
   {% include "projects/timenecessity_list_fragment.html" with necessity_list=necessity_list member=member only%}
 
