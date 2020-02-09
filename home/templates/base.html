@@ -6,6 +6,7 @@
 
 {% bootstrap_css %}
 {% bootstrap_javascript jquery='full' %}
+<script type="text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
 
 <!DOCTYPE html>
 <html class="no-js" lang="en">
@@ -176,7 +177,7 @@
               url: '{% url "notifications" %}',
               success: populateNotifications
             });
-          });zzzzzz
+          });
 
           function populateNotifications(data) {
             document.querySelector('#notifications').innerHTML = data;

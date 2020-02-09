@@ -653,6 +653,7 @@ class Question(Timestamped):
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
     description = models.TextField(blank=True)
     required = models.BooleanField(default=True)
+    order = models.IntegerField()
 
     def __str__(self):
         return str(self.prototype) + ('*' if self.required else '')

@@ -1040,8 +1040,7 @@ def questions_update(request, project_id):
 
     initial = list(map(lambda p: {'prototype': p, 'required': True}, prototypes))
 
-    QuestionFormset = inlineformset_factory(
-            Project,
+    QuestionFormset = modelformset_factory(
             Question,
             fields=['prototype', 'description', 'required' ],
             widgets={
@@ -1052,23 +1051,26 @@ def questions_update(request, project_id):
                 ),
             },
             can_order=True,
+            can_delete=True,
             extra=len(prototypes)) 
 
     cls = QuestionFormset
     template_name = 'projects/questions_form.html'
 
     if request.method == 'GET':
-        formset = cls(instance=project, initial=initial)
+        formset = cls(initial=initial, queryset=Question.objects.filter(project=project).order_by('order'))
 
     elif request.method == 'POST':
-        formset = cls(request.POST, instance=project)
+        formset = cls(request.POST)
         if formset.is_valid():
             for form in formset:
+                order = form.cleaned_data.get('ORDER', len(formset))
                 if form.cleaned_data.get('DELETE'):
                     form.instance.delete()
 
                 elif form.cleaned_data.get('prototype'):
                     form.instance.project = project
+                    form.instance.order = order
                     form.save()
 
             return redirect('projects:time_necessity_list', project.pk)

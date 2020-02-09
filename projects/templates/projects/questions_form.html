@@ -27,6 +27,8 @@
     <thead>
     {% with form=formset.0 %}
       <tr>
+        <td>
+        </td>
         {% for field in form.visible_fields %}
           <th scope='col'>{{field.label}}</th>
         {% endfor %}
@@ -36,8 +38,12 @@
       </tr>
     {% endwith %}
     </thead>
+    <tbody id="table_body">
     {% for form in formset %}
       <tr>
+        <td class="sort-handle">
+          Sort
+        </td>
       {% for hidden in form.hidden_fields %}
         {{ hidden }}
       {% endfor %}
@@ -53,15 +59,21 @@
         {% endif %}
       </tr>
     {% endfor %}
+    </tbody>
     </table>
   </div>
-  <a class="btn btn-primary" href="#" id="add_more">{% trans 'Add row' %}</a>
+  {% buttons %}
+  <a class="btn btn-outline-primary mr-2" href="#" id="add_more">{% trans 'Add row' %}</a>
   <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
+  {% endbuttons %}
   <div style="display:none">
     {% with form=formset.empty_form %}
     <table>
       <tbody id="empty_form" >
       <tr>
+        <td class="sort-handle">
+          Sort
+        </td>
       {% for hidden in form.hidden_fields %}
         {{ hidden }}
       {% endfor %}
@@ -85,22 +97,36 @@
 </form>
 
 <script>
+
     $('#add_more').click(function() {
         event.preventDefault();
         var form_idx = $('#id_form-TOTAL_FORMS').val();
         $('.table tr:last').after($('#empty_form').html().replace(/__prefix__/g, form_idx));
       $('.delete_action').click(delete_action);
-        $('#id_question_set-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+      var total_forms = parseInt(form_idx) + 1;
+        $('#id_form-TOTAL_FORMS').val(total_forms);
+        $('.table tr:last').find('input[id$=ORDER]').val(total_forms);
     });
     function delete_action() {
         event.preventDefault();
-      var total_forms = $('#id_question_set-TOTAL_FORMS').val();
+      var total_forms = $('#id_form-TOTAL_FORMS').val();
       console.log($(this).parent().parent())
       console.log($(this).parent().parent())
       $(this).parent().parent().remove()
-      $('#id_question_set-TOTAL_FORMS').val(parseInt(total_forms) - 1);
+      $('#id_form-TOTAL_FORMS').val(parseInt(total_forms) - 1);
     }
     $('.delete_action').click(delete_action);
+
+  $('#table_body').sortable({
+    handle: '.sort-handle',
+    update: function() {
+      console.log(this);
+      $(this).find('tr').each(function(i) {
+        console.log(this);
+        $(this).find('input[id$=ORDER]').val(i+1);
+      });
+    }
+  });
 
 </script>
 
