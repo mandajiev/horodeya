@@ -631,9 +631,10 @@ class QuestionPrototype(Timestamped):
             "list": rules.always_allow 
             }
 
-    text = models.CharField(max_length=50)
-    TYPES = Choices('CharField', 'TextField')
+    text = models.CharField(max_length=100, unique=True)
+    TYPES = Choices('CharField', 'TextField', 'FileField', 'RadioSelect')
     type = models.CharField(max_length=20, choices=TYPES)
+    order = models.IntegerField()
 
     def __str__(self):
         return self.text

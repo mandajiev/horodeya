@@ -1034,7 +1034,7 @@ def community_photo_update(request, pk):
 def questions_update(request, project_id):
     project = get_object_or_404(Project, pk=project_id)
     if project.question_set.count() == 0:
-        prototypes = QuestionPrototype.objects.all()
+        prototypes = QuestionPrototype.objects.order_by('order').all()
     else:
         prototypes = []
 
