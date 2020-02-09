@@ -249,8 +249,8 @@ class CommunityUpdate(AutoPermissionRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         admin = form.instance.admin
-        if not admin.community_entities.filter(pk=form.instance.pk).exists():
-            admin.community_entities.add(form.instance)
+        if not admin.communities.filter(pk=form.instance.pk).exists():
+            admin.communities.add(form.instance)
 
         return super().form_valid(form)
 
@@ -288,7 +288,7 @@ def community_member_add(request, community_id):
     user_id = request.POST.get('user')
     user = get_object_or_404(User, pk=user_id)
     community = get_object_or_404(Community, pk=community_id)
-    user.community_entities.add(community)
+    user.communities.add(community)
     messages.success(request, _("Success"))
 
     return redirect('projects:community_member_list', community_id)
@@ -297,7 +297,7 @@ def community_member_add(request, community_id):
 def community_member_remove(request, community_id, user_id):
     user = get_object_or_404(User, pk=user_id)
     community = get_object_or_404(Community, pk=community_id)
-    user.community_entities.remove(community)
+    user.communities.remove(community)
     messages.success(request, _("Success"))
 
     return redirect('projects:community_member_list', community_id)
@@ -1038,7 +1038,7 @@ def questions_update(request, project_id):
     else:
         prototypes = []
 
-    initial = list(map(lambda p: {'prototype': p, 'required': True}, prototypes))
+    initial = list(map(lambda p: {'prototype': p[1], 'required': True, 'ORDER': p[0]+1}, enumerate(prototypes)))
 
     QuestionFormset = modelformset_factory(
             Question,
@@ -1070,7 +1070,8 @@ def questions_update(request, project_id):
 
                 elif form.cleaned_data.get('prototype'):
                     form.instance.project = project
-                    form.instance.order = order
+                    if order:
+                        form.instance.order = order
                     form.save()
 
             return redirect('projects:time_necessity_list', project.pk)

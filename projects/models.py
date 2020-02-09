@@ -656,5 +656,5 @@ class Question(Timestamped):
     order = models.IntegerField()
 
     def __str__(self):
-        return str(self.prototype) + ('*' if self.required else '')
+        return "%s. %s%s" % (self.order, self.prototype, ('*' if self.required else ''))
 

@@ -30,7 +30,9 @@
         <td>
         </td>
         {% for field in form.visible_fields %}
+        {% if field.name != 'ORDER' %}
           <th scope='col'>{{field.label}}</th>
+        {% endif %}
         {% endfor %}
 
         <td>
@@ -42,15 +44,19 @@
     {% for form in formset %}
       <tr>
         <td class="sort-handle">
-          Sort
+          <i class="fa fa-arrows-v fa-2x"></i>
         </td>
       {% for hidden in form.hidden_fields %}
         {{ hidden }}
       {% endfor %}
       {% for field in form.visible_fields %}
+        {% if field.name == 'ORDER' %}
+        {% elif field.name == 'DELETE' and form.instance.pk == None %}
+        {% else %}
         <td>
           {% bootstrap_field field layout='inline'  %}
         </td>
+        {% endif %}
       {% endfor %}
         {% if not form.instance.prototype %} 
         <td>
@@ -72,13 +78,13 @@
       <tbody id="empty_form" >
       <tr>
         <td class="sort-handle">
-          Sort
+          <i class="fa fa-arrows-v fa-2x"></i>
         </td>
       {% for hidden in form.hidden_fields %}
         {{ hidden }}
       {% endfor %}
       {% for field in form.visible_fields %}
-        {% if field.name != 'DELETE'%}
+        {% if field.name != 'DELETE' and field.name != 'ORDER' %}
         <td>
             {% bootstrap_field field layout='inline'  %}
         </td>
