@@ -51,7 +51,9 @@
       {% endfor %}
       {% for field in form.visible_fields %}
         {% if field.name == 'ORDER' %}
+          {{ field.as_hidden }}
         {% elif field.name == 'DELETE' and form.instance.pk == None %}
+          {{ field.as_hidden }}
         {% else %}
         <td>
           {% bootstrap_field field layout='inline'  %}
@@ -84,7 +86,9 @@
         {{ hidden }}
       {% endfor %}
       {% for field in form.visible_fields %}
-        {% if field.name != 'DELETE' and field.name != 'ORDER' %}
+        {% if field.name == 'DELETE' or field.name == 'ORDER' %}
+          {{ field.as_hidden }}
+        {% else %}
         <td>
             {% bootstrap_field field layout='inline'  %}
         </td>
