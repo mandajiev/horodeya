@@ -1,0 +1,59 @@
+{% load bootstrap4 %}
+
+{% for form in formset %}
+  {% for hidden in form.hidden_fields %}
+    {{ hidden }}
+  {% endfor %}
+  <div>
+  {% for field in form.visible_fields %}
+    {% if field.name == 'necessity' %}
+    {% if field.initial.name %}
+      {% with field.initial as necessity %}
+      <div class="form-check">
+        <input class="form-check-input toggles-comment" type="checkbox" value="{{necessity.id}}" id="{{necessity.id}}" name='necessity'>
+        <label class="form-check-label" for="{{necessity.id}}">
+          {{ necessity.name }}
+          <small>{{ necessity.start_date|date:"j M"}} to {{necessity.end_date|date:"j M" }}</small>
+          <p>
+          {{ necessity.description|linebreaks }}
+          </p>
+        </label>
+      </div>
+      {{ field.as_hidden }}
+      {% endwith %}
+    {% else %}
+      {% with form.instance.necessity as necessity %}
+      <div class="form-check">
+        <input class="form-check-input toggles-comment" type="checkbox" value="{{necessity.id}}" id="{{necessity.id}}" name='necessity' checked>
+        <label class="form-check-label" for="{{necessity.id}}">
+          {{ necessity.name }}
+          <small>{{ necessity.start_date|date:"j M"}} to {{necessity.end_date|date:"j M" }}</small>
+          <p>
+          {{ necessity.description|linebreaks }}
+          </p>
+        </label>
+      </div>
+      {{ field.as_hidden }}
+      {% endwith %}
+    {% endif %}
+    {% else %}
+      {% bootstrap_field field %}
+    {% endif %}
+  {% endfor %}
+  </div>
+{% endfor %}
+
+<script>
+  var func = function() {
+    var comment = $(this).parent().siblings()[1];
+    if (this.checked) {
+      comment.style.display='inherit';
+    }
+    else {
+      comment.style.display='none';
+    }
+  };
+  $('.toggles-comment').each(func);
+  $('.toggles-comment').change(func);
+</script>
+

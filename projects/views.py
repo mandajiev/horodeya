@@ -14,6 +14,7 @@ from django.utils.html import format_html
 from django.forms import ModelForm, ValidationError, inlineformset_factory, modelformset_factory
 
 from django import forms
+from django.db.models import Q
 
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
@@ -23,6 +24,8 @@ from django.utils.translation import gettext as _
 from rules.contrib.views import AutoPermissionRequiredMixin, permission_required, objectgetter
 
 from projects.models import Project, Community, Report, MoneySupport, TimeSupport, User, Announcement, TimeNecessity, ThingNecessity, Question, QuestionPrototype
+
+from projects.forms import QuestionForm
 
 from tempus_dominus.widgets import DateTimePicker, DatePicker
 
@@ -600,17 +603,10 @@ class TimeSupportForm(AutoPermissionRequiredMixin, ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-#TODO only allow if support is not accepted
-class TimeSupportUpdate(AutoPermissionRequiredMixin, UpdateView):
-    model = TimeSupport
-    form_class = TimeSupportForm
-    template_name = 'projects/support_form.html'
-
-    def get_context_data(self, **kwargs):
-
-        context = super().get_context_data(**kwargs)
-        context['project'] = self.object.project
-        return context
+@permission_required('projects.change_timesupport', fn=objectgetter(TimeSupport, 'pk'))
+def time_support_update(request, pk):
+    time_support = get_object_or_404(TimeSupport, pk=pk)
+    return time_support_create_update(request, time_support.project, time_support)
 
 class TimeSupportDetails(AutoPermissionRequiredMixin, generic.DetailView):
     model = TimeSupport
@@ -746,61 +742,80 @@ class AnnouncementDetails(AutoPermissionRequiredMixin, generic.DetailView):
         context = super().get_context_data(**kwargs)
         return context
 
+@permission_required('projects.add_timesupport', fn=objectgetter(Project, 'project_id'))
 def time_support_create(request, project_id):
     project = get_object_or_404(Project, pk=project_id)
-    
+    return time_support_create_update(request, project)
+
+def time_support_create_update(request, project, support=None):
     context = {}
     context['project'] = project
+    queryset = TimeSupport.objects.filter(project=project,user=request.user)
+    applied_necessities = set(map(lambda ts: ts.necessity, queryset.all()))
+    if len(applied_necessities) > 0:
+        answers = queryset.first().answer_set.all()
+    else:
+        answers = []
+
     necessity_list = project.timenecessity_set.all()
-    context['necessity_list'] = necessity_list
+    necessity_list = list(filter(lambda n: n not in applied_necessities, necessity_list))
 
     TimeSupportFormset = modelformset_factory(
         TimeSupport,
         fields=['necessity', 'comment', 'start_date', 'end_date', 'price' ],
+        labels={'comment': _('Why do you apply for this position? List your relevant experience / skills')},
         widgets={
             'start_date': forms.HiddenInput(),
             'end_date': forms.HiddenInput(),
             'price': forms.HiddenInput(),
-            'comment': forms.Textarea({
+            'comment': forms.Textarea(
+                attrs={
                 'rows': 1,
-                'cols': 30
-                }
+                'cols': 30,
+                },
         )},
         extra=len(necessity_list))
 
     initial = list(map(lambda n: {'necessity': n, 'start_date': n.start_date, 'end_date': n.end_date, 'price': n.price}, necessity_list))
+    questions = project.question_set.order_by('order').all()
     if request.method == 'GET':
         formset = TimeSupportFormset(
-            queryset=TimeSupport.objects.none(),
+            queryset=queryset,
             initial=initial)
+        question_form = QuestionForm(questions=questions, answers=answers)
 
     elif request.method == 'POST':
         formset = TimeSupportFormset(
             request.POST,
-            queryset=TimeSupport.objects.none(),
-            initial=initial)
+            queryset=queryset,
+            initial=None)
+
+        question_form = QuestionForm(request.POST, questions=questions)
 
         selected_necessities = request.POST.getlist('necessity')
         selected_necessities = list(map(int, selected_necessities))
 
         if not selected_necessities:
-            messages.error(request, _("Choose at least one necessity"))
+            messages.error(request, _("Choose at least one volunteer position"))
 
         else:
-            if formset.is_valid():
+            if formset.is_valid() and question_form.is_valid():
                 saved = 0
                 for form in formset:
                     necessity = form.cleaned_data.get('necessity')
                     if necessity and necessity.pk in selected_necessities:
                         form.instance.project = project
                         form.instance.user = request.user
-                        form.save()
+                        time_support = form.save()
+                        question_form.save(time_support)
                         saved += 1
                 if saved > 0:
                     messages.success(request, _('Applied to %d volunteer positions' % saved))
                     return redirect(project)
 
     context['formset'] = formset
+    context['form'] = question_form
+    context['update'] = support is not None
 
     return render(request, 'projects/time_support_create.html', context)
 
@@ -1038,7 +1053,7 @@ def questions_update(request, project_id):
     else:
         prototypes = []
 
-    initial = list(map(lambda p: {'prototype': p[1], 'required': True, 'ORDER': p[0]+1}, enumerate(prototypes)))
+    initial = list(map(lambda p: {'prototype': p[1], 'required': p[1].required, 'ORDER': p[0]+1}, enumerate(prototypes)))
 
     QuestionFormset = modelformset_factory(
             Question,

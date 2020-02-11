@@ -31,6 +31,15 @@
       <li class="list-group-item">
         {% trans "Comment" %}:<br> {{ object.comment }}
       </li>
+
+    {% if object.get_type == 'time' %}
+      {% for answer in object.ordered_answers %}
+      <li class="list-group-item">
+        {{ answer.question.text }}<br>
+        {% format_answer answer %}
+      </li>
+      {% endfor %}
+    {% endif %}
     </ul>
   </div>
 </div>

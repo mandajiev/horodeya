@@ -1,70 +1,59 @@
 {% extends "base.html" %}
 
 {% load i18n %}
+{% load bootstrap4 %}
 
 {% block breadcrumbs %}
     {% include "projects/project_breadcrumb.html" with project=project only %}
 
   <li class="breadcrumb-item active">
-    <a href="">{% trans 'Apply as a volunteer' %}</a>
+    <a href="">
+      {% if update %}
+        {% trans 'Update volunteer application' %}
+      {% else %}
+        {% trans 'Apply as a volunteer' %}
+      {% endif %}
+    </a>
   </li>
 
 {% endblock %}
 
 
 {% block content %}
-{% load bootstrap4 %}
+
+<h4 class="mb-5">
+  {% blocktrans with cause=project.name community=project.community %}
+ Apply as a volunteer for the cause {{cause}} from {{community}}
+  {% endblocktrans %}
+</h4>
+
 {{ formset.media }}
-{% bootstrap_messages %}
 <form method="post" class="form">
   {% csrf_token %}
   {{ formset.management_form }}
   {% bootstrap_formset_errors formset %}
-  {% for form in formset %}
-    {% for hidden in form.hidden_fields %}
-      {{ hidden }}
-    {% endfor %}
-    <div>
-    {% for field in form.visible_fields %}
-      {% if field.name == 'necessity' %}
-      {% with field.initial as necessity %}
-      <div class="form-check">
-        <input class="form-check-input toggles-comment" type="checkbox" value="{{necessity.id}}" id="{{necessity.id}}" name='necessity'>
-        <label class="form-check-label" for="{{necessity.id}}">
-          <h4>{{ necessity.name }}
-          <small>{{ necessity.start_date|date:"j M"}} to {{necessity.end_date|date:"j M" }}</small>
-          </h4>
-          <p>
-          {{ necessity.description|linebreaks }}
-          </p>
-        </label>
-      </div>
-      {{ field.as_hidden }}
-      {% endwith %}
 
-      {% else %}
-        {% bootstrap_field field layout='inline' %}
-      {% endif %}
-    {% endfor %}
-    </div>
+
+  {% for field in form.visible_fields %}
+    {% if field.name == 'necessities' %}
+      <div class="form-group">
+        <label for="necessities">{{ field.label }}</label>
+        {% include "projects/time_support_types_fragment.html" %}
+      </div>
+
+    {% else %}
+      {% bootstrap_field field %}
+    {% endif %}
   {% endfor %}
 
-  <script>
-    var func = function() {
-      var comment = $(this).parent().siblings()[1];
-      if (this.checked) {
-        comment.style.display='inherit';
-      }
-      else {
-        comment.style.display='none';
-      }
-    };
-    $('.toggles-comment').each(func);
-    $('.toggles-comment').change(func);
-  </script>
-
   {% buttons %}
-  <button type="submit" class="btn btn-primary">{% trans 'Apply to selected' %}</button>
+  <button type="submit" class="btn btn-primary">
+    {% if update %}
+      {% trans 'Update' %}
+    {% else %}
+      {% trans 'Apply' %}
+    {% endif %}
+  </button>
   {% endbuttons %}
 </form>
 

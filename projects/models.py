@@ -4,6 +4,7 @@ import datetime
 from django.db import models
 from django.utils import timezone
 from django.urls import reverse
+from django.utils.translation import get_language
 
 from django.core.validators import MaxValueValidator
 
@@ -574,7 +575,7 @@ class ThingSupport(Support):
     def __str__(self):
         return "%s (%s)" % (self.user.first_name, self.necessity.name)
 
-class Answer(Support):
+class Answer(Timestamped):
     class Meta:
         rules_permissions = {
             "add": rules.is_authenticated,
@@ -585,9 +586,9 @@ class Answer(Support):
         }
         unique_together = ['time_support', 'question']
 
-    time_support = models.ForeignKey('TimeSupport', on_delete=models.PROTECT)
+    time_support = models.ForeignKey('TimeSupport', on_delete=models.CASCADE)
     question = models.ForeignKey('Question', on_delete=models.PROTECT)
-    answer = models.TextField()
+    answer = models.TextField(null=False, blank=True)
 
 #TODO notify in feed
 class TimeSupport(Support):
@@ -620,6 +621,9 @@ class TimeSupport(Support):
     def __str__(self):
         return "%s: %s" % (self.necessity, self.user.first_name)
 
+    def ordered_answers(self):
+        return self.answer_set.order_by('question__order')
+
 
 class QuestionPrototype(Timestamped):
     class Meta:
@@ -631,13 +635,16 @@ class QuestionPrototype(Timestamped):
             "list": rules.always_allow 
             }
 
-    text = models.CharField(max_length=100, unique=True)
-    TYPES = Choices('CharField', 'TextField', 'FileField', 'RadioSelect')
+    text_bg = models.CharField(max_length=100, unique=True)
+    text_en = models.CharField(max_length=100, unique=True)
+    TYPES = Choices('CharField', 'TextField', 'FileField', 'ChoiceField', 'Necessities')
+
     type = models.CharField(max_length=20, choices=TYPES)
     order = models.IntegerField()
+    required = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.text
+        return self.text_bg
 
 class Question(Timestamped):
     class Meta:
@@ -658,4 +665,6 @@ class Question(Timestamped):
 
     def __str__(self):
         return "%s. %s%s" % (self.order, self.prototype, ('*' if self.required else ''))
-
+    
+    def text(self):
+        return getattr(self.prototype, 'text_%s' % get_language())
