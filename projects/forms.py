@@ -27,12 +27,21 @@ class QuestionForm(forms.Form):
             if question.prototype.type == 'Necessities':
                 self.fields['necessities'] = forms.CharField(label=label, required=False)
             else:
-                field = getattr(forms, question.prototype.type)(label=label, help_text=question.description, required=question.required)
+                if question.prototype.type == 'TextField':
+                    field_class = forms.CharField
+                else:
+                    field_class = getattr(forms, question.prototype.type)
+
+                field = field_class(label=label, help_text=question.description, required=question.required)
                 field.initial = self.answer_values.get(key)
 
                 if question.prototype.type == 'ChoiceField':
                     field.widget = forms.RadioSelect()
                     field.choices=[(1, _('Yes')), (2, _('No'))]
+
+                if question.prototype.type == 'TextField':
+                    field.widget = forms.Textarea()
+
                 self.fields[key] = field
             self.questions[key] = question
 
