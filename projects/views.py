@@ -752,10 +752,7 @@ def time_support_create_update(request, project, support=None):
     context['project'] = project
     queryset = TimeSupport.objects.filter(project=project,user=request.user)
     applied_necessities = set(map(lambda ts: ts.necessity, queryset.all()))
-    if len(applied_necessities) > 0:
-        answers = queryset.first().answer_set.all()
-    else:
-        answers = []
+    answers = project.answer_set.all()
 
     necessity_list = project.timenecessity_set.all()
     necessity_list = list(filter(lambda n: n not in applied_necessities, necessity_list))
@@ -799,19 +796,20 @@ def time_support_create_update(request, project, support=None):
             messages.error(request, _("Choose at least one volunteer position"))
 
         else:
-            if formset.is_valid() and question_form.is_valid():
+            if question_form.is_valid():
+                question_form.save(project)
+            if formset.is_valid():
                 saved = 0
                 for form in formset:
                     necessity = form.cleaned_data.get('necessity')
                     if necessity and necessity.pk in selected_necessities:
                         form.instance.project = project
                         form.instance.user = request.user
-                        time_support = form.save()
-                        question_form.save(time_support)
+                        form.save()
                         saved += 1
-                if saved > 0:
-                    messages.success(request, _('Applied to %d volunteer positions' % saved))
-                    return redirect(project)
+
+                messages.success(request, _('Applied to %d volunteer positions' % saved))
+                return redirect(project)
 
     context['formset'] = formset
     context['form'] = question_form

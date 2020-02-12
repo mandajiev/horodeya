@@ -584,9 +584,9 @@ class Answer(Timestamped):
             "view": myself | member_of_community,
             "list": myself & member_of_community
         }
-        unique_together = ['time_support', 'question']
+        unique_together = ['project', 'question']
 
-    time_support = models.ForeignKey('TimeSupport', on_delete=models.CASCADE)
+    project = models.ForeignKey('Project', on_delete=models.CASCADE)
     question = models.ForeignKey('Question', on_delete=models.PROTECT)
     answer = models.TextField(null=False, blank=True)
 

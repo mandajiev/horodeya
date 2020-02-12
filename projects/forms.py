@@ -45,13 +45,13 @@ class QuestionForm(forms.Form):
                 self.fields[key] = field
             self.questions[key] = question
 
-    def save(self, time_support):
+    def save(self, project):
         for question in self.fields.keys():
             if 'question' in question:
                 value = self.cleaned_data[question]
                 if value is None:
                     value = ''
                 answer, created = Answer.objects.update_or_create(
-                    time_support=time_support,
+                    project=project,
                     question=self.questions[question],
                     defaults={'answer': value})
