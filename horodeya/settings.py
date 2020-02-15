@@ -260,12 +260,12 @@ if TEST:
     AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
     AWS_DEFAULT_REGION = os.getenv('AWS_DEFAULT_REGION')
 else:
-    STATIC_URL = 'http://%s.s3.amazonaws.com/static/' % AWS_STORAGE_BUCKET_NAME
+    STATIC_URL = 'https://%s.s3.amazonaws.com/static/' % AWS_STORAGE_BUCKET_NAME
     ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
 
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-    MEDIA_URL = 'http://%s.s3.amazonaws.com/media/' % AWS_STORAGE_BUCKET_NAME
+    MEDIA_URL = 'https://%s.s3.amazonaws.com/media/' % AWS_STORAGE_BUCKET_NAME
 
     AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
@@ -279,11 +279,11 @@ else:
     AWS_S3_CUSTOM_DOMAIN = "%s.s3.amazonaws.com" % AWS_STORAGE_BUCKET_NAME
 
     BOOTSTRAP4 = {
-        "css_url": 'http://%s/static/css/bootstrap.min.css' % AWS_S3_CUSTOM_DOMAIN,
-        'javascript_url': 'http://%s/static/js/bootstrap.min.js' % AWS_S3_CUSTOM_DOMAIN,
-        'jquery_url': 'http://%s/static/js/jquery-3.4.1.min.js' % AWS_S3_CUSTOM_DOMAIN,
-        'jquery_slim_url': 'http://%s/static/js/jquery-3.4.1.min.js' % AWS_S3_CUSTOM_DOMAIN,
-        'popper_url': 'http://%s/static/js/popper.min.js' % AWS_S3_CUSTOM_DOMAIN,
+        "css_url": 'https://%s/static/css/bootstrap.min.css' % AWS_S3_CUSTOM_DOMAIN,
+        'javascript_url': 'https://%s/static/js/bootstrap.min.js' % AWS_S3_CUSTOM_DOMAIN,
+        'jquery_url': 'https://%s/static/js/jquery-3.4.1.min.js' % AWS_S3_CUSTOM_DOMAIN,
+        'jquery_slim_url': 'https://%s/static/js/jquery-3.4.1.min.js' % AWS_S3_CUSTOM_DOMAIN,
+        'popper_url': 'https://%s/static/js/popper.min.js' % AWS_S3_CUSTOM_DOMAIN,
 
         'required_css_class': '', #TODO
     }
