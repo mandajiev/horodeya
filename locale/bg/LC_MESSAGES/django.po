@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-15 11:48+0000\n"
+"POT-Creation-Date: 2020-02-15 11:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -551,7 +551,6 @@ msgstr "Изтрий"
 #: projects/templates/projects/community_detail.html:12
 #: projects/templates/projects/form_breadcrumb.html:4
 #: projects/templates/projects/necessity_breadcrumb.html:23
-#: projects/templates/projects/project_detail.html:14
 #: projects/templates/projects/support_detail.html:27
 #: projects/templates/projects/support_detail.html:29
 #: projects/templates/projects/thingnecessity_list.html:13
@@ -611,10 +610,8 @@ msgstr "Добави ред"
 
 #: projects/templates/projects/photo_form.html:8
 #: projects/templates/projects/project_detail.html:17
-#, fuzzy
-#| msgid "Update"
 msgid "Update images"
-msgstr "Промени"
+msgstr "Качи снимки"
 
 #: projects/templates/projects/project_confirm_delete.html:7
 #, python-format
@@ -627,10 +624,14 @@ msgstr ""
 "    <p>Сигурни ли сте, че искате да изтриете \"%(object)s\"?</p>\n"
 "  "
 
+#: projects/templates/projects/project_detail.html:14
+msgid "Update cause"
+msgstr "Промени кауза"
+
 #: projects/templates/projects/project_detail.html:20
 #: projects/templates/projects/report_list.html:11
 msgid "New report"
-msgstr "Нов доклад"
+msgstr "Напиши доклад"
 
 #: projects/templates/projects/project_detail.html:45
 msgid "Add image"

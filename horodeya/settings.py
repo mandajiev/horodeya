@@ -25,9 +25,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 
 if len(sys.argv) > 1 and sys.argv[1] == 'test':
+    print("Starting in TEST mode")
     TEST = True
+    DEV = False
+elif len(sys.argv) > 1 and sys.argv[1] == 'runserver':
+    print("Starting in DEV mode")
+    DEV = True
+    TEST = False
 else:
     TEST = False
+    DEV = False
 
 if TEST:
     SECRET_KEY = 'testing'
@@ -251,11 +258,14 @@ def PHOTOLOGUE_PATH(instance, filename):
     fn = unicodedata.normalize('NFKD', force_text(filename)).encode('ascii', 'ignore').decode('ascii')
     return os.path.join(instance.first_directory, instance.second_directory, fn)
 
-if TEST:
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_DEFAULT_REGION = os.getenv('AWS_DEFAULT_REGION')
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+if TEST or DEV:
     STATIC_URL = '/static/'
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-    MEDIA_URL = '/media/'
+
     BOOTSTRAP4 = {
         "css_url": '/static/css/bootstrap.min.css',
         'javascript_url': '/static/js/bootstrap.min.js',
@@ -263,20 +273,9 @@ if TEST:
         'jquery_slim_url': '/static/js/jquery-3.4.1.min.js',
         'popper_url': '/static/js/popper.min.js',
     }
-    AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-    AWS_DEFAULT_REGION = os.getenv('AWS_DEFAULT_REGION')
 else:
     STATIC_URL = 'https://%s.s3.amazonaws.com/static/' % AWS_STORAGE_BUCKET_NAME
     ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
-
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-    MEDIA_URL = 'https://%s.s3.amazonaws.com/media/' % AWS_STORAGE_BUCKET_NAME
-
-    AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-    AWS_DEFAULT_REGION = os.getenv('AWS_DEFAULT_REGION')
 
     DEFAULT_FILE_STORAGE = 'horodeya.storage_backends.MediaStorage'
     STATICFILES_STORAGE = 'horodeya.storage_backends.StaticStorage'
@@ -291,6 +290,13 @@ else:
         'jquery_url': 'https://%s/static/js/jquery-3.4.1.min.js' % AWS_S3_CUSTOM_DOMAIN,
         'jquery_slim_url': 'https://%s/static/js/jquery-3.4.1.min.js' % AWS_S3_CUSTOM_DOMAIN,
         'popper_url': 'https://%s/static/js/popper.min.js' % AWS_S3_CUSTOM_DOMAIN,
-
-        'required_css_class': '', #TODO
     }
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+if TEST:
+    MEDIA_URL = '/media/'
+else:
+    MEDIA_URL = 'https://%s.s3.amazonaws.com/media/' % AWS_STORAGE_BUCKET_NAME
+
+BOOTSTRAP4['required_css_class'] = 'required'

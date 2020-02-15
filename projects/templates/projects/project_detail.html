@@ -10,19 +10,19 @@
 {% endblock %}
 
 {% block admin_tools %}
-  <li class="nav-item">
-    <a class="nav-link text-white" href="{% url 'projects:update' project.pk %}">{% trans 'Update' %}</a>
+  <li class="nav-item flex-fill text-center ">
+    <a class="nav-link text-white" href="{% url 'projects:thing_necessity_list' object.pk %}">{% trans 'Donations' %}</a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link text-white" href="{% url 'projects:gallery_update' project.pk %}">{% trans 'Update images' %}</a>
-  </li>
-  <li class="nav-item">
+  <li class="nav-item flex-fill text-center ">
+    <a class="nav-link text-white" href="{% url 'projects:time_necessity_list' object.pk %}">{% trans 'Volunteers' %}</a> </li>
+  <li class="nav-item flex-fill text-center ">
     <a class="nav-link text-white" href="{% url 'projects:report_create' object.pk %}">{% trans 'New report' %}</a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link text-white" href="{% url 'projects:time_necessity_list' object.pk %}">{% trans 'Volunteers' %}</a> </li>
-  <li class="nav-item">
-    <a class="nav-link text-white" href="{% url 'projects:thing_necessity_list' object.pk %}">{% trans 'Donations' %}</a>
+  <li class="nav-item flex-fill text-center ">
+    <a class="nav-link text-white" href="{% url 'projects:gallery_update' project.pk %}">{% trans 'Update images' %}</a>
+  </li>
+  <li class="nav-item flex-fill text-center ">
+    <a class="nav-link text-white" href="{% url 'projects:update' project.pk %}">{% trans 'Update cause' %}</a>
   </li>
 {% endblock %}
 
