@@ -13,7 +13,7 @@
 
   {% if not short %}
     <a class="btn btn-primary mt-3" href="{% url 'projects:money_support_create' project.pk %}">{% trans 'Support with money donation' %}</a>
-    <a class="btn btn-primary mt-3" href="{% url 'projects:money_support_create' project.pk %}">{% trans 'Support with material donation' %}</a>
+    <a class="btn btn-primary mt-3" href="{% url 'projects:money_support_create' project.pk %}">{% trans 'Support with material resources' %}</a>
   {% else %}
   <hr>
   {% endif %}

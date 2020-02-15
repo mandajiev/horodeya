@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-15 13:56+0000\n"
+"POT-Creation-Date: 2020-02-15 15:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -501,11 +501,11 @@ msgstr "Общности"
 msgid "User"
 msgstr ""
 
-#: projects/models.py:155
+#: projects/models.py:160
 msgid "Cause"
 msgstr "Кауза"
 
-#: projects/models.py:155
+#: projects/models.py:160
 msgid "Business"
 msgstr "Задруга"
 
@@ -637,65 +637,103 @@ msgstr "Промени кауза"
 msgid "Add image"
 msgstr "Добави изображение"
 
-#: projects/templates/projects/project_detail.html:63
-msgid "Follow"
-msgstr "Следвай"
+#: projects/templates/projects/project_detail.html:61
+#: projects/templates/projects/project_detail.html:165
+msgid "Follow the cause"
+msgstr "Следвай каузата"
 
-#: projects/templates/projects/project_detail.html:84
+#: projects/templates/projects/project_detail.html:81
 msgid "Show more"
 msgstr "Покажи още"
 
-#: projects/templates/projects/project_detail.html:90
+#: projects/templates/projects/project_detail.html:87
 msgid "Show less"
 msgstr "Скрий"
 
-#: projects/templates/projects/project_detail.html:99
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "        Voted %(votes)s times.\n"
-#| "        "
+#: projects/templates/projects/project_detail.html:96
 msgid ""
 "\n"
-"        Needs %(count)s volunteers\n"
+"        The cause needs %(count)s volunteers\n"
 "      "
 msgstr ""
 "\n"
-"       Търси %(votes)s доброволци\n"
+"       Каузата има нужда от %(count)s доброволеца\n"
 "        "
 
-#: projects/templates/projects/project_detail.html:112
-#: projects/templates/projects/project_stats.html:28
+#: projects/templates/projects/project_detail.html:109
+#: projects/templates/projects/project_stats.html:31
 #: projects/templates/projects/support_detail_fragment.html:24
 msgid "Volunteer"
 msgstr "Доброволствай"
 
-#: projects/templates/projects/project_detail.html:118
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "        Supported %(count)s causes/businesses.\n"
-#| "        "
+#: projects/templates/projects/project_detail.html:115
+#, python-format
 msgid ""
 "\n"
-"      Needs %(count)s things costing %(price)s\n"
+"      The cause needs %(count)s things costing %(price)s\n"
 "      "
 msgstr ""
 "\n"
-"        Търси %(count)s ресурси, струващи\n"
+"      Каузата има нужда от %(count)s неща на стойност %(price)s\n"
 "        "
 
-#: projects/templates/projects/project_detail.html:132
+#: projects/templates/projects/project_detail.html:130
 #: projects/templates/projects/project_stats.html:15
-#: projects/templates/projects/support_form.html:20
-msgid "Donate"
-msgstr "Дари"
+msgid "Support with money donation"
+msgstr "Подкрепи с парично дарение"
+
+#: projects/templates/projects/project_detail.html:131
+#: projects/templates/projects/project_stats.html:16
+msgid "Support with material donation"
+msgstr "Подкрепи с материални ресурси"
 
 #: projects/templates/projects/project_detail.html:135
+#: projects/templates/projects/report_breadcrumb.html:5
+#: projects/templates/projects/report_list.html:22
+msgid "Reports"
+msgstr "Доклади"
+
+#: projects/templates/projects/project_detail.html:136
+msgid ""
+"Regular reports allow for transparency and accountability. Read the reports "
+"from the cause."
+msgstr ""
+"Редовните доклади позволяват прозрачност и отчетност. Разгледай докладите на каузата."
+
+#: projects/templates/projects/project_detail.html:140
+#: projects/templates/projects/thingnecessity_detail_fragment.html:11
+#: projects/templates/projects/timenecessity_detail_fragment.html:12
+msgid "Description"
+msgstr "Описание"
+
+#: projects/templates/projects/project_detail.html:141
+msgid "Published"
+msgstr "Публикуван"
+
+#: projects/templates/projects/project_detail.html:151
+msgid "Read"
+msgstr "Прочети"
+
+#: projects/templates/projects/project_detail.html:154
+#, python-format
+msgid ""
+"\n"
+"    + %(more)s more\n"
+"    "
+msgstr ""
+"\n"
+"    + още %(more)s\n"
+"    "
+
+#: projects/templates/projects/project_detail.html:158
+msgid "see all"
+msgstr "виж всички"
+
+#: projects/templates/projects/project_detail.html:164
 msgid "Announcements"
 msgstr "Обявления"
 
-#: projects/templates/projects/project_detail.html:141
+#: projects/templates/projects/project_detail.html:172
 msgid "Publish"
 msgstr "Публикувай"
 
@@ -711,7 +749,7 @@ msgstr ""
 "Събрани <strong>%(collected)s</strong> от <strong>%(needed)s</strong>\n"
 "  "
 
-#: projects/templates/projects/project_stats.html:19
+#: projects/templates/projects/project_stats.html:22
 #, python-format
 msgid ""
 "\n"
@@ -720,7 +758,8 @@ msgid ""
 "  "
 msgstr ""
 "\n"
-"Събрани <strong>%(fulfilled)s</strong> от <strong>%(needed)s</strong> доброволци\n"
+"Събрани <strong>%(fulfilled)s</strong> от <strong>%(needed)s</strong> "
+"доброволци\n"
 "  "
 
 #: projects/templates/projects/questions_form.html:13
@@ -729,11 +768,6 @@ msgstr ""
 #| msgid "Update"
 msgid "Update questions"
 msgstr "Промени"
-
-#: projects/templates/projects/report_breadcrumb.html:5
-#: projects/templates/projects/report_list.html:22
-msgid "Reports"
-msgstr "Доклади"
 
 #: projects/templates/projects/report_list.html:23
 #: projects/templates/projects/support_list.html:13
@@ -781,6 +815,10 @@ msgstr "Виж профила"
 msgid "Comment"
 msgstr "Коментирай"
 
+#: projects/templates/projects/support_form.html:20
+msgid "Donate"
+msgstr "Дари"
+
 #: projects/templates/projects/support_list.html:12
 msgid "Support"
 msgstr "Подкрепи"
@@ -808,11 +846,6 @@ msgstr "Детайли"
 #| msgid "Last Name"
 msgid "Name"
 msgstr "Фамилия"
-
-#: projects/templates/projects/thingnecessity_detail_fragment.html:11
-#: projects/templates/projects/timenecessity_detail_fragment.html:12
-msgid "Description"
-msgstr "Описание"
 
 #: projects/templates/projects/thingnecessity_detail_fragment.html:12
 #: projects/templates/projects/timenecessity_detail_fragment.html:15
@@ -2276,6 +2309,9 @@ msgstr ""
 #: venv/lib/python3.8/site-packages/wagtail/tests/testapp/templates/tests/form_page_with_custom_submission.html:21
 msgid "You must log in first."
 msgstr ""
+
+#~ msgid "Follow"
+#~ msgstr "Следвай"
 
 #, python-format
 #~ msgid ""
