@@ -54,7 +54,6 @@ urlpatterns = [
     path('necessity/time/<int:pk>', views.TimeNecessityDetails.as_view(), name='time_necessity_details'),
     path('necessity/thing/<int:pk>', views.ThingNecessityDetails.as_view(), name='thing_necessity_details'),
     path('<int:project_id>/necessity/thing', views.ThingNecessityList.as_view(), name='thing_necessity_list'),
-    path('<int:project_id>/gallery/add', views.gallery_add, name='gallery_add'),
     path('<int:project_id>/necessity/time/questions', views.questions_update, name='volunteer_questions_update'),
     path('<int:project_id>/gallery/update', views.gallery_update, name='gallery_update'),
 

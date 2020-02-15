@@ -1,4 +1,5 @@
 import os
+import uuid
 
 from django.utils import timezone
 
@@ -37,6 +38,9 @@ from dal import autocomplete
 
 from stream_django.feed_manager import feed_manager
 from stream_django.enrich import Enrich
+
+def short_random():
+    return str(uuid.uuid4()).split('-')[0]
 
 class ProjectForm(ModelForm):
     class Meta:
@@ -873,37 +877,7 @@ class ThingNecessityDetails(AutoPermissionRequiredMixin, generic.DetailView):
 
 class UploadFileForm(forms.Form):
     file = forms.FileField(required=False)
-    delete = forms.BooleanField(initial=False)
-
-def gallery_add(request, project_id, primary=False):
-    project = get_object_or_404(Project, pk=project_id)
-    if request.method == 'POST':
-        form = UploadFileForm(request.POST, request.FILES)
-        if form.is_valid():
-
-            title = form.cleaned_data['title']
-            primary = form.cleaned_data['primary']
-
-            image = gallery.photos.create(
-                image = request.FILES['file'],
-                title = title,
-                caption = form.cleaned_data.get('caption'),
-                slug = slugify(title, allow_unicode=True)
-                )
-
-            if primary:
-                project.primary_image = image
-                project.save()
-
-            messages.success(request, _('Image uploaded'))
-            next = request.GET.get('next')
-            if next:
-                return redirect(request.GET['next'])
-            else:
-                return redirect(project)
-    else:
-        form = UploadFileForm(initial={'primary': primary})
-    return render(request, 'file_form.html', {'form': form})
+    delete = forms.BooleanField(initial=False, required=False)
 
 PhotoFormset = modelformset_factory(
     Photo,
@@ -911,6 +885,23 @@ PhotoFormset = modelformset_factory(
     extra=1,
     can_delete=True,
     can_order=True)
+
+def neat_photo(first_directory, second_directory, image):
+    path, extension = os.path.splitext(image.name)
+    image.name = short_random() + extension
+    
+    photo = Photo()
+    photo.title = image.name
+    photo.image = image
+    photo.slug = slugify(image.name)
+
+    # Нашият PHOTOLOGUE_PATH използва това за да реши къде да запише файла
+    photo.first_directory = first_directory
+    photo.second_directory = second_directory
+
+    photo.save()
+
+    return photo
 
 def gallery_update(request, project_id):
     template_name = 'projects/photo_form.html'
@@ -937,17 +928,13 @@ def gallery_update(request, project_id):
             for form in formset:
                 image = request.FILES.get("%s-image" % (form.prefix))
                 order = form.cleaned_data.get('ORDER', len(formset))
-                if form.cleaned_data.get('DELETE'):
+                if form.instance.id and form.cleaned_data.get('DELETE'):
                     form.instance.delete()
                 elif image:
-                    form.instance.project = project
-                    form.instance.title = image
-                    form.instance.image = image
-                    form.instance.slug = slugify(image)
-                    image = form.save()
-                    image.galleries.add(gallery)
+                    photo = neat_photo('project', str(project_id), image)
+                    photo.galleries.add(gallery)
 
-                    through = gallery.photos.through.objects.get(photo_id=image.pk, gallery_id=gallery.pk)
+                    through = gallery.photos.through.objects.get(photo_id=photo.pk, gallery_id=gallery.pk)
                     through.sort_value = order
                     through.save()
                 elif form.instance.image:
@@ -979,17 +966,7 @@ def user_photo_update(request, user_id):
             if form.cleaned_data.get('delete'):
                 messages.success(request, _('Image deleted'))
             else:
-                f = request.FILES['file']
-                path, extension = os.path.splitext(f.name)
-                f.name = 'user-%d%s' % (user_id, extension)
-                photo = Photo.objects.create(
-                    image = f,
-                    title = title,
-                    caption = title,
-                    slug = slug 
-                    )
-
-                user.photo = photo
+                user.photo = neat_photo('user', str(user_id), request.FILES['file'])
                 user.save()
 
                 messages.success(request, _('Image uploaded'))
@@ -1018,17 +995,7 @@ def community_photo_update(request, pk):
             if form.cleaned_data.get('delete'):
                 messages.success(request, _('Image deleted'))
             else:
-                f = request.FILES['file']
-                path, extension = os.path.splitext(f.name)
-                f.name = 'community-%d%s' % (pk, extension)
-                photo = Photo.objects.create(
-                    image = f,
-                    title = title,
-                    caption = title,
-                    slug = slug 
-                    )
-
-                community.photo = photo
+                community.photo = neat_photo('community', str(pk), request.FILES['file'])
                 community.save()
 
                 messages.success(request, _('Image uploaded'))

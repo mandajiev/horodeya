@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 import sys
 
+import unicodedata
+from django.utils.encoding import force_text
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -243,6 +246,10 @@ LANGUAGES = (
 )
 
 AWS_STORAGE_BUCKET_NAME = 'horodeya-static'
+
+def PHOTOLOGUE_PATH(instance, filename):
+    fn = unicodedata.normalize('NFKD', force_text(filename)).encode('ascii', 'ignore').decode('ascii')
+    return os.path.join(instance.first_directory, instance.second_directory, fn)
 
 if TEST:
     STATIC_URL = '/static/'
