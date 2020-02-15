@@ -244,30 +244,46 @@ LANGUAGES = (
 
 AWS_STORAGE_BUCKET_NAME = 'horodeya-static'
 
-STATIC_URL = 'http://%s.s3.amazonaws.com/static/' % AWS_STORAGE_BUCKET_NAME
-ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
+if TEST:
+    STATIC_URL = '/static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    MEDIA_URL = '/media/'
+    BOOTSTRAP4 = {
+        "css_url": '/static/css/bootstrap.min.css',
+        'javascript_url': '/static/js/bootstrap.min.js',
+        'jquery_url': '/static/js/jquery-3.4.1.min.js',
+        'jquery_slim_url': '/static/js/jquery-3.4.1.min.js',
+        'popper_url': '/static/js/popper.min.js',
+    }
+    AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+    AWS_DEFAULT_REGION = os.getenv('AWS_DEFAULT_REGION')
+else:
+    STATIC_URL = 'http://%s.s3.amazonaws.com/static/' % AWS_STORAGE_BUCKET_NAME
+    ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = 'http://%s.s3.amazonaws.com/media/' % AWS_STORAGE_BUCKET_NAME
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    MEDIA_URL = 'http://%s.s3.amazonaws.com/media/' % AWS_STORAGE_BUCKET_NAME
 
-AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-AWS_DEFAULT_REGION = os.getenv('AWS_DEFAULT_REGION')
+    AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+    AWS_DEFAULT_REGION = os.getenv('AWS_DEFAULT_REGION')
 
-DEFAULT_FILE_STORAGE = 'horodeya.storage_backends.MediaStorage'
-STATICFILES_STORAGE = 'horodeya.storage_backends.StaticStorage'
-AWS_S3_FILE_OVERWRITE = False
-AWS_DEFAULT_ACL = 'public-read'
-AWS_QUERYSTRING_AUTH = False
-AWS_S3_CUSTOM_DOMAIN = "%s.s3.amazonaws.com" % AWS_STORAGE_BUCKET_NAME
+    DEFAULT_FILE_STORAGE = 'horodeya.storage_backends.MediaStorage'
+    STATICFILES_STORAGE = 'horodeya.storage_backends.StaticStorage'
+    AWS_S3_FILE_OVERWRITE = False
+    AWS_DEFAULT_ACL = 'public-read'
+    AWS_QUERYSTRING_AUTH = False
+    AWS_S3_CUSTOM_DOMAIN = "%s.s3.amazonaws.com" % AWS_STORAGE_BUCKET_NAME
 
-BOOTSTRAP4 = {
-    "css_url": 'http://%s/static/css/bootstrap.min.css' % AWS_S3_CUSTOM_DOMAIN,
-    'javascript_url': 'http://%s/static/js/bootstrap.min.js' % AWS_S3_CUSTOM_DOMAIN,
-    'jquery_url': 'http://%s/static/js/jquery-3.4.1.min.js' % AWS_S3_CUSTOM_DOMAIN,
-    'jquery_slim_url': 'http://%s/static/js/jquery-3.4.1.min.js' % AWS_S3_CUSTOM_DOMAIN,
-    'popper_url': 'http://%s/static/js/popper.min.js' % AWS_S3_CUSTOM_DOMAIN,
+    BOOTSTRAP4 = {
+        "css_url": 'http://%s/static/css/bootstrap.min.css' % AWS_S3_CUSTOM_DOMAIN,
+        'javascript_url': 'http://%s/static/js/bootstrap.min.js' % AWS_S3_CUSTOM_DOMAIN,
+        'jquery_url': 'http://%s/static/js/jquery-3.4.1.min.js' % AWS_S3_CUSTOM_DOMAIN,
+        'jquery_slim_url': 'http://%s/static/js/jquery-3.4.1.min.js' % AWS_S3_CUSTOM_DOMAIN,
+        'popper_url': 'http://%s/static/js/popper.min.js' % AWS_S3_CUSTOM_DOMAIN,
 
-    'required_css_class': '', #TODO
-}
+        'required_css_class': '', #TODO
+    }
