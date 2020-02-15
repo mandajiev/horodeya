@@ -14,12 +14,23 @@
         <meta charset="utf-8" />
         <title>
             {% block title %}
-                {% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}
+            {% if page %}
+              {% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}{% endif %}
+              -
+            {% elif object.page_name %}
+              {{ object.page_name }}
+              -
+            {% endif %}
             {% endblock %}
             {% block title_suffix %}
-                {% with self.get_site.site_name as site_name %}
-                    {% if site_name %}- {{ site_name }}{% endif %}
-                {% endwith %}
+            {% if page %}
+              {% with page.get_site.site_name as site_name %}
+                  {% if site_name %}{{ site_name }}{% endif %}
+              {% endwith %}
+            {% else %}
+              {% trans 'Horodeya' %}
+            {% endif %}
+
             {% endblock %}
         </title>
         <meta name="description" content="" />

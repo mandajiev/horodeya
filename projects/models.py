@@ -21,7 +21,7 @@ from stream_django.activity import Activity
 
 from requests.exceptions import ConnectionError
 
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext, gettext_lazy
 
 from photologue.models import Photo, Gallery
 
@@ -90,6 +90,9 @@ class Community(Timestamped):
     bal = models.IntegerField(default=20, validators=[MaxValueValidator(100)])
     photo = models.ForeignKey(Photo, on_delete=models.SET_NULL, null=True)
 
+    def page_name(self):
+        return "%s %s" % (gettext('Community'), self.name)
+
     def __str__(self):
         return self.name
 
@@ -108,6 +111,9 @@ class User(AbstractUser, RulesModelMixin, metaclass=RulesModelBase):
     communities = models.ManyToManyField(Community)
     bal = models.IntegerField(default=20, validators=[MaxValueValidator(100)])
     photo = models.ForeignKey(Photo, on_delete=models.SET_NULL, null=True)
+
+    def page_name(self):
+        return "%s %s" % (gettext('User'), str(self))
 
     def __str__(self):
         return '%s %s' % (self.first_name, self.last_name)
@@ -144,6 +150,9 @@ class Project(Timestamped):
     community = models.ForeignKey(Community, on_delete=models.CASCADE)
     end_date = models.DateField(null=True, blank=True)
     gallery = models.ForeignKey(Gallery, on_delete=models.PROTECT, null=True)
+
+    def page_name(self):
+        return "%s %s" % (gettext('Cause') if self.type == 'cause' else gettext('Business'), self.name)
 
     def key(self):
         return 'project-%d' % self.id

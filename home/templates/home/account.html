@@ -11,7 +11,7 @@
 {% block admin_tools %}
   <a class="nav-link text-white" href="{% url 'projects:user_photo_update' user.id %}">{% trans "Update photo" %}</a>
   <li class="nav-item">
-    <a class="nav-link text-white" href="{% url 'user_update' account.pk %}">Редактирай</a>
+    <a class="nav-link text-white" href="{% url 'user_update' object.pk %}">Редактирай</a>
   </li>
   <li class="nav-item">
     <a class="nav-link text-white" href="{% url 'account_email' %}">Промени е-поща</a>
@@ -24,28 +24,28 @@
 
 {% block content %}
 
-{% if account == user %}
+{% if object == user %}
   {{ block.super }}
 {% endif %}
 
   <div class="card mt-3 mx-auto" style="max-width: 720px;">
   <div class="row no-gutters">
     <div class="col-md-4">
-      {% if account.photo %}
-        <img class="card-img" src="{{ account.photo.get_profile_url }}" alt="{{user.first_name}}"></img>
+      {% if object.photo %}
+        <img class="card-img" src="{{ object.photo.get_profile_url }}" alt="{{user.first_name}}"></img>
       {% else %}
         <a href="{% url 'projects:user_photo_update' user.id %}">{% trans "Add photo" %}</a>
       {% endif %}
     </div>
     <div class="col-md-8">
       <div class="card-body">
-        <h5 class="card-title">{{ account.first_name }} {{ account.last_name }}</h5>
+        <h5 class="card-title">{{ object.first_name }} {{ object.last_name }}</h5>
       </div>
       <ul class="list-group list-group-flush">
-        {%comment%}<li class="list-group-item"> {% trans "Rating" %}: {{ account.bal }}</li>{%endcomment%}
+        {%comment%}<li class="list-group-item"> {% trans "Rating" %}: {{ object.bal }}</li>{%endcomment%}
         <li class="list-group-item">
           {% trans "Communities" %}:
-          {% for community in account.communities.all %}
+          {% for community in object.communities.all %}
             <a class="" href="{% url 'projects:community_details' community.pk %}">{{ community }}</a>
             {% if not forloop.last %}
             |
@@ -55,24 +55,24 @@
           {% endfor %}
         </li>
         <li class="list-group-item">
-          {% blocktrans with count=account.timesupport_set.count %}
+          {% blocktrans with count=object.timesupport_set.count %}
           Donated {{count}} times.
           {% endblocktrans %}
-          <a href="{% url 'projects:user_support_list' account.pk 'time' %}"> {% trans 'See all' %} </a>
+          <a href="{% url 'projects:user_support_list' object.pk 'time' %}"> {% trans 'See all' %} </a>
         </li>
         <li class="list-group-item">
-          {% blocktrans with count=account.moneysupport_set.count %}
+          {% blocktrans with count=object.moneysupport_set.count %}
           Volunteered {{count}} times.
           {% endblocktrans %}
-          <a href="{% url 'projects:user_support_list' account.pk 'time' %}"> {% trans 'See all' %} </a>
+          <a href="{% url 'projects:user_support_list' object.pk 'time' %}"> {% trans 'See all' %} </a>
         </li>
 
       {% comment %}
       <li class="list-group-item">
-        {% blocktrans with votes=account.total_votes_count%}
+        {% blocktrans with votes=object.total_votes_count%}
         Voted {{votes}} times.
         {% endblocktrans %}
-        <a href="{% url 'projects:user_vote_list' account.pk %}"> {% trans 'See all' %} </a>
+        <a href="{% url 'projects:user_vote_list' object.pk %}"> {% trans 'See all' %} </a>
       </li>
       {% endcomment %}
     </ul>

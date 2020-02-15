@@ -1,6 +1,8 @@
 import os
 import uuid
 
+from requests.exceptions import Timeout, ConnectionError
+
 from django.utils import timezone
 
 from django.contrib import messages

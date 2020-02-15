@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-30 10:44+0200\n"
+"POT-Creation-Date: 2020-02-15 11:48+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -186,7 +186,7 @@ msgid ""
 "for a %(site_name)s account and sign in below:"
 msgstr ""
 
-#: home/templates/account/login.html:26 home/templates/home/list.html:34
+#: home/templates/account/login.html:26
 #: venv/lib/python3.8/site-packages/django/utils/text.py:233
 msgid "or"
 msgstr "или"
@@ -401,31 +401,49 @@ msgid ""
 "mail address</a>."
 msgstr ""
 
-#: home/templates/base.html:54 home/templates/base.html:103
+#: home/templates/base.html:31
+msgid "Horodeya"
+msgstr "Хородея"
+
+#: home/templates/base.html:72 home/templates/base.html:121
 msgid "Home"
 msgstr "Начало"
 
-#: home/templates/base.html:57
+#: home/templates/base.html:74
 #: projects/templates/projects/project_breadcrumb.html:4
 msgid "Causes"
 msgstr "Каузи"
 
-#: home/templates/base.html:59
+#: home/templates/base.html:76
 #: projects/templates/projects/project_breadcrumb.html:6
 msgid "Businesses"
 msgstr "Задруги"
 
-#: home/templates/base.html:61
+#: home/templates/base.html:78
 msgid "About us"
 msgstr "За нас"
 
-#: home/templates/home/account.html:43
+#: home/templates/home/account.html:12
+#: projects/templates/projects/community_detail.html:10
+#, fuzzy
+#| msgid "Update"
+msgid "Update photo"
+msgstr "Промени"
+
+#: home/templates/home/account.html:37
+#: projects/templates/projects/community_detail.html:29
+#, fuzzy
+#| msgid "Add row"
+msgid "Add photo"
+msgstr "Добави ред"
+
+#: home/templates/home/account.html:48
 #: projects/templates/projects/community_breadcrumb.html:4
 #: projects/templates/projects/community_list.html:10
 msgid "Communities"
 msgstr "Общности"
 
-#: home/templates/home/account.html:54
+#: home/templates/home/account.html:59
 #, fuzzy, python-format
 #| msgid ""
 #| "\n"
@@ -440,11 +458,11 @@ msgstr ""
 "        %(votes)s гласа.\n"
 "        "
 
-#: home/templates/home/account.html:57 home/templates/home/account.html:63
+#: home/templates/home/account.html:62 home/templates/home/account.html:68
 msgid "See all"
 msgstr "Виж всички"
 
-#: home/templates/home/account.html:60
+#: home/templates/home/account.html:65
 #, fuzzy, python-format
 #| msgid ""
 #| "\n"
@@ -459,39 +477,37 @@ msgstr ""
 "        %(votes)s гласа.\n"
 "        "
 
-#: home/templates/home/home_page.html:25
-msgid "Follow some causes/businesses to see their activity here"
-msgstr "Следвай каузи и задруги"
+#: home/templates/home/home_page.html:22
+msgid "Nothing happened recently"
+msgstr ""
 
-#: home/templates/home/list.html:17
-msgid "Apply with your business"
-msgstr "Кандидатствай с твоята задруга"
+#: projects/forms.py:40 projects/templatetags/projects_tags.py:27
+#: venv/lib/python3.8/site-packages/django/forms/widgets.py:712
+msgid "Yes"
+msgstr ""
 
-#: home/templates/home/list.html:19
-msgid "Apply with your cause"
-msgstr "Кандидатствай с твоята кауза"
+#: projects/forms.py:40 projects/templatetags/projects_tags.py:27
+#: venv/lib/python3.8/site-packages/django/forms/widgets.py:713
+msgid "No"
+msgstr ""
 
-#: home/templates/home/list.html:27
-msgid "You need to be part of a Legal entity to apply"
-msgstr "Трябва да си част от Юредическо лице за да кандидатстваш"
-
-#: home/templates/home/list.html:27
+#: projects/models.py:94
 #, fuzzy
-#| msgid "Join a legal entity"
-msgid "Join a community"
-msgstr "Влез в юридическо лице"
+#| msgid "Communities"
+msgid "Community"
+msgstr "Общности"
 
-#: home/templates/home/list.html:34
-msgid "Sign up"
-msgstr "Запиши се"
+#: projects/models.py:116
+msgid "User"
+msgstr ""
 
-#: home/templates/home/list.html:34
-msgid "sign in"
-msgstr "влез"
+#: projects/models.py:155
+msgid "Cause"
+msgstr "Кауза"
 
-#: home/templates/home/list.html:34
-msgid "to vote"
-msgstr "за да гласуваш"
+#: projects/models.py:155
+msgid "Business"
+msgstr "Задруга"
 
 #: projects/templates/activity/aggregated/report.html:7
 #, fuzzy, python-format
@@ -517,38 +533,43 @@ msgid "published new report for"
 msgstr "публикува нов доклад за"
 
 #: projects/templates/file_form.html:12 projects/templates/form.html:12
+#: projects/templates/projects/community_photo_update.html:16
 #: projects/templates/projects/necessity_form.html:43
 #: projects/templates/projects/photo_form.html:43
+#: projects/templates/projects/questions_form.html:75
+#: projects/templates/projects/user_photo_update.html:16
 msgid "Save"
 msgstr "Запиши"
 
 #: projects/templates/file_form.html:15 projects/templates/form.html:16
+#: projects/templates/projects/questions_form.html:65
+#: projects/templates/projects/questions_form.html:99
 #: venv/lib/python3.8/site-packages/django/forms/formsets.py:375
 msgid "Delete"
 msgstr "Изтрий"
 
-#: projects/templates/projects/community_detail.html:11
+#: projects/templates/projects/community_detail.html:12
 #: projects/templates/projects/form_breadcrumb.html:4
 #: projects/templates/projects/necessity_breadcrumb.html:23
 #: projects/templates/projects/project_detail.html:14
 #: projects/templates/projects/support_detail.html:27
 #: projects/templates/projects/support_detail.html:29
 #: projects/templates/projects/thingnecessity_list.html:13
-#: projects/templates/projects/timenecessity_list.html:13
+#: projects/templates/projects/time_support_create.html:52
 msgid "Update"
 msgstr "Промени"
 
-#: projects/templates/projects/community_detail.html:13
+#: projects/templates/projects/community_detail.html:14
 #, fuzzy
 #| msgid "Not a member"
 msgid "Update members"
 msgstr "Не си част от юредическото лице"
 
-#: projects/templates/projects/community_detail.html:34
+#: projects/templates/projects/community_detail.html:39
 msgid "Bulstat"
 msgstr "Булстат"
 
-#: projects/templates/projects/community_detail.html:38
+#: projects/templates/projects/community_detail.html:43
 msgid "Email"
 msgstr "Имейл"
 
@@ -561,8 +582,8 @@ msgid "Members"
 msgstr "Членове"
 
 #: projects/templates/projects/community_member_list.html:18
-msgid "Add"
-msgstr "Добави"
+msgid "Добави"
+msgstr ""
 
 #: projects/templates/projects/form_breadcrumb.html:6
 msgid "Create"
@@ -570,6 +591,7 @@ msgstr "Създай"
 
 #: projects/templates/projects/necessity_breadcrumb.html:6
 #: projects/templates/projects/project_detail.html:23
+#: projects/templates/projects/questions_form.html:9
 #: projects/templates/projects/support_breadcrumb.html:7
 msgid "Volunteers"
 msgstr "Доброволци"
@@ -583,6 +605,7 @@ msgid "Donations"
 msgstr "Дарения"
 
 #: projects/templates/projects/necessity_form.html:42
+#: projects/templates/projects/questions_form.html:74
 msgid "Add row"
 msgstr "Добави ред"
 
@@ -685,6 +708,7 @@ msgstr ""
 "Събрани <strong>%(collected)s</strong> от <strong>%(needed)s</strong>\n"
 
 #: projects/templates/projects/project_stats.html:19
+#, python-format
 msgid ""
 "\n"
 "<strong>%(fulfilled)s</strong> out of <strong>%(needed)s</strong> things \n"
@@ -693,6 +717,7 @@ msgstr ""
 "Събрани <strong>%(fulfilled)s</strong> от <strong>%(needed)s</strong>\n"
 
 #: projects/templates/projects/project_stats.html:30
+#, python-format
 msgid ""
 "\n"
 "<strong>%(fulfilled)s</strong> out of <strong>%(needed)s</strong> "
@@ -704,6 +729,13 @@ msgstr ""
 #: projects/templates/projects/project_stats.html:40
 msgid "End date"
 msgstr "Крайна дата"
+
+#: projects/templates/projects/questions_form.html:13
+#: projects/templates/projects/timenecessity_list.html:12
+#, fuzzy
+#| msgid "Update"
+msgid "Update questions"
+msgstr "Промени"
 
 #: projects/templates/projects/report_breadcrumb.html:5
 #: projects/templates/projects/report_list.html:22
@@ -798,13 +830,27 @@ msgstr "Стойност"
 msgid "Collected"
 msgstr "Събрани"
 
-#: projects/templates/projects/time_support_create.html:9
+#: projects/templates/projects/time_support_create.html:12
+#, fuzzy
+#| msgid "Applied to %d volunteer positions"
+msgid "Update volunteer application"
+msgstr "Кандидатства за %d доброволчески позиции"
+
+#: projects/templates/projects/time_support_create.html:14
 msgid "Apply as a volunteer"
 msgstr "Кандидатствай за доброволец"
 
-#: projects/templates/projects/time_support_create.html:67
-msgid "Apply to selected"
-msgstr "Кандидатствай за избраното"
+#: projects/templates/projects/time_support_create.html:25
+#, python-format
+msgid ""
+"\n"
+" Apply as a volunteer for the cause %(cause)s from %(community)s\n"
+"  "
+msgstr ""
+
+#: projects/templates/projects/time_support_create.html:54
+msgid "Apply"
+msgstr ""
 
 #: projects/templates/projects/timenecessity_detail_fragment.html:11
 msgid "Period"
@@ -814,7 +860,27 @@ msgstr "Период"
 msgid "Accepted"
 msgstr "Приети"
 
-#: projects/templates/projects/timenecessity_list.html:25
+#: projects/templates/projects/timenecessity_list.html:13
+#, fuzzy
+#| msgid "Update"
+msgid "Update types"
+msgstr "Промени"
+
+#: projects/templates/projects/timenecessity_list.html:22
+#, fuzzy
+#| msgid "Description"
+msgid "Questions"
+msgstr "Описание"
+
+#: projects/templates/projects/timenecessity_list.html:28
+msgid "No questions configured"
+msgstr ""
+
+#: projects/templates/projects/timenecessity_list.html:33
+msgid "Types"
+msgstr ""
+
+#: projects/templates/projects/timenecessity_list.html:39
 msgid "Applications"
 msgstr "Кандидатури"
 
@@ -873,103 +939,116 @@ msgstr "Няма нови доклади"
 msgid "Past votes"
 msgstr "Предишни гласувания"
 
-#: projects/templatetags/projects_tags.py:21
-#: projects/templatetags/projects_tags.py:26
+#: projects/templatetags/projects_tags.py:36
+#: projects/templatetags/projects_tags.py:41
 msgid "lv"
 msgstr "лв"
 
-#: projects/templatetags/projects_tags.py:24
+#: projects/templatetags/projects_tags.py:39
 msgid "unknown"
 msgstr "неизвестно"
 
-#: projects/views.py:176
+#: projects/views.py:187
 #, fuzzy
 #| msgid "Could not delete vote"
 msgid "Could not get timeline"
 msgstr "Неуспешно изтриване на глас"
 
-#: projects/views.py:287 projects/views.py:296
+#: projects/views.py:301 projects/views.py:310
 msgid "Success"
 msgstr "Успешно"
 
-#: projects/views.py:405 projects/views.py:513
+#: projects/views.py:419 projects/views.py:527
 msgid "Could not delete vote"
 msgstr "Неуспешно изтриване на глас"
 
-#: projects/views.py:408 projects/views.py:516
+#: projects/views.py:422 projects/views.py:530
 msgid "Deleted vote"
 msgstr "Успешно изтрит глас"
 
-#: projects/views.py:417 projects/views.py:525
+#: projects/views.py:431 projects/views.py:539
 msgid "Could not vote"
 msgstr "Неуспешно гласуване"
 
-#: projects/views.py:419 projects/views.py:527
+#: projects/views.py:433 projects/views.py:541
 msgid "Voted up"
 msgstr "Гласувах за"
 
-#: projects/views.py:419 projects/views.py:527
+#: projects/views.py:433 projects/views.py:541
 msgid "Voted down"
 msgstr "Гласувах против"
 
-#: projects/views.py:556
+#: projects/views.py:570
 msgid "Support already accepted"
 msgstr "Подкрепата вече е била приета"
 
-#: projects/views.py:556
+#: projects/views.py:570
 msgid "Support already declined"
 msgstr "Подкрепата вече е била отказана"
 
-#: projects/views.py:559
+#: projects/views.py:573
 msgid "Select a necessity for the money support"
 msgstr "Избери ресурс за парична подкрепа"
 
-#: projects/views.py:564
+#: projects/views.py:578
 msgid "Support accepted"
 msgstr "Подкрепата приета"
 
-#: projects/views.py:564
+#: projects/views.py:578
 msgid "Support declined"
 msgstr "Подкрепата отказана"
 
-#: projects/views.py:566
+#: projects/views.py:580
 #, fuzzy
 #| msgid "Support already accepted"
 msgid "Support could not be accepted"
 msgstr "Подкрепата вече е била приета"
 
-#: projects/views.py:566
+#: projects/views.py:580
 #, fuzzy
 #| msgid "Support already declined"
 msgid "Support could not be declined"
 msgstr "Подкрепата вече е била отказана"
 
-#: projects/views.py:580
+#: projects/views.py:594
 msgid "Support already marked as delivered"
 msgstr "Подкрепата вече е била отбелязана като изпълнена"
 
-#: projects/views.py:586
+#: projects/views.py:600
 msgid "Support marked as delivered"
 msgstr "Подкрепата е отбелязана като изпълнена"
 
-#: projects/views.py:661
+#: projects/views.py:668
 msgid "Email:"
 msgstr "Имейл:"
 
-#: projects/views.py:703
+#: projects/views.py:704
 msgid "Started following"
 msgstr "Започна да следва"
 
-#: projects/views.py:779
-msgid "Choose at least one necessity"
+#: projects/views.py:769
+msgid ""
+"Why do you apply for this position? List your relevant experience / skills"
+msgstr ""
+
+#: projects/views.py:802
+#, fuzzy
+#| msgid "Choose at least one necessity"
+msgid "Choose at least one volunteer position"
 msgstr "Избери поне един необходим ресурс"
 
-#: projects/views.py:792
+#: projects/views.py:817
 #, python-format
 msgid "Applied to %d volunteer positions"
 msgstr "Кандидатства за %d доброволчески позиции"
 
-#: projects/views.py:879
+#: projects/views.py:969 projects/views.py:998
+#, fuzzy
+#| msgid "Image uploaded"
+msgid "Image deleted"
+msgstr "Изображението е качено"
+
+#: projects/views.py:974 projects/views.py:1003
 msgid "Image uploaded"
 msgstr "Изображението е качено"
 
@@ -978,6 +1057,17 @@ msgstr "Изображението е качено"
 #: venv/lib/python3.8/site-packages/bootstrap4/templates/bootstrap4/messages.html:4
 msgid "close"
 msgstr "затвори"
+
+#: venv/lib/python3.8/site-packages/botocore/docs/bcdoc/textwriter.py:469
+#, python-format
+msgid "[image: %s]"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/botocore/docs/bcdoc/textwriter.py:470
+#, fuzzy
+#| msgid "Add image"
+msgid "[image]"
+msgstr "Добави изображение"
 
 #: venv/lib/python3.8/site-packages/django/contrib/messages/apps.py:7
 msgid "Messages"
@@ -1571,14 +1661,6 @@ msgstr ""
 
 #: venv/lib/python3.8/site-packages/django/forms/widgets.py:711
 msgid "Unknown"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/forms/widgets.py:712
-msgid "Yes"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/forms/widgets.py:713
-msgid "No"
 msgstr ""
 
 #: venv/lib/python3.8/site-packages/django/template/defaultfilters.py:788
@@ -2201,6 +2283,38 @@ msgstr ""
 #: venv/lib/python3.8/site-packages/wagtail/tests/testapp/templates/tests/form_page_with_custom_submission.html:21
 msgid "You must log in first."
 msgstr ""
+
+#~ msgid "Follow some causes/businesses to see their activity here"
+#~ msgstr "Следвай каузи и задруги"
+
+#~ msgid "Apply with your business"
+#~ msgstr "Кандидатствай с твоята задруга"
+
+#~ msgid "Apply with your cause"
+#~ msgstr "Кандидатствай с твоята кауза"
+
+#~ msgid "You need to be part of a Legal entity to apply"
+#~ msgstr "Трябва да си част от Юредическо лице за да кандидатстваш"
+
+#, fuzzy
+#~| msgid "Join a legal entity"
+#~ msgid "Join a community"
+#~ msgstr "Влез в юридическо лице"
+
+#~ msgid "Sign up"
+#~ msgstr "Запиши се"
+
+#~ msgid "sign in"
+#~ msgstr "влез"
+
+#~ msgid "to vote"
+#~ msgstr "за да гласуваш"
+
+#~ msgid "Add"
+#~ msgstr "Добави"
+
+#~ msgid "Apply to selected"
+#~ msgstr "Кандидатствай за избраното"
 
 #~ msgid "Sign out"
 #~ msgstr "Излез"

@@ -18,7 +18,7 @@ def account(request, pk=None):
         account = get_object_or_404(User, pk=pk)
     else:
         account = request.user 
-    return render(request, 'home/account.html', { 'account': account} )
+    return render(request, 'home/account.html', { 'object': account} )
 
 def notifications(request):
     user = request.user 
