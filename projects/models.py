@@ -151,6 +151,11 @@ class Project(Timestamped):
     end_date = models.DateField(null=True, blank=True)
     gallery = models.ForeignKey(Gallery, on_delete=models.PROTECT, null=True)
 
+    def latest_reports(self):
+        show_reports = 3
+        ordered = self.report_set.order_by('-published_at')
+        return ordered[:show_reports], ordered.count() - show_reports
+
     def page_name(self):
         return "%s %s" % (gettext('Cause') if self.type == 'cause' else gettext('Business'), self.name)
 
@@ -439,6 +444,9 @@ class ThingNecessity(Timestamped):
 
     def total_price(self):
         return self.count * self.price
+
+    def total_price_still_needed(self):
+        return self.still_needed() * self.price
 
     def accepted_money_support(self):
         return self.money_supports.filter(status=Support.STATUS.accepted).all()

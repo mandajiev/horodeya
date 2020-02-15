@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-15 11:54+0000\n"
+"POT-Creation-Date: 2020-02-15 13:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -589,14 +589,14 @@ msgid "Create"
 msgstr "Създай"
 
 #: projects/templates/projects/necessity_breadcrumb.html:6
-#: projects/templates/projects/project_detail.html:23
+#: projects/templates/projects/project_detail.html:17
 #: projects/templates/projects/questions_form.html:9
 #: projects/templates/projects/support_breadcrumb.html:7
 msgid "Volunteers"
 msgstr "Доброволци"
 
 #: projects/templates/projects/necessity_breadcrumb.html:10
-#: projects/templates/projects/project_detail.html:25
+#: projects/templates/projects/project_detail.html:14
 #: projects/templates/projects/support_breadcrumb.html:11
 #: projects/templates/projects/thingnecessity_list.html:25
 #: projects/templates/projects/user_support_list.html:15
@@ -609,7 +609,7 @@ msgid "Add row"
 msgstr "Добави ред"
 
 #: projects/templates/projects/photo_form.html:8
-#: projects/templates/projects/project_detail.html:17
+#: projects/templates/projects/project_detail.html:22
 msgid "Update images"
 msgstr "Качи снимки"
 
@@ -624,30 +624,18 @@ msgstr ""
 "    <p>Сигурни ли сте, че искате да изтриете \"%(object)s\"?</p>\n"
 "  "
 
-#: projects/templates/projects/project_detail.html:14
-msgid "Update cause"
-msgstr "Промени кауза"
-
-#: projects/templates/projects/project_detail.html:20
+#: projects/templates/projects/project_detail.html:19
 #: projects/templates/projects/report_list.html:11
 msgid "New report"
 msgstr "Напиши доклад"
 
+#: projects/templates/projects/project_detail.html:25
+msgid "Update cause"
+msgstr "Промени кауза"
+
 #: projects/templates/projects/project_detail.html:45
 msgid "Add image"
 msgstr "Добави изображение"
-
-#: projects/templates/projects/project_detail.html:61
-#: projects/templates/projects/project_detail.html:112
-#: projects/templates/projects/support_detail_fragment.html:24
-msgid "Volunteer"
-msgstr "Доброволствай"
-
-#: projects/templates/projects/project_detail.html:62
-#: projects/templates/projects/project_detail.html:132
-#: projects/templates/projects/support_form.html:20
-msgid "Donate"
-msgstr "Дари"
 
 #: projects/templates/projects/project_detail.html:63
 msgid "Follow"
@@ -676,6 +664,12 @@ msgstr ""
 "       Търси %(votes)s доброволци\n"
 "        "
 
+#: projects/templates/projects/project_detail.html:112
+#: projects/templates/projects/project_stats.html:28
+#: projects/templates/projects/support_detail_fragment.html:24
+msgid "Volunteer"
+msgstr "Доброволствай"
+
 #: projects/templates/projects/project_detail.html:118
 #, fuzzy, python-format
 #| msgid ""
@@ -691,6 +685,12 @@ msgstr ""
 "        Търси %(count)s ресурси, струващи\n"
 "        "
 
+#: projects/templates/projects/project_detail.html:132
+#: projects/templates/projects/project_stats.html:15
+#: projects/templates/projects/support_form.html:20
+msgid "Donate"
+msgstr "Дари"
+
 #: projects/templates/projects/project_detail.html:135
 msgid "Announcements"
 msgstr "Обявления"
@@ -699,37 +699,29 @@ msgstr "Обявления"
 msgid "Publish"
 msgstr "Публикувай"
 
-#: projects/templates/projects/project_stats.html:8
-#, fuzzy, python-format
+#: projects/templates/projects/project_stats.html:6
+#, python-format
 msgid ""
 "\n"
-"<strong>%(collected)s</strong> out of <strong>%(needed)s</strong>\n"
+"  Collected <strong>%(collected)s</strong> out of <strong>%(needed)s</"
+"strong>\n"
+"  "
 msgstr ""
 "\n"
 "Събрани <strong>%(collected)s</strong> от <strong>%(needed)s</strong>\n"
+"  "
 
 #: projects/templates/projects/project_stats.html:19
 #, python-format
 msgid ""
 "\n"
-"<strong>%(fulfilled)s</strong> out of <strong>%(needed)s</strong> things \n"
+"  Collected <strong>%(fulfilled)s</strong> out of <strong>%(needed)s</"
+"strong> volunteers\n"
+"  "
 msgstr ""
 "\n"
-"Събрани <strong>%(fulfilled)s</strong> от <strong>%(needed)s</strong>\n"
-
-#: projects/templates/projects/project_stats.html:30
-#, python-format
-msgid ""
-"\n"
-"<strong>%(fulfilled)s</strong> out of <strong>%(needed)s</strong> "
-"volunteers\n"
-msgstr ""
-"\n"
-"Събрани <strong>%(fulfilled)s</strong> от <strong>%(needed)s</strong>\n"
-
-#: projects/templates/projects/project_stats.html:40
-msgid "End date"
-msgstr "Крайна дата"
+"Събрани <strong>%(fulfilled)s</strong> от <strong>%(needed)s</strong> доброволци\n"
+"  "
 
 #: projects/templates/projects/questions_form.html:13
 #: projects/templates/projects/timenecessity_list.html:12
@@ -2284,6 +2276,18 @@ msgstr ""
 #: venv/lib/python3.8/site-packages/wagtail/tests/testapp/templates/tests/form_page_with_custom_submission.html:21
 msgid "You must log in first."
 msgstr ""
+
+#, python-format
+#~ msgid ""
+#~ "\n"
+#~ "<strong>%(fulfilled)s</strong> out of <strong>%(needed)s</strong> "
+#~ "things \n"
+#~ msgstr ""
+#~ "\n"
+#~ "Събрани <strong>%(fulfilled)s</strong> от <strong>%(needed)s</strong>\n"
+
+#~ msgid "End date"
+#~ msgstr "Крайна дата"
 
 #~ msgid "Follow some causes/businesses to see their activity here"
 #~ msgstr "Следвай каузи и задруги"
