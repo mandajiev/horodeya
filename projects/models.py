@@ -563,7 +563,7 @@ class MoneySupport(Support):
         return accepted
 
     def __str__(self):
-        return "%s (%s)" % (self.user.first_name, self.leva)
+        return "%s (%s)" % (self.user.first_name, self.leva) + (" %s %s" % (gettext_lazy('for'), self.necessity) if self.necessity else "")
 
 #TODO notify in feed
 class ThingSupport(Support):

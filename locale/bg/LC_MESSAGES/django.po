@@ -684,7 +684,7 @@ msgstr "Подкрепи с парично дарение"
 
 #: projects/templates/projects/project_detail.html:131
 #: projects/templates/projects/project_stats.html:16
-msgid "Support with material donation"
+msgid "Support with material resources"
 msgstr "Подкрепи с материални ресурси"
 
 #: projects/templates/projects/project_detail.html:135
