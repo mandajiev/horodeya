@@ -283,7 +283,7 @@ class Announcement(Timestamped, Activity):
         }
 
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
-    text = models.TextField(verbose_name='announcement')
+    text = models.TextField(verbose_name=gettext_lazy('announcement'))
 
     @property
     def activity_author_feed(self):
@@ -563,7 +563,7 @@ class MoneySupport(Support):
         return accepted
 
     def __str__(self):
-        return "%s (%s)" % (self.user.first_name, self.leva) + (" %s %s" % (gettext_lazy('for'), self.necessity) if self.necessity else "")
+        return "%s (%s)" % (self.user.first_name, self.leva) + (" for %s" % self.necessity if self.necessity else "")
 
 #TODO notify in feed
 class ThingSupport(Support):

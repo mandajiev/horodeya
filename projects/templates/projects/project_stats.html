@@ -2,23 +2,7 @@
 {% load projects_tags %}
 
 <div>
-  <div>
-  {% blocktrans with collected=project.money_support|leva needed=project.money_needed|leva %}
-  Collected <strong>{{collected}}</strong> out of <strong>{{needed}}</strong>
-  {% endblocktrans %}
-  </div>
-  <div class="progress">
-    <div class="progress-bar bg-secondary rounded-sm" role="progressbar" style="width:{{ project.money_support_percent }}%"></div>
-  </div>
-
-  {% if not short %}
-    <a class="btn btn-primary mt-3" href="{% url 'projects:money_support_create' project.pk %}">{% trans 'Support with money donation' %}</a>
-    <a class="btn btn-primary mt-3" href="{% url 'projects:money_support_create' project.pk %}">{% trans 'Support with material resources' %}</a>
-  {% else %}
-  <hr>
-  {% endif %}
-
-  <div class="{% if short %} mt-1 {% else %} mt-5 {% endif %}">
+  <div class="">
   {% blocktrans with fulfilled=project.time_fulfilled needed=project.time_needed %}
   Collected <strong>{{fulfilled}}</strong> out of <strong>{{needed}}</strong> volunteers
   {% endblocktrans %}
@@ -28,6 +12,33 @@
   </div>
 
   {% if not short %}
-    <a class="btn btn-primary mt-3" href="{% url 'projects:time_support_create' project.pk %}">{% trans 'Volunteer' %}</a>
+    {% if admin %}
+      <a class="btn btn-primary mt-3" href="{% url 'projects:time_necessity_list' project.pk %}">{% trans 'See applications' %}</a>
+      <a class="btn btn-primary mt-3" href="{% url 'projects:time_necessity_update' project.pk %}">{% trans 'Update volunteer types' %}</a>
+    {% else %}
+      <a class="btn btn-primary mt-3" href="{% url 'projects:time_support_create' project.pk %}">{% trans 'Volunteer' %}</a>
+    {% endif %}
+
+  {% else %}
+  <hr>
+  {% endif %}
+
+  <div class="{% if short %} mt-1 {% else %} mt-5 {% endif %}">
+  {% blocktrans with collected=project.money_support|leva needed=project.money_needed|leva %}
+  Collected <strong>{{collected}}</strong> out of <strong>{{needed}}</strong>
+  {% endblocktrans %}
+  </div>
+  <div class="progress">
+    <div class="progress-bar bg-secondary rounded-sm" role="progressbar" style="width:{{ project.money_support_percent }}%"></div>
+  </div>
+
+  {% if not short %}
+    {% if admin %}
+      <a class="btn btn-primary mt-3" href="{% url 'projects:thing_necessity_list' project.pk %}">{% trans 'See donations' %}</a>
+      <a class="btn btn-primary mt-3" href="{% url 'projects:thing_necessity_update' project.pk %}">{% trans 'Update necessities' %}</a>
+    {% else %}
+      <a class="btn btn-primary mt-3" href="{% url 'projects:money_support_create' project.pk %}">{% trans 'Support with money donation' %}</a>
+      <a class="btn btn-primary mt-3" href="{% url 'projects:money_support_create' project.pk %}">{% trans 'Support with material resources' %}</a>
+    {% endif %}
   {% endif %}
 </div>

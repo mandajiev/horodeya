@@ -176,8 +176,12 @@ class ProjectDetails(AutoPermissionRequiredMixin, generic.DetailView):
     model = Project
 
     def get_context_data(self, **kwargs):
-
         context = super().get_context_data(**kwargs)
+        show_admin = self.request.GET.get('show_admin', 'True') == 'True'
+        can_be_admin = self.request.user.member_of(context['object'].community_id)
+        context['admin'] = show_admin and can_be_admin 
+        context['can_be_admin'] = can_be_admin
+
         try:
             feed = feed_manager.get_feed('project', context['object'].id)
             enricher = Enrich()

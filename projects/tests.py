@@ -60,7 +60,7 @@ class MoneySupportTestCase(TestCase):
 
         self.assertQuerysetEqual(ThingSupport.objects.all(), 3*['<ThingSupport: Test (test thing necessity)>'], ordered=False)
 
-        self.assertQuerysetEqual(MoneySupport.objects.filter(comment='reminder from %d' % money_support.id ).all(), ['<MoneySupport: Test (100.0)>'])
+        self.assertQuerysetEqual(MoneySupport.objects.filter(comment='reminder from %d' % money_support.id ).all(), ['<MoneySupport: Test (100.0) for test thing necessity>'])
 
     def test_little(self):
         """When a little money support is accepted no thing support is created"""

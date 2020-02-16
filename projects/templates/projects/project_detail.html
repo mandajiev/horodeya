@@ -10,11 +10,15 @@
 {% endblock %}
 
 {% block admin_tools %}
+{% if admin %}
   <li class="nav-item flex-fill text-center ">
-    <a class="nav-link text-white" href="{% url 'projects:thing_necessity_list' object.pk %}">{% trans 'Donations' %}</a>
+    <a class="nav-link text-white" href="{% url 'projects:details' object.pk %}?show_admin=false">{% trans 'See as regular user' %}</a>
   </li>
   <li class="nav-item flex-fill text-center ">
     <a class="nav-link text-white" href="{% url 'projects:time_necessity_list' object.pk %}">{% trans 'Volunteers' %}</a> </li>
+  <li class="nav-item flex-fill text-center ">
+    <a class="nav-link text-white" href="{% url 'projects:thing_necessity_list' object.pk %}">{% trans 'Donations' %}</a>
+  </li>
   <li class="nav-item flex-fill text-center ">
     <a class="nav-link text-white" href="{% url 'projects:report_create' object.pk %}">{% trans 'New report' %}</a>
   </li>
@@ -24,11 +28,15 @@
   <li class="nav-item flex-fill text-center ">
     <a class="nav-link text-white" href="{% url 'projects:update' project.pk %}">{% trans 'Update cause' %}</a>
   </li>
+{% elif can_be_admin %}
+  <li class="nav-item flex-fill text-center ">
+    <a class="nav-link text-white" href="{% url 'projects:details' object.pk %}">{% trans 'See as admin' %}</a>
+  </li>
+{% endif %}
 {% endblock %}
 
 {% block content %}
-  {% member_of user object.community_id as admin %}
-  {% if admin %}
+  {% if can_be_admin %}
     {{ block.super }}
   {% endif %}
   <script>
@@ -42,7 +50,9 @@
   <div class="row mt-4">
     <div class="col-md-8">
       {% if object.gallery.public|length == 0 %}
-        <a href="{% url 'projects:gallery_update' object.id %}">{% trans "Add image" %}</a>
+        {% if admin %}
+          <a class="btn btn-link" href="{% url 'projects:gallery_update' object.id %}">{% trans "Add image" %}</a>
+        {% endif %}
       {% else %}
         {% with object.gallery.public|first as image %}
           <img id="image" src="{{image.get_details_url}}" alt="{{image.title}}" class="card-img">
@@ -56,9 +66,11 @@
     </div>
     <div class="col-md-4 mt-4">
 
-      {% include "projects/project_stats.html" with project=object only %}
-
-      <a class="btn btn-outline-primary mt-5" href="{% url 'projects:follow_project' object.pk %}">{% trans 'Follow the cause' %}</a>
+      {% include "projects/project_stats.html" with project=object %}
+      {% if admin %}
+      {% else %}
+        <a class="btn btn-outline-primary mt-5" href="{% url 'projects:follow_project' object.pk %}">{% trans 'Follow the cause' %}</a>
+      {% endif %}
     </div>
   </div>
   <div class=" mt-1">
@@ -106,7 +118,12 @@
       {% endfor %}
     </ul>
     {% endwith %}
-    <a class="btn btn-primary mt-3" href="{% url 'projects:time_support_create' object.pk %}">{% trans 'Volunteer' %}</a>
+    {% if admin %}
+      <a class="btn btn-primary mt-3" href="{% url 'projects:time_necessity_list' project.pk %}">{% trans 'See applications' %}</a>
+      <a class="btn btn-primary mt-3" href="{% url 'projects:time_necessity_update' project.pk %}">{% trans 'Update volunteer types' %}</a>
+    {% else %}
+      <a class="btn btn-primary mt-3" href="{% url 'projects:time_support_create' object.pk %}">{% trans 'Volunteer' %}</a>
+    {% endif %}
   </div>
 
   <div id="donate" class="col-8 mt-5 p-0">
@@ -127,14 +144,19 @@
     </ul>
     {% endwith %}
 
-    <a class="btn btn-primary mt-3" href="{% url 'projects:money_support_create' project.pk %}">{% trans 'Support with money donation' %}</a>
-    <a class="btn btn-primary mt-3" href="{% url 'projects:money_support_create' project.pk %}">{% trans 'Support with material resources' %}</a>
+    {% if admin %}
+      <a class="btn btn-primary mt-3" href="{% url 'projects:thing_necessity_list' project.pk %}">{% trans 'See donations' %}</a>
+      <a class="btn btn-primary mt-3" href="{% url 'projects:thing_necessity_update' project.pk %}">{% trans 'Update necessities' %}</a>
+    {% else %}
+      <a class="btn btn-primary mt-3" href="{% url 'projects:money_support_create' project.pk %}">{% trans 'Support with money donation' %}</a>
+      <a class="btn btn-primary mt-3" href="{% url 'projects:money_support_create' project.pk %}">{% trans 'Support with material resources' %}</a>
+    {% endif %}
   </div>
 
   <div id="reports" class="col-8 p-0 mt-5">
     <h5>{% trans 'Reports' %}</h5>
     <p>{% trans 'Regular reports allow for transparency and accountability. Read the reports from the cause.' %} </p>
-    <table class="table">
+    <table class="table mb-0">
       <thead>
         <tr>
           <th scope='col'>{% trans 'Description' %}</th>
@@ -151,18 +173,27 @@
             <a class="btn-link" href="{{report.get_absolute_url}}">{% trans 'Read' %}</a></td>
         </tr>
         {% endfor %}
-        <tr><td colspan="3">{% blocktrans with more=latest_reports.1 %}
-    + {{more}} more
-    {% endblocktrans %}
+        <tr>
+          <td colspan="3">
+            {% blocktrans with more=latest_reports.1 %}
+            + {{more}} more
+            {% endblocktrans %}
 
-    <a class="btn-link" href="{% url 'projects:report_list' project.pk %}"> {% trans 'see all' %} </a>
-          </td></tr>
-    </table>
+            <a class="btn-link" href="{% url 'projects:report_list' project.pk %}"> {% trans 'see all' %} </a>
+          </td>
+        </tr>
     {% endwith %}
+    </table>
+    {% if admin %}
+      <a class="btn btn-primary" href="{% url 'projects:report_create' project.pk %}">{% trans 'Add new report' %}</a>
+    {% endif %}
   </div>
 
-  <h3>{% trans 'Announcements' %}
+  <h3 class="mt-5">{% trans 'Announcements' %}
+    {% if admin %}
+    {% else %}
       <a class="btn btn-outline-primary" href="{% url 'projects:follow_project' object.pk %}">{% trans 'Follow the cause' %}</a>
+    {% endif %}
   </h3>
   {% if admin %}
   <form method="post" class="form" action="{% url 'projects:announcement_create' object.pk %}" >
