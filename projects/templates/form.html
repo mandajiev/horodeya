@@ -9,7 +9,10 @@
     {% csrf_token %}
     {% bootstrap_form form %}
     {% buttons %}
-    <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
+    <button type="submit" class="btn btn-primary">
+      {% block savetext %}
+        {% trans 'Save' %}</button>
+      {% endblock %}
     {% if form.instance.pk %}
       {% block delete %}
         {% if delete_label %}

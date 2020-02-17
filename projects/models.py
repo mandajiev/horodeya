@@ -21,7 +21,7 @@ from stream_django.activity import Activity
 
 from requests.exceptions import ConnectionError
 
-from django.utils.translation import gettext, gettext_lazy
+from django.utils.translation import gettext, gettext_lazy as _
 
 from photologue.models import Photo, Gallery
 
@@ -84,9 +84,10 @@ class Community(Timestamped):
     text = models.TextField()
     bulstat = models.DecimalField(blank=True, null=True, max_digits=20, decimal_places=0)
     email = models.EmailField()
-    phone = models.DecimalField(max_digits=20, decimal_places=0)
+    phone = models.DecimalField(blank=True, null=True, max_digits=20, decimal_places=0)
     admin = models.ForeignKey('User', on_delete=models.PROTECT)
-    payment = models.TextField()
+    iban = models.TextField(blank=True, null=True)
+    revolut_phone = models.DecimalField(blank=True, null=True, max_digits=20, decimal_places=0)
     bal = models.IntegerField(default=20, validators=[MaxValueValidator(100)])
     photo = models.ForeignKey(Photo, on_delete=models.SET_NULL, null=True)
 
@@ -283,7 +284,7 @@ class Announcement(Timestamped, Activity):
         }
 
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
-    text = models.TextField(verbose_name=gettext_lazy('announcement'))
+    text = models.TextField(verbose_name=_('announcement'))
 
     @property
     def activity_author_feed(self):
@@ -468,7 +469,7 @@ class Support(Timestamped):
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     
-    comment = models.TextField(blank=True)
+    comment = models.TextField(blank=True, verbose_name=_('Do you have a comment'))
     STATUS = Choices(
             'review',
             'delivered',
@@ -539,8 +540,14 @@ class MoneySupport(Support):
             "list-user": myself
         }
 
-    necessity = models.ForeignKey(ThingNecessity, on_delete=models.PROTECT, related_name='money_supports', null=True, blank=True)
-    leva = models.FloatField()
+    necessity = models.ForeignKey(ThingNecessity, on_delete=models.PROTECT, related_name='money_supports', null=True, blank=True, verbose_name=_('Which necessity do you wish to donate to'))
+    leva = models.FloatField(verbose_name=_('How much do you wish to donate'))
+    anonymous = models.BooleanField(default=False, verbose_name=_('I wish to remain anonymous'), help_text=_('Check if you want your name to be hidden'))
+
+    PAYMENT_METHODS = Choices(
+            ('Bank Transfer', _('Bank Transfer')),
+            ('Revolut', _('Revolut')))
+    payment_method = models.CharField(max_length=20, choices=PAYMENT_METHODS, verbose_name=_('Choose a payment method'), default='Unspecified')
 
     def get_absolute_url(self):
         return reverse('projects:money_support_details', kwargs={'pk': self.pk})

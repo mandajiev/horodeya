@@ -441,7 +441,10 @@ def report_vote(request, pk, action):
 class MoneySupportForm(ModelForm):
     class Meta:
         model = MoneySupport
-        fields = ['necessity', 'leva', 'comment']
+        fields = ['leva', 'necessity', 'comment', 'anonymous', 'payment_method']
+        widgets = {
+            'payment_method': forms.RadioSelect()
+        }
 
     def __init__(self, *args, **kwargs):
         if 'project' in kwargs:
