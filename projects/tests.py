@@ -16,7 +16,6 @@ class MoneySupportTestCase(TestCase):
             email='test@email.com',
             phone='000',
             admin=admin,
-            payment='IBAN: XXX',
             )
         project = Project.objects.create(
             type='c',
