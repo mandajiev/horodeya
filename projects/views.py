@@ -28,7 +28,7 @@ from rules.contrib.views import AutoPermissionRequiredMixin, permission_required
 
 from projects.models import Project, Community, Report, MoneySupport, TimeSupport, User, Announcement, TimeNecessity, ThingNecessity, Question, QuestionPrototype
 
-from projects.forms import QuestionForm
+from projects.forms import QuestionForm, PaymentForm 
 
 from tempus_dominus.widgets import DateTimePicker, DatePicker
 
@@ -247,9 +247,11 @@ class ProjectDelete(AutoPermissionRequiredMixin, DeleteView):
     model = Project
     success_url = '/'
 
+COMMUNITY_FIELDS = ['name', 'bulstat', 'email', 'phone', 'bank_account_name', 'bank_account_iban', 'revolut_phone']
+
 class CommunityCreate(AutoPermissionRequiredMixin, CreateView):
     model = Community
-    fields = ['name', 'bulstat', 'email', 'phone', 'payment']
+    fields = COMMUNITY_FIELDS
 
     def form_valid(self, form):
         user = self.request.user
@@ -258,7 +260,7 @@ class CommunityCreate(AutoPermissionRequiredMixin, CreateView):
 
 class CommunityUpdate(AutoPermissionRequiredMixin, UpdateView):
     model = Community
-    fields = ['name', 'bulstat', 'email', 'phone', 'admin', 'payment']
+    fields = COMMUNITY_FIELDS
 
     def form_valid(self, form):
         admin = form.instance.admin
@@ -458,6 +460,7 @@ class MoneySupportForm(ModelForm):
             project = kwargs.get('instance').project
 
         self.fields['necessity'].queryset = project.thingnecessity_set
+        self.fields['necessity'].empty_label = _('Any will do')
 
 class MoneySupportCreate(AutoPermissionRequiredMixin, CreateView):
     model = MoneySupport
@@ -503,6 +506,54 @@ class MoneySupportUpdate(AutoPermissionRequiredMixin, UpdateView):
         context['project'] = self.object.project
 
         return context
+    
+@permission_required('projects.create_money_support', fn=objectgetter(Project, 'project_id'))
+def money_support_create(request, project_id=None):
+    return money_support_crud(request, project_id=project_id)
+@permission_required('projects.update_money_support', fn=objectgetter(MoneySupport, 'support_id'))
+def money_support_update(request, project_id=None, support_id=None):
+    return money_support_crud(request, support_id=support_id)
+
+def money_support_crud(request, project_id=None, support_id=None):
+    Form = MoneySupportForm
+    template = 'projects/support_form.html'
+    if project_id:
+        project = get_object_or_404(Project, pk=project_id)
+        support = None
+    else:
+        support = get_object_or_404(MoneySupport, pk=support_id)
+        project = support.project
+
+    payment_form = None
+    action_text = _('Next step')
+    if request.method == 'GET':
+        form = Form(instance=support, project=project, prefix='step_1')
+
+    elif request.method == 'POST':
+        form = Form(request.POST, instance=support, project=project, prefix='step_1')
+        if form.is_valid():
+            if 'go_back' in request.POST:
+                payment_form = None
+            elif 'step_2-instructions' in request.POST:
+                # We only validate data if this is a step_2 submit, if only a step_1 submit  validation on step_2 printed on the form may confuse the user
+                payment_form = PaymentForm(request.POST, payment_method=form.cleaned_data['payment_method'], payment_amount=form.cleaned_data['leva'], community=project.community, prefix='step_2')
+            else:
+                payment_form = PaymentForm(payment_method=form.cleaned_data['payment_method'], payment_amount=form.cleaned_data['leva'], community=project.community, prefix='step_2')
+
+            if payment_form:
+                action_text = payment_form.action_text
+                if payment_form.is_valid():
+                    form.instance.project = project
+                    form.instance.user = request.user
+                    form.save()
+                    return redirect(form.instance)
+
+    return render(request, template, {
+        'form': form,
+        'project': project,
+        'action_text': action_text,
+        'payment_form': payment_form
+    })
 
 class MoneySupportDetails(AutoPermissionRequiredMixin, generic.DetailView):
     model = MoneySupport

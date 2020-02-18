@@ -1,0 +1,12 @@
+{% load i18n %}
+<ul class="list-group">
+  <li class="list-group-item">
+    <strong>{% trans "Holder Name" %}</strong>: {{data.bank_account_name}}
+  </li>
+  <li class="list-group-item">
+    <strong>{% trans "IBAN" %}</strong>: {{data.bank_account_iban}}
+  </li>
+  <li class="list-group-item">
+    <strong>{% trans "Bank Code" %}</strong>: {{data.bank_account_bank_code}}
+  </li>
+</ul>

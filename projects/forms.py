@@ -1,7 +1,9 @@
 from django import forms
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext as _
 from django.utils.translation import get_language
-from projects.models import Answer
+from projects.models import Answer, MoneySupport
+from django.utils.text import slugify
+from projects.templatetags.projects_tags import leva
 
 def question_key(question):
     return 'question_%d' % question.pk
@@ -55,3 +57,34 @@ class QuestionForm(forms.Form):
                     project=project,
                     question=self.questions[question],
                     defaults={'answer': value})
+
+class PaymentForm(forms.Form):
+    def __init__ (self, *args, **kwargs):
+        payment_method = kwargs.pop('payment_method')
+        payment_amount = kwargs.pop('payment_amount')
+        community = kwargs.pop('community')
+        super(PaymentForm, self).__init__(*args, **kwargs)
+    
+        self.unsupported = False
+
+        self.template = 'projects/payment/' + slugify(payment_method) + '.html'
+        self.payment_data = community
+        pledge_action_text = _('Pledge to donate') + ' ' + leva(payment_amount)
+
+
+        if payment_method == MoneySupport.PAYMENT_METHODS.BankTransfer:
+            if not community.bank_account_iban:
+                self.unsupported = True
+
+            self.fields['accept'] = forms.BooleanField(label=_('I will send the money to the provided bank account within the next 3 days'), disabled=self.unsupported, help_text=_("Otherwise the support will be marked invalid"))
+            self.action_text = pledge_action_text
+        elif payment_method == MoneySupport.PAYMENT_METHODS.Revolut:
+            if not community.revolut_phone:
+                self.unsupported = True
+
+            self.fields['accept'] = forms.BooleanField(label=_('I will send the money to the provided Revolut account within the next 3 days'), disabled=self.unsupported, help_text=_("Otherwise the support will be marked invalid"))
+            self.action_text = pledge_action_text
+
+        if self.unsupported:
+            self.template = 'projects/payment/unsupported.html'
+

@@ -86,7 +86,9 @@ class Community(Timestamped):
     email = models.EmailField()
     phone = models.DecimalField(blank=True, null=True, max_digits=20, decimal_places=0)
     admin = models.ForeignKey('User', on_delete=models.PROTECT)
-    iban = models.TextField(blank=True, null=True)
+    bank_account_iban = models.CharField(blank=True, null=True, max_length=34)
+    bank_account_bank_code = models.CharField(blank=True, null=True, max_length=34)
+    bank_account_name = models.CharField(blank=True, null=True, max_length=100)
     revolut_phone = models.DecimalField(blank=True, null=True, max_digits=20, decimal_places=0)
     bal = models.IntegerField(default=20, validators=[MaxValueValidator(100)])
     photo = models.ForeignKey(Photo, on_delete=models.SET_NULL, null=True)
@@ -545,7 +547,7 @@ class MoneySupport(Support):
     anonymous = models.BooleanField(default=False, verbose_name=_('I wish to remain anonymous'), help_text=_('Check if you want your name to be hidden'))
 
     PAYMENT_METHODS = Choices(
-            ('Bank Transfer', _('Bank Transfer')),
+            ('BankTransfer', _('Bank Transfer')),
             ('Revolut', _('Revolut')))
     payment_method = models.CharField(max_length=20, choices=PAYMENT_METHODS, verbose_name=_('Choose a payment method'), default='Unspecified')
 
