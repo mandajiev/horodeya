@@ -965,7 +965,10 @@ msgid ""
 "\n"
 " Apply as a volunteer for the cause %(cause)s from %(community)s\n"
 "  "
-msgstr "Кандидатствай за доброволец за каузата %(cause)s на %(community)s\n"
+msgstr ""
+"\n"
+"Кандидатствай за доброволец за каузата %(cause)s на %(community)s\n"
+"  "
 
 #: projects/templates/projects/time_support_create.html:54
 msgid "Apply"
