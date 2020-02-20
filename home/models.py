@@ -54,10 +54,18 @@ class HomePage(Page):
 
 
 class AboutUs(Page):
+
     body = StreamField([
-        ('text', blocks.RichTextBlock()),
-        ('image', ImageChooserBlock()),
-    ])
+        ('text', blocks.TextBlock()),
+        ('heroImage', ImageChooserBlock()),
+        ('person', blocks.StructBlock([
+            ('name', blocks.TextBlock()),
+            ('role', blocks.TextBlock()),
+            ('info', blocks.TextBlock()),
+            ('photo', ImageChooserBlock()),
+            ('order', blocks.IntegerBlock()),
+        ],
+            template='home/blocks/person.html'))])
 
     content_panels = Page.content_panels + [
         StreamFieldPanel('body'),

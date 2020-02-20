@@ -1,48 +1,47 @@
 {% load static %} {% load wagtailcore_tags %}
-<div  class="row">
-  <div class="col-md-6">
-<div class="card mb-3" style="width: 340px;">
-    <div class="card bg-dark text-white">
+<div class="row d-flex justify-content-center">
+  <div class="col-12 col-sm-8 col-md-8 col-lg-4">
+    <div class="card mb-3 ml-auto mr-auto" style="width: 16rem;">
       <img
-        class="card-img"
-        src="holder.js/340x300?bg=000000"
+        style="max-width:100%;height:auto"
+        class="card-img img-fluid"
+        src="media\images\68680179_2504972962859590_1023502586516340736_o.original.jpg"
         alt="Card image"
       />
-      <div class="card-img-overlay d-flex flex-column">
+      <div class="card-img-overlay d-flex flex-column justify-content-center">
         <h5 class="card-title">{{ value.heading1 }}</h5>
         <p class="card-text align-self-center">{{ value.text1 }}</p>
-        <a
-          class="card-link btn btn-block btn-primary mt-auto"
-          style="width: 260px; margin-left: auto; margin-right: auto;"
-          href="{% pageurl value.page1 %}"
-          >Научи повече
-        </a>
+        <div class="link d-flex">
+          <a
+            class=" card-link btn btn-block btn-sample mt-auto"
+            href="{% pageurl value.page1 %}"
+            >Научи повече
+          </a>
+        </div>
       </div>
     </div>
-</div>
-</div>
+  </div>
 
-
-<div class="col-md-6">
-<div class="card ml-3 mb-3" style="width: 340px;">
-    <div class="card  bg-dark text-white">
+  <div class="col-12 col-sm-8 col-md-8 col-lg-4  ">
+    <div class="card mb-3 ml-auto mr-auto" style="width: 16rem;">
       <img
-        class="card-img"
-        src="holder.js/340x300?bg=000000"
+        style="max-width:100%;height:auto"
+        class="card-img img-fluid"
+        src="media\images\68680179_2504972962859590_1023502586516340736_o.original.jpg"
         alt="Card image"
       />
-      <div class="card-img-overlay d-flex flex-column">
+      <div class="card-img-overlay d-flex flex-column justify-content-center">
         <h5 class="card-title">{{ value.heading2 }}</h5>
         <p class="card-text align-self-center">{{ value.text2 }}</p>
-        <a
-          class=" card-link btn btn-block btn-primary mt-auto"
-          style="width: 260px; margin-left: auto; margin-right: auto;"
-          href="{% pageurl value.page1 %}"
-          >Научи повече
-        </a>
+        <div class="link d-flex">
+          <a
+            class=" card-link btn btn-block btn-sample mt-auto"
+            href="{% pageurl value.page1 %}"
+            >Научи повече
+          </a>
+        </div>
       </div>
     </div>
+  </div>
 </div>
-</div>
-</div>
-</div>
+

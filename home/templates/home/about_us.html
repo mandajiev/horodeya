@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags wagtailimages_tags %}
 {% load i18n %}
 {% load activity_tags %}
 
@@ -10,14 +10,29 @@
 
 
 
-  <div class="col-9">
-    <h3 id="{{page.slug}}"> {{page.title}} </h3>
-    {% include_block page.body %}
-    {% for page in self.get_children.specific %}
+ 
+    {% for block in page.body %}
+    {% if block.block_type == 'heroImage' %}
+    <div class="row" >
+      {% image block.value fill-1400x400-c100 as photo %}
+      <div style="background-size: cover;mb-3">
+    <img class="img-fluid" src="{{photo.url}}">
+  </div>
+  </div>
+    {% elif block.block_type == 'text' %}
+    <div class="row mb-5 mt-5">
+    <div class="col-md-9 "> <p>{{ block.value }}</p></div>
+  </div>
+{% else %}
+        {% include_block block %}
+{% endif %}
+    <!-- {% for page in self.get_children.specific %}
       <h4 id="{{page.slug}}"> {{page.title}} </h4>
       {% include_block page.body %}
+    {% endfor %} -->
     {% endfor %}
   </div>
 </div>
 
 {% endblock %}
+
