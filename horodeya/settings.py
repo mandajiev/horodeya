@@ -298,8 +298,8 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-OIDC_RP_CLIENT_ID = 'horodeya-dev'
-OIDC_RP_CLIENT_SECRET = 'f58de4e7-08c9-4a76-9f40-b11e4a305759'
+OIDC_RP_CLIENT_ID = os.getenv('OIDC_RP_CLIENT_ID')
+OIDC_RP_CLIENT_SECRET = os.getenv('OIDC_RP_CLIENT_SECRET')
 OIDC_OP_AUTHORIZATION_ENDPOINT = 'https://az.otselo.eu/auth/realms/zhiva-mrezha/protocol/openid-connect/auth'
 OIDC_OP_TOKEN_ENDPOINT = 'https://az.otselo.eu/auth/realms/zhiva-mrezha/protocol/openid-connect/token'
 OIDC_OP_USER_ENDPOINT = 'https://az.otselo.eu/auth/realms/zhiva-mrezha/protocol/openid-connect/userinfo'
@@ -307,3 +307,4 @@ OIDC_OP_USER_ENDPOINT = 'https://az.otselo.eu/auth/realms/zhiva-mrezha/protocol/
 LOGOUT_REDIRECT_URL = '/'
 OIDC_RP_SIGN_ALGO = 'RS256'
 OIDC_OP_JWKS_ENDPOINT = 'https://az.otselo.eu/auth/realms/zhiva-mrezha/protocol/openid-connect/certs'
+OIDC_USER_ACCOUNT = 'https://az.otselo.eu/auth/realms/zhiva-mrezha/account'

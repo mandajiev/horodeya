@@ -25,6 +25,8 @@
               env = DB_NAME={{db_name}}
               env = DB_USER={{db_user}}
               env = DB_PASSWORD={{db_password}}
+              env = OIDC_RP_CLIENT_ID={{oidc_client_id}}
+              env = OIDC_RP_CLIENT_SECRET={{oidc_client_secret}}
             processes: 4
             socket: 127.0.0.1:8000
             uid: horodeya

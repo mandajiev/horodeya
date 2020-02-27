@@ -43,17 +43,6 @@
     dest: '{{root}}/manage.sh'
     owner: horodeya
     group: www-data
-    #no_log: true
-
-    #- name: fix permissions 3
-    #  become: yes
-    #  file:
-    #    path: '{{root}}'
-    #    state: directory
-    #    owner: bet-robot
-    #    group: www-data
-    #    #mode: u=rwx,g=rwx,o=r
-    #    recurse: yes
 
 - name: install python dependencies
   become: yes

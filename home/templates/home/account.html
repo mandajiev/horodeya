@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 
-{% load account %}
 {% load i18n %}
 {% load static %}
 
@@ -11,13 +10,7 @@
 {% block admin_tools %}
   <a class="nav-link text-white" href="{% url 'projects:user_photo_update' user.id %}">{% trans "Update photo" %}</a>
   <li class="nav-item">
-    <a class="nav-link text-white" href="{% url 'user_update' object.pk %}">Редактирай</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link text-white" href="{% url 'account_email' %}">Промени е-поща</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link text-white" href="{% url 'account_change_password'  %}">Промени парола</a>
+    <a class="nav-link text-white" href="{{ oidc_user_account }}">{% trans 'Update in Living Network' %}</a>
   </li>
 
 {% endblock %}
