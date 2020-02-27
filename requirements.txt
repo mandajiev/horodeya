@@ -3,7 +3,6 @@ certifi==2019.11.28
 chardet==3.0.4
 defusedxml==0.6.0
 Django==2.2.8
-django-allauth==0.40.0
 django-anymail==7.0.0
 django-autocomplete-light==3.5.0
 django-bootstrap4==1.0.1
@@ -45,5 +44,6 @@ ExifRead==2.1.2
 django-model-utils==4.0.0
 boto3==1.11.5
 botocore==1.14.5
-## The following requirements were added by pip freeze:
 django-storages==1.9.1
+## The following requirements were added by pip freeze:
+mozilla-django-oidc==1.2.3
