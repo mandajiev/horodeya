@@ -105,6 +105,6 @@
   become: yes
   become_user: horodeya
   copy:
-    src: files/id_rsa_horodeya_repo
+    src: files/id_rsa_repo
     dest: "{{repo_key_file}}"
     mode: 0600
