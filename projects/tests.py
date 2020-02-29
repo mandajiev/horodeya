@@ -23,7 +23,6 @@ class MoneySupportTestCase(TestCase):
             description='',
             text='',
             community=community,
-            published=True,
             )
         necessity = ThingNecessity.objects.create(
             project=project,
