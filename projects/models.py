@@ -548,7 +548,9 @@ class MoneySupport(Support):
 
     PAYMENT_METHODS = Choices(
             ('BankTransfer', _('Bank Transfer')),
-            ('Revolut', _('Revolut')))
+            ('Revolut', _('Revolut')),
+            ('Braintree', _('Card')),
+            )
     payment_method = models.CharField(max_length=20, choices=PAYMENT_METHODS, verbose_name=_('Choose a payment method'), default='Unspecified')
 
     def get_absolute_url(self):

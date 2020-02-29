@@ -1,0 +1,58 @@
+{% load i18n %}
+
+<script src="https://js.braintreegateway.com/web/dropin/1.22.1/js/dropin.min.js"></script>
+<script src="https://js.braintreegateway.com/web/3.58.0/js/client.min.js"></script>
+<script src="https://js.braintreegateway.com/web/3.58.0/js/data-collector.min.js"></script>
+
+<div id="dropin-container"></div>
+<button class="btn btn-primary" id="submit-button" style="display: none"> {{ data.text }} </button>
+<script>
+  braintree.client.create({
+    authorization: '{{ data.client_token }}'
+  }, function (err, clientInstance) {
+    // Creation of any other components...
+
+    braintree.dataCollector.create({
+      client: clientInstance,
+      paypal: true
+    }, function (err, dataCollectorInstance) {
+      if (err) {
+        // Handle error in creation of data collector
+        return;
+      }
+      // At this point, you should access the dataCollectorInstance.deviceData value and provide it
+      // to your server, e.g. by injecting it into your form as a hidden input.
+      var deviceData = dataCollectorInstance.deviceData;
+      create_dropin(deviceData);
+    });
+  });
+
+  var button = document.querySelector('#submit-button');
+
+function create_dropin(deviceData) {
+  braintree.dropin.create({
+    authorization: '{{ data.client_token }}',
+    container: '#dropin-container'
+  }, function (createErr, instance) {
+    $(button).show();
+    button.addEventListener('click', function () {
+      event.preventDefault();
+      instance.requestPaymentMethod(function (err, payload) {
+        console.log(err);
+        console.log(payload);
+        $.post("{% url 'projects:braintree_payment_create' project.id %}", {
+          amount: '{{ data.amount }}',
+          nonce: payload.nonce,
+          deviceData: deviceData,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+        }, function (data) {
+            console.log(data);
+        }).fail(function (err) {
+          console.log("error", err)
+          console.log(err.responseText)
+        })
+      });
+    });
+  });
+}
+</script>

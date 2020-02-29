@@ -462,51 +462,6 @@ class MoneySupportForm(ModelForm):
         self.fields['necessity'].queryset = project.thingnecessity_set
         self.fields['necessity'].empty_label = _('Any will do')
 
-class MoneySupportCreate(AutoPermissionRequiredMixin, CreateView):
-    model = MoneySupport
-    template_name = 'projects/support_form.html'
-    form_class = MoneySupportForm
-
-    def get_form_kwargs(self):
-        project_pk = self.kwargs['project']
-        project = get_object_or_404(Project, pk=project_pk)
-        kwargs = super().get_form_kwargs()
-        kwargs.update({'project': project})
-        return kwargs
-
-    def get_context_data(self, **kwargs):
-
-        context = super().get_context_data(**kwargs)
-        project_pk = self.kwargs['project']
-        self.project = get_object_or_404(Project, pk=project_pk)
-        context['project'] = self.project
-
-        return context
-
-    def form_valid(self, form):
-        project_pk = self.kwargs['project']
-        self.project = get_object_or_404(Project, pk=project_pk)
-        form.instance.project = self.project
-
-        user = self.request.user
-        form.instance.user = user
-
-        return super().form_valid(form)
-
-#TODO only allow if support is not accepted
-class MoneySupportUpdate(AutoPermissionRequiredMixin, UpdateView):
-    model = MoneySupport
-    template_name = 'projects/support_form.html'
-    form_class=MoneySupportForm
-
-    def get_context_data(self, **kwargs):
-
-        context = super().get_context_data(**kwargs)
-
-        context['project'] = self.object.project
-
-        return context
-    
 @permission_required('projects.create_money_support', fn=objectgetter(Project, 'project_id'))
 def money_support_create(request, project_id=None):
     return money_support_crud(request, project_id=project_id)
@@ -536,9 +491,9 @@ def money_support_crud(request, project_id=None, support_id=None):
                 payment_form = None
             elif 'step_2-instructions' in request.POST:
                 # We only validate data if this is a step_2 submit, if only a step_1 submit  validation on step_2 printed on the form may confuse the user
-                payment_form = PaymentForm(request.POST, payment_method=form.cleaned_data['payment_method'], payment_amount=form.cleaned_data['leva'], community=project.community, prefix='step_2')
+                payment_form = PaymentForm(request.POST, payment_method=form.cleaned_data['payment_method'], payment_amount=form.cleaned_data['leva'], user=request.user, community=project.community, prefix='step_2')
             else:
-                payment_form = PaymentForm(payment_method=form.cleaned_data['payment_method'], payment_amount=form.cleaned_data['leva'], community=project.community, prefix='step_2')
+                payment_form = PaymentForm(payment_method=form.cleaned_data['payment_method'], payment_amount=form.cleaned_data['leva'], user=request.user, community=project.community, prefix='step_2')
 
             if payment_form:
                 action_text = payment_form.action_text

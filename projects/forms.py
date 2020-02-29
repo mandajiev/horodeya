@@ -60,8 +60,9 @@ class QuestionForm(forms.Form):
 
 class PaymentForm(forms.Form):
     def __init__ (self, *args, **kwargs):
-        payment_method = kwargs.pop('payment_method')
-        payment_amount = kwargs.pop('payment_amount')
+        self.payment_method = payment_method = kwargs.pop('payment_method')
+        self.payment_amount = payment_amount = kwargs.pop('payment_amount')
+        user = kwargs.pop('user')
         community = kwargs.pop('community')
         super(PaymentForm, self).__init__(*args, **kwargs)
     
@@ -85,6 +86,58 @@ class PaymentForm(forms.Form):
             self.fields['accept'] = forms.BooleanField(label=_('I will send the money to the provided Revolut account within the next 3 days'), disabled=self.unsupported, help_text=_("Otherwise the support will be marked invalid"))
             self.action_text = pledge_action_text
 
+        elif payment_method == MoneySupport.PAYMENT_METHODS.Braintree:
+            from . import braintree_integration
+            gateway = braintree_integration.gateway
+            client_token = gateway.client_token.generate({
+                #"customer_id": user.pk
+                })
+            self.payment_data = {
+                'client_token': client_token,
+                'text':  _('Donate') + ' ' + leva(payment_amount),
+                'amount': payment_amount}
+            self.action_text = ""
+
         if self.unsupported:
             self.template = 'projects/payment/unsupported.html'
+
+    def clean(self):
+        cleaned_data = super().clean()
+        if self.payment_method == MoneySupport.PAYMENT_METHODS.Braintree:
+            nonce = cleaned_data['nonce']
+            device_data = cleaned_data["device_data"]
+            amount = float(cleaned_data["amount"].replace(',', '.'))
+
+    print("Nonce", nonce)
+    print("Device Data", device_data)
+    print("Amount", amount)
+    from . import braintree_integration
+    result = braintree_integration.gateway.transaction.sale({
+        "amount": str(amount),
+        "payment_method_nonce": nonce,
+        "device_data": device_data,
+        "options": {
+            "submit_for_settlement": True
+        }
+    })
+
+    print("Result", result)
+    if result.is_success:
+        transaction = result.transaction
+        if transaction.status == 'submit_for_settlement':
+            return HttpResponse("ok")
+        #TODO write in DB, confirmed
+        else:
+            response = HttpResponse(transaction.status)
+            response.status_code = 500
+            return response
+    else:
+            response = HttpResponse("error")
+            response.status_code = 500
+            return response
+
+    response = HttpResponse(str(result))
+    response.status_code = 500
+    return response
+
 

@@ -29,16 +29,18 @@
       <h5>{% trans 'Payment' %}</h5>
       <div id="payment">
         <div class="mt-3 mb-3">
-          {% include payment_form.template with data=payment_form.payment_data %}
+          {% include payment_form.template with data=payment_form.payment_data project=project %}
         </div>
         {% bootstrap_form payment_form  %}
       </div>
       {% endif %}
 
       {% buttons %}
-      <button type="submit" class="btn btn-primary" {% if payment_form.unsupported %} disabled {% endif %}>
-        {{action_text}}
-      </button>
+      {% if action_text %}
+        <button type="submit" class="btn btn-primary" {% if payment_form.unsupported %} disabled {% endif %}>
+          {{action_text}}
+        </button>
+      {% endif %}
       {% if payment_form %}
         <button type="submit" name='go_back' class="btn btn-outline-primary">
           {% trans 'Go back' %}

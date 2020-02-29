@@ -28,6 +28,7 @@ urlpatterns = [
     path('report/<int:pk>/vote-down', views.report_vote_down, name='report_vote_down'),
     path('moneysupport/<int:pk>', views.MoneySupportDetails.as_view(), name='money_support_details'),
     path('<int:project_id>/moneysupport/create', views.money_support_create, name='money_support_create'),
+    path('<int:project_id>/moneysupport/create/braintree_payment', views.braintree_payment_create, name='braintree_payment_create'),
     path('moneysupport/<int:support_id>/update', views.money_support_update, name='money_support_update'),
     path('<int:project_id>/timesupport/create', views.time_support_create, name='time_support_create'),
     path('timesupport/<int:pk>', views.TimeSupportDetails.as_view(), name='time_support_details'),
