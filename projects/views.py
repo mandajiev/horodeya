@@ -47,7 +47,7 @@ def short_random():
 class ProjectForm(ModelForm):
     class Meta:
         model = Project
-        fields = ['name', 'description', 'text', 'published', 'community', 'end_date' ]
+        fields = ['name', 'description', 'text', 'community', 'end_date' ]
         widgets = {
             'end_date': DatePicker(
                 options={
@@ -60,7 +60,7 @@ class ProjectForm(ModelForm):
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
-        self.fields['community'].queryset = Community.objects.filter(admin=user)
+        self.fields['community'].queryset = user.communities
 
 class AnnouncementForm(ModelForm):
     class Meta:

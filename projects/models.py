@@ -91,7 +91,7 @@ class Community(Timestamped):
     bank_account_name = models.CharField(blank=True, null=True, max_length=100)
     revolut_phone = models.DecimalField(blank=True, null=True, max_digits=20, decimal_places=0)
     bal = models.IntegerField(default=20, validators=[MaxValueValidator(100)])
-    photo = models.ForeignKey(Photo, on_delete=models.SET_NULL, null=True)
+    photo = models.ForeignKey(Photo, on_delete=models.SET_NULL, blank=True, null=True)
 
     def page_name(self):
         return "%s %s" % (gettext('Community'), self.name)
@@ -149,7 +149,6 @@ class Project(Timestamped):
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=300)
     text = models.TextField()
-    published = models.BooleanField()
     community = models.ForeignKey(Community, on_delete=models.CASCADE)
     end_date = models.DateField(null=True, blank=True)
     gallery = models.ForeignKey(Gallery, on_delete=models.PROTECT, null=True)
