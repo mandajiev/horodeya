@@ -57,7 +57,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'projects.apps.ProjectsConfig',
     'home.apps.HomeConfig',
-    
+
     'anymail',
 
     'django.contrib.admin',
@@ -68,7 +68,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'mozilla_django_oidc',
-    'django.contrib.sites', 
+    'django.contrib.sites',
 
     # Wagtail http://docs.wagtail.io/en/v2.6.2/getting_started/integrating_into_django.html
     'wagtail.contrib.forms',
@@ -87,11 +87,12 @@ INSTALLED_APPS = [
 
     'debug_toolbar',
     'vote',
-    
+
     'photologue',
     'sortedm2m',
 
     'django.contrib.humanize',
+    'django_countries'
 ]
 
 if not TEST:
@@ -241,9 +242,12 @@ LANGUAGES = (
 
 AWS_STORAGE_BUCKET_NAME = 'horodeya-static'
 
+
 def PHOTOLOGUE_PATH(instance, filename):
-    fn = unicodedata.normalize('NFKD', force_text(filename)).encode('ascii', 'ignore').decode('ascii')
+    fn = unicodedata.normalize('NFKD', force_text(filename)).encode(
+        'ascii', 'ignore').decode('ascii')
     return os.path.join(instance.first_directory, instance.second_directory, fn)
+
 
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')

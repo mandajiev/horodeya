@@ -25,6 +25,9 @@ from django.utils.translation import gettext, gettext_lazy as _
 
 from photologue.models import Photo, Gallery
 
+from django_countries.fields import CountryField
+
+
 def determine_community(object):
     if isinstance(object, Project):
         return object.community
@@ -33,13 +36,16 @@ def determine_community(object):
 
     return object
 
+
 @rules.predicate
 def member_of_community(user, object):
     return user.member_of(determine_community(object).id)
 
+
 @rules.predicate
 def admin_of_community(user, object):
     return user == determine_community(object).admin
+
 
 @rules.predicate
 def myself(user, user2):
@@ -48,13 +54,16 @@ def myself(user, user2):
 
     return user == user2.user
 
+
 @rules.predicate
 def has_a_community(user):
     return user.communities.count() > 0
 
+
 @rules.predicate
 def is_accepted(user, support):
     return support.status == support.STATUS.accepted
+
 
 class Timestamped(RulesModelMixin, models.Model, metaclass=RulesModelBase):
     created_at = models.DateTimeField(editable=False)
@@ -70,6 +79,7 @@ class Timestamped(RulesModelMixin, models.Model, metaclass=RulesModelBase):
     class Meta:
         abstract = True
 
+
 class Community(Timestamped):
     class Meta:
         rules_permissions = {
@@ -82,16 +92,21 @@ class Community(Timestamped):
 
     name = models.CharField(max_length=100)
     text = models.TextField()
-    bulstat = models.DecimalField(blank=True, null=True, max_digits=20, decimal_places=0)
+    bulstat = models.DecimalField(
+        blank=True, null=True, max_digits=20, decimal_places=0)
     email = models.EmailField()
-    phone = models.DecimalField(blank=True, null=True, max_digits=20, decimal_places=0)
+    phone = models.DecimalField(
+        blank=True, null=True, max_digits=20, decimal_places=0)
     admin = models.ForeignKey('User', on_delete=models.PROTECT)
     bank_account_iban = models.CharField(blank=True, null=True, max_length=34)
-    bank_account_bank_code = models.CharField(blank=True, null=True, max_length=34)
+    bank_account_bank_code = models.CharField(
+        blank=True, null=True, max_length=34)
     bank_account_name = models.CharField(blank=True, null=True, max_length=100)
-    revolut_phone = models.DecimalField(blank=True, null=True, max_digits=20, decimal_places=0)
+    revolut_phone = models.DecimalField(
+        blank=True, null=True, max_digits=20, decimal_places=0)
     bal = models.IntegerField(default=20, validators=[MaxValueValidator(100)])
-    photo = models.ForeignKey(Photo, on_delete=models.SET_NULL, blank=True, null=True)
+    photo = models.ForeignKey(
+        Photo, on_delete=models.SET_NULL, blank=True, null=True)
 
     def page_name(self):
         return "%s %s" % (gettext('Community'), self.name)
@@ -101,6 +116,7 @@ class Community(Timestamped):
 
     def get_absolute_url(self):
         return reverse('projects:community_details', kwargs={'pk': self.pk})
+
 
 class User(AbstractUser, RulesModelMixin, metaclass=RulesModelBase):
     class Meta:
@@ -133,7 +149,9 @@ class User(AbstractUser, RulesModelMixin, metaclass=RulesModelBase):
     def total_votes_count(self):
         return len(Report.votes.all(self.pk, UP)) + len(Report.votes.all(self.pk, DOWN))
 
-#TODO notify user on new project added
+# TODO notify user on new project added
+
+
 class Project(Timestamped):
     class Meta:
         rules_permissions = {
@@ -170,7 +188,7 @@ class Project(Timestamped):
     def get_absolute_url(self):
         return reverse('projects:details', kwargs={'pk': self.pk})
 
-    #TODO normalize to a field, update on signal
+    # TODO normalize to a field, update on signal
     def supporters_stats(self):
         money_supporters = set()
         time_supporters = set()
@@ -179,7 +197,7 @@ class Project(Timestamped):
         for money_support in self.moneysupport_set.all():
             money_supporters.add(money_support.user)
             money += money_support.leva
-            
+
         for time_support in self.timesupport_set.all():
             time_supporters.add(time_support.user)
             time += time_support.duration()
@@ -237,7 +255,7 @@ class Project(Timestamped):
             s += time.count
 
         return s
-    
+
     def money_still_needed(self):
         return self.money_needed() - self.money_support()
 
@@ -275,6 +293,7 @@ class Project(Timestamped):
     def recent_money_support(self):
         return self.moneysupport_set.order_by('-status_since')
 
+
 class Announcement(Timestamped, Activity):
     class Meta:
         rules_permissions = {
@@ -297,6 +316,7 @@ class Announcement(Timestamped, Activity):
 
     def get_absolute_url(self):
         return reverse('projects:announcement_details', kwargs={'pk': self.pk})
+
 
 class Report(VoteModel, Timestamped, Activity):
     class Meta:
@@ -325,7 +345,9 @@ class Report(VoteModel, Timestamped, Activity):
     def get_absolute_url(self):
         return reverse('projects:report_details', kwargs={'pk': self.pk})
 
-#TODO notify in feed
+# TODO notify in feed
+
+
 class TimeNecessity(Timestamped):
     class Meta:
         rules_permissions = {
@@ -359,7 +381,9 @@ class TimeNecessity(Timestamped):
     def get_absolute_url(self):
         return reverse('projects:time_necessity_details', kwargs={'pk': self.pk})
 
-#TODO notify in feed
+# TODO notify in feed
+
+
 class ThingNecessity(Timestamped):
     class Meta:
         rules_permissions = {
@@ -379,12 +403,11 @@ class ThingNecessity(Timestamped):
         unused_money_support = list(filter(
             lambda s: not s.thingsupport_set.all().exists(),
             self.accepted_money_support()
-            ))
+        ))
 
         price = self.price
         use_supports = []
 
-        
         if self.still_needed() == 0:
             return False
 
@@ -398,12 +421,12 @@ class ThingNecessity(Timestamped):
             remaining = support.leva - price
             while remaining >= 0:
                 thing_support = self.supports.create(
-                        price=self.price,
-                        project=self.project,
-                        user=self.project.community.admin,
-                        comment='Auto generated',
-                        status=Support.STATUS.accepted,
-                        status_since = timezone.now(),
+                    price=self.price,
+                    project=self.project,
+                    user=self.project.community.admin,
+                    comment='Auto generated',
+                    status=Support.STATUS.accepted,
+                    status_since=timezone.now(),
                 )
 
                 thing_support.from_money_supports.set(use_supports)
@@ -419,9 +442,10 @@ class ThingNecessity(Timestamped):
                         project=self.project,
                         user=support.user,
                         comment='reminder from %d' % support.id,
-                        status=Support.STATUS.review, # so that admin is forced to choose Necessity to spend it on
-                        status_since = timezone.now(),
-                        )
+                        # so that admin is forced to choose Necessity to spend it on
+                        status=Support.STATUS.review,
+                        status_since=timezone.now(),
+                    )
                     return True
 
                 if remaining > 0:
@@ -462,6 +486,7 @@ class ThingNecessity(Timestamped):
     def get_absolute_url(self):
         return reverse('projects:thing_necessity_details', kwargs={'pk': self.pk})
 
+
 class Support(Timestamped):
 
     class Meta:
@@ -469,23 +494,25 @@ class Support(Timestamped):
 
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
     user = models.ForeignKey(User, on_delete=models.PROTECT)
-    
-    comment = models.TextField(blank=True, verbose_name=_('Do you have a comment'))
-    STATUS = Choices(
-            'review',
-            'delivered',
-            'accepted',
-            'declined',
-            'expired')
 
-    status = models.CharField(max_length=20, choices=STATUS, default=STATUS.review)
+    comment = models.TextField(
+        blank=True, verbose_name=_('Do you have a comment'))
+    STATUS = Choices(
+        'review',
+        'delivered',
+        'accepted',
+        'declined',
+        'expired')
+
+    status = models.CharField(
+        max_length=20, choices=STATUS, default=STATUS.review)
     status_since = models.DateTimeField(default=timezone.now)
     __original_status = None
 
     def __init__(self, *args, **kwargs):
         super(Support, self).__init__(*args, **kwargs)
         self.__original_status = self.status
-    
+
     def save(self, *args, **kwargs):
         if self.status != self.__original_status:
             self.status_since = timezone.now()
@@ -506,7 +533,7 @@ class Support(Timestamped):
 
         expires = self.delivery_expires()
         if expires and expires < timezone.now():
-            self.status = 'expired' 
+            self.status = 'expired'
             self.save()
             return True
 
@@ -527,7 +554,9 @@ class Support(Timestamped):
 
         return accepted
 
-#TODO notify in feed
+# TODO notify in feed
+
+
 class MoneySupport(Support):
     class Meta:
         rules_permissions = {
@@ -541,14 +570,17 @@ class MoneySupport(Support):
             "list-user": myself
         }
 
-    necessity = models.ForeignKey(ThingNecessity, on_delete=models.PROTECT, related_name='money_supports', null=True, blank=True, verbose_name=_('Which necessity do you wish to donate to'))
+    necessity = models.ForeignKey(ThingNecessity, on_delete=models.PROTECT, related_name='money_supports',
+                                  null=True, blank=True, verbose_name=_('Which necessity do you wish to donate to'))
     leva = models.FloatField(verbose_name=_('How much do you wish to donate'))
-    anonymous = models.BooleanField(default=False, verbose_name=_('I wish to remain anonymous'), help_text=_('Check if you want your name to be hidden'))
+    anonymous = models.BooleanField(default=False, verbose_name=_(
+        'I wish to remain anonymous'), help_text=_('Check if you want your name to be hidden'))
 
     PAYMENT_METHODS = Choices(
-            ('BankTransfer', _('Bank Transfer')),
-            ('Revolut', _('Revolut')))
-    payment_method = models.CharField(max_length=20, choices=PAYMENT_METHODS, verbose_name=_('Choose a payment method'), default='Unspecified')
+        ('BankTransfer', _('Bank Transfer')),
+        ('Revolut', _('Revolut')))
+    payment_method = models.CharField(max_length=20, choices=PAYMENT_METHODS, verbose_name=_(
+        'Choose a payment method'), default='Unspecified')
 
     def get_absolute_url(self):
         return reverse('projects:money_support_details', kwargs={'pk': self.pk})
@@ -561,7 +593,8 @@ class MoneySupport(Support):
 
         if accepted:
             if not self.necessity:
-                raise RuntimeError('Expected necessity to be set when accepting money support')
+                raise RuntimeError(
+                    'Expected necessity to be set when accepting money support')
 
             new_accepted = self.necessity.create_thing_support_from_unused_money_support()
 
@@ -573,7 +606,9 @@ class MoneySupport(Support):
     def __str__(self):
         return "%s (%s)" % (self.user.first_name, self.leva) + (" for %s" % self.necessity if self.necessity else "")
 
-#TODO notify in feed
+# TODO notify in feed
+
+
 class ThingSupport(Support):
     class Meta:
         rules_permissions = {
@@ -587,7 +622,8 @@ class ThingSupport(Support):
             "list-user": myself
         }
 
-    necessity = models.ForeignKey(ThingNecessity, on_delete=models.PROTECT, related_name='supports')
+    necessity = models.ForeignKey(
+        ThingNecessity, on_delete=models.PROTECT, related_name='supports')
     price = models.IntegerField()
     from_money_supports = models.ManyToManyField(MoneySupport, blank=True)
 
@@ -599,6 +635,7 @@ class ThingSupport(Support):
 
     def __str__(self):
         return "%s (%s)" % (self.user.first_name, self.necessity.name)
+
 
 class Answer(Timestamped):
     class Meta:
@@ -615,7 +652,9 @@ class Answer(Timestamped):
     question = models.ForeignKey('Question', on_delete=models.PROTECT)
     answer = models.TextField(null=False, blank=True)
 
-#TODO notify in feed
+# TODO notify in feed
+
+
 class TimeSupport(Support):
     class Meta:
         rules_permissions = {
@@ -629,7 +668,8 @@ class TimeSupport(Support):
         }
         unique_together = ['necessity', 'user']
 
-    necessity = models.ForeignKey(TimeNecessity, on_delete=models.PROTECT, related_name='supports')
+    necessity = models.ForeignKey(
+        TimeNecessity, on_delete=models.PROTECT, related_name='supports')
     price = models.IntegerField()
     start_date = models.DateField()
     end_date = models.DateField()
@@ -657,12 +697,13 @@ class QuestionPrototype(Timestamped):
             "delete": rules.always_deny,
             "change": rules.always_deny,
             "view": rules.always_allow,
-            "list": rules.always_allow 
-            }
+            "list": rules.always_allow
+        }
 
     text_bg = models.CharField(max_length=100, unique=True)
     text_en = models.CharField(max_length=100, unique=True)
-    TYPES = Choices('CharField', 'TextField', 'FileField', 'ChoiceField', 'Necessities')
+    TYPES = Choices('CharField', 'TextField', 'FileField',
+                    'ChoiceField', 'Necessities')
 
     type = models.CharField(max_length=20, choices=TYPES)
     order = models.IntegerField()
@@ -671,6 +712,7 @@ class QuestionPrototype(Timestamped):
     def __str__(self):
         return self.text_bg
 
+
 class Question(Timestamped):
     class Meta:
         rules_permissions = {
@@ -678,9 +720,9 @@ class Question(Timestamped):
             "delete": member_of_community,
             "change": member_of_community,
             "view": rules.always_allow,
-            "list": rules.always_allow 
-            }
-        unique_together=['prototype', 'project']
+            "list": rules.always_allow
+        }
+        unique_together = ['prototype', 'project']
 
     prototype = models.ForeignKey(QuestionPrototype, on_delete=models.PROTECT)
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
@@ -690,6 +732,6 @@ class Question(Timestamped):
 
     def __str__(self):
         return "%s. %s%s" % (self.order, self.prototype, ('*' if self.required else ''))
-    
+
     def text(self):
         return getattr(self.prototype, 'text_%s' % get_language())
