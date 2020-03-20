@@ -118,6 +118,28 @@ class Community(Timestamped):
         return reverse('projects:community_details', kwargs={'pk': self.pk})
 
 
+class DonatorData(Timestamped):
+
+    class Meta:
+        rules_permissions = {
+            "add": rules.is_authenticated,
+            "delete": rules.always_deny,
+            "change": myself,
+            "view": rules.is_authenticated,
+        }
+
+    phone = models.CharField(max_length=20)
+    citizenship = CountryField(max_length=30)
+    domicile = CountryField(max_length=30)
+    postAddress = models.CharField(max_length=20)
+    TIN = models.CharField(max_length=10)
+    passportData = models.CharField(max_length=30)
+    birthdate = models.DateField()
+    placeOfBirth = models.CharField(max_length=30)
+    profession = models.CharField(max_length=30)
+    website = models.CharField(max_length=30, blank=True)
+
+
 class User(AbstractUser, RulesModelMixin, metaclass=RulesModelBase):
     class Meta:
         rules_permissions = {
@@ -130,6 +152,8 @@ class User(AbstractUser, RulesModelMixin, metaclass=RulesModelBase):
     communities = models.ManyToManyField(Community)
     bal = models.IntegerField(default=20, validators=[MaxValueValidator(100)])
     photo = models.ForeignKey(Photo, on_delete=models.SET_NULL, null=True)
+    donatorData = models.OneToOneField(
+        DonatorData, on_delete=models.CASCADE, null=True)
 
     def page_name(self):
         return "%s %s" % (gettext('User'), str(self))
