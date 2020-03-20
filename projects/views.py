@@ -26,7 +26,7 @@ from django.utils.translation import gettext as _
 
 from rules.contrib.views import AutoPermissionRequiredMixin, permission_required, objectgetter
 
-from projects.models import Project, Community, Report, MoneySupport, TimeSupport, User, Announcement, TimeNecessity, ThingNecessity, Question, QuestionPrototype, DonatorData
+from projects.models import Project, Community, Report, MoneySupport, TimeSupport, User, Announcement, TimeNecessity, ThingNecessity, Question, QuestionPrototype, DonatorData, LegalEntityDonatorData
 
 from projects.forms import QuestionForm, PaymentForm
 
@@ -1248,5 +1248,19 @@ class DonatorDataCreate(AutoPermissionRequiredMixin, CreateView):
         data = form.save(commit=False)
         data.save()
         user.donatorData = data
+        user.save()
+        redirect('my_account')
+
+
+class LegalEntityDataCreate(AutoPermissionRequiredMixin, CreateView):
+    model = LegalEntityDonatorData
+    fields = ['name', 'type', 'EIK',
+              'DDORegistration', 'phoneNumber', 'website']
+
+    def form_valid(self, form):
+        user = self.request.user
+        data = form.save(commit=False)
+        data.save()
+        user.legalEntityDonatorData = data
         user.save()
         redirect('my_account')

@@ -118,6 +118,23 @@ class Community(Timestamped):
         return reverse('projects:community_details', kwargs={'pk': self.pk})
 
 
+class LegalEntityDonatorData(Timestamped):
+    class Meta:
+        rules_permissions = {
+            "add": rules.is_authenticated,
+            "delete": rules.always_deny,
+            "change": myself,
+            "view": rules.is_authenticated,
+        }
+
+    name = models.CharField(max_length=50)
+    type = models.CharField(max_length=50)
+    EIK = models.CharField(max_length=50)
+    DDORegistration = models.BooleanField()
+    phoneNumber = models.CharField(max_length=30)
+    website = models.CharField(max_length=30, blank=True)
+
+
 class DonatorData(Timestamped):
 
     class Meta:
@@ -154,6 +171,8 @@ class User(AbstractUser, RulesModelMixin, metaclass=RulesModelBase):
     photo = models.ForeignKey(Photo, on_delete=models.SET_NULL, null=True)
     donatorData = models.OneToOneField(
         DonatorData, on_delete=models.CASCADE, null=True)
+    legalEntityDonatorData = models.OneToOneField(
+        LegalEntityDonatorData, on_delete=models.CASCADE, null=True)
 
     def page_name(self):
         return "%s %s" % (gettext('User'), str(self))

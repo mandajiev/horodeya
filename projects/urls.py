@@ -97,7 +97,8 @@ urlpatterns = [
          views.questions_update, name='volunteer_questions_update'),
     path('<int:project_id>/gallery/update',
          views.gallery_update, name='gallery_update'),
-    path('donatordata/create/', views.DonatorDataCreate.as_view(),
+    path('donator/create/', views.DonatorDataCreate.as_view(),
+         name='donator_create'),
+    path('legalentitydonator/create/', views.LegalEntityDataCreate.as_view(),
          name='donator_create')
-
 ]
