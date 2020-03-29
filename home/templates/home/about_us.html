@@ -15,7 +15,7 @@
     {% if block.block_type == 'heroImage' %}
     <div class="row" >
       {% image block.value fill-1400x400-c100 as photo %}
-      <div style="background-size: cover;mb-3">
+      <div style="background-size: cover;">
     <img class="img-fluid" src="{{photo.url}}">
   </div>
   </div>
@@ -35,4 +35,3 @@
 </div>
 
 {% endblock %}
-

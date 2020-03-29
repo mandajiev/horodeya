@@ -75,7 +75,7 @@
 
               <a class="nav-link {% active задруги %}" href="/задруги/">{% trans 'Businesses' %}</a>
 
-              <a class="nav-link {% active "за-нас" %}" href="/за-нас/">{% trans 'About us' %}</a>
+              <a class="nav-link {% active "за-нас" %}" href="https://horodeya.org/%d1%83%d0%bf%d1%80%d0%b0%d0%b2%d0%bb%d0%b5%d0%bd%d0%b8%d0%b5/">{% trans 'About us' %}</a>
               {% if user.is_authenticated %}
                 <a class="nav-link {% active account %}" href="{% url 'my_account' %}">{% trans 'Account' %}</a>
                 {#<a class="nav-link {% active logout %}" href="{% url 'account_logout' %}">{% trans 'Sign out' %}</a>#}
