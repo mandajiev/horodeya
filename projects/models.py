@@ -107,11 +107,11 @@ class Community(Timestamped):
     type = models.CharField(max_length=50, default='NGO')
     EIK = models.CharField(max_length=50, default=None, null=True)
     DDORegistration = models.BooleanField(default=False)
-    mission = models.TextField(default=None)
+    mission = models.TextField(default=None, null=True)
     numberOfSupporters = models.IntegerField(default=0)
     previousExperience = models.TextField(blank=True)
     mediaLink = models.ForeignKey(
-        MediaLink, on_delete=models.CASCADE, default=None, blank=True)
+        MediaLink, on_delete=models.CASCADE, default=None, blank=True, null=True)
     activityType = models.CharField(
         choices=COMMUNITY_ACTIVYTY_TYPES, max_length=50, default='Art')
     website = models.CharField(max_length=100, blank=True)
@@ -560,7 +560,10 @@ class Support(Timestamped):
         abstract = True
 
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    donatorData = models.ForeignKey(
+        DonatorData, on_delete=models.PROTECT, null=True)
+    legalEntityDonatorData = models.ForeignKey(
+        LegalEntityDonatorData, on_delete=models.PROTECT, null=True)
 
     comment = models.TextField(
         blank=True, verbose_name=_('Do you have a comment'))
@@ -733,7 +736,7 @@ class TimeSupport(Support):
             "mark_delivered": member_of_community,
             "list": member_of_community
         }
-        unique_together = ['necessity', 'user']
+        unique_together = ['necessity', 'donatorData']
 
     necessity = models.ForeignKey(
         TimeNecessity, on_delete=models.PROTECT, related_name='supports')
@@ -750,8 +753,8 @@ class TimeSupport(Support):
     def duration(self):
         return (self.end_date - self.start_date).days
 
-    def __str__(self):
-        return "%s: %s" % (self.necessity, self.user.first_name)
+    # def __str__(self):
+    #     return "%s: %s" % (self.necessity, self.user.first_name)
 
     def ordered_answers(self):
         return self.answer_set.order_by('question__order')

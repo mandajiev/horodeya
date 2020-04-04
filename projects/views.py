@@ -286,12 +286,14 @@ class CommunityCreate(AutoPermissionRequiredMixin, CreateView):
         form.fields['activityType'].widget = forms.RadioSelect(
             attrs=None, choices=COMMUNITY_ACTIVYTY_TYPES)
         form.fields['type'].widget.attrs['readonly'] = True
-        form.fields['mediaLink'].widget = forms.CharField(max)
         return form
 
     def form_valid(self, form):
         user = self.request.user
         form.instance.admin = user
+        community = form.save(commit=False)
+        community.save()
+        user.communities.add(community)
         return super().form_valid(form)
 
 
@@ -519,10 +521,28 @@ class MoneySupportForm(ModelForm):
         self.fields['necessity'].empty_label = _('Any will do')
 
 
+def createMoney(request):
+    donatorData = request.GET.get('type')
+    html = 'projects/createMoney.html'
+
+    if (donatorData == 'person'):
+        if(request.user.donatorData != None):
+            context = {'data': donatorData}
+            return render(request, html, context)
+        else:
+            return redirect('projects/donator/create/')
+
+    else:
+        context = {'data': 'legalEntity'}
+        return render(request, html, context)
+
+
 class MoneySupportCreate(AutoPermissionRequiredMixin, CreateView):
     model = MoneySupport
     template_name = 'projects/support_form.html'
     form_class = MoneySupportForm
+
+    donatorType = ""
 
     def get_form_kwargs(self):
         project_pk = self.kwargs['project']
@@ -535,6 +555,7 @@ class MoneySupportCreate(AutoPermissionRequiredMixin, CreateView):
 
         context = super().get_context_data(**kwargs)
         project_pk = self.kwargs['project']
+        donatorType = self.request.GET.get('type')
         self.project = get_object_or_404(Project, pk=project_pk)
         context['project'] = self.project
 
@@ -546,7 +567,7 @@ class MoneySupportCreate(AutoPermissionRequiredMixin, CreateView):
         form.instance.project = self.project
 
         user = self.request.user
-        form.instance.user = user
+        # form.instance.user = user
 
         return super().form_valid(form)
 
@@ -911,7 +932,8 @@ def time_support_create(request, project_id):
 def time_support_create_update(request, project, support=None):
     context = {}
     context['project'] = project
-    queryset = TimeSupport.objects.filter(project=project, user=request.user)
+    queryset = TimeSupport.objects.filter(
+        project=project, donatorData=request.user.donatorData)
     applied_necessities = set(map(lambda ts: ts.necessity, queryset.all()))
     answers = project.answer_set.all()
 

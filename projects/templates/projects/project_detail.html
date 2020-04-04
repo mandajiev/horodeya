@@ -148,6 +148,7 @@
       <a class="btn btn-primary mt-3" href="{% url 'projects:thing_necessity_list' project.pk %}">{% trans 'See donations' %}</a>
       <a class="btn btn-primary mt-3" href="{% url 'projects:thing_necessity_update' project.pk %}">{% trans 'Update necessities' %}</a>
     {% else %}
+   
       <a class="btn btn-primary mt-3" href="{% url 'projects:money_support_create' project.pk %}">{% trans 'Support with money donation' %}</a>
       <a class="btn btn-primary mt-3" href="{% url 'projects:money_support_create' project.pk %}">{% trans 'Support with material resources' %}</a>
     {% endif %}

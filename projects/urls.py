@@ -42,7 +42,7 @@ urlpatterns = [
          views.report_vote_down, name='report_vote_down'),
     path('moneysupport/<int:pk>', views.MoneySupportDetails.as_view(),
          name='money_support_details'),
-    path('<int:project_id>/moneysupport/create',
+    path('<int:project_id>/moneysupport/create/',
          views.money_support_create, name='money_support_create'),
     path('moneysupport/<int:support_id>/update',
          views.money_support_update, name='money_support_update'),
@@ -65,7 +65,6 @@ urlpatterns = [
          views.support_delivered, name='support_delivered'),
     path('accounts/<int:user_id>/support/<str:type>/list',
          views.user_support_list, name='user_support_list'),
-
     path('accounts/<int:user_id>/photo/update',
          views.user_photo_update, name='user_photo_update'),
     path('accounts/<int:user_id>/vote/list',
@@ -100,5 +99,6 @@ urlpatterns = [
     path('donator/create/', views.DonatorDataCreate.as_view(),
          name='donator_create'),
     path('legalentitydonator/create/', views.LegalEntityDataCreate.as_view(),
-         name='donator_create')
+         name='donator_create'),
+    path('createmoney/', views.createMoney, name="createMoney")
 ]
