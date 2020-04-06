@@ -181,7 +181,7 @@ AUTHENTICATION_BACKENDS = (
     'rules.permissions.ObjectPermissionBackend',
     # Needed to login by username in Django admin
     'django.contrib.auth.backends.ModelBackend',
-    'horodeya.oidc_authentication_backend.MyOIDCAB'
+    'mozilla_django_oidc.auth.OIDCAuthenticationBackend',
 )
 
 # Internationalization
