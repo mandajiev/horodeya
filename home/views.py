@@ -5,14 +5,20 @@ from django.http import JsonResponse
 
 from stream_django.feed_manager import feed_manager
 from stream_django.enrich import Enrich
-from django.conf import settings
+
+# Create your views here.
+
+class UserUpdate(UpdateView):
+    model = User
+    fields = ['first_name', 'last_name']
+    success_url = '/accounts/profile/'
 
 def account(request, pk=None):
     if pk:
         account = get_object_or_404(User, pk=pk)
     else:
         account = request.user 
-    return render(request, 'home/account.html', { 'object': account, 'oidc_user_account': settings.OIDC_USER_ACCOUNT } )
+    return render(request, 'home/account.html', { 'object': account} )
 
 def notifications(request):
     user = request.user 
