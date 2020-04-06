@@ -67,8 +67,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'mozilla_django_oidc',
+    # allauth
     'django.contrib.sites', 
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 
     # Wagtail http://docs.wagtail.io/en/v2.6.2/getting_started/integrating_into_django.html
     'wagtail.contrib.forms',
@@ -179,9 +182,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTHENTICATION_BACKENDS = (
     'rules.permissions.ObjectPermissionBackend',
-    # Needed to login by username in Django admin
+    # Needed to login by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',
-    'mozilla_django_oidc.auth.OIDCAuthenticationBackend',
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
 )
 
 # Internationalization
@@ -204,6 +208,14 @@ BOOTSTRAP4 = {
 
 SITE_ID = 1
 
+# allauth
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
+ACCOUNT_USER_DISPLAY = lambda u: u.first_name
+ACCOUNT_USERNAME_REQUIRED = False
+
 ACCOUNT_FORMS = {'signup': 'home.forms.NamesSignupForm'}
 
 EMAIL_BACKEND = "anymail.backends.amazon_ses.EmailBackend"
@@ -220,6 +232,7 @@ LANGUAGE_CODE = 'bg-bg'
 
 LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale'),
+    os.path.join(BASE_DIR, 'locale-allauth')
 ]
 
 TEMPUS_DOMINUS_INCLUDE_ASSETS = True
@@ -287,23 +300,3 @@ else:
     MEDIA_URL = 'https://%s.s3.amazonaws.com/media/' % AWS_STORAGE_BUCKET_NAME
 
 BOOTSTRAP4['required_css_class'] = 'required'
-
-SOCIALACCOUNT_PROVIDERS = {
-    'openid': {
-        'SERVERS': [
-            dict(id='zhiva-mrezha',
-                 name='Жива Мрежа',
-                 openid_url='https://az.otselo.eu/auth/realms/zhiva-mrezha/protocol/openid-connect/auth'),
-        ]
-    }
-}
-
-OIDC_RP_CLIENT_ID = 'horodeya-dev'
-OIDC_RP_CLIENT_SECRET = 'f58de4e7-08c9-4a76-9f40-b11e4a305759'
-OIDC_OP_AUTHORIZATION_ENDPOINT = 'https://az.otselo.eu/auth/realms/zhiva-mrezha/protocol/openid-connect/auth'
-OIDC_OP_TOKEN_ENDPOINT = 'https://az.otselo.eu/auth/realms/zhiva-mrezha/protocol/openid-connect/token'
-OIDC_OP_USER_ENDPOINT = 'https://az.otselo.eu/auth/realms/zhiva-mrezha/protocol/openid-connect/userinfo'
-#LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
-OIDC_RP_SIGN_ALGO = 'RS256'
-OIDC_OP_JWKS_ENDPOINT = 'https://az.otselo.eu/auth/realms/zhiva-mrezha/protocol/openid-connect/certs'
