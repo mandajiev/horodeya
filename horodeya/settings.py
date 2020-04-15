@@ -57,7 +57,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'projects.apps.ProjectsConfig',
     'home.apps.HomeConfig',
-    
+
     'anymail',
 
     'django.contrib.admin',
@@ -66,9 +66,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_countries',
 
     # allauth
-    'django.contrib.sites', 
+    'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -90,7 +91,7 @@ INSTALLED_APPS = [
 
     'debug_toolbar',
     'vote',
-    
+
     'photologue',
     'sortedm2m',
 
@@ -213,7 +214,11 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
-ACCOUNT_USER_DISPLAY = lambda u: u.first_name
+
+
+def ACCOUNT_USER_DISPLAY(u): return u.first_name
+
+
 ACCOUNT_USERNAME_REQUIRED = False
 
 ACCOUNT_FORMS = {'signup': 'home.forms.NamesSignupForm'}
@@ -254,9 +259,12 @@ LANGUAGES = (
 
 AWS_STORAGE_BUCKET_NAME = 'horodeya-static'
 
+
 def PHOTOLOGUE_PATH(instance, filename):
-    fn = unicodedata.normalize('NFKD', force_text(filename)).encode('ascii', 'ignore').decode('ascii')
+    fn = unicodedata.normalize('NFKD', force_text(filename)).encode(
+        'ascii', 'ignore').decode('ascii')
     return os.path.join(instance.first_directory, instance.second_directory, fn)
+
 
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')

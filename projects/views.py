@@ -7,7 +7,7 @@ from django.utils import timezone
 
 from django.contrib import messages
 from django.http import HttpResponse
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views import generic
@@ -26,28 +26,30 @@ from django.utils.translation import gettext as _
 
 from rules.contrib.views import AutoPermissionRequiredMixin, permission_required, objectgetter
 
-from projects.models import Project, Community, Report, MoneySupport, TimeSupport, User, Announcement, TimeNecessity, ThingNecessity, Question, QuestionPrototype
+from projects.models import Project, Community, Report, MoneySupport, TimeSupport, User, Announcement, TimeNecessity, ThingNecessity, Question, QuestionPrototype, DonatorData, LegalEntityDonatorData
 
-from projects.forms import QuestionForm, PaymentForm 
+from projects.forms import QuestionForm, PaymentForm
 
 from tempus_dominus.widgets import DateTimePicker, DatePicker
 
 from vote.models import UP, DOWN
 
-from photologue.models import Photo , Gallery
+from photologue.models import Photo, Gallery
 
 from dal import autocomplete
 
 from stream_django.feed_manager import feed_manager
 from stream_django.enrich import Enrich
 
+
 def short_random():
     return str(uuid.uuid4()).split('-')[0]
+
 
 class ProjectForm(ModelForm):
     class Meta:
         model = Project
-        fields = ['name', 'description', 'text', 'community', 'end_date' ]
+        fields = ['name', 'description', 'text', 'community', 'end_date']
         widgets = {
             'end_date': DatePicker(
                 options={
@@ -62,80 +64,85 @@ class ProjectForm(ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['community'].queryset = user.communities
 
+
 class AnnouncementForm(ModelForm):
     class Meta:
         model = Announcement
         fields = ['text']
         widgets = {
-          'text': forms.Textarea(attrs={'rows': 2}),
+            'text': forms.Textarea(attrs={'rows': 2}),
         }
 
+
 TimeNecessityFormset = inlineformset_factory(
-        Project,
-        TimeNecessity,
-        fields=['name', 'description', 'count', 'price', 'start_date', 'end_date' ],
-        widgets={
-            'count': forms.TextInput({
-                'style': 'width: 60px'
-                }
-            ),
-            'price': forms.TextInput({
-                'style': 'width: 60px'
-                }
-            ),
-            'description': forms.Textarea({
-                'rows': 1,
-                'cols': 30
-                }
-            ),
-            'start_date': DatePicker(
-                attrs={
-                    'style': 'width:120px'
-                    },
-                options={
-                    'useCurrent': True,
-                    'collapse': False,
-                },
-            ),
-            'end_date': DatePicker(
-                attrs={
-                    'style': 'width:120px'
-                    },
-                options={
-                    'useCurrent': True,
-                    'collapse': False,
-                },
-            )
-        },
-        extra=1) 
+    Project,
+    TimeNecessity,
+    fields=['name', 'description', 'count', 'price', 'start_date', 'end_date'],
+    widgets={
+        'count': forms.TextInput({
+            'style': 'width: 60px'
+        }
+        ),
+        'price': forms.TextInput({
+            'style': 'width: 60px'
+        }
+        ),
+        'description': forms.Textarea({
+            'rows': 1,
+            'cols': 30
+        }
+        ),
+        'start_date': DatePicker(
+            attrs={
+                'style': 'width:120px'
+            },
+            options={
+                'useCurrent': True,
+                'collapse': False,
+            },
+        ),
+        'end_date': DatePicker(
+            attrs={
+                'style': 'width:120px'
+            },
+            options={
+                'useCurrent': True,
+                'collapse': False,
+            },
+        )
+    },
+    extra=1)
 
 ThingNecessityFormset = inlineformset_factory(
-        Project,
-        ThingNecessity,
-        fields=['name', 'description', 'count', 'price' ],
-        widgets={
-            'count': forms.TextInput({
-                'style': 'width: 60px'
-                }
-            ),
-            'price': forms.TextInput({
-                'style': 'width: 60px'
-                }
-            ),
-            'description': forms.Textarea({
-                'rows': 1,
-                }
-            ),
-        },
-        extra=1) 
+    Project,
+    ThingNecessity,
+    fields=['name', 'description', 'count', 'price'],
+    widgets={
+        'count': forms.TextInput({
+            'style': 'width: 60px'
+        }
+        ),
+        'price': forms.TextInput({
+            'style': 'width: 60px'
+        }
+        ),
+        'description': forms.Textarea({
+            'rows': 1,
+        }
+        ),
+    },
+    extra=1)
+
 
 @permission_required('projects.change_thing_necessity', fn=objectgetter(Project, 'project_id'))
 def thing_necessity_update(request, project_id):
     return necessity_update(request, project_id, 'thing')
 
+
 @permission_required('projects.change_time_necessity', fn=objectgetter(Project, 'project_id'))
 def time_necessity_update(request, project_id):
     return necessity_update(request, project_id, 'time')
+
 
 def necessity_update(request, project_id, type):
     cls = TimeNecessityFormset if type == 'time' else ThingNecessityFormset
@@ -157,8 +164,8 @@ def necessity_update(request, project_id, type):
                     form.instance.project = project
                     form.save()
             if 'add-row' in request.POST:
-                    
-                formset = cls(instance=project) # за да добави празен ред
+
+                formset = cls(instance=project)  # за да добави празен ред
             else:
                 if type == 'time':
                     return redirect('projects:time_necessity_list', project.pk)
@@ -178,22 +185,25 @@ class ProjectDetails(AutoPermissionRequiredMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         show_admin = self.request.GET.get('show_admin', 'True') == 'True'
-        can_be_admin = self.request.user.is_authenticated and self.request.user.member_of(context['object'].community_id)
-        context['admin'] = show_admin and can_be_admin 
+        can_be_admin = self.request.user.is_authenticated and self.request.user.member_of(
+            context['object'].community_id)
+        context['admin'] = show_admin and can_be_admin
         context['can_be_admin'] = can_be_admin
 
         try:
             feed = feed_manager.get_feed('project', context['object'].id)
             enricher = Enrich()
-            timeline = enricher.enrich_activities(feed.get(limit=25)['results'])
+            timeline = enricher.enrich_activities(
+                feed.get(limit=25)['results'])
             context['timeline'] = timeline
         except (Timeout, ConnectionError):
             messages.error(_('Could not get timeline'))
-            context['timeline'] = None 
+            context['timeline'] = None
 
         context['announcement_form'] = AnnouncementForm()
 
         return context
+
 
 class ProjectCreate(AutoPermissionRequiredMixin, CreateView):
     model = Project
@@ -216,7 +226,8 @@ class ProjectCreate(AutoPermissionRequiredMixin, CreateView):
         project = form.instance
         community = project.community
         if community.admin != user:
-            form.add_error('community', 'You must be the admin of the community entity. Admin for %s is %s' % (community, community.admin))
+            form.add_error('community', 'You must be the admin of the community entity. Admin for %s is %s' % (
+                community, community.admin))
             return super().form_invalid(form)
 
         project.type = self.kwargs['type']
@@ -225,6 +236,7 @@ class ProjectCreate(AutoPermissionRequiredMixin, CreateView):
         user_follow_project(0, project)
 
         return super().form_valid(form)
+
 
 class ProjectUpdate(AutoPermissionRequiredMixin, UpdateView):
     model = Project
@@ -239,15 +251,20 @@ class ProjectUpdate(AutoPermissionRequiredMixin, UpdateView):
         user = self.request.user
         community = form.instance.community
         if community.admin != user:
-            form.add_error('community', 'You must be the admin of the community entity. Admin for %s is %s' % (community, community.admin))
+            form.add_error('community', 'You must be the admin of the community entity. Admin for %s is %s' % (
+                community, community.admin))
             return super().form_invalid(form)
         return super().form_valid(form)
+
 
 class ProjectDelete(AutoPermissionRequiredMixin, DeleteView):
     model = Project
     success_url = '/'
 
-COMMUNITY_FIELDS = ['name', 'bulstat', 'email', 'phone', 'bank_account_name', 'bank_account_iban', 'revolut_phone']
+
+COMMUNITY_FIELDS = ['name', 'bulstat', 'email', 'phone',
+                    'bank_account_name', 'bank_account_iban', 'revolut_phone']
+
 
 class CommunityCreate(AutoPermissionRequiredMixin, CreateView):
     model = Community
@@ -257,6 +274,7 @@ class CommunityCreate(AutoPermissionRequiredMixin, CreateView):
         user = self.request.user
         form.instance.admin = user
         return super().form_valid(form)
+
 
 class CommunityUpdate(AutoPermissionRequiredMixin, UpdateView):
     model = Community
@@ -269,9 +287,11 @@ class CommunityUpdate(AutoPermissionRequiredMixin, UpdateView):
 
         return super().form_valid(form)
 
+
 class CommunityDelete(AutoPermissionRequiredMixin, DeleteView):
     model = Community
     success_url = reverse_lazy('projects:community_list')
+
 
 class CommunityDetails(AutoPermissionRequiredMixin, generic.DetailView):
     model = Community
@@ -287,6 +307,7 @@ class CommunityList(AutoPermissionRequiredMixin, generic.ListView):
     permission_type = 'view'
     model = Community
 
+
 class CommunityMemberList(AutoPermissionRequiredMixin, generic.DetailView):
     permission_type = 'change'
     template_name = 'projects/community_member_list.html'
@@ -298,6 +319,7 @@ class CommunityMemberList(AutoPermissionRequiredMixin, generic.DetailView):
         context['form'] = UserAutocompleteForm()
         return context
 
+
 @permission_required('projects.change_community', fn=objectgetter(Community, 'community_id'))
 def community_member_add(request, community_id):
     user_id = request.POST.get('user')
@@ -308,6 +330,7 @@ def community_member_add(request, community_id):
 
     return redirect('projects:community_member_list', community_id)
 
+
 @permission_required('projects.change_community', fn=objectgetter(Community, 'community_id'))
 def community_member_remove(request, community_id, user_id):
     user = get_object_or_404(User, pk=user_id)
@@ -316,6 +339,7 @@ def community_member_remove(request, community_id, user_id):
     messages.success(request, _("Success"))
 
     return redirect('projects:community_member_list', community_id)
+
 
 class ReportForm(AutoPermissionRequiredMixin, ModelForm):
     class Meta:
@@ -329,6 +353,7 @@ class ReportForm(AutoPermissionRequiredMixin, ModelForm):
                 },
             )
         }
+
 
 class ReportCreate(AutoPermissionRequiredMixin, CreateView):
     model = Report
@@ -348,6 +373,7 @@ class ReportCreate(AutoPermissionRequiredMixin, CreateView):
         form.instance.project = self.project
         return super().form_valid(form)
 
+
 class ReportUpdate(AutoPermissionRequiredMixin, UpdateView):
     model = Report
     form_class = ReportForm
@@ -358,12 +384,14 @@ class ReportUpdate(AutoPermissionRequiredMixin, UpdateView):
         context['project'] = self.object.project
         return context
 
+
 class ReportDelete(AutoPermissionRequiredMixin, DeleteView):
     model = Report
     template_name = 'projects/project_confirm_delete.html'
-    
+
     def get_success_url(self):
         return reverse_lazy('projects:details', kwargs={'pk': self.object.project.pk})
+
 
 class ReportDetails(AutoPermissionRequiredMixin, generic.DetailView):
     model = Report
@@ -391,6 +419,7 @@ class ReportDetails(AutoPermissionRequiredMixin, generic.DetailView):
 
         return context
 
+
 class ReportList(AutoPermissionRequiredMixin, generic.ListView):
     model = Report
     permission_type = 'view'
@@ -402,19 +431,24 @@ class ReportList(AutoPermissionRequiredMixin, generic.ListView):
         project_pk = self.kwargs['project']
         context['project'] = get_object_or_404(Project, pk=project_pk)
 
-        context['reports'] = Report.objects.filter(project_id=project_pk, published_at__lte=now)
-        context['unpublished_reports'] = Report.objects.filter(project_id=project_pk, published_at__gt=now)
+        context['reports'] = Report.objects.filter(
+            project_id=project_pk, published_at__lte=now)
+        context['unpublished_reports'] = Report.objects.filter(
+            project_id=project_pk, published_at__gt=now)
 
         return context
+
 
 def report_vote_up(request, pk):
     return report_vote(request, pk, UP)
 
+
 def report_vote_down(request, pk):
     return report_vote(request, pk, DOWN)
 
+
 @login_required
-#TODO must be a subscriber to vote
+# TODO must be a subscriber to vote
 def report_vote(request, pk, action):
     user = request.user
     report = get_object_or_404(Report, pk=pk)
@@ -436,14 +470,17 @@ def report_vote(request, pk, action):
         if not success:
             messages.error(request, _('Could not vote'))
         else:
-            messages.success(request, _('Voted up') if action == UP else _('Voted down'))
+            messages.success(request, _('Voted up')
+                             if action == UP else _('Voted down'))
 
     return redirect(report)
+
 
 class MoneySupportForm(ModelForm):
     class Meta:
         model = MoneySupport
-        fields = ['leva', 'necessity', 'comment', 'anonymous', 'payment_method']
+        fields = ['leva', 'necessity', 'comment',
+                  'anonymous', 'payment_method']
         widgets = {
             'payment_method': forms.RadioSelect()
         }
@@ -461,6 +498,7 @@ class MoneySupportForm(ModelForm):
 
         self.fields['necessity'].queryset = project.thingnecessity_set
         self.fields['necessity'].empty_label = _('Any will do')
+
 
 class MoneySupportCreate(AutoPermissionRequiredMixin, CreateView):
     model = MoneySupport
@@ -493,11 +531,13 @@ class MoneySupportCreate(AutoPermissionRequiredMixin, CreateView):
 
         return super().form_valid(form)
 
-#TODO only allow if support is not accepted
+# TODO only allow if support is not accepted
+
+
 class MoneySupportUpdate(AutoPermissionRequiredMixin, UpdateView):
     model = MoneySupport
     template_name = 'projects/support_form.html'
-    form_class=MoneySupportForm
+    form_class = MoneySupportForm
 
     def get_context_data(self, **kwargs):
 
@@ -506,17 +546,32 @@ class MoneySupportUpdate(AutoPermissionRequiredMixin, UpdateView):
         context['project'] = self.object.project
 
         return context
-    
-@permission_required('projects.create_money_support', fn=objectgetter(Project, 'project_id'))
+
+
+@login_required
 def money_support_create(request, project_id=None):
-    return money_support_crud(request, project_id=project_id)
+    supporterType = request.GET.get('supportertype')
+    if(supporterType == 'donator'):
+        if(request.user.donatorData):
+            return money_support_crud(request, project_id=project_id)
+        else:
+            return redirect(f'/projects/donator/create/?next=/projects/{project_id}/moneysupport/create/')
+    elif (supporterType == 'legalentitydonator'):
+        if(request.user.legalEntityDonatorData):
+            return money_support_crud(request, project_id=project_id)
+        else:
+            return redirect(f'/projects/legalentitydonator/create/?next=/projects/{project_id}/moneysupport/create/')
+
+
 @permission_required('projects.update_money_support', fn=objectgetter(MoneySupport, 'support_id'))
 def money_support_update(request, project_id=None, support_id=None):
     return money_support_crud(request, support_id=support_id)
 
+
 def money_support_crud(request, project_id=None, support_id=None):
     Form = MoneySupportForm
     template = 'projects/support_form.html'
+    supportType = request.GET.get('supportertype')
     if project_id:
         project = get_object_or_404(Project, pk=project_id)
         support = None
@@ -530,22 +585,27 @@ def money_support_crud(request, project_id=None, support_id=None):
         form = Form(instance=support, project=project, prefix='step_1')
 
     elif request.method == 'POST':
-        form = Form(request.POST, instance=support, project=project, prefix='step_1')
+        form = Form(request.POST, instance=support,
+                    project=project, prefix='step_1')
         if form.is_valid():
             if 'go_back' in request.POST:
                 payment_form = None
-            elif 'step_2-instructions' in request.POST:
+            elif 'step_2-accept' in request.POST:
                 # We only validate data if this is a step_2 submit, if only a step_1 submit  validation on step_2 printed on the form may confuse the user
-                payment_form = PaymentForm(request.POST, payment_method=form.cleaned_data['payment_method'], payment_amount=form.cleaned_data['leva'], community=project.community, prefix='step_2')
+                payment_form = PaymentForm(
+                    request.POST, payment_method=form.cleaned_data['payment_method'], payment_amount=form.cleaned_data['leva'], community=project.community, prefix='step_2')
             else:
-                payment_form = PaymentForm(payment_method=form.cleaned_data['payment_method'], payment_amount=form.cleaned_data['leva'], community=project.community, prefix='step_2')
+                payment_form = PaymentForm(
+                    payment_method=form.cleaned_data['payment_method'], payment_amount=form.cleaned_data['leva'], community=project.community, prefix='step_2')
 
             if payment_form:
                 action_text = payment_form.action_text
                 if payment_form.is_valid():
                     form.instance.project = project
                     form.instance.user = request.user
-                    form.save()
+                    support = form.save(commit=False)
+                    support.supportType = supportType
+                    support.save()
                     return redirect(form.instance)
 
     return render(request, template, {
@@ -555,17 +615,21 @@ def money_support_crud(request, project_id=None, support_id=None):
         'payment_form': payment_form
     })
 
+
 class MoneySupportDetails(AutoPermissionRequiredMixin, generic.DetailView):
     model = MoneySupport
     template_name = 'projects/support_detail.html'
 
-#TODO only allow if support is not accepted
+# TODO only allow if support is not accepted
+
+
 class MoneySupportDelete(AutoPermissionRequiredMixin, DeleteView):
     model = MoneySupport
     template_name = 'projects/project_confirm_delete.html'
 
     def get_success_url(self):
         return reverse_lazy('projects:details', kwargs={'pk': self.object.project.pk})
+
 
 class TimeSupportDelete(AutoPermissionRequiredMixin, DeleteView):
     model = TimeSupport
@@ -596,9 +660,11 @@ def report_vote(request, pk, action):
         if not success:
             messages.error(request, _('Could not vote'))
         else:
-            messages.success(request, _('Voted up') if action == UP else _('Voted down'))
+            messages.success(request, _('Voted up')
+                             if action == UP else _('Voted down'))
 
     return redirect(report)
+
 
 def get_support(pk, type):
     if type in ['money', 'm']:
@@ -608,14 +674,18 @@ def get_support(pk, type):
 
     return support
 
+
 def get_support_request(request, pk, type, *args, **kwargs):
     return get_support(pk, type)
+
 
 def support_accept(request, pk, type):
     return support_change_accept(request, pk, type, True)
 
+
 def support_decline(request, pk, type):
     return support_change_accept(request, pk, type, False)
+
 
 @permission_required('projects.accept_support', fn=get_support_request)
 def support_change_accept(request, pk, type, accepted):
@@ -625,19 +695,24 @@ def support_change_accept(request, pk, type, accepted):
         support = get_object_or_404(TimeSupport, pk=pk)
 
     if support.status == support.STATUS.accepted:
-        messages.info(request, _('Support already accepted') if accepted else _('Support already declined'))
+        messages.info(request, _('Support already accepted')
+                      if accepted else _('Support already declined'))
     else:
         if type in ['money', 'm'] and not support.necessity:
-            messages.info(request, _('Select a necessity for the money support'))
+            messages.info(request, _(
+                'Select a necessity for the money support'))
             return redirect('projects:money_support_update', support.pk)
 
         result = support.set_accepted(accepted)
         if result == accepted:
-            messages.success(request, _('Support accepted') if accepted else _('Support declined'))
+            messages.success(request, _('Support accepted')
+                             if accepted else _('Support declined'))
         else:
-            messages.error(request, _('Support could not be accepted') if accepted else _('Support could not be declined'))
+            messages.error(request, _('Support could not be accepted')
+                           if accepted else _('Support could not be declined'))
 
     return redirect(support)
+
 
 @permission_required('projects.mark_delivered_support', fn=get_support_request)
 def support_delivered(request, pk, type):
@@ -659,22 +734,26 @@ def support_delivered(request, pk, type):
 
     return redirect(support)
 
+
 class TimeSupportForm(AutoPermissionRequiredMixin, ModelForm):
     class Meta:
         model = TimeSupport
-        fields=['comment']
+        fields = ['comment']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
 
 @permission_required('projects.change_timesupport', fn=objectgetter(TimeSupport, 'pk'))
 def time_support_update(request, pk):
     time_support = get_object_or_404(TimeSupport, pk=pk)
     return time_support_create_update(request, time_support.project, time_support)
 
+
 class TimeSupportDetails(AutoPermissionRequiredMixin, generic.DetailView):
     model = TimeSupport
     template_name = 'projects/support_detail.html'
+
 
 def user_support_list(request, user_id, type):
     user = get_object_or_404(User, pk=user_id)
@@ -688,13 +767,14 @@ def user_support_list(request, user_id, type):
         'account': user,
         'type': type,
         'support_list': support_list,
-        }
+    }
     )
+
 
 def user_vote_list(request, user_id):
     user = get_object_or_404(User, pk=user_id)
 
-    votes_up = Report.votes.all(user_id, UP) 
+    votes_up = Report.votes.all(user_id, UP)
     votes_down = Report.votes.all(user_id, DOWN)
 
     supported_projects = set()
@@ -702,14 +782,14 @@ def user_vote_list(request, user_id):
     time_supported = user.timesupport_set.all()
 
     awaiting_list = []
-    #TODO use stream framework for this
-    #for m in money_supported:
+    # TODO use stream framework for this
+    # for m in money_supported:
     #    supported_projects.add(m.project)
 
-    #for t in time_supported:
+    # for t in time_supported:
     #    supported_projects.add(t.project)
 
-    #for p in supported_projects:
+    # for p in supported_projects:
     #    awaiting_list.extend(p.report_set.filter())
 
     return render(request, 'projects/user_vote_list.html', context={
@@ -717,8 +797,9 @@ def user_vote_list(request, user_id):
         'awaiting_list': awaiting_list,
         'votes_up': votes_up,
         'votes_down': votes_down
-        }
+    }
     )
+
 
 class UserAutocompleteForm(forms.Form):
     user = forms.ModelChoiceField(
@@ -732,7 +813,9 @@ class UserAutocompleteForm(forms.Form):
         )
     )
 
-#TODO authenticate with rules
+# TODO authenticate with rules
+
+
 class UserAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
         # Don't forget to filter out results depending on the visitor !
@@ -750,6 +833,7 @@ class UserAutocomplete(autocomplete.Select2QuerySetView):
     def get_result_label(self, item):
         return format_html('%s %s' % (item.first_name, item.last_name))
 
+
 @permission_required('projects.follow_project', fn=objectgetter(Project, 'pk'))
 def follow_project(request, pk):
 
@@ -759,9 +843,10 @@ def follow_project(request, pk):
 
     user_follow_project(user.id, project)
 
-    messages.success(request, "%s %s" % (_("Started following"),project))
+    messages.success(request, "%s %s" % (_("Started following"), project))
 
     return redirect(project)
+
 
 def user_follow_project(user_id, project):
     news_feeds = feed_manager.get_news_feeds(user_id)
@@ -772,6 +857,7 @@ def user_follow_project(user_id, project):
     notification_feed = feed_manager.get_notification_feed(user_id)
     notification_feed.follow('project', project.id)
 
+
 class AnnouncementCreate(AutoPermissionRequiredMixin, CreateView):
     model = Announcement
     fields = ['text']
@@ -779,11 +865,12 @@ class AnnouncementCreate(AutoPermissionRequiredMixin, CreateView):
     def form_valid(self, form):
         project_pk = self.kwargs['project']
         self.project = get_object_or_404(Project, pk=project_pk)
-        form.instance.project = self.project 
+        form.instance.project = self.project
         return super().form_valid(form)
 
     def get_success_url(self):
         return reverse_lazy('projects:details', kwargs={'pk': self.object.project.pk})
+
 
 class AnnouncementUpdate(AutoPermissionRequiredMixin, UpdateView):
     model = Announcement
@@ -792,11 +879,13 @@ class AnnouncementUpdate(AutoPermissionRequiredMixin, UpdateView):
     def get_success_url(self):
         return reverse_lazy('projects:details', kwargs={'pk': self.object.project.pk})
 
+
 class AnnouncementDelete(AutoPermissionRequiredMixin, DeleteView):
     model = Announcement
 
     def get_success_url(self):
         return reverse_lazy('projects:details', kwargs={'pk': self.object.project.pk})
+
 
 class AnnouncementDetails(AutoPermissionRequiredMixin, generic.DetailView):
     model = Announcement
@@ -806,38 +895,43 @@ class AnnouncementDetails(AutoPermissionRequiredMixin, generic.DetailView):
         context = super().get_context_data(**kwargs)
         return context
 
+
 @permission_required('projects.add_timesupport', fn=objectgetter(Project, 'project_id'))
 def time_support_create(request, project_id):
     project = get_object_or_404(Project, pk=project_id)
     return time_support_create_update(request, project)
 
+
 def time_support_create_update(request, project, support=None):
     context = {}
     context['project'] = project
-    queryset = TimeSupport.objects.filter(project=project,user=request.user)
+    queryset = TimeSupport.objects.filter(project=project, user=request.user)
     applied_necessities = set(map(lambda ts: ts.necessity, queryset.all()))
     answers = project.answer_set.all()
 
     necessity_list = project.timenecessity_set.all()
-    necessity_list = list(filter(lambda n: n not in applied_necessities, necessity_list))
+    necessity_list = list(
+        filter(lambda n: n not in applied_necessities, necessity_list))
 
     TimeSupportFormset = modelformset_factory(
         TimeSupport,
-        fields=['necessity', 'comment', 'start_date', 'end_date', 'price' ],
-        labels={'comment': _('Why do you apply for this position? List your relevant experience / skills')},
+        fields=['necessity', 'comment', 'start_date', 'end_date', 'price'],
+        labels={'comment': _(
+            'Why do you apply for this position? List your relevant experience / skills')},
         widgets={
             'start_date': forms.HiddenInput(),
             'end_date': forms.HiddenInput(),
             'price': forms.HiddenInput(),
             'comment': forms.Textarea(
                 attrs={
-                'rows': 1,
-                'cols': 30,
+                    'rows': 1,
+                    'cols': 30,
                 },
-        )},
+            )},
         extra=len(necessity_list))
 
-    initial = list(map(lambda n: {'necessity': n, 'start_date': n.start_date, 'end_date': n.end_date, 'price': n.price}, necessity_list))
+    initial = list(map(lambda n: {'necessity': n, 'start_date': n.start_date,
+                                  'end_date': n.end_date, 'price': n.price}, necessity_list))
     questions = project.question_set.order_by('order').all()
     if request.method == 'GET':
         formset = TimeSupportFormset(
@@ -857,7 +951,8 @@ def time_support_create_update(request, project, support=None):
         selected_necessities = list(map(int, selected_necessities))
 
         if not selected_necessities:
-            messages.error(request, _("Choose at least one volunteer position"))
+            messages.error(request, _(
+                "Choose at least one volunteer position"))
 
         else:
             if question_form.is_valid():
@@ -872,7 +967,8 @@ def time_support_create_update(request, project, support=None):
                         form.save()
                         saved += 1
 
-                messages.success(request, _('Applied to %d volunteer positions' % saved))
+                messages.success(request, _(
+                    'Applied to %d volunteer positions' % saved))
                 return redirect(project)
 
     context['formset'] = formset
@@ -880,6 +976,7 @@ def time_support_create_update(request, project, support=None):
     context['update'] = support is not None
 
     return render(request, 'projects/time_support_create.html', context)
+
 
 class TimeNecessityList(AutoPermissionRequiredMixin, generic.ListView):
     permission_type = 'view'
@@ -899,6 +996,7 @@ class TimeNecessityList(AutoPermissionRequiredMixin, generic.ListView):
 
         return context
 
+
 class ThingNecessityList(AutoPermissionRequiredMixin, generic.ListView):
     permission_type = 'view'
     model = ThingNecessity
@@ -917,6 +1015,7 @@ class ThingNecessityList(AutoPermissionRequiredMixin, generic.ListView):
 
         return context
 
+
 class TimeNecessityDetails(AutoPermissionRequiredMixin, generic.DetailView):
     model = TimeNecessity
 
@@ -925,6 +1024,7 @@ class TimeNecessityDetails(AutoPermissionRequiredMixin, generic.DetailView):
         context = super().get_context_data(**kwargs)
         context['type'] = 'time'
         return context
+
 
 class ThingNecessityDetails(AutoPermissionRequiredMixin, generic.DetailView):
     model = ThingNecessity
@@ -935,9 +1035,11 @@ class ThingNecessityDetails(AutoPermissionRequiredMixin, generic.DetailView):
         context['type'] = 'thing'
         return context
 
+
 class UploadFileForm(forms.Form):
     file = forms.FileField(required=False)
     delete = forms.BooleanField(initial=False, required=False)
+
 
 PhotoFormset = modelformset_factory(
     Photo,
@@ -946,10 +1048,11 @@ PhotoFormset = modelformset_factory(
     can_delete=True,
     can_order=True)
 
+
 def neat_photo(first_directory, second_directory, image):
     path, extension = os.path.splitext(image.name)
     image.name = short_random() + extension
-    
+
     photo = Photo()
     photo.title = image.name
     photo.image = image
@@ -963,11 +1066,12 @@ def neat_photo(first_directory, second_directory, image):
 
     return photo
 
+
 def gallery_update(request, project_id):
     template_name = 'projects/photo_form.html'
     project = get_object_or_404(Project, pk=project_id)
 
-    #TODO make project.name unique
+    # TODO make project.name unique
     gallery, created = Gallery.objects.get_or_create(
         title=project.name,
         defaults={
@@ -994,12 +1098,14 @@ def gallery_update(request, project_id):
                     photo = neat_photo('project', str(project_id), image)
                     photo.galleries.add(gallery)
 
-                    through = gallery.photos.through.objects.get(photo_id=photo.pk, gallery_id=gallery.pk)
+                    through = gallery.photos.through.objects.get(
+                        photo_id=photo.pk, gallery_id=gallery.pk)
                     through.sort_value = order
                     through.save()
                 elif form.instance.image:
                     image = form.instance
-                    through = gallery.photos.through.objects.get(photo_id=image.pk, gallery_id=gallery.pk)
+                    through = gallery.photos.through.objects.get(
+                        photo_id=image.pk, gallery_id=gallery.pk)
                     through.sort_value = order
                     through.save()
 
@@ -1009,6 +1115,7 @@ def gallery_update(request, project_id):
         'formset': formset,
         'project': project,
     })
+
 
 @permission_required('projects.change_user', fn=objectgetter(User, 'user_id'))
 def user_photo_update(request, user_id):
@@ -1026,7 +1133,8 @@ def user_photo_update(request, user_id):
             if form.cleaned_data.get('delete'):
                 messages.success(request, _('Image deleted'))
             else:
-                user.photo = neat_photo('user', str(user_id), request.FILES['file'])
+                user.photo = neat_photo('user', str(
+                    user_id), request.FILES['file'])
                 user.save()
 
                 messages.success(request, _('Image uploaded'))
@@ -1036,9 +1144,11 @@ def user_photo_update(request, user_id):
             else:
                 return redirect(user)
     else:
-        form = UploadFileForm(initial={'file': user.photo.image if user.photo else None})
+        form = UploadFileForm(
+            initial={'file': user.photo.image if user.photo else None})
 
     return render(request, 'projects/user_photo_update.html', {'form': form, 'user': user})
+
 
 @permission_required('projects.change_community', fn=objectgetter(Community, 'pk'))
 def community_photo_update(request, pk):
@@ -1055,7 +1165,8 @@ def community_photo_update(request, pk):
             if form.cleaned_data.get('delete'):
                 messages.success(request, _('Image deleted'))
             else:
-                community.photo = neat_photo('community', str(pk), request.FILES['file'])
+                community.photo = neat_photo(
+                    'community', str(pk), request.FILES['file'])
                 community.save()
 
                 messages.success(request, _('Image uploaded'))
@@ -1066,9 +1177,11 @@ def community_photo_update(request, pk):
             else:
                 return redirect(community)
     else:
-        form = UploadFileForm(initial={'file': community.photo.image if community.photo else None})
+        form = UploadFileForm(
+            initial={'file': community.photo.image if community.photo else None})
 
     return render(request, 'projects/community_photo_update.html', {'form': form, 'community': community})
+
 
 @permission_required('projects.change_question', fn=objectgetter(Project, 'project_id'))
 def questions_update(request, project_id):
@@ -1078,27 +1191,29 @@ def questions_update(request, project_id):
     else:
         prototypes = []
 
-    initial = list(map(lambda p: {'prototype': p[1], 'required': p[1].required, 'ORDER': p[0]+1}, enumerate(prototypes)))
+    initial = list(map(lambda p: {
+                   'prototype': p[1], 'required': p[1].required, 'ORDER': p[0]+1}, enumerate(prototypes)))
 
     QuestionFormset = modelformset_factory(
-            Question,
-            fields=['prototype', 'description', 'required' ],
-            widgets={
-                'description': forms.Textarea({
-                    'rows': 1,
-                    'cols': 30
-                    }
-                ),
-            },
-            can_order=True,
-            can_delete=True,
-            extra=len(prototypes)) 
+        Question,
+        fields=['prototype', 'description', 'required'],
+        widgets={
+            'description': forms.Textarea({
+                'rows': 1,
+                'cols': 30
+            }
+            ),
+        },
+        can_order=True,
+        can_delete=True,
+        extra=len(prototypes))
 
     cls = QuestionFormset
     template_name = 'projects/questions_form.html'
 
     if request.method == 'GET':
-        formset = cls(initial=initial, queryset=Question.objects.filter(project=project).order_by('order'))
+        formset = cls(initial=initial, queryset=Question.objects.filter(
+            project=project).order_by('order'))
 
     elif request.method == 'POST':
         formset = cls(request.POST)
@@ -1122,3 +1237,57 @@ def questions_update(request, project_id):
     })
 
 
+class DonatorDataCreate(AutoPermissionRequiredMixin, CreateView):
+    model = DonatorData
+    fields = ['phone', 'citizenship', 'domicile', 'postAddress',
+              'TIN', 'passportData', 'birthdate', 'placeOfBirth',
+              'profession', 'website']
+    redirectUrl = ''
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        redirectUrl = self.request.GET.get('next')
+        return context
+
+    def get_form(self, form_class=None):
+        form = super(DonatorDataCreate, self).get_form(form_class)
+        form.fields['birthdate'].widget = DatePicker(
+            attrs={
+                'style': 'width:120px'
+            },
+            options={
+                'useCurrent': True,
+                'collapse': False,
+            },
+        )
+        return form
+
+    def form_valid(self, form):
+        user = self.request.user
+        data = form.save(commit=False)
+        data.save()
+        user.donatorData = data
+        user.save()
+        redirectUrl = self.request.GET.get('next')
+        if(redirectUrl):
+            return redirect(self.request.GET['next']+'?supportertype=donator')
+        else:
+            return redirect('/accounts/profile/')
+
+
+class LegalEntityDataCreate(AutoPermissionRequiredMixin, CreateView):
+    model = LegalEntityDonatorData
+    fields = ['name', 'type', 'EIK',
+              'DDORegistration', 'phoneNumber', 'website']
+
+    def form_valid(self, form):
+        user = self.request.user
+        data = form.save(commit=False)
+        data.save()
+        user.legalEntityDonatorData = data
+        user.save()
+        redirectUrl = self.request.GET.get('next')
+        if(redirectUrl):
+            return redirect(self.request.GET['next']+'?supportertype=legalentitydonator')
+        else:
+            return redirect('/accounts/profile/')

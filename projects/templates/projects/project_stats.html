@@ -37,6 +37,36 @@
       <a class="btn btn-primary mt-3" href="{% url 'projects:thing_necessity_list' project.pk %}">{% trans 'See donations' %}</a>
       <a class="btn btn-primary mt-3" href="{% url 'projects:thing_necessity_update' project.pk %}">{% trans 'Update necessities' %}</a>
     {% else %}
+        <!-- Button to Open the Modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+  Donate
+</button>
+
+<!-- The Modal -->
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Money Donation</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+      <a class="btn btn-primary mt-3" href="{% url 'projects:money_support_create' project.pk %}?supportertype=donator">{% trans 'Support as donator' %}</a>
+      <a class="btn btn-primary mt-3" href="{% url 'projects:money_support_create' project.pk %}?supportertype=legalentitydonator">{% trans 'Support as legalentity' %}</a>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
       <a class="btn btn-primary mt-3" href="{% url 'projects:money_support_create' project.pk %}">{% trans 'Support with money donation' %}</a>
       <a class="btn btn-primary mt-3" href="{% url 'projects:money_support_create' project.pk %}">{% trans 'Support with material resources' %}</a>
     {% endif %}
