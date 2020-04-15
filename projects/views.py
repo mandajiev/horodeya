@@ -555,12 +555,12 @@ def money_support_create(request, project_id=None):
         if(request.user.donatorData):
             return money_support_crud(request, project_id=project_id)
         else:
-            return redirect(f'/projects/donator/create/?next=/projects/{project_id}/moneysupport/create/')
+            return redirect('/projects/donator/create/?next=/projects/%s/moneysupport/create/' % (project_id))
     elif (supporterType == 'legalentitydonator'):
         if(request.user.legalEntityDonatorData):
             return money_support_crud(request, project_id=project_id)
         else:
-            return redirect(f'/projects/legalentitydonator/create/?next=/projects/{project_id}/moneysupport/create/')
+            return redirect('/projects/legalentitydonator/create/?next=/projects/%s/moneysupport/create/' % (project_id))
 
 
 @permission_required('projects.update_money_support', fn=objectgetter(MoneySupport, 'support_id'))
