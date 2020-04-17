@@ -273,6 +273,9 @@ class CommunityCreate(AutoPermissionRequiredMixin, CreateView):
     def form_valid(self, form):
         user = self.request.user
         form.instance.admin = user
+        community = form.save(commit=False)
+        community.save()
+        user.communities.add(community)
         return super().form_valid(form)
 
 
