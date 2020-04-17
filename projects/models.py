@@ -159,7 +159,7 @@ class User(AbstractUser, RulesModelMixin, metaclass=RulesModelBase):
 class Project(Timestamped):
     class Meta:
         rules_permissions = {
-            "add": admin_of_community,
+            "add": member_of_community,
             "delete": admin_of_community,
             "change": member_of_community,
             "view": rules.always_allow,
