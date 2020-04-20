@@ -24,7 +24,7 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from django.utils.translation import gettext as _
 
-from rules.contrib.views import AutoPermissionRequiredMixin, permission_required, objectgetter
+from rules.contrib.views import AutoPermissionRequiredMixin, permission_required, objectgetter, PermissionRequiredMixin
 
 from projects.models import Project, Community, Report, MoneySupport, TimeSupport, User, Announcement, TimeNecessity, ThingNecessity, Question, QuestionPrototype, DonatorData, LegalEntityDonatorData
 
@@ -134,12 +134,14 @@ ThingNecessityFormset = inlineformset_factory(
     extra=1)
 
 
-@permission_required('projects.change_thing_necessity', fn=objectgetter(Project, 'project_id'))
+@login_required
+@permission_required('projects.change_thingnecessity', fn=objectgetter(Project, 'project_id'))
 def thing_necessity_update(request, project_id):
     return necessity_update(request, project_id, 'thing')
 
 
-@permission_required('projects.change_time_necessity', fn=objectgetter(Project, 'project_id'))
+@login_required
+@permission_required('projects.change_timenecessity', fn=objectgetter(Project, 'project_id'))
 def time_necessity_update(request, project_id):
     return necessity_update(request, project_id, 'time')
 
@@ -358,9 +360,15 @@ class ReportForm(AutoPermissionRequiredMixin, ModelForm):
         }
 
 
-class ReportCreate(AutoPermissionRequiredMixin, CreateView):
+class ReportCreate(PermissionRequiredMixin, CreateView):
     model = Report
     form_class = ReportForm
+
+    def get_permission_object(self):
+        project_pk = self.kwargs['project']
+        return get_object_or_404(Project, pk=project_pk)
+
+    permission_required = ('projects.add_report')
 
     def get_context_data(self, **kwargs):
 
@@ -566,7 +574,7 @@ def money_support_create(request, project_id=None):
             return redirect('/projects/legalentitydonator/create/?next=/projects/%s/moneysupport/create/' % (project_id))
 
 
-@permission_required('projects.update_money_support', fn=objectgetter(MoneySupport, 'support_id'))
+@permission_required('projects.update_moneysupport', fn=objectgetter(MoneySupport, 'support_id'))
 def money_support_update(request, project_id=None, support_id=None):
     return money_support_crud(request, support_id=support_id)
 
