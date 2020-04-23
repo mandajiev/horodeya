@@ -271,7 +271,7 @@ class ProjectDelete(AutoPermissionRequiredMixin, DeleteView):
     success_url = '/'
 
 
-COMMUNITY_FIELDS = ['name', 'type', 'EIK', 'DDORegistration', 'phone', 'email', 'mission',
+COMMUNITY_FIELDS = ['name', 'type', 'bulstat', 'DDORegistration', 'phone', 'email', 'mission',
                     'numberOfSupporters', 'previousExperience', 'activityType', 'website', ]
 
 COMMUNITY_ACTIVYTY_TYPES = [('Creativity', ' Проекти от областта на науката или изкуството, които развиват градивната енергия на индивида и неговата сила за себе реализация.'),
