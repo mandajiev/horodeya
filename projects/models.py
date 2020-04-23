@@ -80,6 +80,15 @@ class Timestamped(RulesModelMixin, models.Model, metaclass=RulesModelBase):
         abstract = True
 
 
+COMMUNITY_ACTIVYTY_TYPES = [('Creativity', ' Проекти от областта на науката или изкуството, които развиват градивната енергия на индивида и неговата сила за себе реализация.'),
+                            ('Education', 'Проекти, стъпили на принципа на висшата справедливост и въплащение на благородни мисли и желания в живота на човека, при което интуитивните и творческите му способности достигат нови нива.'),
+                            ('Art', ' Проекти в областта на културата, които събуждат естественото ни чувство за споделяне и придават финес на взаимоотношенията в обществото.'),
+                            ('Administration', 'Проекти, свързани със системи за създаване и прилагане на правила за истинно и честно социално взаимодействие. Механизми за разрешаване на спорове.'),
+                            ('Willpower', 'Проекти, които развиват смелост, устрем, воля за победа, воля за индивидуална и колективна изява, като спорт и туризъм.'),
+                            ('Health', 'Проекти, които следват естествения ритъм на човешкия организъм и са мост между Висшия и конкретния ум.'),
+                            ('Food', 'Проекти развиващи това, което най-пряко влияе върху нашите бит и ежедневие, допринасят за оцеляването и изхранването на обществото.')]
+
+
 class Community(Timestamped):
     class Meta:
         rules_permissions = {
@@ -91,6 +100,14 @@ class Community(Timestamped):
         }
 
     name = models.CharField(max_length=100)
+    type = models.CharField(max_length=50, default='NGO')
+    DDORegistration = models.BooleanField(default=False)
+    mission = models.TextField(default=None, null=True)
+    numberOfSupporters = models.IntegerField(default=0)
+    previousExperience = models.TextField(blank=True)
+    activityType = models.CharField(
+        choices=COMMUNITY_ACTIVYTY_TYPES, max_length=50, default='Art')
+    website = models.CharField(max_length=100, blank=True)
     text = models.TextField()
     bulstat = models.DecimalField(
         blank=True, null=True, max_digits=20, decimal_places=0)
@@ -102,8 +119,6 @@ class Community(Timestamped):
     bank_account_bank_code = models.CharField(
         blank=True, null=True, max_length=34)
     bank_account_name = models.CharField(blank=True, null=True, max_length=100)
-    revolut_phone = models.DecimalField(
-        blank=True, null=True, max_digits=20, decimal_places=0)
     bal = models.IntegerField(default=20, validators=[MaxValueValidator(100)])
     photo = models.ForeignKey(
         Photo, on_delete=models.SET_NULL, blank=True, null=True)
@@ -159,7 +174,7 @@ class User(AbstractUser, RulesModelMixin, metaclass=RulesModelBase):
 class Project(Timestamped):
     class Meta:
         rules_permissions = {
-            "add": has_a_community,
+            "add": rules.is_authenticated,
             "delete": admin_of_community,
             "change": member_of_community,
             "view": rules.always_allow,

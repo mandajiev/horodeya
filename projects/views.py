@@ -40,6 +40,7 @@ from dal import autocomplete
 
 from stream_django.feed_manager import feed_manager
 from stream_django.enrich import Enrich
+from django.contrib.auth.mixins import UserPassesTestMixin
 
 
 def short_random():
@@ -207,9 +208,15 @@ class ProjectDetails(AutoPermissionRequiredMixin, generic.DetailView):
         return context
 
 
-class ProjectCreate(AutoPermissionRequiredMixin, CreateView):
+class ProjectCreate(AutoPermissionRequiredMixin, UserPassesTestMixin, CreateView):
     model = Project
     form_class = ProjectForm
+
+    def handle_no_permission(self):
+        return redirect('/projects/community/create')
+
+    def test_func(self):
+        return self.request.user.communities.count() > 0
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -264,13 +271,28 @@ class ProjectDelete(AutoPermissionRequiredMixin, DeleteView):
     success_url = '/'
 
 
-COMMUNITY_FIELDS = ['name', 'bulstat', 'email', 'phone',
-                    'bank_account_name', 'bank_account_iban', 'revolut_phone']
+COMMUNITY_FIELDS = ['name', 'type', 'EIK', 'DDORegistration', 'phone', 'email', 'mission',
+                    'numberOfSupporters', 'previousExperience', 'activityType', 'website', ]
+
+COMMUNITY_ACTIVYTY_TYPES = [('Creativity', ' Проекти от областта на науката или изкуството, които развиват градивната енергия на индивида и неговата сила за себе реализация.'),
+                            ('Education', 'Проекти, стъпили на принципа на висшата справедливост и въплащение на благородни мисли и желания в живота на човека, при което интуитивните и творческите му способности достигат нови нива.'),
+                            ('Art', ' Проекти в областта на културата, които събуждат естественото ни чувство за споделяне и придават финес на взаимоотношенията в обществото.'),
+                            ('Administration', 'Проекти, свързани със системи за създаване и прилагане на правила за истинно и честно социално взаимодействие. Механизми за разрешаване на спорове.'),
+                            ('Willpower', 'Проекти, които развиват смелост, устрем, воля за победа, воля за индивидуална и колективна изява, като спорт и туризъм.'),
+                            ('Health', 'Проекти, които следват естествения ритъм на човешкия организъм и са мост между Висшия и конкретния ум.'),
+                            ('Food', 'Проекти развиващи това, което най-пряко влияе върху нашите бит и ежедневие, допринасят за оцеляването и изхранването на обществото.')]
 
 
 class CommunityCreate(AutoPermissionRequiredMixin, CreateView):
     model = Community
     fields = COMMUNITY_FIELDS
+
+    def get_form(self, form_class=None):
+        form = super(CommunityCreate, self).get_form(form_class)
+        form.fields['activityType'].widget = forms.RadioSelect(
+            attrs=None, choices=COMMUNITY_ACTIVYTY_TYPES)
+        form.fields['type'].widget.attrs['readonly'] = True
+        return form
 
     def form_valid(self, form):
         user = self.request.user
