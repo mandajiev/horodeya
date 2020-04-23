@@ -122,6 +122,8 @@ class Community(Timestamped):
     bal = models.IntegerField(default=20, validators=[MaxValueValidator(100)])
     photo = models.ForeignKey(
         Photo, on_delete=models.SET_NULL, blank=True, null=True)
+    revolut_phone = models.DecimalField(
+        blank=True, null=True, max_digits=20, decimal_places=0)
 
     def page_name(self):
         return "%s %s" % (gettext('Community'), self.name)
