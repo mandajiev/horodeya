@@ -40,6 +40,7 @@ from dal import autocomplete
 
 from stream_django.feed_manager import feed_manager
 from stream_django.enrich import Enrich
+from django.contrib.auth.mixins import UserPassesTestMixin
 
 
 def short_random():
@@ -207,9 +208,15 @@ class ProjectDetails(AutoPermissionRequiredMixin, generic.DetailView):
         return context
 
 
-class ProjectCreate(AutoPermissionRequiredMixin, CreateView):
+class ProjectCreate(UserPassesTestMixin, AutoPermissionRequiredMixin, CreateView):
     model = Project
     form_class = ProjectForm
+
+    def handle_no_permission(self):
+        return redirect('/projects/community/create')
+
+    def test_func(self):
+        return self.request.user.communities.count() > 0
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
