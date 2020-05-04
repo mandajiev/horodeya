@@ -8,7 +8,7 @@
     certbot_admin_email: akodzhabashev@gmail.com
     certbot_certs: 
       - domains:
-          - nov.horodeya.org
+          - horodeya.com
     certbot_create_standalone_stop_services:
       - nginx
 
