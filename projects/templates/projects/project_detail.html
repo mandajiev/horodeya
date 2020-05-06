@@ -219,9 +219,6 @@
         {% endfor %}
         <tr>
           <td colspan="3">
-            {% blocktrans with more=latest_reports.1 %}
-            + {{more}} more
-            {% endblocktrans %}
 
             <a class="btn-link" href="{% url 'projects:report_list' project.pk %}"> {% trans 'see all' %} </a>
           </td>

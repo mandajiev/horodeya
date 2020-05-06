@@ -9,13 +9,18 @@ from django.utils.translation import ugettext_lazy as translate_lazy
 
 mark_safe_lazy = lazy(mark_safe)
 
+
 class NamesSignupForm(SignupForm):
 
-    field_order = ['first_name', 'last_name', 'email', 'password1', 'accept_tos']
+    field_order = ['first_name', 'second_name', 'last_name',
+                   'email', 'password1', 'accept_tos']
 
-    #TODO add validators - no space allowed
+    # TODO add validators - no space allowed
     first_name = forms.CharField(
         label=_("First Name"),
+        max_length=30)
+    second_name = forms.CharField(
+        label=_("Second Name"),
         max_length=30)
     last_name = forms.CharField(
         label=_("Last Name"),
@@ -29,5 +34,6 @@ class NamesSignupForm(SignupForm):
 
         user.first_name = request.POST['first_name']
         user.last_name = request.POST['last_name']
-
+        user.second_name = request.POST['second_name']
+        user.save()
         return user

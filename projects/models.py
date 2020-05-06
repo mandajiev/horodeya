@@ -110,10 +110,10 @@ class Community(Timestamped):
     website = models.CharField(max_length=100, blank=True)
     text = models.TextField()
     bulstat = models.DecimalField(
-        blank=True, null=True, max_digits=20, decimal_places=0)
+        blank=True, null=True, max_digits=15, decimal_places=0)
     email = models.EmailField()
     phone = models.DecimalField(
-        blank=True, null=True, max_digits=20, decimal_places=0)
+        null=True, max_digits=20, decimal_places=0)
     admin = models.ForeignKey('User', on_delete=models.PROTECT)
     bank_account_iban = models.CharField(blank=True, null=True, max_length=34)
     bank_account_bank_code = models.CharField(
@@ -124,6 +124,7 @@ class Community(Timestamped):
         Photo, on_delete=models.SET_NULL, blank=True, null=True)
     revolut_phone = models.DecimalField(
         blank=True, null=True, max_digits=20, decimal_places=0)
+    facebook_page = models.CharField(max_length=100, null=True, blank=True)
 
     def page_name(self):
         return "%s %s" % (gettext('Community'), self.name)
@@ -151,6 +152,7 @@ class User(AbstractUser, RulesModelMixin, metaclass=RulesModelBase):
         'DonatorData', on_delete=models.PROTECT, null=True)
     legalEntityDonatorData = models.OneToOneField(
         'LegalEntityDonatorData', on_delete=models.PROTECT, null=True)
+    second_name = models.CharField(max_length=30, blank=True)
 
     def page_name(self):
         return "%s %s" % (gettext('User'), str(self))
@@ -173,6 +175,14 @@ class User(AbstractUser, RulesModelMixin, metaclass=RulesModelBase):
 # TODO notify user on new project added
 
 
+CATEGORY_TYPES = [('Education', 'Просвете и образование'), ('Creativity', 'Въображение и творчество'),
+                  ('Art', 'Изразяване и артистичност'),
+                  ('Finance', 'Администрация и финанси'),
+                  ('Willpower', 'Воля и утвърждаване'), ('Health',
+                                                         'Святост и здравеопазване'),
+                  ('Food', 'Оцеляване и изранване')]
+
+
 class Project(Timestamped):
     class Meta:
         rules_permissions = {
@@ -184,13 +194,25 @@ class Project(Timestamped):
         }
 
     TYPES = Choices('business', 'cause')
+    REPORTS_TIMESPAN = Choices('montly', 'twoweeks', 'weekly')
+
     type = models.CharField(max_length=20, choices=TYPES)
     name = models.CharField(max_length=50)
+    location = models.CharField(max_length=30, null=True)
+    goal1 = models.CharField(max_length=200, null=True)
+    goal2 = models.CharField(max_length=200, null=True)
+    goal3 = models.CharField(max_length=200, null=True)
     description = models.CharField(max_length=300)
-    text = models.TextField()
+    text = models.TextField(max_length=5000)
     community = models.ForeignKey(Community, on_delete=models.CASCADE)
+    start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
+    end_date_tasks = models.DateField(null=True, blank=True)
     gallery = models.ForeignKey(Gallery, on_delete=models.PROTECT, null=True)
+    report_period = models.CharField(
+        choices=REPORTS_TIMESPAN, max_length=50, default='weekly')
+    category = models.CharField(
+        choices=CATEGORY_TYPES, max_length=50, default='Education')
 
     def latest_reports(self):
         show_reports = 3
