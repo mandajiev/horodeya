@@ -1,2 +1,2 @@
 [all]
-nov.horodeya.org ansible_host=35.159.17.91 ansible_user=admin
+horodeya.com ansible_host=35.159.17.91 ansible_user=admin

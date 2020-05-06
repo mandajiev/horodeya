@@ -44,7 +44,7 @@ else:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', '.horodeya.org']
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', '.horodeya.com', 'horodeya.com']
 
 # Application definition
 
@@ -224,8 +224,8 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_FORMS = {'signup': 'home.forms.NamesSignupForm'}
 
 EMAIL_BACKEND = "anymail.backends.amazon_ses.EmailBackend"
-DEFAULT_FROM_EMAIL = "info@horodeya.org"
-SERVER_EMAIL = "ops@horodeya.org"
+DEFAULT_FROM_EMAIL = "info@horodeya.com"
+SERVER_EMAIL = "ops@horodeya.com"
 
 ANYMAIL = {
     'WEBHOOK_SECRET': os.getenv('ANYMAIL_WEBHOOK_SECRET')
