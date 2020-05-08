@@ -8,9 +8,9 @@
 
 {% block admin_tools %}
   <a class="nav-link text-white" href="{% url 'projects:community_photo_update' object.id %}">{% trans "Update photo" %}</a>
-  <li class="nav-item">
+  <!-- <li class="nav-item">
     <a class="nav-link text-white" href="{% url 'projects:community_update' object.pk %}">{% trans 'Update' %}</a>
-  </li>
+  </li> -->
   <a class="nav-link text-white" href="{% url 'projects:community_member_list' object.pk %}">{% trans 'Update members' %}</a>
 {% endblock %}
 

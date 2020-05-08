@@ -47,11 +47,20 @@ def short_random():
     return str(uuid.uuid4()).split('-')[0]
 
 
+COMMUNITY_ACTIVYTY_TYPES = [('Creativity', 'Наука и творчество'),
+                            ('Education', 'Просвета и възпитание'),
+                            ('Art', 'Култура и артистичност'),
+                            ('Administration', 'Администрация и финанси'),
+                            ('Willpower', 'Спорт и туризъм'),
+                            ('Health', 'Бит и здравеопазване'),
+                            ('Food', 'Земеделие и изхранване')]
+
+
 class ProjectForm(ModelForm):
     class Meta:
         model = Project
-        fields = ['name', 'community', 'category', 'location', 'description', 'goal1',
-                  'goal2', 'goal3',  'text', 'start_date', 'end_date', 'end_date_tasks', 'report_period']
+        fields = ['name', 'community', 'category', 'location', 'description', 'goal',
+                  'text', 'start_date', 'end_date', 'end_date_tasks', 'report_period']
         widgets = {
             'end_date': DatePicker(
                 options={
@@ -63,14 +72,15 @@ class ProjectForm(ModelForm):
                 options={
                     'useCurrent': True,
                     'collapse': False,
-                },
+                }
             ),
             'end_date_tasks': DatePicker(
                 options={
                     'useCurrent': True,
                     'collapse': False,
-                },
-            )
+                }
+            ),
+            'category': forms.RadioSelect(attrs=None, choices=COMMUNITY_ACTIVYTY_TYPES)
         }
         labels = {
             'goal1': 'Goal 1 ',
@@ -301,14 +311,6 @@ class ProjectDelete(AutoPermissionRequiredMixin, DeleteView):
 
 COMMUNITY_FIELDS = ['name', 'type', 'bulstat', 'DDORegistration', 'phone', 'email', 'mission',
                     'numberOfSupporters', 'previousExperience', 'activityType', 'website', 'facebook_page']
-
-COMMUNITY_ACTIVYTY_TYPES = [('Creativity', ' Проекти от областта на науката или изкуството, които развиват градивната енергия на индивида и неговата сила за себе реализация.'),
-                            ('Education', 'Проекти, стъпили на принципа на висшата справедливост и въплащение на благородни мисли и желания в живота на човека, при което интуитивните и творческите му способности достигат нови нива.'),
-                            ('Art', ' Проекти в областта на културата, които събуждат естественото ни чувство за споделяне и придават финес на взаимоотношенията в обществото.'),
-                            ('Administration', 'Проекти, свързани със системи за създаване и прилагане на правила за истинно и честно социално взаимодействие. Механизми за разрешаване на спорове.'),
-                            ('Willpower', 'Проекти, които развиват смелост, устрем, воля за победа, воля за индивидуална и колективна изява, като спорт и туризъм.'),
-                            ('Health', 'Проекти, които следват естествения ритъм на човешкия организъм и са мост между Висшия и конкретния ум.'),
-                            ('Food', 'Проекти развиващи това, което най-пряко влияе върху нашите бит и ежедневие, допринасят за оцеляването и изхранването на обществото.')]
 
 
 class CommunityCreate(AutoPermissionRequiredMixin, CreateView):

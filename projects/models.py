@@ -38,6 +38,11 @@ def determine_community(object):
 
 
 @rules.predicate
+def is_site_admin(user, object):
+    return user.is_superuser
+
+
+@rules.predicate
 def member_of_community(user, object):
     return user.member_of(determine_community(object).id)
 
@@ -141,7 +146,7 @@ class User(AbstractUser, RulesModelMixin, metaclass=RulesModelBase):
         rules_permissions = {
             "add": rules.always_allow,
             "delete": rules.always_deny,
-            "change": myself,
+            "change": is_site_admin,
             "view": rules.is_authenticated,
         }
 
@@ -175,12 +180,13 @@ class User(AbstractUser, RulesModelMixin, metaclass=RulesModelBase):
 # TODO notify user on new project added
 
 
-CATEGORY_TYPES = [('Education', 'Просвете и образование'), ('Creativity', 'Въображение и творчество'),
-                  ('Art', 'Изразяване и артистичност'),
-                  ('Finance', 'Администрация и финанси'),
-                  ('Willpower', 'Воля и утвърждаване'), ('Health',
-                                                         'Святост и здравеопазване'),
-                  ('Food', 'Оцеляване и изранване')]
+CATEGORY_TYPES = [('Creativity', 'Наука и творчество'),
+                  ('Education', 'Просвета и възпитание'),
+                  ('Art', 'Култура и артистичност'),
+                  ('Administration', 'Администрация и финанси'),
+                  ('Willpower', 'Спорт и туризъм'),
+                  ('Health', 'Бит и здравеопазване'),
+                  ('Food', 'Земеделие и изхранване')]
 
 
 class Project(Timestamped):
@@ -188,7 +194,7 @@ class Project(Timestamped):
         rules_permissions = {
             "add": rules.is_authenticated,
             "delete": admin_of_community,
-            "change": member_of_community,
+            "change": is_site_admin,
             "view": rules.always_allow,
             "follow": rules.is_authenticated
         }
@@ -199,9 +205,7 @@ class Project(Timestamped):
     type = models.CharField(max_length=20, choices=TYPES)
     name = models.CharField(max_length=50)
     location = models.CharField(max_length=30, null=True)
-    goal1 = models.CharField(max_length=200, null=True)
-    goal2 = models.CharField(max_length=200, null=True)
-    goal3 = models.CharField(max_length=200, null=True)
+    goal = models.TextField(null=True)
     description = models.CharField(max_length=300)
     text = models.TextField(max_length=5000)
     community = models.ForeignKey(Community, on_delete=models.CASCADE)

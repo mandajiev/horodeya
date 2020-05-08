@@ -26,7 +26,7 @@
  Apply as a volunteer for the cause {{cause}} from {{community}}
   {% endblocktrans %}
 </h4>
-
+{%if form.visible_fields%}
 {{ formset.media }}
 <form method="post" class="form">
   {% csrf_token %}
@@ -56,5 +56,9 @@
   </button>
   {% endbuttons %}
 </form>
+{%else%}
+<h4>No positions available</h4>
+{%endif%}
+
 
 {% endblock %}
