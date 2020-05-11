@@ -10,9 +10,10 @@
 
 {% block admin_tools %}
   <a class="nav-link text-white" href="{% url 'projects:user_photo_update' user.id %}">{% trans "Update photo" %}</a>
-  <li class="nav-item">
+  
+  {% comment %} <li class="nav-item">
     <a class="nav-link text-white" href="{% url 'user_update' object.pk %}">Редактирай</a>
-  </li>
+  </li> {% endcomment %}
   <li class="nav-item">
     <a class="nav-link text-white" href="{% url 'account_email' %}">Промени е-поща</a>
   </li>
@@ -55,13 +56,24 @@
           {% endfor %}
         </li>
         <li class="list-group-item">
-          {% blocktrans with count=object.timesupport_set.count %}
-          Donated {{count}} times.
-          {% endblocktrans %}
-          <a href="{% url 'projects:user_support_list' object.pk 'time' %}"> {% trans 'See all' %} </a>
+          {% trans "Causes" %}:
+          {% for project in object.projects %}
+            <a class="" href="{% url 'projects:details' project.pk %}">{{ project }}</a>
+            {% if not forloop.last %}
+            |
+            {% endif %}
+          {% empty %}
+          Няма каузи
+          {% endfor %}
         </li>
         <li class="list-group-item">
           {% blocktrans with count=object.moneysupport_set.count %}
+          Donated {{count}} times.
+          {% endblocktrans %}
+          <a href="{% url 'projects:user_support_list' object.pk 'money' %}"> {% trans 'See all' %} </a>
+        </li>
+        <li class="list-group-item">
+          {% blocktrans with count=object.timesupport_set.count  %}
           Volunteered {{count}} times.
           {% endblocktrans %}
           <a href="{% url 'projects:user_support_list' object.pk 'time' %}"> {% trans 'See all' %} </a>

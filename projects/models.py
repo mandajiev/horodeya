@@ -146,7 +146,7 @@ class User(AbstractUser, RulesModelMixin, metaclass=RulesModelBase):
         rules_permissions = {
             "add": rules.always_allow,
             "delete": rules.always_deny,
-            "change": is_site_admin,
+            "change": myself,
             "view": rules.is_authenticated,
         }
 
