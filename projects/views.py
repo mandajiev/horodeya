@@ -1240,8 +1240,9 @@ def community_photo_update(request, pk):
             else:
                 return redirect(community)
     else:
-        form = UploadFileForm(
-            initial={'file': community.photo.image if community.photo else None})
+        # form = UploadFileForm(
+        #     initial={'file': community.photo.image if community.photo else None})
+        form = UploadFileForm()
 
     return render(request, 'projects/community_photo_update.html', {'form': form, 'community': community})
 
