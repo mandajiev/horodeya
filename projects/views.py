@@ -543,7 +543,7 @@ class MoneySupportForm(ModelForm):
     class Meta:
         model = MoneySupport
         fields = ['leva', 'necessity', 'comment',
-                  'anonymous', 'payment_method']
+                  'payment_method']
         widgets = {
             'payment_method': forms.RadioSelect()
         }
