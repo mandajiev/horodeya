@@ -285,23 +285,23 @@ class ProjectCreate(AutoPermissionRequiredMixin, UserPassesTestMixin, CreateView
         return super().form_valid(form)
 
 
-class ProjectUpdate(AutoPermissionRequiredMixin, UpdateView):
-    model = Project
-    form_class = ProjectForm
+# class ProjectUpdate(AutoPermissionRequiredMixin, UpdateView):
+#     model = Project
+#     form_class = ProjectForm
 
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs.update({'user': self.request.user})
-        return kwargs
+#     def get_form_kwargs(self):
+#         kwargs = super().get_form_kwargs()
+#         kwargs.update({'user': self.request.user})
+#         return kwargs
 
-    def form_valid(self, form):
-        user = self.request.user
-        community = form.instance.community
-        if community.admin != user:
-            form.add_error('community', 'You must be the admin of the community entity. Admin for %s is %s' % (
-                community, community.admin))
-            return super().form_invalid(form)
-        return super().form_valid(form)
+#     def form_valid(self, form):
+#         user = self.request.user
+#         community = form.instance.community
+#         if community.admin != user:
+#             form.add_error('community', 'You must be the admin of the community entity. Admin for %s is %s' % (
+#                 community, community.admin))
+#             return super().form_invalid(form)
+#         return super().form_valid(form)
 
 
 class ProjectDelete(AutoPermissionRequiredMixin, DeleteView):
