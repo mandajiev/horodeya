@@ -757,7 +757,7 @@ def support_change_accept(request, pk, type, accepted):
     else:
         support = get_object_or_404(TimeSupport, pk=pk)
 
-    if support.status == support.STATUS.accepted:
+    if support.STATUS == support.STATUS.accepted:
         messages.info(request, _('Support already accepted')
                       if accepted else _('Support already declined'))
     else:
@@ -786,11 +786,11 @@ def support_delivered(request, pk, type):
 
     support = get_support(pk, type)
 
-    if support.delivered:
+    if support.STATUS == 'delivered':
         messages.info(request, _('Support already marked as delivered'))
     else:
-        support.delivered = True
-        support.delivered_at = timezone.now()
+        support.STATUS = 'delivered'
+        # support.delivered_at = timezone.now()
         support.save()
 
         messages.success(request, _('Support marked as delivered'))
