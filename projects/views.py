@@ -786,10 +786,10 @@ def support_delivered(request, pk, type):
 
     support = get_support(pk, type)
 
-    if support.STATUS == 'delivered':
+    if support.STATUS == support.STATUS.delivered:
         messages.info(request, _('Support already marked as delivered'))
     else:
-        support.STATUS = 'delivered'
+        support.STATUS = support.STATUS.delivered
         # support.delivered_at = timezone.now()
         support.save()
 
