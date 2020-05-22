@@ -502,11 +502,11 @@ msgstr "Потребител"
 
 #: projects/models.py:163
 msgid "Cause"
-msgstr "Кауза"
+msgstr "Задруга"
 
 #: projects/models.py:163
 msgid "Business"
-msgstr "Задруга"
+msgstr "Бизнес"
 
 #: projects/models.py:289
 msgid "announcement"
@@ -656,7 +656,7 @@ msgstr "Банков код"
 msgid ""
 "The cause does not support this payment type. Please choose another payment "
 "type"
-msgstr "Каузата не приема този метод на плащане. Моля изберете друг метод на плащане"
+msgstr "Задругата не приема този метод на плащане. Моля изберете друг метод на плащане"
 
 #: projects/templates/projects/photo_form.html:8
 #: projects/templates/projects/project_detail.html:26
@@ -684,7 +684,7 @@ msgstr "Напиши доклад"
 
 #: projects/templates/projects/project_detail.html:29
 msgid "Update cause"
-msgstr "Промени кауза"
+msgstr "Промени задруга"
 
 #: projects/templates/projects/project_detail.html:33
 msgid "See as admin"
@@ -697,7 +697,7 @@ msgstr "Добави изображение"
 #: projects/templates/projects/project_detail.html:72
 #: projects/templates/projects/project_detail.html:195
 msgid "Follow the cause"
-msgstr "Следвай каузата"
+msgstr "Следвай задруга"
 
 #: projects/templates/projects/project_detail.html:93
 msgid "Show more"
@@ -715,7 +715,7 @@ msgid ""
 "      "
 msgstr ""
 "\n"
-"       Каузата има нужда от %(count)s доброволеца\n"
+"       Задругата има нужда от %(count)s доброволеца\n"
 "        "
 
 #: projects/templates/projects/project_detail.html:122
@@ -744,7 +744,7 @@ msgid ""
 "      "
 msgstr ""
 "\n"
-"      Каузата има нужда от %(count)s неща на стойност %(price)s\n"
+"      Задругата има нужда от %(count)s неща на стойност %(price)s\n"
 "        "
 
 #: projects/templates/projects/project_detail.html:148
@@ -781,7 +781,7 @@ msgid ""
 "from the cause."
 msgstr ""
 "Редовните доклади позволяват прозрачност и отчетност. Разгледай докладите на "
-"каузата."
+"задругата."
 
 #: projects/templates/projects/project_detail.html:162
 #: projects/templates/projects/thingnecessity_detail_fragment.html:11
@@ -967,7 +967,7 @@ msgid ""
 "  "
 msgstr ""
 "\n"
-"Кандидатствай за доброволец за каузата %(cause)s на %(community)s\n"
+"Кандидатствай за доброволец за задругата %(cause)s на %(community)s\n"
 "  "
 
 #: projects/templates/projects/time_support_create.html:54
@@ -2414,10 +2414,10 @@ msgstr ""
 #~ msgstr "Следвай каузи и задруги"
 
 #~ msgid "Apply with your business"
-#~ msgstr "Кандидатствай с твоята задруга"
+#~ msgstr "Кандидатствай с твоя бизнес"
 
 #~ msgid "Apply with your cause"
-#~ msgstr "Кандидатствай с твоята кауза"
+#~ msgstr "Кандидатствай с твоята задруга"
 
 #~ msgid "You need to be part of a Legal entity to apply"
 #~ msgstr "Трябва да си част от Юредическо лице за да кандидатстваш"

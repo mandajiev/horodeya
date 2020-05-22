@@ -73,7 +73,7 @@
 
               <a class="nav-link {% active каузи %}" href="/каузи/">{% trans 'Causes' %}</a>
 
-              <a class="nav-link {% active задруги %}" href="/задруги/">{% trans 'Businesses' %}</a>
+               {% comment %} <a class="nav-link {% active задруги %}" href="/задруги/">{% trans 'Businesses' %}</a>  {% endcomment %}
 
               <a class="nav-link {% active "за-нас" %}" href="/за-нас/">{% trans 'About us' %}</a>
               {% if user.is_authenticated %}

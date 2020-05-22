@@ -1,9 +1,9 @@
 {% load i18n %}
 <li class="breadcrumb-item">
   {% if project.type == 'cause' or type == 'cause'%}
-    <a href="/каузи">{% trans "Causes" %}</a>
+    <a href="/задруги">{% trans "Causes" %}</a>
   {% else %}
-  <a href="/задруги">{% trans "Businesses" %}</a>
+  <a href="/бизнеси">{% trans "Businesses" %}</a>
   {% endif %}
   {% if project %}
   <li class="breadcrumb-item {{active}}">
