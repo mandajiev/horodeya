@@ -402,12 +402,12 @@ msgstr "Начало"
 #: home/templates/base.html:74
 #: projects/templates/projects/project_breadcrumb.html:4
 msgid "Causes"
-msgstr "Каузи"
+msgstr "Задруги"
 
 #: home/templates/base.html:76
 #: projects/templates/projects/project_breadcrumb.html:6
 msgid "Businesses"
-msgstr "Задруги"
+msgstr "Бизнеси"
 
 #: home/templates/base.html:78
 msgid "About us"
