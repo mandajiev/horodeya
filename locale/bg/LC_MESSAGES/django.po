@@ -510,7 +510,7 @@ msgstr "Бизнес"
 
 #: projects/models.py:289
 msgid "announcement"
-msgstr "обявление"
+msgstr "известие"
 
 #: projects/models.py:474
 msgid "Do you have a comment"
@@ -557,7 +557,7 @@ msgstr ""
 
 #: projects/templates/activity/announcement.html:11
 msgid "posted an announcement for"
-msgstr "публикува обявление за"
+msgstr "публикува известие за"
 
 #: projects/templates/activity/report.html:11
 msgid "published new report for"
@@ -820,7 +820,7 @@ msgstr "Добави доклад"
 
 #: projects/templates/projects/project_detail.html:192
 msgid "Announcements"
-msgstr "Обявления"
+msgstr "Известия"
 
 #: projects/templates/projects/project_detail.html:203
 msgid "Publish"
