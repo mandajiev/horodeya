@@ -14,6 +14,7 @@ from stream_django.enrich import Enrich
 
 from projects.models import Project
 
+
 class HomePage(Page):
     body = StreamField([
         ('text', blocks.RichTextBlock()),
@@ -51,6 +52,7 @@ class HomePage(Page):
             'page': self,
             'timeline': timeline,
         })
+
 
 
 class AboutUs(Page):

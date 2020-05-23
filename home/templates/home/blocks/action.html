@@ -1,5 +1,6 @@
-{% load static %} {% load wagtailcore_tags %}
-<div class="row d-flex justify-content-center">
+{% load static %} 
+{% load wagtailcore_tags %}
+{% comment %} <div class="row d-flex justify-content-center">
   <div class="col-12 col-sm-8 col-md-8 col-lg-4">
     <div class="card mb-3 ml-auto mr-auto" style="width: 16rem;">
       <img
@@ -19,10 +20,10 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> {% endcomment %}
 
-  <div class="col-12 col-sm-8 col-md-8 col-lg-4  ">
-    <div class="card mb-3 ml-auto mr-auto" style="width: 16rem;">
+  <div class="row d-flex justify-content-center">
+    <div class="card mb-3 ">
       <img
         style="max-width:250;height:300px"
         class="card-img img-fluid"
@@ -35,7 +36,7 @@
         <div class="link d-flex">
           <a
             class=" card-link btn btn-block btn-primary mt-auto"
-            href="{% pageurl value.page1 %}"
+            href="/задруги/"
             >Научи повече
           </a>
         </div>
