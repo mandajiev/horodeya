@@ -6,11 +6,11 @@
     {% include "projects/report_breadcrumb.html" with report=object project=report.project active="active" only %}
 {% endblock %}
 
-{% block admin_tools %}
+{% comment %} {% block admin_tools %}
   <li class="nav-item">
     <a class="nav-link text-white" href="{% url 'projects:report_update' object.pk %}">Редактирай</a>
   </li>
-{% endblock %}
+{% endblock %} {% endcomment %}
 
 {% block content %}
 

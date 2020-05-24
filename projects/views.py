@@ -440,15 +440,15 @@ class ReportCreate(PermissionRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class ReportUpdate(AutoPermissionRequiredMixin, UpdateView):
-    model = Report
-    form_class = ReportForm
+# class ReportUpdate(AutoPermissionRequiredMixin, UpdateView):
+#     model = Report
+#     form_class = ReportForm
 
-    def get_context_data(self, **kwargs):
+#     def get_context_data(self, **kwargs):
 
-        context = super().get_context_data(**kwargs)
-        context['project'] = self.object.project
-        return context
+#         context = super().get_context_data(**kwargs)
+#         context['project'] = self.object.project
+#         return context
 
 
 class ReportDelete(AutoPermissionRequiredMixin, DeleteView):
