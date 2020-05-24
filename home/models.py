@@ -38,21 +38,20 @@ class HomePage(Page):
     ]
 
     def serve(self, request):
-        user = request.user
+        # user = request.user
 
-        if user.is_authenticated:
-            feed = feed_manager.get_feed('timeline', user.id)
-        else:
-            feed = feed_manager.get_feed('timeline', 0)
+        # if user.is_authenticated:
+        #     feed = feed_manager.get_feed('timeline', user.id)
+        # else:
+        #     feed = feed_manager.get_feed('timeline', 0)
 
-        enricher = Enrich()
-        timeline = enricher.enrich_activities(feed.get(limit=25)['results'])
+        # enricher = Enrich()
+        # timeline = enricher.enrich_activities(feed.get(limit=25)['results'])
 
         return render(request, 'home/home_page.html', {
             'page': self,
-            'timeline': timeline,
+            # 'timeline': timeline,
         })
-
 
 
 class AboutUs(Page):

@@ -69,7 +69,11 @@
               </a>
               <div class="justify-content center d-flex ml-auto">
               <ul class=" navbar-nav">
+              {% if user.is_authenticated%}
+              <a class="nav-link justify-content-end {% active задруги %}" href="/projects/feed">{% trans 'Feed' %}</a>
+              {%else%}
               <a class="nav-link justify-content-end {% active задруги %}" href="/">{% trans 'Home' %}</a>
+              {%endif%}
 
               <a class="nav-link {% active задруги %}" href="/задруги/">{% trans 'Causes' %}</a>
 
@@ -118,7 +122,7 @@
         
 
         <div class="container">
-          {% block breadcrumbs_container %}
+          {% comment %} {% block breadcrumbs_container %}
           <nav class="mt-3" aria-label="breadcrumb">
             <ol class="breadcrumb">
 
@@ -126,7 +130,8 @@
               {% block breadcrumbs %}{% endblock %}
             </ol>
           </nav>
-          {% endblock %}
+    
+          {% endblock %} {% endcomment %}
 
           {% bootstrap_messages %}
 

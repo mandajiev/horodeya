@@ -42,6 +42,9 @@ from stream_django.feed_manager import feed_manager
 from stream_django.enrich import Enrich
 from django.contrib.auth.mixins import UserPassesTestMixin
 
+from stream_django.feed_manager import feed_manager
+from stream_django.enrich import Enrich
+
 
 def short_random():
     return str(uuid.uuid4()).split('-')[0]
@@ -1355,3 +1358,17 @@ class LegalEntityDataCreate(AutoPermissionRequiredMixin, CreateView):
             return redirect(self.request.GET['next']+'?supportertype=legalentitydonator')
         else:
             return redirect('/accounts/profile/')
+
+
+def Feed(request):
+    user = request.user
+
+    if user.is_authenticated:
+        feed = feed_manager.get_feed('timeline', user.id)
+    else:
+        feed = feed_manager.get_feed('timeline', 0)
+
+    enricher = Enrich()
+    timeline = enricher.enrich_activities(feed.get(limit=25)['results'])
+
+    return render(request, 'projects/feed.html', {'timeline': timeline})

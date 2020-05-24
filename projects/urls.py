@@ -100,6 +100,7 @@ urlpatterns = [
     path('donator/create/', views.DonatorDataCreate.as_view(),
          name='donator_create'),
     path('legalentitydonator/create/', views.LegalEntityDataCreate.as_view(),
-         name='donator_create'),
+         name='legalentitydonator_create'),
+    path('feed', views.Feed, name='user_feed')
 
 ]
