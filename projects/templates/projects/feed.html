@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load activity_tags %} 
+
+{%block content%}
+<h1 class='text-center mt-5'>{%trans 'Feed'%}</h1>
+ {% for activity in timeline %}
+
+      <div class='row justify-content-center mt-5'>
+        <div class="col-md-8">
+          {% render_activity activity %}
+          </div>
+        </div>
+        {% empty %}
+          <p class="text-center">{% trans 'Nothing happened recently' %}</p>
+        {% endfor %}  
+
+ {%endblock%}
