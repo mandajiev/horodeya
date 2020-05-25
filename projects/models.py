@@ -697,7 +697,7 @@ class Answer(Timestamped):
         unique_together = ['project', 'question']
 
     project = models.ForeignKey('Project', on_delete=models.CASCADE)
-    question = models.ForeignKey('Question', on_delete=models.PROTECT)
+    question = models.ForeignKey('Question', on_delete=models.CASCADE)
     answer = models.TextField(null=False, blank=True)
 
 # TODO notify in feed
