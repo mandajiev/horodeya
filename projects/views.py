@@ -782,18 +782,19 @@ def support_change_accept(request, pk, type, accepted):
 
 @permission_required('projects.mark_delivered_support', fn=get_support_request)
 def support_delivered(request, pk, type):
+
     if type in ['money', 'm']:
         support = get_object_or_404(MoneySupport, pk=pk)
     else:
         support = get_object_or_404(TimeSupport, pk=pk)
 
-    support = get_support(pk, type)
+    # support = get_support(pk, type)
 
-    if support.STATUS == support.STATUS.delivered:
+    if support.status == support.STATUS.delivered:
         messages.info(request, _('Support already marked as delivered'))
     else:
-        support.STATUS = support.STATUS.delivered
-        # support.delivered_at = timezone.now()
+        support.status = support.STATUS.delivered
+        support.delivered_at = timezone.now()
         support.save()
 
         messages.success(request, _('Support marked as delivered'))

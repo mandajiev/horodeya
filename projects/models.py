@@ -570,7 +570,7 @@ class Support(Timestamped):
         return res
 
     def delivery_expires(self):
-        if not self.status == 'ccepted':
+        if not self.status == 'accepted':
             return None
 
         return self.status_since + datetime.timedelta(days=30)
