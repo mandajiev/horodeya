@@ -27,6 +27,9 @@
         {% endif %}
         {{ object.user }} <a href="{{ object.user.get_absolute_url }}">{% trans 'See profile' %}</a>
       </li>
+           <li class="list-group-item">
+        {% trans "Email" %}: {{ object.user.email }}
+      </li>
 
       <li class="list-group-item">
         {% trans "Comment" %}:<br> {{ object.comment }}
