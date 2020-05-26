@@ -13,7 +13,7 @@
 <form method="post" class="form-inline">
   {% csrf_token %}
   {{ formset.management_form }}
-  <div class="table-responsive">
+  <div class="table-responsive" style="height:70vh;width:100vw">
     {% bootstrap_formset_errors formset %}
     <table class="table table-sm">
     <thead>

@@ -717,7 +717,7 @@ class TimeSupport(Support):
         unique_together = ['necessity', 'user']
 
     necessity = models.ForeignKey(
-        TimeNecessity, on_delete=models.PROTECT, related_name='supports')
+        TimeNecessity, on_delete=models.CASCADE, related_name='supports')
     price = models.IntegerField()
     start_date = models.DateField()
     end_date = models.DateField()
