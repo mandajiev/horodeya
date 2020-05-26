@@ -130,6 +130,7 @@ class Community(Timestamped):
     revolut_phone = models.DecimalField(
         blank=True, null=True, max_digits=20, decimal_places=0)
     facebook_page = models.CharField(max_length=100, null=True, blank=True)
+    slack_channel = models.CharField(max_length=100, null=True, blank=True)
 
     def page_name(self):
         return "%s %s" % (gettext('Community'), self.name)
@@ -158,6 +159,7 @@ class User(AbstractUser, RulesModelMixin, metaclass=RulesModelBase):
     legalEntityDonatorData = models.OneToOneField(
         'LegalEntityDonatorData', on_delete=models.PROTECT, null=True)
     second_name = models.CharField(max_length=30, blank=True)
+    slack_channel = models.CharField(max_length=100, null=True, blank=True)
 
     def page_name(self):
         return "%s %s" % (gettext('User'), str(self))
@@ -217,6 +219,7 @@ class Project(Timestamped):
         choices=REPORTS_TIMESPAN, max_length=50, default='weekly')
     category = models.CharField(
         choices=CATEGORY_TYPES, max_length=50, default='Education')
+    slack_channel = models.CharField(max_length=100, null=True, blank=True)
 
     def latest_reports(self):
         show_reports = 3

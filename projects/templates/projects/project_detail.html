@@ -25,9 +25,9 @@
   <li class="nav-item flex-fill text-center ">
     <a class="nav-link text-white" href="{% url 'projects:gallery_update' project.pk %}">{% trans 'Update images' %}</a>
   </li>
-  {% comment %} <li class="nav-item flex-fill text-center ">
-    <a class="nav-link text-white" href="{% url 'projects:update' project.pk %}">{% trans 'Update cause' %}</a>
-  </li> {% endcomment %}
+   <li class="nav-item flex-fill text-center ">
+    <a class="nav-link text-white" href="{% url 'projects:update' project.pk %}">{% trans 'Add slack' %}</a>
+  </li> 
 {% elif can_be_admin %}
   <li class="nav-item flex-fill text-center ">
     <a class="nav-link text-white" href="{% url 'projects:details' object.pk %}">{% trans 'See as admin' %}</a>
@@ -71,7 +71,9 @@
       {% else %}
         <a class="btn btn-outline-primary mt-5" href="{% url 'projects:follow_project' object.pk %}">{% trans 'Follow the cause' %}</a>
       {% endif %}
+  
     </div>
+  
   </div>
   <div class=" mt-1">
     <h3>
@@ -80,12 +82,12 @@
         <a href="{{ project.community.get_absolute_url }}">{{project.community}}</a>
       </small>
     </h3>
+          <h5>Slack канал:{{object.slack_channel}}</h5>
   </div>
 
 	<div class="">
     <div class="body">
         <h5>{{ object.description }}</h5>
-
         <div class="accordion" id="shortLongText">
         <div class="collapse show" id="shortText" data-parent="#shortLongText" >
         {{ object.text|linebreaks|truncatewords_html:50 }}

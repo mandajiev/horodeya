@@ -28,7 +28,7 @@ from rules.contrib.views import AutoPermissionRequiredMixin, permission_required
 
 from projects.models import Project, Community, Report, MoneySupport, TimeSupport, User, Announcement, TimeNecessity, ThingNecessity, Question, QuestionPrototype, DonatorData, LegalEntityDonatorData
 
-from projects.forms import QuestionForm, PaymentForm
+from projects.forms import QuestionForm, PaymentForm, ProjectUpdateForm
 
 from tempus_dominus.widgets import DateTimePicker, DatePicker
 
@@ -288,23 +288,23 @@ class ProjectCreate(AutoPermissionRequiredMixin, UserPassesTestMixin, CreateView
         return super().form_valid(form)
 
 
-# class ProjectUpdate(AutoPermissionRequiredMixin, UpdateView):
-#     model = Project
-#     form_class = ProjectForm
+class ProjectUpdate(AutoPermissionRequiredMixin, UpdateView):
+    model = Project
+    form_class = ProjectUpdateForm
 
-#     def get_form_kwargs(self):
-#         kwargs = super().get_form_kwargs()
-#         kwargs.update({'user': self.request.user})
-#         return kwargs
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
 
-#     def form_valid(self, form):
-#         user = self.request.user
-#         community = form.instance.community
-#         if community.admin != user:
-#             form.add_error('community', 'You must be the admin of the community entity. Admin for %s is %s' % (
-#                 community, community.admin))
-#             return super().form_invalid(form)
-#         return super().form_valid(form)
+    def form_valid(self, form):
+        user = self.request.user
+        community = form.instance.community
+        if community.admin != user:
+            form.add_error('community', 'You must be the admin of the community entity. Admin for %s is %s' % (
+                community, community.admin))
+            return super().form_invalid(form)
+        return super().form_valid(form)
 
 
 class ProjectDelete(AutoPermissionRequiredMixin, DeleteView):
@@ -338,7 +338,7 @@ class CommunityCreate(AutoPermissionRequiredMixin, CreateView):
 
 class CommunityUpdate(AutoPermissionRequiredMixin, UpdateView):
     model = Community
-    fields = COMMUNITY_FIELDS
+    fields = ['slack_channel']
 
     def form_valid(self, form):
         admin = form.instance.admin

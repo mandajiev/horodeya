@@ -8,9 +8,9 @@
 
 {% block admin_tools %}
   <a class="nav-link text-white" href="{% url 'projects:community_photo_update' object.id %}">{% trans "Update photo" %}</a>
-  <!-- <li class="nav-item">
-    <a class="nav-link text-white" href="{% url 'projects:community_update' object.pk %}">{% trans 'Update' %}</a>
-  </li> -->
+  <li class="nav-item">
+    <a class="nav-link text-white" href="{% url 'projects:community_update' object.pk %}">{% trans 'Add slack' %}</a>
+  </li>
   <a class="nav-link text-white" href="{% url 'projects:community_member_list' object.pk %}">{% trans 'Update members' %}</a>
 {% endblock %}
 
@@ -50,6 +50,9 @@
           </li>
           <li class="list-group-item">
             Плащане: {{ object.payment | linebreaks }}
+          </li>
+          <li class="list-group-item">
+            Slack канал : {{ object.slack_channel}}
           </li>
     </div>
 </div>
