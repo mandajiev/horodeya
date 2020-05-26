@@ -48,9 +48,9 @@
           <li class="list-group-item">
             Администратор: <a href="{{ object.admin.get_absolute_url }}"> {{ object.admin }}</a>
           </li>
-          <li class="list-group-item">
+          {% comment %} <li class="list-group-item">
             Плащане: {{ object.payment | linebreaks }}
-          </li>
+          </li> {% endcomment %}
           <li class="list-group-item">
             Slack канал : {{ object.slack_channel}}
           </li>
