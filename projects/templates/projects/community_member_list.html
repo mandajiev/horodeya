@@ -22,7 +22,7 @@
     <ul class="list-group mt-3">
         {% for user in object.user_set.all %}
           <li class="list-group-item">
-            <a href="{% url 'projects:community_details' user.pk %}">{{ user }}</a>
+            <a href="{% url 'account' user.pk %}">{{ user }}</a>
             <a class="btn btn-danger" href="{% url 'projects:community_member_remove' object.pk user.pk %}">{% trans 'Remove' %}</a>
           </li>
         {% endfor %}

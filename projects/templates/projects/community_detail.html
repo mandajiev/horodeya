@@ -2,9 +2,9 @@
 {% load i18n %}
 {% load static %}
 
-{% block breadcrumbs %}
-{% include 'projects/community_breadcrumb.html' with object=object active="active" only %}
-{% endblock %}
+{% comment %} {% block breadcrumbs %}
+{% include 'projects/community_breadcrumb.html' with object=object active="active" only%}
+{% endblock %} {% endcomment %}
 
 {% block admin_tools %}
   <a class="nav-link text-white" href="{% url 'projects:community_photo_update' object.id %}">{% trans "Update photo" %}</a>
@@ -54,6 +54,17 @@
           <li class="list-group-item">
             Slack канал : {{ object.slack_channel}}
           </li>
+               <li class="list-group-item">
+           Членове:
+          {% for user in object.user_set.all %}         
+            <a href="{% url 'account' user.pk %}">{{ user }}</a>
+               {% if not forloop.last %}
+            |
+            {% endif %}
+         {% endfor %}
+                </li>
+    
+          </ul>
     </div>
 </div>
 
