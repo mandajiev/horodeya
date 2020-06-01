@@ -45,6 +45,8 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 from stream_django.feed_manager import feed_manager
 from stream_django.enrich import Enrich
 
+from notifications.signals import notify
+
 
 def short_random():
     return str(uuid.uuid4()).split('-')[0]
@@ -769,8 +771,21 @@ def support_change_accept(request, pk, type, accepted):
                 'Select a necessity for the money support'))
             return redirect('projects:money_support_update', support.pk)
 
+        user_recipient = get_object_or_404(User, pk=support.user.id)
+        project = get_object_or_404(Project, pk=support.project.id)
+        project_name = project.name
+
+        if type == 'time':
+            notification_message = 'Вашата заявка за доброволстване към %s беше приета' % (
+                project_name)
+        else:
+            notification_message = 'Вашето дарение към %s беше прието' % (
+                project_name)
+
         result = support.set_accepted(accepted)
         if result == accepted:
+            notify.send(request.user, recipient=user_recipient,
+                        verb=notification_message)
             messages.success(request, _('Support accepted')
                              if accepted else _('Support declined'))
         else:
@@ -780,13 +795,24 @@ def support_change_accept(request, pk, type, accepted):
     return redirect(support)
 
 
-@permission_required('projects.mark_delivered_support', fn=get_support_request)
+# @permission_required('projects.mark_delivered_support', fn=get_support_request)
 def support_delivered(request, pk, type):
 
     if type in ['money', 'm']:
         support = get_object_or_404(MoneySupport, pk=pk)
     else:
         support = get_object_or_404(TimeSupport, pk=pk)
+
+    user_recipient = get_object_or_404(User, pk=support.user.id)
+    project = get_object_or_404(Project, pk=support.project.id)
+    project_name = project.name
+
+    if type == 'time':
+        notification_message = 'Поздравления за успешно изпълненото доброволстване към задругата %s' % (
+            project_name)
+    else:
+        notification_message = 'Вашето дарение към %s беше получено' % (
+            project_name)
 
     # support = get_support(pk, type)
 
@@ -796,6 +822,8 @@ def support_delivered(request, pk, type):
         support.status = support.STATUS.delivered
         support.delivered_at = timezone.now()
         support.save()
+        notify.send(request.user, recipient=user_recipient,
+                    verb=notification_message)
 
         messages.success(request, _('Support marked as delivered'))
 
@@ -1361,7 +1389,7 @@ class LegalEntityDataCreate(AutoPermissionRequiredMixin, CreateView):
             return redirect('/accounts/profile/')
 
 
-def Feed(request):
+def feed(request):
     user = request.user
 
     if user.is_authenticated:
@@ -1373,3 +1401,10 @@ def Feed(request):
     timeline = enricher.enrich_activities(feed.get(limit=25)['results'])
 
     return render(request, 'projects/feed.html', {'timeline': timeline})
+
+
+def notifications_feed(request):
+    user = request.user
+    notifications = user.notifications.unread()
+
+    return render(request, 'projects/notifications.html', {'notifications': notifications})

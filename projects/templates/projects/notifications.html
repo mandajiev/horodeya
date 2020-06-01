@@ -1,0 +1,5 @@
+{% load notifications_tags %}
+ {% notifications_unread %}
+ {%for notf in notifications%}
+ <h4>{{notf.verb}}</h4>
+ {%endfor%}

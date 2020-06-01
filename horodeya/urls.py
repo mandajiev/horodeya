@@ -24,6 +24,9 @@ from wagtail.core import urls as wagtail_urls
 
 from home import views as home_views
 
+import notifications.urls
+from django.conf.urls import url
+
 urlpatterns = [
     path('accounts/profile/notifications',
          home_views.notifications, name='notifications'),
@@ -39,6 +42,8 @@ urlpatterns = [
     re_path(r'^documents/', include(wagtaildocs_urls)),
     re_path(r'', include(wagtail_urls)),
     # path('accounts/profile/update/<int:pk>', home_views.UserUpdate.as_view(), name='user_update'),
+    url('^inbox/notifications/',
+        include(notifications.urls, namespace='notifications')),
 ]
 
 if settings.DEBUG:
