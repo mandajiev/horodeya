@@ -15,7 +15,7 @@ urlpatterns = [
          name='community_create'),
     path('community/<int:pk>/photo/update',
          views.community_photo_update, name='community_photo_update'),
-    path('community/<int:pk>', views.CommunityDetails.as_view(),
+    path('community/<int:pk>', views.community_details,
          name='community_details'),
     path('community/<int:pk>/update',
          views.CommunityUpdate.as_view(), name='community_update'),
@@ -103,5 +103,4 @@ urlpatterns = [
          name='legalentitydonator_create'),
     path('feed', views.feed, name='user_feed'),
     path('notifications', views.notifications_feed, name='user_notifications')
-
 ]

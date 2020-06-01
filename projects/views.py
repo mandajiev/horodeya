@@ -355,14 +355,20 @@ class CommunityDelete(AutoPermissionRequiredMixin, DeleteView):
     success_url = reverse_lazy('projects:community_list')
 
 
-class CommunityDetails(AutoPermissionRequiredMixin, generic.DetailView):
-    model = Community
+# class CommunityDetails(AutoPermissionRequiredMixin, generic.DetailView):
+#     model = Community
 
-    def get_context_data(self, **kwargs):
+#     def get_context_data(self, **kwargs):
 
-        context = super().get_context_data(**kwargs)
-        context['member'] = self.request.user.member_of(context['object'].pk)
-        return context
+#         context = super().get_context_data(**kwargs)
+#         context['member'] = self.request.user.member_of(context['object'].pk)
+#         return context
+
+
+def community_details(request, pk):
+    community = get_object_or_404(Community, pk=pk)
+    community.projects = Project.objects.filter(community_id=pk)
+    return render(request, 'projects/community_detail.html', {'object': community})
 
 
 class CommunityList(AutoPermissionRequiredMixin, generic.ListView):
@@ -795,7 +801,7 @@ def support_change_accept(request, pk, type, accepted):
     return redirect(support)
 
 
-# @permission_required('projects.mark_delivered_support', fn=get_support_request)
+@permission_required('projects.mark_delivered_support', fn=get_support_request)
 def support_delivered(request, pk, type):
 
     if type in ['money', 'm']:

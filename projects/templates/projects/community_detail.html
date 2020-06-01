@@ -2,9 +2,9 @@
 {% load i18n %}
 {% load static %}
 
-{% comment %} {% block breadcrumbs %}
+ {% block breadcrumbs %}
 {% include 'projects/community_breadcrumb.html' with object=object active="active" only%}
-{% endblock %} {% endcomment %}
+{% endblock %} 
 
 {% block admin_tools %}
   <a class="nav-link text-white" href="{% url 'projects:community_photo_update' object.id %}">{% trans "Update photo" %}</a>
@@ -61,6 +61,15 @@
                {% if not forloop.last %}
             |
             {% endif %}
+         {% endfor %}
+                </li>
+                   <li class="list-group-item">
+           Задруги:
+          {% for project in object.projects %}         
+             <a href="{% url 'projects:details' project.pk %}">{{ project }}</a>  
+               {% if not forloop.last %}
+            |
+             {% endif %} 
          {% endfor %}
                 </li>
     
