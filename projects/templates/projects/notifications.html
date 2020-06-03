@@ -1,5 +1,19 @@
+{% extends 'base.html' %}
 {% load notifications_tags %}
- {% notifications_unread %}
+
+{%block  content %}
+
+<a  style='margin-right:20px' href="/projects/notifications">Непрочетени известия:{% notifications_unread %}</a>
+<a href="/projects/notifications_read">Прочетени известия</a>
+
  {%for notf in notifications%}
  <h4>{{notf.verb}}</h4>
  {%endfor%}
+
+{% notifications_unread as unread_count %}
+{% if unread_count %}
+<a href="/projects/notifications_mark_read">Маркирай всички известия, като прочетени</a>
+{%endif%}
+
+{%endblock content %}
+

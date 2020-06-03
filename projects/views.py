@@ -1414,3 +1414,17 @@ def notifications_feed(request):
     notifications = user.notifications.unread()
 
     return render(request, 'projects/notifications.html', {'notifications': notifications})
+
+
+def notifications_read(request):
+    user = request.user
+    notifications_read = user.notifications.read()
+
+    return render(request, 'projects/notifications_read.html', {'notifications': notifications_read})
+
+
+def notifications_mark_as_read(request):
+    user = request.user
+    notifications = user.notifications.unread()
+    notifications.mark_all_as_read()
+    return redirect('/projects/notifications')

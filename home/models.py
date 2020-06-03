@@ -37,6 +37,7 @@ class HomePage(Page):
         StreamFieldPanel('body'),
     ]
 
+
     def serve(self, request):
         # user = request.user
 
@@ -90,6 +91,14 @@ class List(Page):
 
 
 class TermsAndConditions(Page):
+    body = RichTextField(blank=True)
+
+    content_panels = Page.content_panels + [
+        FieldPanel('body', classname="full"),
+    ]
+
+
+class LearnMore(Page):
     body = RichTextField(blank=True)
 
     content_panels = Page.content_panels + [

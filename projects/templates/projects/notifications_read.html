@@ -1,0 +1,12 @@
+{% extends 'base.html' %} 
+{% load notifications_tags %} 
+{% block content %}
+
+<a href="/projects/notifications">Непрочетени известия:{% notifications_unread %}</a>
+<a href="/projects/notifications_read">Прочетени известия</a>
+
+{%for notf in notifications%}
+<h4>{{notf.verb}}</h4>
+{%endfor%} 
+
+{% endblock content %}

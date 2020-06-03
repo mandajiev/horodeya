@@ -2,6 +2,7 @@
 {% load bootstrap4 %}
 {% load i18n %}
 {% load activity_tags %} 
+{% load notifications_tags %}
 
 
 {% bootstrap_css %}
@@ -77,6 +78,7 @@
            
 
               <a class="nav-link {% active задруги %}" href="/задруги/">{% trans 'Causes' %}</a>
+               <a class="nav-link {% active задруги %}" href="/projects/notifications">Известия:{% notifications_unread %}</a>
 
                {% comment %} <a class="nav-link {% active задруги %}" href="/задруги/">{% trans 'Businesses' %}</a>  {% endcomment %}
 

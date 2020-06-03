@@ -1,0 +1,11 @@
+{% extends "base.html" %} 
+{% load i18n %} 
+{% load wagtailcore_tags %}
+ {% block breadcrumbs %}
+<li class="breadcrumb-item active">{{page.title}}</li>
+{% endblock %} 
+{% block content %}
+<h2>{{ page.title }}</h2>
+{{ page.body | richtext }} 
+{% endblock %}
+
