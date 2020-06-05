@@ -277,16 +277,21 @@ class ProjectCreate(AutoPermissionRequiredMixin, UserPassesTestMixin, CreateView
         user = self.request.user
         project = form.instance
         community = project.community
-        if community.admin != user:
-            form.add_error('community', 'You must be the admin of the community entity. Admin for %s is %s' % (
-                community, community.admin))
-            return super().form_invalid(form)
+        # if community.admin != user:
+        #     form.add_error('community', 'You must be the admin of the community entity. Admin for %s is %s' % (
+        #         community, community.admin))
+        # return super().form_invalid(form)
 
         project.type = self.kwargs['type']
 
         # Потребител 0 следва всички проекти
         user_follow_project(0, project)
 
+        horodeya_admins = User.objects.filter(is_superuser=True)
+        notification_text = '%s подаде заявка за проекта %s от общност %s' % (
+            user, project, community)
+        notify.send(self.request.user, recipient=horodeya_admins,
+                    verb=notification_text)
         return super().form_valid(form)
 
 
@@ -574,36 +579,37 @@ class MoneySupportForm(ModelForm):
         self.fields['necessity'].empty_label = _('Any will do')
 
 
-class MoneySupportCreate(AutoPermissionRequiredMixin, CreateView):
-    model = MoneySupport
-    template_name = 'projects/support_form.html'
-    form_class = MoneySupportForm
+# class MoneySupportCreate(AutoPermissionRequiredMixin, CreateView):
+#     model = MoneySupport
+#     template_name = 'projects/support_form.html'
+#     form_class = MoneySupportForm
 
-    def get_form_kwargs(self):
-        project_pk = self.kwargs['project']
-        project = get_object_or_404(Project, pk=project_pk)
-        kwargs = super().get_form_kwargs()
-        kwargs.update({'project': project})
-        return kwargs
+#     def get_form_kwargs(self):
+#         project_pk = self.kwargs['project']
+#         project = get_object_or_404(Project, pk=project_pk)
+#         kwargs = super().get_form_kwargs()
+#         kwargs.update({'project': project})
+#         return kwargs
 
-    def get_context_data(self, **kwargs):
+#     def get_context_data(self, **kwargs):
 
-        context = super().get_context_data(**kwargs)
-        project_pk = self.kwargs['project']
-        self.project = get_object_or_404(Project, pk=project_pk)
-        context['project'] = self.project
+#         context = super().get_context_data(**kwargs)
+#         project_pk = self.kwargs['project']
+#         self.project = get_object_or_404(Project, pk=project_pk)
+#         context['project'] = self.project
 
-        return context
+#         return context
 
-    def form_valid(self, form):
-        project_pk = self.kwargs['project']
-        self.project = get_object_or_404(Project, pk=project_pk)
-        form.instance.project = self.project
+#     def form_valid(self, form):
+#         project_pk = self.kwargs['project']
+#         self.project = get_object_or_404(Project, pk=project_pk)
+#         form.instance.project = self.project
 
-        user = self.request.user
-        form.instance.user = user
+#         user = self.request.user
+#         form.instance.user = user
 
-        return super().form_valid(form)
+
+#         return super().form_valid(form)
 
 # TODO only allow if support is not accepted
 
@@ -680,6 +686,15 @@ def money_support_crud(request, project_id=None, support_id=None):
                     support = form.save(commit=False)
                     support.supportType = supportType
                     support.save()
+
+                    community_id_project = project.community_id
+                    community_members = User.objects.filter(
+                        communities__id=community_id_project)
+                    notification_message = '%s подаде заявка за парична подкрепа към %s' % (
+                        request.user, project)
+                    notify.send(request.user,
+                                recipient=community_members, verb=notification_message)
+
                     return redirect(form.instance)
 
     return render(request, template, {

@@ -7,7 +7,7 @@
 <a href="/projects/notifications_read">Прочетени известия</a>
 
  {%for notf in notifications%}
- <h4>{{notf.verb}}</h4>
+ <h6 style="margin-top:20px;margin-bottom:20px;">{{notf.verb}}</h6>
  {%endfor%}
 
 {% notifications_unread as unread_count %}
