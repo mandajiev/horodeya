@@ -220,6 +220,7 @@ class Project(Timestamped):
     category = models.CharField(
         choices=CATEGORY_TYPES, max_length=50, default='Education')
     slack_channel = models.CharField(max_length=100, null=True, blank=True)
+    verified = models.BooleanField(default=False)
 
     def latest_reports(self):
         show_reports = 3

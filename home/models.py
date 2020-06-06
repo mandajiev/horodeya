@@ -37,7 +37,6 @@ class HomePage(Page):
         StreamFieldPanel('body'),
     ]
 
-
     def serve(self, request):
         # user = request.user
 
@@ -86,7 +85,7 @@ class List(Page):
     def serve(self, request):
         return render(request, 'home/list.html', {
             'page': self,
-            'items': Project.objects.filter(type=self.type).order_by('-community__bal'),
+            'items': Project.objects.filter(verified=True).order_by('-community__bal'),
         })
 
 

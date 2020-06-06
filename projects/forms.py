@@ -4,7 +4,7 @@ from django.utils.translation import get_language
 from projects.models import Answer, MoneySupport
 from django.utils.text import slugify
 from projects.templatetags.projects_tags import leva
-from projects.models import Project
+from projects.models import Project, Community
 
 
 def question_key(question):
@@ -104,3 +104,4 @@ class ProjectUpdateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
+

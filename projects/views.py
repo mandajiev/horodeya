@@ -346,6 +346,7 @@ class CommunityCreate(AutoPermissionRequiredMixin, CreateView):
 class CommunityUpdate(AutoPermissionRequiredMixin, UpdateView):
     model = Community
     fields = ['slack_channel']
+    template_name_suffix = '_add_slack'
 
     def form_valid(self, form):
         admin = form.instance.admin
@@ -1443,3 +1444,19 @@ def notifications_mark_as_read(request):
     notifications = user.notifications.unread()
     notifications.mark_all_as_read()
     return redirect('/projects/notifications')
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def unverified_cause_list(request):
+    unverified_causes = Project.objects.filter(verified=False)
+    return render(request, 'projects/unverified_causes.html', {'items': unverified_causes})
+
+
+class ProjectVerify(AutoPermissionRequiredMixin, UserPassesTestMixin, UpdateView):
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+    model = Project
+    fields = ['verified']
+    template_name_suffix = '_verify_form'
