@@ -1,0 +1,11 @@
+{% extends "form.html" %}
+ {% block delete %} 
+ {% with delete_label='projects:community_delete' %} 
+{{ block.super }} 
+{% endwith %}
+{%endblock %} 
+{% block breadcrumbs %} 
+{% include "projects/community_breadcrumb.html" with object=object only %} 
+{% include "projects/form_breadcrumb.html" with object=object only %}
+<h3 style="margin-top: 50px;">Добави slack</h3>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load wagtailcore_tags %}
+{% load i18n %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item active" aria-current="page">{{ page.title }}</li>
+{% endblock %}
+
+{% block content %}
+
+
+  <div class="mt-4">
+  {% for project in items %}
+  <div class="card mb-3 mx-auto" style="max-width: 980;">
+    <div class="row no-gutters">
+      <div class="col-md-2">
+        {% if project.gallery.public|length > 0 %}
+        {% with project.gallery.public|first as image %}
+          <img src="{{image.get_list_url}}" alt="{{image.title}}" class="card-img">
+        {% endwith %}
+        {% else %}
+          <img src="holder.js/150x150" class="card-img">
+        {% endif %}
+      </div>
+      <div class="col-md-6">
+        <div class="card-body">
+          <h5 class="card-title">{{ project.name }}
+            <small class="text-muted">
+              {{project.community}}
+            </small>
+          </h5>
+          <p class="card-text">{{ project.description }}</p>
+          <a href="{% url 'projects:details' project.pk %}" class="btn btn-primary">Научи повече</a>
+          <a href="/projects/{{project.id}}/verify_project" class="btn btn-primary">Одобри задруга</a>
+        </div>
+      </div>
+      <div class="col-md-4 pr-4 pt-4">
+      {% include "projects/project_stats.html" with project=project short=True only %}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  </div>
+  </div>
+</div>
+
+{% endblock %}
