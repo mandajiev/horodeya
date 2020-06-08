@@ -103,6 +103,8 @@ urlpatterns = [
          name='legalentitydonator_create'),
     path('feed', views.feed, name='user_feed'),
     path('notifications', views.notifications_feed, name='user_notifications'),
+    path('notifications/<int:pk>/mark_read/',
+         views.mark_notification_read, name='notification_read'),
     path('notifications_read', views.notifications_read,
          name='user_read_notifications'),
     path('notifications_mark_read', views.notifications_mark_as_read,

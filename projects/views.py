@@ -46,6 +46,7 @@ from stream_django.feed_manager import feed_manager
 from stream_django.enrich import Enrich
 
 from notifications.signals import notify
+from notifications.models import Notification
 
 
 def short_random():
@@ -1029,6 +1030,10 @@ def time_support_create_update(request, project, support=None):
     applied_necessities = set(map(lambda ts: ts.necessity, queryset.all()))
     answers = project.answer_set.all()
 
+    community_id = project.community_id
+    community_members = User.objects.filter(
+        communities__id=community_id)
+
     necessity_list = project.timenecessity_set.all()
     necessity_list = list(
         filter(lambda n: n not in applied_necessities, necessity_list))
@@ -1037,7 +1042,7 @@ def time_support_create_update(request, project, support=None):
         TimeSupport,
         fields=['necessity', 'comment', 'start_date', 'end_date', 'price'],
         labels={'comment': _(
-            'Why do you apply for this position? List your relevant experience / skills')},
+                'Why do you apply for this position? List your relevant experience / skills')},
         widgets={
             'start_date': forms.HiddenInput(),
             'end_date': forms.HiddenInput(),
@@ -1089,6 +1094,9 @@ def time_support_create_update(request, project, support=None):
 
                 messages.success(request, _(
                     'Applied to %d volunteer positions' % saved))
+
+                notify.send(request.user, recipient=community_members,
+                            verb='%s подаде заявка за доброволстване към %s' % (request.user, project))
                 return redirect(project)
 
     context['formset'] = formset
@@ -1463,3 +1471,9 @@ class ProjectVerify(AutoPermissionRequiredMixin, UserPassesTestMixin, UpdateView
     model = Project
     fields = ['verified']
     template_name_suffix = '_verify_form'
+
+
+def mark_notification_read(request, pk):
+    notification = get_object_or_404(Notification, pk=pk)
+    notification.mark_as_read()
+    return redirect('/projects/notifications')
