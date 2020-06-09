@@ -69,18 +69,27 @@ class ProjectForm(ModelForm):
                   'text', 'start_date', 'end_date', 'end_date_tasks', 'report_period']
         widgets = {
             'end_date': DatePicker(
+                attrs={
+                    'required':True
+                },
                 options={
                     'useCurrent': True,
                     'collapse': False,
                 }
             ),
             'start_date': DatePicker(
+                  attrs={
+                    'required':True
+                },
                 options={
                     'useCurrent': True,
                     'collapse': False,
                 }
             ),
             'end_date_tasks': DatePicker(
+                  attrs={
+                    'required':True
+                },
                 options={
                     'useCurrent': True,
                     'collapse': False,
@@ -139,7 +148,8 @@ TimeNecessityFormset = inlineformset_factory(
         ),
         'start_date': DatePicker(
             attrs={
-                'style': 'width:120px'
+                'style': 'width:120px',
+                'required':True
             },
             options={
                 'useCurrent': True,
@@ -148,7 +158,8 @@ TimeNecessityFormset = inlineformset_factory(
         ),
         'end_date': DatePicker(
             attrs={
-                'style': 'width:120px'
+                'style': 'width:120px',
+                'required':True
             },
             options={
                 'useCurrent': True,
@@ -1382,7 +1393,8 @@ class DonatorDataCreate(AutoPermissionRequiredMixin, CreateView):
         form = super(DonatorDataCreate, self).get_form(form_class)
         form.fields['birthdate'].widget = DatePicker(
             attrs={
-                'style': 'width:120px'
+                'style': 'width:120px',
+                'required':True
             },
             options={
                 'useCurrent': True,

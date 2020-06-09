@@ -104,7 +104,7 @@ class Community(Timestamped):
             "leave": member_of_community & ~admin_of_community
         }
 
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, blank=False)
     type = models.CharField(max_length=50, default='NGO')
     DDORegistration = models.BooleanField(default=False)
     mission = models.TextField(default=None, null=True)
@@ -211,9 +211,9 @@ class Project(Timestamped):
     description = models.CharField(max_length=300)
     text = models.TextField(max_length=5000)
     community = models.ForeignKey(Community, on_delete=models.CASCADE)
-    start_date = models.DateField(null=True, blank=True)
-    end_date = models.DateField(null=True, blank=True)
-    end_date_tasks = models.DateField(null=True, blank=True)
+    start_date = models.DateField(null=True, blank=False)
+    end_date = models.DateField(null=True, blank=False)
+    end_date_tasks = models.DateField(null=True, blank=False)
     gallery = models.ForeignKey(Gallery, on_delete=models.PROTECT, null=True)
     report_period = models.CharField(
         choices=REPORTS_TIMESPAN, max_length=50, default='weekly')
@@ -799,14 +799,14 @@ class DonatorData(Timestamped):
             "view": rules.is_authenticated,
         }
 
-    phone = models.CharField(max_length=20)
-    citizenship = CountryField(max_length=30)
-    domicile = CountryField(max_length=30)
-    postAddress = models.CharField(max_length=20)
-    TIN = models.CharField(max_length=10)
-    passportData = models.CharField(max_length=30)
-    birthdate = models.DateField()
-    placeOfBirth = models.CharField(max_length=30)
+    phone = models.CharField(max_length=20, blank=False)
+    citizenship = CountryField(max_length=30, blank=False)
+    domicile = CountryField(max_length=30, blank=False)
+    postAddress = models.CharField(max_length=20, blank=False)
+    TIN = models.CharField(max_length=10, blank=False)
+    passportData = models.CharField(max_length=30, blank=False)
+    birthdate = models.DateField(blank=False)
+    placeOfBirth = models.CharField(max_length=30, blank=False)
     profession = models.CharField(max_length=30)
     website = models.CharField(max_length=30, blank=True)
 
@@ -820,9 +820,9 @@ class LegalEntityDonatorData(Timestamped):
             "view": rules.is_authenticated,
         }
 
-    name = models.CharField(max_length=50)
-    type = models.CharField(max_length=50)
-    EIK = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, blank=False)
+    type = models.CharField(max_length=50, blank=False)
+    EIK = models.CharField(max_length=50, blank=False)
     DDORegistration = models.BooleanField()
-    phoneNumber = models.CharField(max_length=30)
+    phoneNumber = models.CharField(max_length=30, blank=False)
     website = models.CharField(max_length=30, blank=True)
