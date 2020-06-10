@@ -203,6 +203,7 @@ class Project(Timestamped):
 
     TYPES = Choices('business', 'cause')
     REPORTS_TIMESPAN = Choices('montly', 'twoweeks', 'weekly')
+    VERIFY_TYPES = Choices('review', 'accepted', 'rejected')
 
     type = models.CharField(max_length=20, choices=TYPES)
     name = models.CharField(max_length=50)
@@ -220,7 +221,8 @@ class Project(Timestamped):
     category = models.CharField(
         choices=CATEGORY_TYPES, max_length=50, default='Education')
     slack_channel = models.CharField(max_length=100, null=True, blank=True)
-    verified = models.BooleanField(default=False)
+    verified_status = models.CharField(
+        max_length=20, choices=VERIFY_TYPES, default=VERIFY_TYPES.review)
 
     def latest_reports(self):
         show_reports = 3
