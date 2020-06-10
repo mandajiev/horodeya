@@ -70,7 +70,7 @@ class ProjectForm(ModelForm):
         widgets = {
             'end_date': DatePicker(
                 attrs={
-                    'required':True
+                    'required': True
                 },
                 options={
                     'useCurrent': True,
@@ -78,8 +78,8 @@ class ProjectForm(ModelForm):
                 }
             ),
             'start_date': DatePicker(
-                  attrs={
-                    'required':True
+                attrs={
+                    'required': True
                 },
                 options={
                     'useCurrent': True,
@@ -87,8 +87,8 @@ class ProjectForm(ModelForm):
                 }
             ),
             'end_date_tasks': DatePicker(
-                  attrs={
-                    'required':True
+                attrs={
+                    'required': True
                 },
                 options={
                     'useCurrent': True,
@@ -149,7 +149,7 @@ TimeNecessityFormset = inlineformset_factory(
         'start_date': DatePicker(
             attrs={
                 'style': 'width:120px',
-                'required':True
+                'required': True
             },
             options={
                 'useCurrent': True,
@@ -159,7 +159,7 @@ TimeNecessityFormset = inlineformset_factory(
         'end_date': DatePicker(
             attrs={
                 'style': 'width:120px',
-                'required':True
+                'required': True
             },
             options={
                 'useCurrent': True,
@@ -1394,7 +1394,7 @@ class DonatorDataCreate(AutoPermissionRequiredMixin, CreateView):
         form.fields['birthdate'].widget = DatePicker(
             attrs={
                 'style': 'width:120px',
-                'required':True
+                'required': True
             },
             options={
                 'useCurrent': True,
@@ -1471,7 +1471,7 @@ def notifications_mark_as_read(request):
 
 @user_passes_test(lambda u: u.is_superuser)
 def unverified_cause_list(request):
-    unverified_causes = Project.objects.filter(verified=False)
+    unverified_causes = Project.objects.filter(verified_status='review')
     return render(request, 'projects/unverified_causes.html', {'items': unverified_causes})
 
 
@@ -1480,8 +1480,22 @@ class ProjectVerify(AutoPermissionRequiredMixin, UserPassesTestMixin, UpdateView
     def test_func(self):
         return self.request.user.is_superuser
 
+    def form_valid(self, form):
+        project = form.save(commit=False)
+        community_id = project.community_id
+        community_members = User.objects.filter(
+            communities__id=community_id)
+
+        if(project.verified_status == 'accepted'):
+            notify.send(self.request.user, recipient=community_members,
+                        verb='Задругата %s беше одобрена' % (project))
+        elif(project.verified_status == 'rejected'):
+            notify.send(self.request.user, recipient=community_members,
+                        verb='Задругата %s беше отхвърлена' % (project))
+        return super().form_valid(form)
+
     model = Project
-    fields = ['verified']
+    fields = ['verified_status']
     template_name_suffix = '_verify_form'
 
 
