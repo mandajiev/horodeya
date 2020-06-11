@@ -104,21 +104,23 @@ class Community(Timestamped):
             "leave": member_of_community & ~admin_of_community
         }
 
-    name = models.CharField(max_length=100, blank=False)
-    type = models.CharField(max_length=50, default='NGO')
-    DDORegistration = models.BooleanField(default=False)
-    mission = models.TextField(default=None, null=True)
-    numberOfSupporters = models.IntegerField(default=0)
-    previousExperience = models.TextField(blank=True)
-    activityType = models.CharField(
-        choices=COMMUNITY_ACTIVYTY_TYPES, max_length=50, default='Art')
-    website = models.CharField(max_length=100, blank=True)
-    text = models.TextField()
-    bulstat = models.DecimalField(
-        blank=True, null=True, max_digits=15, decimal_places=0)
-    email = models.EmailField()
-    phone = models.DecimalField(
-        null=True, max_digits=20, decimal_places=0)
+    name = models.CharField(max_length=100, blank=False,
+                            verbose_name=_('Name'))
+    type = models.CharField(_('type'), max_length=50, default='NGO')
+    DDORegistration = models.BooleanField(_('DDORegistration'), default=False)
+    mission = models.TextField(_('mission'), default=None, null=True)
+    numberOfSupporters = models.IntegerField(
+        _('numberOfSupporters'), default=0)
+    previousExperience = models.TextField(_('previousExperience'), blank=True)
+    activityType = models.CharField(_('activityType'),
+                                    choices=COMMUNITY_ACTIVYTY_TYPES, max_length=50, default='Art')
+    website = models.CharField(_('website'), max_length=100, blank=True)
+    text = models.TextField(_('text'))
+    bulstat = models.DecimalField(_('bulstat'),
+                                  blank=True, null=True, max_digits=15, decimal_places=0)
+    email = models.EmailField(_('email'))
+    phone = models.DecimalField(_('phone'),
+                                null=True, max_digits=20, decimal_places=0)
     admin = models.ForeignKey('User', on_delete=models.PROTECT)
     bank_account_iban = models.CharField(blank=True, null=True, max_length=34)
     bank_account_bank_code = models.CharField(
@@ -129,8 +131,10 @@ class Community(Timestamped):
         Photo, on_delete=models.SET_NULL, blank=True, null=True)
     revolut_phone = models.DecimalField(
         blank=True, null=True, max_digits=20, decimal_places=0)
-    facebook_page = models.CharField(max_length=100, null=True, blank=True)
-    slack_channel = models.CharField(max_length=100, null=True, blank=True)
+    facebook_page = models.CharField(
+        _('facebook_page'), max_length=100, null=True, blank=True)
+    slack_channel = models.CharField(
+        _('slack_channel'), max_length=100, null=True, blank=True)
 
     def page_name(self):
         return "%s %s" % (gettext('Community'), self.name)
@@ -158,8 +162,9 @@ class User(AbstractUser, RulesModelMixin, metaclass=RulesModelBase):
         'DonatorData', on_delete=models.PROTECT, null=True)
     legalEntityDonatorData = models.OneToOneField(
         'LegalEntityDonatorData', on_delete=models.PROTECT, null=True)
-    second_name = models.CharField(max_length=30, blank=True)
-    slack_channel = models.CharField(max_length=100, null=True, blank=True)
+    second_name = models.CharField(_('second_name'), max_length=30, blank=True)
+    slack_channel = models.CharField(
+        _('slack_channel'), max_length=100, null=True, blank=True)
 
     def page_name(self):
         return "%s %s" % (gettext('User'), str(self))
@@ -206,23 +211,26 @@ class Project(Timestamped):
     VERIFY_TYPES = Choices('review', 'accepted', 'rejected')
 
     type = models.CharField(max_length=20, choices=TYPES)
-    name = models.CharField(max_length=50)
-    location = models.CharField(max_length=30, null=True)
-    goal = models.TextField(null=True)
-    description = models.CharField(max_length=300)
-    text = models.TextField(max_length=5000)
-    community = models.ForeignKey(Community, on_delete=models.CASCADE)
-    start_date = models.DateField(null=True, blank=False)
-    end_date = models.DateField(null=True, blank=False)
-    end_date_tasks = models.DateField(null=True, blank=False)
+    name = models.CharField(_('Name'), max_length=50)
+    location = models.CharField(_('location'), max_length=30, null=True)
+    goal = models.TextField(_('goal'), null=True)
+    description = models.CharField(_('description'), max_length=300)
+    text = models.TextField(_('text'), max_length=5000)
+    community = models.ForeignKey(Community, verbose_name=_(
+        'Community'), on_delete=models.CASCADE)
+    start_date = models.DateField(_('start_date'), null=True, blank=False)
+    end_date = models.DateField(_('end_date'), null=True, blank=False)
+    end_date_tasks = models.DateField(
+        _('end_date_tasks'), null=True, blank=False)
     gallery = models.ForeignKey(Gallery, on_delete=models.PROTECT, null=True)
-    report_period = models.CharField(
-        choices=REPORTS_TIMESPAN, max_length=50, default='weekly')
-    category = models.CharField(
-        choices=CATEGORY_TYPES, max_length=50, default='Education')
-    slack_channel = models.CharField(max_length=100, null=True, blank=True)
-    verified_status = models.CharField(
-        max_length=20, choices=VERIFY_TYPES, default=VERIFY_TYPES.review)
+    report_period = models.CharField(_('report_period'),
+                                     choices=REPORTS_TIMESPAN, max_length=50, default='weekly')
+    category = models.CharField(_('category'),
+                                choices=CATEGORY_TYPES, max_length=50, default='Education')
+    slack_channel = models.CharField(
+        _('slack_channel'), max_length=100, null=True, blank=True)
+    verified_status = models.CharField(_('verified_status'),
+                                       max_length=20, choices=VERIFY_TYPES)
 
     def latest_reports(self):
         show_reports = 3
@@ -379,10 +387,10 @@ class Report(VoteModel, Timestamped, Activity):
             "change": member_of_community,
             "view": rules.is_authenticated,
         }
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, verbose_name=_('Name'))
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
-    text = models.TextField()
-    published_at = models.DateTimeField()
+    text = models.TextField(_('text'))
+    published_at = models.DateTimeField(_('published_at'))
 
     @property
     def activity_author_feed(self):
@@ -412,12 +420,12 @@ class TimeNecessity(Timestamped):
         }
 
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
-    name = models.CharField(max_length=50)
-    description = models.CharField(max_length=300)
-    price = models.IntegerField()
-    count = models.IntegerField(default=1)
-    start_date = models.DateField()
-    end_date = models.DateField()
+    name = models.CharField(max_length=50, verbose_name=_('Name'))
+    description = models.CharField(_('description'), max_length=300)
+    price = models.IntegerField(_('price'))
+    count = models.IntegerField(_('count'), default=1)
+    start_date = models.DateField(_('start_date'))
+    end_date = models.DateField(_('end_date'))
 
     def __str__(self):
         return self.name
@@ -447,10 +455,10 @@ class ThingNecessity(Timestamped):
             "list": rules.is_authenticated,
         }
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
-    name = models.CharField(max_length=50)
-    description = models.CharField(max_length=300)
-    price = models.IntegerField()
-    count = models.IntegerField()
+    name = models.CharField(_('Name'), max_length=50)
+    description = models.CharField(_('description'), max_length=300)
+    price = models.IntegerField(_('price'))
+    count = models.IntegerField(_('count'))
 
     def create_thing_support_from_unused_money_support(self):
         unused_money_support = list(filter(
@@ -558,9 +566,10 @@ class Support(Timestamped):
         'declined',
         'expired')
 
-    status = models.CharField(
-        max_length=20, choices=STATUS, default=STATUS.review)
-    status_since = models.DateTimeField(default=timezone.now)
+    status = models.CharField(_('status'),
+                              max_length=20, choices=STATUS)
+    status_since = models.DateTimeField(
+        _('status_since'), default=timezone.now)
     __original_status = None
 
     def __init__(self, *args, **kwargs):
@@ -678,7 +687,7 @@ class ThingSupport(Support):
 
     necessity = models.ForeignKey(
         ThingNecessity, on_delete=models.PROTECT, related_name='supports')
-    price = models.IntegerField()
+    price = models.IntegerField(_('price'))
     from_money_supports = models.ManyToManyField(MoneySupport, blank=True)
 
     def get_absolute_url(self):
@@ -704,7 +713,7 @@ class Answer(Timestamped):
 
     project = models.ForeignKey('Project', on_delete=models.CASCADE)
     question = models.ForeignKey('Question', on_delete=models.CASCADE)
-    answer = models.TextField(null=False, blank=True)
+    answer = models.TextField(_('answer'), null=False, blank=True)
 
 # TODO notify in feed
 
@@ -724,9 +733,9 @@ class TimeSupport(Support):
 
     necessity = models.ForeignKey(
         TimeNecessity, on_delete=models.CASCADE, related_name='supports')
-    price = models.IntegerField()
-    start_date = models.DateField()
-    end_date = models.DateField()
+    price = models.IntegerField(_('price'))
+    start_date = models.DateField(_('start_date'))
+    end_date = models.DateField(_('end_date'))
 
     def get_absolute_url(self):
         return reverse('projects:time_support_details', kwargs={'pk': self.pk})
@@ -801,16 +810,18 @@ class DonatorData(Timestamped):
             "view": rules.is_authenticated,
         }
 
-    phone = models.CharField(max_length=20, blank=False)
-    citizenship = CountryField(max_length=30, blank=False)
-    domicile = CountryField(max_length=30, blank=False)
-    postAddress = models.CharField(max_length=20, blank=False)
-    TIN = models.CharField(max_length=10, blank=False)
-    passportData = models.CharField(max_length=30, blank=False)
-    birthdate = models.DateField(blank=False)
-    placeOfBirth = models.CharField(max_length=30, blank=False)
-    profession = models.CharField(max_length=30)
-    website = models.CharField(max_length=30, blank=True)
+    phone = models.CharField(_('phone'), max_length=20, blank=False)
+    citizenship = CountryField(_('citizenship'), max_length=30, blank=False)
+    domicile = CountryField(_('domicile'), max_length=30, blank=False)
+    postAddress = models.CharField(_('postAdress'), max_length=20, blank=False)
+    TIN = models.CharField(_('TIN'), max_length=10, blank=False)
+    passportData = models.CharField(
+        _('passportData'), max_length=30, blank=False)
+    birthdate = models.DateField(_('birthdate'), blank=False)
+    placeOfBirth = models.CharField(
+        _('placeOfBirth'), max_length=30, blank=False)
+    profession = models.CharField(_('profession'), max_length=30)
+    website = models.CharField(_('website'), max_length=30, blank=True)
 
 
 class LegalEntityDonatorData(Timestamped):
@@ -822,9 +833,10 @@ class LegalEntityDonatorData(Timestamped):
             "view": rules.is_authenticated,
         }
 
-    name = models.CharField(max_length=50, blank=False)
-    type = models.CharField(max_length=50, blank=False)
+    name = models.CharField(_('name'), max_length=50, blank=False)
+    type = models.CharField(_('type'), max_length=50, blank=False)
     EIK = models.CharField(max_length=50, blank=False)
-    DDORegistration = models.BooleanField()
-    phoneNumber = models.CharField(max_length=30, blank=False)
-    website = models.CharField(max_length=30, blank=True)
+    DDORegistration = models.BooleanField(_('DDORegistration'))
+    phoneNumber = models.CharField(
+        _('phoneNumber'), max_length=30, blank=False)
+    website = models.CharField(_('website'), max_length=30, blank=True)
