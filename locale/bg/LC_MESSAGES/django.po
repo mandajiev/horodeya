@@ -55,32 +55,32 @@ msgstr "Тези имейл адреси са свързани с профила
 
 #: .\home\templates\account\email.html:25
 msgid "Verified"
-msgstr ""
+msgstr "Верифициран"
 
 #: .\home\templates\account\email.html:27
 msgid "Unverified"
-msgstr ""
+msgstr "Неверифициран"
 
 #: .\home\templates\account\email.html:29
 msgid "Primary"
-msgstr ""
+msgstr "Основен"
 
 #: .\home\templates\account\email.html:35
 msgid "Make Primary"
-msgstr ""
+msgstr "Направи основен"
 
 #: .\home\templates\account\email.html:36
 msgid "Re-send Verification"
-msgstr ""
+msgstr "Изпрати верификация отново"
 
 #: .\home\templates\account\email.html:37
 #: .\projects\templates\projects\community_member_list.html:26
 msgid "Remove"
-msgstr ""
+msgstr "Премахни"
 
 #: .\home\templates\account\email.html:44
 msgid "Warning:"
-msgstr ""
+msgstr "Внимание"
 
 #: .\home\templates\account\email.html:44
 msgid ""
@@ -90,11 +90,11 @@ msgstr ""
 
 #: .\home\templates\account\email.html:49
 msgid "Add E-mail Address"
-msgstr ""
+msgstr "Добави имейл адрес"
 
 #: .\home\templates\account\email.html:55
 msgid "Add E-mail"
-msgstr ""
+msgstr "Добави имейл"
 
 #: .\home\templates\account\email.html:65
 msgid "Do you really want to remove the selected e-mail address?"
@@ -120,7 +120,7 @@ msgstr ""
 
 #: .\home\templates\account\email\email_confirmation_subject.txt:3
 msgid "Please Confirm Your E-mail Address"
-msgstr ""
+msgstr "Моля, потвърдете имейл адреса си"
 
 #: .\home\templates\account\email\password_reset_key_message.txt:1
 #, python-format
@@ -818,7 +818,7 @@ msgstr ""
 
 #: .\projects\templates\projects\feed.html:6
 msgid "Feed"
-msgstr ""
+msgstr "Известия"
 
 #: .\projects\templates\projects\feed.html:15
 msgid "Nothing happened recently"

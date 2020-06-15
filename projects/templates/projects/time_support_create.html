@@ -45,16 +45,15 @@
       {% bootstrap_field field %}
     {% endif %}
   {% endfor %}
-
+   {% if update %}
+      {% comment %} {% trans 'Update' %} {% endcomment %}
+    {% else %}
   {% buttons %}
   <button type="submit" class="btn btn-primary">
-    {% if update %}
-      {% trans 'Update' %}
-    {% else %}
       {% trans 'Apply' %}
-    {% endif %}
   </button>
   {% endbuttons %}
+   {% endif %}
 </form>
 {%endif%}
 {%endblock%}

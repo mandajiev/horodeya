@@ -24,7 +24,7 @@
 {% endif %}
   <li class="nav-item">
     {% if object.get_type == 'time' %}
-      <a class="nav-link text-white" href="{% url 'projects:time_support_update' object.pk %}">{% trans 'Update' %}</a>
+      <a class="nav-link text-white" href="{% url 'projects:time_support_update' object.pk %}">Прегледай</a>
     {% else %}
       <a class="nav-link text-white" href="{% url 'projects:money_support_update' object.pk %}">{% trans 'Update' %}</a>
     {% endif %}

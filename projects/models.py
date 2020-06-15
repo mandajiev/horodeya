@@ -195,6 +195,25 @@ CATEGORY_TYPES = [('Creativity', 'Наука и творчество'),
                   ('Health', 'Бит и здравеопазване'),
                   ('Food', 'Земеделие и изхранване')]
 
+REPORT_TIMESPAN_CHOICES = Choices(
+    _('weekly'),
+    _('montly'),
+    _('twoweeks')
+)
+VERIFY_TYPES_CHOICES = Choices(
+    _('review'),
+    _('accepted'),
+    _('rejected')
+)
+
+
+def get_verify_types_choices():
+    return VERIFY_TYPES_CHOICES
+
+
+def get_report_translated_choices():
+    return REPORT_TIMESPAN_CHOICES
+
 
 class Project(Timestamped):
     class Meta:
@@ -207,8 +226,6 @@ class Project(Timestamped):
         }
 
     TYPES = Choices('business', 'cause')
-    REPORTS_TIMESPAN = Choices('montly', 'twoweeks', 'weekly')
-    VERIFY_TYPES = Choices('review', 'accepted', 'rejected')
 
     type = models.CharField(max_length=20, choices=TYPES)
     name = models.CharField(_('Name'), max_length=50)
@@ -224,13 +241,13 @@ class Project(Timestamped):
         _('end_date_tasks'), null=True, blank=False)
     gallery = models.ForeignKey(Gallery, on_delete=models.PROTECT, null=True)
     report_period = models.CharField(_('report_period'),
-                                     choices=REPORTS_TIMESPAN, max_length=50, default='weekly')
+                                     choices=get_report_translated_choices(), max_length=50, default='weekly')
     category = models.CharField(_('category'),
                                 choices=CATEGORY_TYPES, max_length=50, default='Education')
     slack_channel = models.CharField(
         _('slack_channel'), max_length=100, null=True, blank=True)
     verified_status = models.CharField(_('verified_status'),
-                                       max_length=20, choices=VERIFY_TYPES)
+                                       max_length=20, choices=get_verify_types_choices())
 
     def latest_reports(self):
         show_reports = 3

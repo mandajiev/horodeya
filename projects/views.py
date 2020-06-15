@@ -48,6 +48,7 @@ from stream_django.enrich import Enrich
 from notifications.signals import notify
 from notifications.models import Notification
 from django.utils.translation import gettext, gettext_lazy as _
+from django.db import IntegrityError
 
 
 def short_random():
@@ -1358,6 +1359,7 @@ def questions_update(request, project_id):
 
     elif request.method == 'POST':
         formset = cls(request.POST)
+
         if formset.is_valid():
             for form in formset:
                 order = form.cleaned_data.get('ORDER', len(formset))
@@ -1366,9 +1368,18 @@ def questions_update(request, project_id):
 
                 elif form.cleaned_data.get('prototype'):
                     form.instance.project = project
+
+                try:
                     if order:
                         form.instance.order = order
                     form.save()
+                except IntegrityError:
+                    error_message = 'Добавили сте някой от въпросите повече от веднъж'
+                    formset = cls(initial=initial, queryset=Question.objects.filter(
+                        project=project).order_by('order'))
+                    return render(request, template_name, {'formset': formset,
+                                                           'project': project,
+                                                           'error_message': error_message})
 
             return redirect('projects:time_necessity_list', project.pk)
 

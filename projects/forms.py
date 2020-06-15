@@ -4,7 +4,8 @@ from django.utils.translation import get_language
 from projects.models import Answer, MoneySupport
 from django.utils.text import slugify
 from projects.templatetags.projects_tags import leva
-from projects.models import Project, Community
+from projects.models import Project, Community, Question
+from django.core.exceptions import ValidationError
 
 
 def question_key(question):
@@ -56,6 +57,7 @@ class QuestionForm(forms.Form):
         for question in self.fields.keys():
             if 'question' in question:
                 value = self.cleaned_data[question]
+
                 if value is None:
                     value = ''
                 answer, created = Answer.objects.update_or_create(
@@ -104,4 +106,3 @@ class ProjectUpdateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
-
