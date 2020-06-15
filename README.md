@@ -1,9 +1,18 @@
 ## Настройка на средата за разработка
 
 ```bash
-virtualenv venv
+virtualenv venv -p python3
 source venv/bin/activate
-pip install Django
+pip install -r requirements.txt
+```
+
+Download [manage.sh](https://trello.com/c/Rp1cvIX8/54-managesh) and run:
+
+```bash
+chmod +x manage.sh
+./manage.sh migrate
+./manage.sh loaddata fixtures/dev.yaml
+./manage.sh runserver
 ```
 
 ### Локална база данни
