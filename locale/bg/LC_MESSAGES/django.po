@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-20 15:26+0000\n"
+"POT-Creation-Date: 2020-06-11 17:02+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,85 +18,89 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: home/forms.py:18
+#: .\home\forms.py:20
 msgid "First Name"
 msgstr "Име"
 
-#: home/forms.py:21
+#: .\home\forms.py:23
+msgid "Second Name"
+msgstr "Презиме"
+
+#: .\home\forms.py:26
 msgid "Last Name"
 msgstr "Фамилия"
 
-#: home/templates/account/account_inactive.html:5
-#: home/templates/account/account_inactive.html:8
-
+#: .\home\templates\account\account_inactive.html:5
+#: .\home\templates\account\account_inactive.html:8
 msgid "Account Inactive"
 msgstr "Профилът е неактивен"
 
-#: home/templates/account/account_inactive.html:10
+#: .\home\templates\account\account_inactive.html:10
 msgid "This account is inactive."
 msgstr "Този профил е неактивен"
 
-#: home/templates/account/email.html:6 home/templates/home/account.html:8
-#: projects/templates/projects/user_support_list.html:8
+#: .\home\templates\account\email.html:6 .\home\templates\base.html:92
+#: .\home\templates\home\account.html:8
+#: .\projects\templates\projects\user_support_list.html:8
 msgid "Account"
 msgstr "Профил"
 
-#: home/templates/account/email.html:9
+#: .\home\templates\account\email.html:9
 msgid "E-mail Addresses"
 msgstr "Имейл адреси"
 
-#: home/templates/account/email.html:11
+#: .\home\templates\account\email.html:11
 msgid "The following e-mail addresses are associated with your account:"
 msgstr "Тези имейл адреси са свързани с профила ти"
 
-#: home/templates/account/email.html:25
+#: .\home\templates\account\email.html:25
 msgid "Verified"
 msgstr ""
 
-#: home/templates/account/email.html:27
+#: .\home\templates\account\email.html:27
 msgid "Unverified"
 msgstr ""
 
-#: home/templates/account/email.html:29
+#: .\home\templates\account\email.html:29
 msgid "Primary"
 msgstr ""
 
-#: home/templates/account/email.html:35
+#: .\home\templates\account\email.html:35
 msgid "Make Primary"
 msgstr ""
 
-#: home/templates/account/email.html:36
+#: .\home\templates\account\email.html:36
 msgid "Re-send Verification"
 msgstr ""
 
-#: home/templates/account/email.html:37
-#: projects/templates/projects/community_member_list.html:26
+#: .\home\templates\account\email.html:37
+#: .\projects\templates\projects\community_member_list.html:26
 msgid "Remove"
 msgstr ""
 
-#: home/templates/account/email.html:44
+#: .\home\templates\account\email.html:44
 msgid "Warning:"
 msgstr ""
 
-#: home/templates/account/email.html:44
+#: .\home\templates\account\email.html:44
 msgid ""
 "You currently do not have any e-mail address set up. You should really add "
 "an e-mail address so you can receive notifications, reset your password, etc."
 msgstr ""
 
-#: home/templates/account/email.html:49
+#: .\home\templates\account\email.html:49
 msgid "Add E-mail Address"
 msgstr ""
 
-#: home/templates/account/email.html:55
+#: .\home\templates\account\email.html:55
 msgid "Add E-mail"
 msgstr ""
 
-#: home/templates/account/email.html:65
+#: .\home\templates\account\email.html:65
 msgid "Do you really want to remove the selected e-mail address?"
 msgstr ""
 
-#: home/templates/account/email/email_confirmation_message.txt:1
+#: .\home\templates\account\email\email_confirmation_message.txt:1
 #, python-format
 msgid ""
 "Hello from %(site_name)s!\n"
@@ -107,18 +111,18 @@ msgid ""
 "To confirm this is correct, go to %(activate_url)s\n"
 msgstr ""
 
-#: home/templates/account/email/email_confirmation_message.txt:7
+#: .\home\templates\account\email\email_confirmation_message.txt:7
 #, python-format
 msgid ""
 "Thank you from %(site_name)s!\n"
 "%(site_domain)s"
 msgstr ""
 
-#: home/templates/account/email/email_confirmation_subject.txt:3
+#: .\home\templates\account\email\email_confirmation_subject.txt:3
 msgid "Please Confirm Your E-mail Address"
 msgstr ""
 
-#: home/templates/account/email/password_reset_key_message.txt:1
+#: .\home\templates\account\email\password_reset_key_message.txt:1
 #, python-format
 msgid ""
 "Hello from %(site_name)s!\n"
@@ -129,53 +133,52 @@ msgid ""
 "link below to reset your password."
 msgstr ""
 
-#: home/templates/account/email/password_reset_key_message.txt:8
+#: .\home\templates\account\email\password_reset_key_message.txt:8
 #, python-format
 msgid "In case you forgot, your username is %(username)s."
 msgstr ""
 
-#: home/templates/account/email/password_reset_key_message.txt:10
+#: .\home\templates\account\email\password_reset_key_message.txt:10
 #, python-format
 msgid ""
 "Thank you for using %(site_name)s!\n"
 "%(site_domain)s"
 msgstr ""
 
-#: home/templates/account/email/password_reset_key_subject.txt:3
+#: .\home\templates\account\email\password_reset_key_subject.txt:3
 msgid "Password Reset E-mail"
 msgstr ""
 
-#: home/templates/account/email_confirm.html:6
-#: home/templates/account/email_confirm.html:10
+#: .\home\templates\account\email_confirm.html:6
+#: .\home\templates\account\email_confirm.html:10
 msgid "Confirm E-mail Address"
 msgstr ""
 
-#: home/templates/account/email_confirm.html:16
+#: .\home\templates\account\email_confirm.html:16
 #, python-format
 msgid ""
 "Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
 "address for user %(user_display)s."
 msgstr ""
 
-#: home/templates/account/email_confirm.html:20
-#: projects/templates/projects/project_confirm_delete.html:11
+#: .\home\templates\account\email_confirm.html:20
+#: .\projects\templates\projects\project_confirm_delete.html:11
 msgid "Confirm"
 msgstr "Потвърждавам"
 
-#: home/templates/account/email_confirm.html:27
+#: .\home\templates\account\email_confirm.html:27
 #, python-format
 msgid ""
 "This e-mail confirmation link expired or is invalid. Please <a href="
 "\"%(email_url)s\">issue a new e-mail confirmation request</a>."
 msgstr ""
 
-#: home/templates/account/login.html:6 home/templates/account/login.html:10
-#: home/templates/account/login.html:45
-
+#: .\home\templates\account\login.html:6 .\home\templates\account\login.html:10
+#: .\home\templates\account\login.html:45
 msgid "Sign In"
 msgstr "Влез"
 
-#: home/templates/account/login.html:16
+#: .\home\templates\account\login.html:16
 #, python-format
 msgid ""
 "Please sign in with one\n"
@@ -184,122 +187,122 @@ msgid ""
 "for a %(site_name)s account and sign in below:"
 msgstr ""
 
-#: home/templates/account/login.html:26
-#: venv/lib/python3.8/site-packages/django/utils/text.py:233
+#: .\home\templates\account\login.html:26
 msgid "or"
 msgstr "или"
 
-#: home/templates/account/login.html:33
+#: .\home\templates\account\login.html:33
 #, python-format
 msgid ""
 "If you have not created an account yet, then please\n"
 "<a href=\"%(signup_url)s\">sign up</a> first."
-msgstr "Ако нямате профил, моля\n"
+msgstr ""
+"Ако нямате профил, моля\n"
 "<a href=\"%(signup_url)s\">създайте профил</a>."
 
-#: home/templates/account/login.html:47
+#: .\home\templates\account\login.html:47
 msgid "Forgot Password?"
 msgstr "Забравена парола"
 
-#: home/templates/account/logout.html:5 home/templates/account/logout.html:8
-#: home/templates/account/logout.html:17
-
+#: .\home\templates\account\logout.html:5
+#: .\home\templates\account\logout.html:8
+#: .\home\templates\account\logout.html:17
 msgid "Sign Out"
 msgstr "Излез"
 
-#: home/templates/account/logout.html:10
-
+#: .\home\templates\account\logout.html:10
 msgid "Are you sure you want to sign out?"
 msgstr "Искаш ли да се отпишеш?"
 
-
-#: home/templates/account/messages/cannot_delete_primary_email.txt:2
+#: .\home\templates\account\messages\cannot_delete_primary_email.txt:2
 #, python-format
 msgid "You cannot remove your primary e-mail address (%(email)s)."
 msgstr ""
 
-#: home/templates/account/messages/email_confirmation_sent.txt:2
+#: .\home\templates\account\messages\email_confirmation_sent.txt:2
 #, python-format
 msgid "Confirmation e-mail sent to %(email)s."
 msgstr ""
 
-#: home/templates/account/messages/email_confirmed.txt:2
+#: .\home\templates\account\messages\email_confirmed.txt:2
 #, python-format
 msgid "You have confirmed %(email)s."
 msgstr ""
 
-#: home/templates/account/messages/email_deleted.txt:2
+#: .\home\templates\account\messages\email_deleted.txt:2
 #, python-format
 msgid "Removed e-mail address %(email)s."
 msgstr ""
 
-#: home/templates/account/messages/logged_in.txt:4
+#: .\home\templates\account\messages\logged_in.txt:4
 #, python-format
 msgid "Successfully signed in as %(name)s."
 msgstr ""
 
-#: home/templates/account/messages/logged_out.txt:2
+#: .\home\templates\account\messages\logged_out.txt:2
 msgid "You have signed out."
 msgstr ""
 
-#: home/templates/account/messages/password_changed.txt:2
+#: .\home\templates\account\messages\password_changed.txt:2
 msgid "Password successfully changed."
 msgstr ""
 
-#: home/templates/account/messages/password_set.txt:2
+#: .\home\templates\account\messages\password_set.txt:2
 msgid "Password successfully set."
 msgstr ""
 
-#: home/templates/account/messages/primary_email_set.txt:2
+#: .\home\templates\account\messages\primary_email_set.txt:2
 msgid "Primary e-mail address set."
 msgstr ""
 
-#: home/templates/account/messages/unverified_primary_email.txt:2
+#: .\home\templates\account\messages\unverified_primary_email.txt:2
 msgid "Your primary e-mail address must be verified."
 msgstr ""
 
-#: home/templates/account/password_change.html:5
-#: home/templates/account/password_change.html:9
-#: home/templates/account/password_change.html:15
-#: home/templates/account/password_reset_from_key.html:4
-#: home/templates/account/password_reset_from_key.html:7
-#: home/templates/account/password_reset_from_key_done.html:4
-#: home/templates/account/password_reset_from_key_done.html:7
+#: .\home\templates\account\password_change.html:5
+#: .\home\templates\account\password_change.html:9
+#: .\home\templates\account\password_change.html:15
+#: .\home\templates\account\password_reset_from_key.html:4
+#: .\home\templates\account\password_reset_from_key.html:7
+#: .\home\templates\account\password_reset_from_key_done.html:4
+#: .\home\templates\account\password_reset_from_key_done.html:7
 msgid "Change Password"
 msgstr "Смени парола"
 
-#: home/templates/account/password_reset.html:6
-#: home/templates/account/password_reset.html:10
-#: home/templates/account/password_reset_done.html:6
-#: home/templates/account/password_reset_done.html:9
+#: .\home\templates\account\password_reset.html:6
+#: .\home\templates\account\password_reset.html:10
+#: .\home\templates\account\password_reset_done.html:6
+#: .\home\templates\account\password_reset_done.html:9
 msgid "Password Reset"
 msgstr "Нова парола"
 
-#: home/templates/account/password_reset.html:15
+#: .\home\templates\account\password_reset.html:15
 msgid ""
 "Forgotten your password? Enter your e-mail address below, and we'll send you "
 "an e-mail allowing you to reset it."
-msgstr "Забравена парола? Въведи електронния си адрес и ще ти пратим емейл, с който да смениш паролата си."
+msgstr ""
+"Забравена парола? Въведи електронния си адрес и ще ти пратим емейл, с който "
+"да смениш паролата си."
 
-#: home/templates/account/password_reset.html:20
+#: .\home\templates\account\password_reset.html:20
 msgid "Reset My Password"
 msgstr "Смени паролата ми"
 
-#: home/templates/account/password_reset.html:23
+#: .\home\templates\account\password_reset.html:23
 msgid "Please contact us if you have any trouble resetting your password."
 msgstr ""
 
-#: home/templates/account/password_reset_done.html:15
+#: .\home\templates\account\password_reset_done.html:15
 msgid ""
 "We have sent you an e-mail. Please contact us if you do not receive it "
 "within a few minutes."
 msgstr ""
 
-#: home/templates/account/password_reset_from_key.html:7
+#: .\home\templates\account\password_reset_from_key.html:7
 msgid "Bad Token"
 msgstr ""
 
-#: home/templates/account/password_reset_from_key.html:11
+#: .\home\templates\account\password_reset_from_key.html:11
 #, python-format
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
@@ -307,134 +310,134 @@ msgid ""
 "a>."
 msgstr ""
 
-#: home/templates/account/password_reset_from_key.html:17
+#: .\home\templates\account\password_reset_from_key.html:17
 msgid "change password"
 msgstr ""
 
-#: home/templates/account/password_reset_from_key.html:20
-#: home/templates/account/password_reset_from_key_done.html:8
+#: .\home\templates\account\password_reset_from_key.html:20
+#: .\home\templates\account\password_reset_from_key_done.html:8
 msgid "Your password is now changed."
 msgstr ""
 
-#: home/templates/account/password_set.html:5
-#: home/templates/account/password_set.html:8
-#: home/templates/account/password_set.html:13
+#: .\home\templates\account\password_set.html:5
+#: .\home\templates\account\password_set.html:8
+#: .\home\templates\account\password_set.html:13
 msgid "Set Password"
 msgstr ""
 
-#: home/templates/account/signup.html:5
-
+#: .\home\templates\account\signup.html:5
 msgid "Signup"
 msgstr "Запиши се"
 
-#: home/templates/account/signup.html:8 home/templates/account/signup.html:21
-
+#: .\home\templates\account\signup.html:8
+#: .\home\templates\account\signup.html:21
 msgid "Sign Up"
 msgstr "Запиши се"
 
-#: home/templates/account/signup.html:10
+#: .\home\templates\account\signup.html:10
 #, python-format
 msgid ""
 "Already have an account? Then please <a href=\"%(login_url)s\">sign in</a>."
 msgstr ""
 
-#: home/templates/account/signup_closed.html:5
-#: home/templates/account/signup_closed.html:8
+#: .\home\templates\account\signup_closed.html:5
+#: .\home\templates\account\signup_closed.html:8
 msgid "Sign Up Closed"
 msgstr ""
 
-#: home/templates/account/signup_closed.html:10
+#: .\home\templates\account\signup_closed.html:10
 msgid "We are sorry, but the sign up is currently closed."
 msgstr ""
 
-#: home/templates/account/snippets/already_logged_in.html:5
+#: .\home\templates\account\snippets\already_logged_in.html:5
 msgid "Note"
 msgstr ""
 
-#: home/templates/account/snippets/already_logged_in.html:5
+#: .\home\templates\account\snippets\already_logged_in.html:5
 #, python-format
 msgid "you are already logged in as %(user_display)s."
 msgstr ""
 
-#: home/templates/account/verification_sent.html:5
-#: home/templates/account/verification_sent.html:8
-#: home/templates/account/verified_email_required.html:5
-#: home/templates/account/verified_email_required.html:8
+#: .\home\templates\account\verification_sent.html:5
+#: .\home\templates\account\verification_sent.html:8
+#: .\home\templates\account\verified_email_required.html:5
+#: .\home\templates\account\verified_email_required.html:8
 msgid "Verify Your E-mail Address"
 msgstr ""
 
-#: home/templates/account/verification_sent.html:10
+#: .\home\templates\account\verification_sent.html:10
 msgid ""
 "We have sent an e-mail to you for verification. Follow the link provided to "
 "finalize the signup process. Please contact us if you do not receive it "
 "within a few minutes."
 msgstr ""
 
-#: home/templates/account/verified_email_required.html:12
+#: .\home\templates\account\verified_email_required.html:12
 msgid ""
 "This part of the site requires us to verify that\n"
 "you are who you claim to be. For this purpose, we require that you\n"
 "verify ownership of your e-mail address. "
 msgstr ""
 
-#: home/templates/account/verified_email_required.html:16
+#: .\home\templates\account\verified_email_required.html:16
 msgid ""
 "We have sent an e-mail to you for\n"
 "verification. Please click on the link inside this e-mail. Please\n"
 "contact us if you do not receive it within a few minutes."
 msgstr ""
 
-#: home/templates/account/verified_email_required.html:20
+#: .\home\templates\account\verified_email_required.html:20
 #, python-format
 msgid ""
 "<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your e-"
 "mail address</a>."
 msgstr ""
 
-#: home/templates/base.html:31
+#: .\home\templates\base.html:32
 msgid "Horodeya"
 msgstr "Хородея"
 
-#: home/templates/base.html:72 home/templates/base.html:121
+#: .\home\templates\base.html:73 .\home\templates\base.html:137
 msgid "Home"
 msgstr "Начало"
 
-#: home/templates/base.html:74
-#: projects/templates/projects/project_breadcrumb.html:4
+#: .\home\templates\base.html:80 .\home\templates\home\account.html:61
+#: .\projects\templates\projects\project_breadcrumb.html:4
 msgid "Causes"
 msgstr "Задруги"
 
-#: home/templates/base.html:76
-#: projects/templates/projects/project_breadcrumb.html:6
-msgid "Businesses"
-msgstr "Бизнеси"
-
-#: home/templates/base.html:78
+#: .\home\templates\base.html:90
 msgid "About us"
 msgstr "За нас"
 
-#: home/templates/home/account.html:12
-#: projects/templates/projects/community_detail.html:10
-#, fuzzy
-#| msgid "Update"
-msgid "Update photo"
-msgstr "Промени"
+#: .\home\templates\base.html:93
+msgid "Sign out"
+msgstr "Излез"
 
-#: home/templates/home/account.html:37
-#: projects/templates/projects/community_detail.html:29
+#: .\home\templates\base.html:95
+msgid "Sign in / Sign up"
+msgstr ""
+
+#: .\home\templates\home\account.html:12
+#: .\projects\templates\projects\community_detail.html:10
+msgid "Update photo"
+msgstr "Промени Снимка"
+
+#: .\home\templates\home\account.html:39
+#: .\projects\templates\projects\community_detail.html:29
 #, fuzzy
 #| msgid "Add row"
 msgid "Add photo"
 msgstr "Добави ред"
 
-#: home/templates/home/account.html:48
-#: projects/templates/projects/community_breadcrumb.html:4
-#: projects/templates/projects/community_list.html:10
+#: .\home\templates\home\account.html:50
+#: .\projects\templates\projects\community_breadcrumb.html:4
+#: .\projects\templates\projects\community_list.html:10
 msgid "Communities"
 msgstr "Общности"
 
-#: home/templates/home/account.html:59
-
+#: .\home\templates\home\account.html:72
+#, python-format
 msgid ""
 "\n"
 "          Donated %(count)s times.\n"
@@ -444,108 +447,311 @@ msgstr ""
 "        %(count)s дарения.\n"
 "        "
 
-#: home/templates/home/account.html:62 home/templates/home/account.html:68
+#: .\home\templates\home\account.html:75 .\home\templates\home\account.html:81
 msgid "See all"
 msgstr "Виж всички"
 
-#: home/templates/home/account.html:65
-
+#: .\home\templates\home\account.html:78
+#, python-format
 msgid ""
 "\n"
 "          Volunteered %(count)s times.\n"
 "          "
 msgstr ""
 "\n"
-"        %(count)s доброволствания\n"
+"        %(count)s вложения на труд\n"
 "        "
 
-#: home/templates/home/home_page.html:22
-msgid "Nothing happened recently"
-msgstr "Нищо ново"
+#: .\home\templates\home\list.html:15
+msgid "Create Cause"
+msgstr "Създай Задруга"
 
-#: projects/forms.py:42 projects/templatetags/projects_tags.py:27
-#: venv/lib/python3.8/site-packages/django/forms/widgets.py:712
+#: .\projects\forms.py:47 .\projects\templatetags\projects_tags.py:27
 msgid "Yes"
 msgstr "Да"
 
-#: projects/forms.py:42 projects/templatetags/projects_tags.py:27
-#: venv/lib/python3.8/site-packages/django/forms/widgets.py:713
+#: .\projects\forms.py:47 .\projects\templatetags\projects_tags.py:27
 msgid "No"
 msgstr "Не"
 
-#: projects/forms.py:72
+#: .\projects\forms.py:78
 msgid "Pledge to donate"
 msgstr "Обещавам да даря"
 
-#: projects/forms.py:79
+#: .\projects\forms.py:84
 msgid ""
 "I will send the money to the provided bank account within the next 3 days"
 msgstr "Ще изпратя дарението на посочената банкова сметка в следващите 3 дни"
 
-#: projects/forms.py:79 projects/forms.py:85
+#: .\projects\forms.py:85 .\projects\forms.py:92
 msgid "Otherwise the support will be marked invalid"
 msgstr ""
 
-#: projects/forms.py:85
+#: .\projects\forms.py:91
 msgid ""
 "I will send the money to the provided Revolut account within the next 3 days"
 msgstr "Ще изпратя парите на посочения Revolut профил в следващите 3 дни"
 
-#: projects/models.py:97
+#: .\projects\models.py:108 .\projects\models.py:214 .\projects\models.py:390
+#: .\projects\models.py:423 .\projects\models.py:458
+#: .\projects\templates\projects\thingnecessity_detail_fragment.html:10
+#: .\projects\templates\projects\timenecessity_detail_fragment.html:10
+msgid "Name"
+msgstr "Име"
 
+#: .\projects\models.py:109 .\projects\models.py:837
+msgid "type"
+msgstr "Тип"
+
+#: .\projects\models.py:110 .\projects\models.py:839
+msgid "DDORegistration"
+msgstr "Регистрация по ДДС"
+
+#: .\projects\models.py:111
+msgid "mission"
+msgstr "Мисия"
+
+#: .\projects\models.py:113
+msgid "numberOfSupporters"
+msgstr "Брой поддръжници"
+
+#: .\projects\models.py:114
+msgid "previousExperience"
+msgstr "Предишен опит"
+
+#: .\projects\models.py:115
+msgid "activityType"
+msgstr "Сфера на дейност"
+
+#: .\projects\models.py:117 .\projects\models.py:824 .\projects\models.py:842
+msgid "website"
+msgstr "Уебсайт"
+
+#: .\projects\models.py:118 .\projects\models.py:218 .\projects\models.py:392
+msgid "text"
+msgstr "Текст"
+
+#: .\projects\models.py:119
+msgid "bulstat"
+msgstr "Булстат"
+
+#: .\projects\models.py:121
+msgid "email"
+msgstr "Имейл"
+
+#: .\projects\models.py:122 .\projects\models.py:813
+msgid "phone"
+msgstr "Телефонен номер"
+
+#: .\projects\models.py:135
+msgid "facebook_page"
+msgstr "Фейсбук страница"
+
+#: .\projects\models.py:137 .\projects\models.py:167 .\projects\models.py:231
+msgid "slack_channel"
+msgstr "Slack канал"
+
+#: .\projects\models.py:140 .\projects\models.py:220
 msgid "Community"
 msgstr "Общност"
 
-#: projects/models.py:119
+#: .\projects\models.py:165
+msgid "second_name"
+msgstr "Презиме"
+
+#: .\projects\models.py:170
 msgid "User"
 msgstr "Потребител"
 
-#: projects/models.py:163
+#: .\projects\models.py:210
+msgid "montly"
+msgstr "месечен"
+
+#: .\projects\models.py:210
+msgid "twoweeks"
+msgstr "двуседмичен"
+
+#: .\projects\models.py:210
+msgid "weekly"
+msgstr "седмичен"
+
+#: .\projects\models.py:211 .\projects\models.py:563
+msgid "review"
+msgstr "Преглед"
+
+#: .\projects\models.py:211 .\projects\models.py:565
+msgid "accepted"
+msgstr "Приет"
+
+#: .\projects\models.py:211
+msgid "rejected"
+msgstr "Отхвърлен"
+
+#: .\projects\models.py:215
+msgid "location"
+msgstr "Местонахождение"
+
+#: .\projects\models.py:216
+msgid "goal"
+msgstr "Цел"
+
+#: .\projects\models.py:217 .\projects\models.py:424 .\projects\models.py:459
+msgid "description"
+msgstr "Описание"
+
+#: .\projects\models.py:221 .\projects\models.py:427 .\projects\models.py:737
+msgid "start_date"
+msgstr "Начална дата"
+
+#: .\projects\models.py:222 .\projects\models.py:428 .\projects\models.py:738
+msgid "end_date"
+msgstr "Крайна дата"
+
+#: .\projects\models.py:224
+msgid "end_date_tasks"
+msgstr "Крайна дата за изпълнение на задачите"
+
+#: .\projects\models.py:226
+msgid "report_period"
+msgstr "Честота на отчетите"
+
+#: .\projects\models.py:228
+msgid "category"
+msgstr "Категория"
+
+#: .\projects\models.py:232
+msgid "verified_status"
+msgstr "Статус"
+
+#: .\projects\models.py:241
 msgid "Cause"
 msgstr "Задруга"
 
-#: projects/models.py:163
+#: .\projects\models.py:241
 msgid "Business"
 msgstr "Бизнес"
 
-#: projects/models.py:289
+#: .\projects\models.py:368
 msgid "announcement"
 msgstr "известие"
 
-#: projects/models.py:474
+#: .\projects\models.py:393
+msgid "published_at"
+msgstr "Публикуван на"
+
+#: .\projects\models.py:425 .\projects\models.py:460 .\projects\models.py:690
+#: .\projects\models.py:736
+msgid "price"
+msgstr "Стойност"
+
+#: .\projects\models.py:426 .\projects\models.py:461
+msgid "count"
+msgstr "Брой"
+
+#: .\projects\models.py:561
 msgid "Do you have a comment"
 msgstr "Искате ли да коментирате"
 
-#: projects/models.py:545
+#: .\projects\models.py:564
+#, fuzzy
+#| msgid "Mark as delivered"
+msgid "delivered"
+msgstr "Отбележи като изпълнено"
+
+#: .\projects\models.py:566
+#, fuzzy
+#| msgid "Decline"
+msgid "declined"
+msgstr "Откажи"
+
+#: .\projects\models.py:567
+msgid "expired"
+msgstr ""
+
+#: .\projects\models.py:569
+#, fuzzy
+#| msgid "Status"
+msgid "status"
+msgstr "Статус"
+
+#: .\projects\models.py:572
+msgid "status_since"
+msgstr ""
+
+#: .\projects\models.py:637
 msgid "Which necessity do you wish to donate to"
 msgstr "За коя от нуждите искате да дарите"
 
-#: projects/models.py:546
+#: .\projects\models.py:638
 msgid "How much do you wish to donate"
 msgstr "Каква сума искате да дарите"
 
-#: projects/models.py:547
+#: .\projects\models.py:640
 msgid "I wish to remain anonymous"
 msgstr "Искам да съм анонимен"
 
-#: projects/models.py:547
+#: .\projects\models.py:640
 msgid "Check if you want your name to be hidden"
 msgstr "Отбележете ако искате името ви да е скрито"
 
-#: projects/models.py:550
+#: .\projects\models.py:643
 msgid "Bank Transfer"
 msgstr "Банков трансфер"
 
-#: projects/models.py:551
+#: .\projects\models.py:644
 msgid "Revolut"
 msgstr "Revolut"
 
-#: projects/models.py:552
+#: .\projects\models.py:646
 msgid "Choose a payment method"
 msgstr "Как ще изпратите дарението"
 
-#: projects/templates/activity/aggregated/report.html:7
+#: .\projects\models.py:716
+msgid "answer"
+msgstr "отговор"
 
+#: .\projects\models.py:814
+msgid "citizenship"
+msgstr "Гражданство"
+
+#: .\projects\models.py:815
+msgid "domicile"
+msgstr "Местожителство"
+
+#: .\projects\models.py:816
+msgid "postAdress"
+msgstr "Пощенски код"
+
+#: .\projects\models.py:817
+msgid "TIN"
+msgstr "ЕГН"
+
+#: .\projects\models.py:819
+msgid "passportData"
+msgstr "Номер на Лична Карта"
+
+#: .\projects\models.py:820
+msgid "birthdate"
+msgstr "Рожденна дата"
+
+#: .\projects\models.py:822
+msgid "placeOfBirth"
+msgstr "Месторождение"
+
+#: .\projects\models.py:823
+msgid "profession"
+msgstr "Професия"
+
+#: .\projects\models.py:836
+msgid "name"
+msgstr "Име"
+
+#: .\projects\models.py:841
+msgid "phoneNumber"
+msgstr "Телефонен номер"
+
+#: .\projects\templates\activity\aggregated\report.html:7
+#, python-format
 msgid ""
 "\n"
 "        published %(activity_count)s %(action)s for\n"
@@ -555,115 +761,132 @@ msgstr ""
 "        публикува %(activity_count)s %(action)s за\n"
 "        "
 
-#: projects/templates/activity/announcement.html:11
+#: .\projects\templates\activity\announcement.html:11
 msgid "posted an announcement for"
 msgstr "публикува известие за"
 
-#: projects/templates/activity/report.html:11
+#: .\projects\templates\activity\report.html:11
 msgid "published new report for"
-msgstr "публикува нов доклад за"
+msgstr "публикува нов отчет за"
 
-#: projects/templates/file_form.html:12 projects/templates/form.html:14
-#: projects/templates/projects/community_photo_update.html:16
-#: projects/templates/projects/necessity_form.html:43
-#: projects/templates/projects/photo_form.html:43
-#: projects/templates/projects/questions_form.html:75
-#: projects/templates/projects/user_photo_update.html:16
+#: .\projects\templates\file_form.html:12 .\projects\templates\form.html:14
+#: .\projects\templates\projects\community_photo_update.html:16
+#: .\projects\templates\projects\necessity_form.html:43
+#: .\projects\templates\projects\photo_form.html:43
+#: .\projects\templates\projects\questions_form.html:75
+#: .\projects\templates\projects\user_photo_update.html:16
 msgid "Save"
 msgstr "Запиши"
 
-#: projects/templates/file_form.html:15 projects/templates/form.html:20
-#: projects/templates/projects/questions_form.html:65
-#: projects/templates/projects/questions_form.html:99
-#: projects/templates/projects/support_form.html:52
-#: projects/templates/projects/support_form.html:56
-#: venv/lib/python3.8/site-packages/django/forms/formsets.py:375
+#: .\projects\templates\file_form.html:15 .\projects\templates\form.html:20
+#: .\projects\templates\projects\questions_form.html:65
+#: .\projects\templates\projects\questions_form.html:99
+#: .\projects\templates\projects\support_form.html:52
+#: .\projects\templates\projects\support_form.html:56
 msgid "Delete"
 msgstr "Изтрий"
 
-#: projects/templates/projects/community_detail.html:12
-#: projects/templates/projects/form_breadcrumb.html:4
-#: projects/templates/projects/necessity_breadcrumb.html:23
-#: projects/templates/projects/support_detail.html:27
-#: projects/templates/projects/support_detail.html:29
-#: projects/templates/projects/thingnecessity_list.html:13
-#: projects/templates/projects/time_support_create.html:52
-msgid "Update"
-msgstr "Промени"
+#: .\projects\templates\projects\community_detail.html:12
+#: .\projects\templates\projects\project_detail.html:29
+msgid "Add slack"
+msgstr "Добави Slack"
 
-#: projects/templates/projects/community_detail.html:14
-
+#: .\projects\templates\projects\community_detail.html:14
 msgid "Update members"
 msgstr "Промени членове"
 
-#: projects/templates/projects/community_detail.html:39
+#: .\projects\templates\projects\community_detail.html:39
 msgid "Bulstat"
 msgstr "Булстат"
 
-#: projects/templates/projects/community_detail.html:43
+#: .\projects\templates\projects\community_detail.html:43
+#: .\projects\templates\projects\support_detail_fragment.html:31
 msgid "Email"
 msgstr "Имейл"
 
-#: projects/templates/projects/community_list.html:11
+#: .\projects\templates\projects\community_list.html:11
 msgid "Add community"
 msgstr "Добави общност"
 
-#: projects/templates/projects/community_member_list.html:8
+#: .\projects\templates\projects\community_member_list.html:8
 msgid "Members"
 msgstr "Членове"
 
-#: projects/templates/projects/community_member_list.html:18
+#: .\projects\templates\projects\community_member_list.html:18
 msgid "Добави"
 msgstr ""
 
-#: projects/templates/projects/form_breadcrumb.html:6
+#: .\projects\templates\projects\feed.html:6
+msgid "Feed"
+msgstr ""
+
+#: .\projects\templates\projects\feed.html:15
+msgid "Nothing happened recently"
+msgstr "Нищо ново"
+
+#: .\projects\templates\projects\form_breadcrumb.html:4
+#: .\projects\templates\projects\necessity_breadcrumb.html:23
+#: .\projects\templates\projects\support_detail.html:27
+#: .\projects\templates\projects\support_detail.html:29
+#: .\projects\templates\projects\thingnecessity_list.html:13
+#: .\projects\templates\projects\time_support_create.html:52
+msgid "Update"
+msgstr "Промени"
+
+#: .\projects\templates\projects\form_breadcrumb.html:6
 msgid "Create"
 msgstr "Създай"
 
-#: projects/templates/projects/necessity_breadcrumb.html:6
-#: projects/templates/projects/project_detail.html:18
-#: projects/templates/projects/questions_form.html:9
-#: projects/templates/projects/support_breadcrumb.html:7
+#: .\projects\templates\projects\necessity_breadcrumb.html:6
+#: .\projects\templates\projects\project_detail.html:18
+#: .\projects\templates\projects\questions_form.html:9
+#: .\projects\templates\projects\support_breadcrumb.html:7
 msgid "Volunteers"
-msgstr "Доброволци"
+msgstr "Вложители на труд"
 
-#: projects/templates/projects/necessity_breadcrumb.html:10
-#: projects/templates/projects/project_detail.html:20
-#: projects/templates/projects/support_breadcrumb.html:11
-#: projects/templates/projects/thingnecessity_list.html:25
-#: projects/templates/projects/user_support_list.html:15
+#: .\projects\templates\projects\necessity_breadcrumb.html:10
+#: .\projects\templates\projects\project_detail.html:20
+#: .\projects\templates\projects\support_breadcrumb.html:11
+#: .\projects\templates\projects\thingnecessity_list.html:25
+#: .\projects\templates\projects\user_support_list.html:15
 msgid "Donations"
 msgstr "Дарения"
 
-#: projects/templates/projects/necessity_form.html:42
-#: projects/templates/projects/questions_form.html:74
+#: .\projects\templates\projects\necessity_form.html:42
+#: .\projects\templates\projects\questions_form.html:74
 msgid "Add row"
 msgstr "Добави ред"
 
-#: projects/templates/projects/payment/banktransfer.html:4
+#: .\projects\templates\projects\payment\banktransfer.html:4
 msgid "Holder Name"
 msgstr "Име на титуляр"
 
-#: projects/templates/projects/payment/banktransfer.html:7
+#: .\projects\templates\projects\payment\banktransfer.html:7
 msgid "IBAN"
 msgstr "IBAN"
 
-#: projects/templates/projects/payment/banktransfer.html:10
+#: .\projects\templates\projects\payment\banktransfer.html:10
 msgid "Bank Code"
 msgstr "Банков код"
 
-#: projects/templates/projects/payment/unsupported.html:3
+#: .\projects\templates\projects\payment\unsupported.html:3
 msgid ""
 "The cause does not support this payment type. Please choose another payment "
 "type"
-msgstr "Задругата не приема този метод на плащане. Моля изберете друг метод на плащане"
+msgstr ""
+"Задругата не приема този метод на плащане. Моля изберете друг метод на "
+"плащане"
 
-#: projects/templates/projects/photo_form.html:8
-#: projects/templates/projects/project_detail.html:26
+#: .\projects\templates\projects\photo_form.html:8
+#: .\projects\templates\projects\project_detail.html:26
 msgid "Update images"
 msgstr "Качи снимки"
 
-#: projects/templates/projects/project_confirm_delete.html:7
+#: .\projects\templates\projects\project_breadcrumb.html:6
+msgid "Businesses"
+msgstr "Бизнеси"
+
+#: .\projects\templates\projects\project_confirm_delete.html:7
 #, python-format
 msgid ""
 "\n"
@@ -674,40 +897,36 @@ msgstr ""
 "    <p>Сигурни ли сте, че искате да изтриете \"%(object)s\"?</p>\n"
 "  "
 
-#: projects/templates/projects/project_detail.html:15
+#: .\projects\templates\projects\project_detail.html:15
 msgid "See as regular user"
 msgstr "Виж като потребител"
 
-#: projects/templates/projects/project_detail.html:23
+#: .\projects\templates\projects\project_detail.html:23
 msgid "New report"
-msgstr "Напиши доклад"
+msgstr "Напиши отчет"
 
-#: projects/templates/projects/project_detail.html:29
-msgid "Update cause"
-msgstr "Промени задруга"
-
-#: projects/templates/projects/project_detail.html:33
+#: .\projects\templates\projects\project_detail.html:33
 msgid "See as admin"
 msgstr "Виж като администратор"
 
-#: projects/templates/projects/project_detail.html:54
+#: .\projects\templates\projects\project_detail.html:54
 msgid "Add image"
 msgstr "Добави изображение"
 
-#: projects/templates/projects/project_detail.html:72
-#: projects/templates/projects/project_detail.html:195
+#: .\projects\templates\projects\project_detail.html:72
+#: .\projects\templates\projects\project_detail.html:245
 msgid "Follow the cause"
 msgstr "Следвай задруга"
 
-#: projects/templates/projects/project_detail.html:93
+#: .\projects\templates\projects\project_detail.html:95
 msgid "Show more"
 msgstr "Покажи още"
 
-#: projects/templates/projects/project_detail.html:99
+#: .\projects\templates\projects\project_detail.html:101
 msgid "Show less"
 msgstr "Скрий"
 
-#: projects/templates/projects/project_detail.html:108
+#: .\projects\templates\projects\project_detail.html:110
 #, python-format
 msgid ""
 "\n"
@@ -715,28 +934,32 @@ msgid ""
 "      "
 msgstr ""
 "\n"
-"       Задругата има нужда от %(count)s доброволеца\n"
+"       Задругата има нужда от %(count)s вложители на труд\n"
 "        "
 
-#: projects/templates/projects/project_detail.html:122
-#: projects/templates/projects/project_stats.html:16
-
+#: .\projects\templates\projects\project_detail.html:124
+#: .\projects\templates\projects\project_stats.html:21
 msgid "See applications"
 msgstr "Виж кандидатури"
 
-#: projects/templates/projects/project_detail.html:123
-#: projects/templates/projects/project_stats.html:17
-
+#: .\projects\templates\projects\project_detail.html:125
+#: .\projects\templates\projects\project_stats.html:26
 msgid "Update volunteer types"
-msgstr "Промени доброволчески позиции"
+msgstr "Промени позиции за вложители на труд"
 
-#: projects/templates/projects/project_detail.html:125
-#: projects/templates/projects/project_stats.html:19
-#: projects/templates/projects/support_detail_fragment.html:24
+#: .\projects\templates\projects\project_detail.html:128
+#: .\projects\templates\projects\project_stats.html:33
+#: .\projects\templates\projects\support_detail_fragment.html:24
 msgid "Volunteer"
-msgstr "Доброволствай"
+msgstr "Вложи труд"
 
-#: projects/templates/projects/project_detail.html:132
+#: .\projects\templates\projects\project_detail.html:130
+#: .\projects\templates\projects\project_stats.html:35
+
+msgid "No volunteers needed"
+msgstr "Няма нужда от вложители на труд"
+
+#: .\projects\templates\projects\project_detail.html:138
 #, python-format
 msgid ""
 "\n"
@@ -747,219 +970,209 @@ msgstr ""
 "      Задругата има нужда от %(count)s неща на стойност %(price)s\n"
 "        "
 
-#: projects/templates/projects/project_detail.html:148
-#: projects/templates/projects/project_stats.html:37
-
+#: .\projects\templates\projects\project_detail.html:154
+#: .\projects\templates\projects\project_stats.html:59
 msgid "See donations"
 msgstr "Виж дарения"
 
-#: projects/templates/projects/project_detail.html:149
-#: projects/templates/projects/project_stats.html:38
-
+#: .\projects\templates\projects\project_detail.html:155
+#: .\projects\templates\projects\project_stats.html:64
 msgid "Update necessities"
 msgstr "Промени нужди"
 
-#: projects/templates/projects/project_detail.html:151
-#: projects/templates/projects/project_stats.html:40
-msgid "Support with money donation"
-msgstr "Подкрепи с парично дарение"
+#: .\projects\templates\projects\project_detail.html:165
+#: .\projects\templates\projects\support_form.html:9
+msgid "Donate"
+msgstr "Дари средства"
 
-#: projects/templates/projects/project_detail.html:152
-#: projects/templates/projects/project_stats.html:41
-msgid "Support with material resources"
-msgstr "Подкрепи с материални ресурси"
+#: .\projects\templates\projects\project_detail.html:185
+#: .\projects\templates\projects\project_stats.html:95
+msgid "Support as donator"
+msgstr "Дари като физическо лице"
 
-#: projects/templates/projects/project_detail.html:157
-#: projects/templates/projects/report_breadcrumb.html:5
-#: projects/templates/projects/report_list.html:22
+#: .\projects\templates\projects\project_detail.html:190
+#: .\projects\templates\projects\project_stats.html:100
+msgid "Support as legalentity"
+msgstr "Дари като организация"
+
+#: .\projects\templates\projects\project_detail.html:197
+msgid "Close"
+msgstr "затвори"
+
+#: .\projects\templates\projects\project_detail.html:207
+#: .\projects\templates\projects\report_breadcrumb.html:5
+#: .\projects\templates\projects\report_list.html:22
 msgid "Reports"
-msgstr "Доклади"
+msgstr "Отчети"
 
-#: projects/templates/projects/project_detail.html:158
+#: .\projects\templates\projects\project_detail.html:208
 msgid ""
 "Regular reports allow for transparency and accountability. Read the reports "
 "from the cause."
 msgstr ""
-"Редовните доклади позволяват прозрачност и отчетност. Разгледай докладите на "
+"Редовните отчети позволяват прозрачност и отчетност. Разгледай докладите на "
 "задругата."
 
-#: projects/templates/projects/project_detail.html:162
-#: projects/templates/projects/thingnecessity_detail_fragment.html:11
-#: projects/templates/projects/timenecessity_detail_fragment.html:12
+#: .\projects\templates\projects\project_detail.html:212
+#: .\projects\templates\projects\thingnecessity_detail_fragment.html:11
+#: .\projects\templates\projects\timenecessity_detail_fragment.html:12
 msgid "Description"
 msgstr "Описание"
 
-#: projects/templates/projects/project_detail.html:163
+#: .\projects\templates\projects\project_detail.html:213
 msgid "Published"
 msgstr "Публикуван"
 
-#: projects/templates/projects/project_detail.html:173
+#: .\projects\templates\projects\project_detail.html:223
 msgid "Read"
 msgstr "Прочети"
 
-#: projects/templates/projects/project_detail.html:178
-
-msgid ""
-"\n"
-"            + %(more)s more\n"
-"            "
-msgstr ""
-"\n"
-"    + още %(more)s\n"
-"    "
-
-#: projects/templates/projects/project_detail.html:182
+#: .\projects\templates\projects\project_detail.html:229
 msgid "see all"
 msgstr "виж всички"
 
-#: projects/templates/projects/project_detail.html:188
-#: projects/templates/projects/report_list.html:11
-
+#: .\projects\templates\projects\project_detail.html:238
+#: .\projects\templates\projects\report_list.html:11
 msgid "Add new report"
-msgstr "Добави доклад"
+msgstr "Напиши отчет"
 
-#: projects/templates/projects/project_detail.html:192
+#: .\projects\templates\projects\project_detail.html:242
 msgid "Announcements"
 msgstr "Известия"
 
-#: projects/templates/projects/project_detail.html:203
+#: .\projects\templates\projects\project_detail.html:253
 msgid "Publish"
 msgstr "Публикувай"
 
-#: projects/templates/projects/project_stats.html:6
-#, python-format
+#: .\projects\templates\projects\project_stats.html:5
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "  Collected <strong>%(fulfilled)s</strong> out of <strong>%(needed)s</"
+#| "strong> volunteers\n"
+#| "  "
 msgid ""
-"\n"
-"  Collected <strong>%(fulfilled)s</strong> out of <strong>%(needed)s</"
-"strong> volunteers\n"
-"  "
+" Collected <strong>%(fulfilled)s</strong> out\n"
+"    of <strong>%(needed)s</strong> volunteers \n"
+"    "
 msgstr ""
 "\n"
 "Събрани <strong>%(fulfilled)s</strong> от <strong>%(needed)s</strong> "
-"доброволци\n"
+"вложители на труд\n"
 "  "
 
-#: projects/templates/projects/project_stats.html:27
-#, python-format
+#: .\projects\templates\projects\project_stats.html:43
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "  Collected <strong>%(collected)s</strong> out of <strong>%(needed)s</"
+#| "strong>\n"
+#| "  "
 msgid ""
-"\n"
-"  Collected <strong>%(collected)s</strong> out of <strong>%(needed)s</"
-"strong>\n"
-"  "
+" Collected\n"
+"    <strong>%(collected)s</strong> out of <strong>%(needed)s</strong>\n"
+"    "
 msgstr ""
 "\n"
 "Събрани <strong>%(collected)s</strong> от <strong>%(needed)s</strong>\n"
 "  "
 
-#: projects/templates/projects/questions_form.html:13
-#: projects/templates/projects/timenecessity_list.html:12
-
+#: .\projects\templates\projects\questions_form.html:13
+#: .\projects\templates\projects\timenecessity_list.html:12
 msgid "Update questions"
 msgstr "Промени въпроси"
 
-#: projects/templates/projects/report_list.html:23
-#: projects/templates/projects/support_list.html:13
-#: projects/templates/projects/support_list_fragment.html:26
+#: .\projects\templates\projects\report_list.html:23
+#: .\projects\templates\projects\support_list.html:13
+#: .\projects\templates\projects\support_list_fragment.html:26
 msgid "for"
 msgstr "за"
 
-#: projects/templates/projects/report_list.html:31
+#: .\projects\templates\projects\report_list.html:31
 msgid "Unpublished"
 msgstr "Не публикуван"
 
-#: projects/templates/projects/support_detail.html:14
+#: .\projects\templates\projects\support_detail.html:14
 msgid "Accept"
 msgstr "Приеми"
 
-#: projects/templates/projects/support_detail.html:17
+#: .\projects\templates\projects\support_detail.html:17
 msgid "Decline"
 msgstr "Откажи"
 
-#: projects/templates/projects/support_detail.html:21
-
+#: .\projects\templates\projects\support_detail.html:21
 msgid "Mark as delivered"
 msgstr "Отбележи като изпълнено"
 
-#: projects/templates/projects/support_detail_fragment.html:17
-#: projects/templates/projects/support_list_fragment.html:7
+#: .\projects\templates\projects\support_detail_fragment.html:17
+#: .\projects\templates\projects\support_list_fragment.html:7
 msgid "Status"
 msgstr "Статус"
 
-#: projects/templates/projects/support_detail_fragment.html:20
-#: projects/templates/projects/support_list_fragment.html:8
+#: .\projects\templates\projects\support_detail_fragment.html:20
+#: .\projects\templates\projects\support_list_fragment.html:8
 msgid "Since"
 msgstr "От"
 
-#: projects/templates/projects/support_detail_fragment.html:26
+#: .\projects\templates\projects\support_detail_fragment.html:26
 msgid "Donor"
 msgstr "Дарител"
 
-#: projects/templates/projects/support_detail_fragment.html:28
+#: .\projects\templates\projects\support_detail_fragment.html:28
 msgid "See profile"
 msgstr "Виж профила"
 
-#: projects/templates/projects/support_detail_fragment.html:32
+#: .\projects\templates\projects\support_detail_fragment.html:35
 msgid "Comment"
 msgstr "Коментирай"
 
-#: projects/templates/projects/support_form.html:9
-msgid "Donate"
-msgstr "Дари"
-
-#: projects/templates/projects/support_form.html:29
+#: .\projects\templates\projects\support_form.html:29
 msgid "Payment"
 msgstr "Плащане"
 
-#: projects/templates/projects/support_form.html:44
+#: .\projects\templates\projects\support_form.html:44
 msgid "Go back"
 msgstr "Обратно"
 
-#: projects/templates/projects/support_list.html:12
+#: .\projects\templates\projects\support_list.html:12
 msgid "Support"
 msgstr "Подкрепи"
 
-#: projects/templates/projects/support_list_fragment.html:11
+#: .\projects\templates\projects\support_list_fragment.html:11
 msgid "Applied for"
 msgstr "Кандидатствал за"
 
-#: projects/templates/projects/support_list_fragment.html:13
+#: .\projects\templates\projects\support_list_fragment.html:13
 msgid "Donation"
 msgstr "Дарение"
 
-#: projects/templates/projects/support_list_fragment.html:16
+#: .\projects\templates\projects\support_list_fragment.html:16
 msgid "Action"
 msgstr "Действие"
 
-#: projects/templates/projects/support_list_fragment.html:31
-#: projects/templates/projects/support_list_fragment.html:33
+#: .\projects\templates\projects\support_list_fragment.html:31
+#: .\projects\templates\projects\support_list_fragment.html:33
 msgid "Details"
 msgstr "Детайли"
 
-#: projects/templates/projects/thingnecessity_detail_fragment.html:10
-#: projects/templates/projects/timenecessity_detail_fragment.html:10
-
-msgid "Name"
-msgstr "Име"
-
-#: projects/templates/projects/thingnecessity_detail_fragment.html:12
-#: projects/templates/projects/timenecessity_detail_fragment.html:15
+#: .\projects\templates\projects\thingnecessity_detail_fragment.html:12
+#: .\projects\templates\projects\timenecessity_detail_fragment.html:15
 msgid "Price"
 msgstr "Стойност"
 
-#: projects/templates/projects/thingnecessity_detail_fragment.html:13
+#: .\projects\templates\projects\thingnecessity_detail_fragment.html:13
 msgid "Collected"
 msgstr "Събрани"
 
-#: projects/templates/projects/time_support_create.html:12
-
+#: .\projects\templates\projects\time_support_create.html:12
 msgid "Update volunteer application"
-msgstr "Промени кандидатура за доброволец"
+msgstr "Промени кандидатура за вложител на труд"
 
-#: projects/templates/projects/time_support_create.html:14
+#: .\projects\templates\projects\time_support_create.html:14
 msgid "Apply as a volunteer"
-msgstr "Кандидатствай за доброволец"
+msgstr "Кандидатствай за вложител на труд"
 
-#: projects/templates/projects/time_support_create.html:25
+#: .\projects\templates\projects\time_support_create.html:25
 #, python-format
 msgid ""
 "\n"
@@ -967,58 +1180,58 @@ msgid ""
 "  "
 msgstr ""
 "\n"
-"Кандидатствай за доброволец за задругата %(cause)s на %(community)s\n"
+"Кандидатствай за вложител на труд за задругата %(cause)s на %(community)s\n"
 "  "
 
-#: projects/templates/projects/time_support_create.html:54
+#: .\projects\templates\projects\time_support_create.html:54
 msgid "Apply"
 msgstr "Кандидатствай"
 
-#: projects/templates/projects/timenecessity_detail_fragment.html:11
+#: .\projects\templates\projects\timenecessity_detail_fragment.html:11
 msgid "Period"
 msgstr "Период"
 
-#: projects/templates/projects/timenecessity_detail_fragment.html:14
+#: .\projects\templates\projects\timenecessity_detail_fragment.html:14
 msgid "Accepted"
 msgstr "Приети"
 
-#: projects/templates/projects/timenecessity_list.html:13
+#: .\projects\templates\projects\timenecessity_list.html:13
 msgid "Update types"
 msgstr "Промени позиции"
 
-#: projects/templates/projects/timenecessity_list.html:22
+#: .\projects\templates\projects\timenecessity_list.html:22
 msgid "Questions"
 msgstr "Въпроси"
 
-#: projects/templates/projects/timenecessity_list.html:28
+#: .\projects\templates\projects\timenecessity_list.html:28
 msgid "No questions configured"
 msgstr "Няма променени въпроси"
 
-#: projects/templates/projects/timenecessity_list.html:33
+#: .\projects\templates\projects\timenecessity_list.html:33
 msgid "Types"
 msgstr "Позиции"
 
-#: projects/templates/projects/timenecessity_list.html:39
+#: .\projects\templates\projects\timenecessity_list.html:39
 msgid "Applications"
 msgstr "Кандидатури"
 
-#: projects/templates/projects/user_support_list.html:13
+#: .\projects\templates\projects\user_support_list.html:13
 msgid "Volunteering"
-msgstr "Доброволстване"
+msgstr "Вложение на труд"
 
-#: projects/templates/projects/user_support_list.html:26
-
+#: .\projects\templates\projects\user_support_list.html:26
+#, python-format
 msgid ""
 "\n"
 "          %(name)s's volunteering\n"
 "        "
 msgstr ""
 "\n"
-"        %(name)s доброволстване\n"
+"        %(name)s вложение на труд\n"
 "        "
 
-#: projects/templates/projects/user_support_list.html:30
-
+#: .\projects\templates\projects\user_support_list.html:30
+#, python-format
 msgid ""
 "\n"
 "          %(name)s's donations \n"
@@ -1028,1372 +1241,163 @@ msgstr ""
 "        %(name)s дарения\n"
 "        "
 
-#: projects/templates/projects/user_vote_list.html:11
-#: venv/lib/python3.8/site-packages/vote/managers.py:201
+#: .\projects\templates\projects\user_vote_list.html:11
 msgid "Votes"
 msgstr "Гласове"
 
-#: projects/templates/projects/user_vote_list.html:12
+#: .\projects\templates\projects\user_vote_list.html:12
 msgid "from"
 msgstr "от"
 
-#: projects/templates/projects/user_vote_list.html:16
+#: .\projects\templates\projects\user_vote_list.html:16
 msgid "Awaiting vote"
 msgstr "Очакващ гласуване"
 
-#: projects/templates/projects/user_vote_list.html:21
+#: .\projects\templates\projects\user_vote_list.html:21
 msgid "No new reports"
 msgstr "Няма нови доклади"
 
-#: projects/templates/projects/user_vote_list.html:26
+#: .\projects\templates\projects\user_vote_list.html:26
 msgid "Past votes"
 msgstr "Предишни гласувания"
 
-#: projects/templatetags/projects_tags.py:36
-#: projects/templatetags/projects_tags.py:41
+#: .\projects\templatetags\projects_tags.py:36
+#: .\projects\templatetags\projects_tags.py:41
 msgid "lv"
 msgstr "лв"
 
-#: projects/templatetags/projects_tags.py:39
+#: .\projects\templatetags\projects_tags.py:39
 msgid "unknown"
 msgstr "неизвестно"
 
-#: projects/views.py:191
+#: .\projects\views.py:105
+msgid "Text(5000 characters)"
+msgstr "Текст(до 5000 символа)"
 
+#: .\projects\views.py:113
+msgid "End date must be after  start date"
+msgstr ""
+
+#: .\projects\views.py:259
 msgid "Could not get timeline"
 msgstr "Системата не може да зареди времевата рамка"
 
-#: projects/views.py:307 projects/views.py:316
+#: .\projects\views.py:416 .\projects\views.py:426
 msgid "Success"
 msgstr "Успешно"
 
-#: projects/views.py:425 projects/views.py:585
+#: .\projects\views.py:552 .\projects\views.py:752
 msgid "Could not delete vote"
 msgstr "Неуспешно изтриване на глас"
 
-#: projects/views.py:428 projects/views.py:588
+#: .\projects\views.py:555 .\projects\views.py:755
 msgid "Deleted vote"
 msgstr "Успешно изтрит глас"
 
-#: projects/views.py:437 projects/views.py:597
+#: .\projects\views.py:564 .\projects\views.py:764
 msgid "Could not vote"
 msgstr "Неуспешно гласуване"
 
-#: projects/views.py:439 projects/views.py:599
+#: .\projects\views.py:566 .\projects\views.py:766
 msgid "Voted up"
 msgstr "Гласувах за"
 
-#: projects/views.py:439 projects/views.py:599
+#: .\projects\views.py:567 .\projects\views.py:767
 msgid "Voted down"
 msgstr "Гласувах против"
 
-#: projects/views.py:463
+#: .\projects\views.py:593
 msgid "Any will do"
 msgstr "Без значение"
 
-#: projects/views.py:528
+#: .\projects\views.py:677
 msgid "Next step"
 msgstr "Следваща стъпка"
 
-#: projects/views.py:628
+#: .\projects\views.py:801
 msgid "Support already accepted"
 msgstr "Подкрепата вече е била приета"
 
-#: projects/views.py:628
+#: .\projects\views.py:802
 msgid "Support already declined"
 msgstr "Подкрепата вече е била отказана"
 
-#: projects/views.py:631
+#: .\projects\views.py:806
 msgid "Select a necessity for the money support"
 msgstr "Избери ресурс за парична подкрепа"
 
-#: projects/views.py:636
+#: .\projects\views.py:824
 msgid "Support accepted"
 msgstr "Подкрепата приета"
 
-#: projects/views.py:636
+#: .\projects\views.py:825
 msgid "Support declined"
 msgstr "Подкрепата отказана"
 
-#: projects/views.py:638
-
+#: .\projects\views.py:827
 msgid "Support could not be accepted"
 msgstr "Подкрепата не може да бъде приета"
 
-#: projects/views.py:638
+#: .\projects\views.py:828
 msgid "Support could not be declined"
 msgstr "Подкрепата не може да била отказана"
 
-#: projects/views.py:652
+#: .\projects\views.py:855
 msgid "Support already marked as delivered"
 msgstr "Подкрепата вече е била отбелязана като изпълнена"
 
-#: projects/views.py:658
+#: .\projects\views.py:863
 msgid "Support marked as delivered"
 msgstr "Подкрепата е отбелязана като изпълнена"
 
-#: projects/views.py:726
+#: .\projects\views.py:937
 msgid "Email:"
 msgstr "Имейл:"
 
-#: projects/views.py:762
+#: .\projects\views.py:976
 msgid "Started following"
 msgstr "Започна да следва"
 
-#: projects/views.py:827
+#: .\projects\views.py:1057
 msgid ""
 "Why do you apply for this position? List your relevant experience / skills"
-msgstr "Защо кандидатстваш за тази позиция? С какъв опит / умения ще допринесеш?"
+msgstr ""
+"Защо кандидатстваш за тази позиция? С какъв опит / умения ще допринесеш?"
 
-#: projects/views.py:860
-
+#: .\projects\views.py:1092
 msgid "Choose at least one volunteer position"
-msgstr "Избери поне един доброволческа позиция"
+msgstr "Избери поне един позиция, като вложител на труд"
 
-#: projects/views.py:875
+#: .\projects\views.py:1108
 #, python-format
 msgid "Applied to %d volunteer positions"
-msgstr "Кандидатства за %d доброволчески позиции"
+msgstr "Кандидатства за %d позиции, като вложител на труд"
 
-#: projects/views.py:1027 projects/views.py:1056
-
+#: .\projects\views.py:1274 .\projects\views.py:1306
 msgid "Image deleted"
 msgstr "Изображението е изтрито"
 
-#: projects/views.py:1032 projects/views.py:1061
+#: .\projects\views.py:1280 .\projects\views.py:1312
 msgid "Image uploaded"
 msgstr "Изображението е качено"
 
-#: venv/lib/python3.8/site-packages/bootstrap4/components.py:17
-#: venv/lib/python3.8/site-packages/bootstrap4/templates/bootstrap4/form_errors.html:3
-#: venv/lib/python3.8/site-packages/bootstrap4/templates/bootstrap4/messages.html:4
-msgid "close"
-msgstr "затвори"
-
-#: venv/lib/python3.8/site-packages/botocore/docs/bcdoc/textwriter.py:469
-#, python-format
-msgid "[image: %s]"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/botocore/docs/bcdoc/textwriter.py:470
-
-msgid "[image]"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/contrib/messages/apps.py:7
-msgid "Messages"
-msgstr "Съобщения"
-
-#: venv/lib/python3.8/site-packages/django/contrib/sitemaps/apps.py:7
-msgid "Site Maps"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/contrib/staticfiles/apps.py:9
-msgid "Static Files"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/contrib/syndication/apps.py:7
-msgid "Syndication"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/core/paginator.py:45
-msgid "That page number is not an integer"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/core/paginator.py:47
-msgid "That page number is less than 1"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/core/paginator.py:52
-msgid "That page contains no results"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/core/validators.py:31
-msgid "Enter a valid value."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/core/validators.py:102
-#: venv/lib/python3.8/site-packages/django/forms/fields.py:658
-msgid "Enter a valid URL."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/core/validators.py:154
-msgid "Enter a valid integer."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/core/validators.py:165
-msgid "Enter a valid email address."
-msgstr ""
-
-#. Translators: "letters" means latin letters: a-z and A-Z.
-#: venv/lib/python3.8/site-packages/django/core/validators.py:239
-msgid ""
-"Enter a valid 'slug' consisting of letters, numbers, underscores or hyphens."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/core/validators.py:246
-msgid ""
-"Enter a valid 'slug' consisting of Unicode letters, numbers, underscores, or "
-"hyphens."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/core/validators.py:255
-#: venv/lib/python3.8/site-packages/django/core/validators.py:275
-msgid "Enter a valid IPv4 address."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/core/validators.py:260
-#: venv/lib/python3.8/site-packages/django/core/validators.py:276
-msgid "Enter a valid IPv6 address."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/core/validators.py:270
-#: venv/lib/python3.8/site-packages/django/core/validators.py:274
-msgid "Enter a valid IPv4 or IPv6 address."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/core/validators.py:304
-msgid "Enter only digits separated by commas."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/core/validators.py:310
-#, python-format
-msgid "Ensure this value is %(limit_value)s (it is %(show_value)s)."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/core/validators.py:342
-#, python-format
-msgid "Ensure this value is less than or equal to %(limit_value)s."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/core/validators.py:351
-#, python-format
-msgid "Ensure this value is greater than or equal to %(limit_value)s."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/core/validators.py:361
-#, python-format
-msgid ""
-"Ensure this value has at least %(limit_value)d character (it has "
-"%(show_value)d)."
-msgid_plural ""
-"Ensure this value has at least %(limit_value)d characters (it has "
-"%(show_value)d)."
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.8/site-packages/django/core/validators.py:376
-#, python-format
-msgid ""
-"Ensure this value has at most %(limit_value)d character (it has "
-"%(show_value)d)."
-msgid_plural ""
-"Ensure this value has at most %(limit_value)d characters (it has "
-"%(show_value)d)."
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.8/site-packages/django/core/validators.py:395
-#: venv/lib/python3.8/site-packages/django/forms/fields.py:290
-#: venv/lib/python3.8/site-packages/django/forms/fields.py:325
-msgid "Enter a number."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/core/validators.py:397
-#, python-format
-msgid "Ensure that there are no more than %(max)s digit in total."
-msgid_plural "Ensure that there are no more than %(max)s digits in total."
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.8/site-packages/django/core/validators.py:402
-#, python-format
-msgid "Ensure that there are no more than %(max)s decimal place."
-msgid_plural "Ensure that there are no more than %(max)s decimal places."
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.8/site-packages/django/core/validators.py:407
-#, python-format
-msgid ""
-"Ensure that there are no more than %(max)s digit before the decimal point."
-msgid_plural ""
-"Ensure that there are no more than %(max)s digits before the decimal point."
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.8/site-packages/django/core/validators.py:469
-#, python-format
-msgid ""
-"File extension '%(extension)s' is not allowed. Allowed extensions are: "
-"'%(allowed_extensions)s'."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/core/validators.py:521
-msgid "Null characters are not allowed."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/base.py:1162
-#: venv/lib/python3.8/site-packages/django/forms/models.py:756
-msgid "and"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/base.py:1164
-#, python-format
-msgid "%(model_name)s with this %(field_labels)s already exists."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:104
-#, python-format
-msgid "Value %(value)r is not a valid choice."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:105
-msgid "This field cannot be null."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:106
-msgid "This field cannot be blank."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:107
-#, python-format
-msgid "%(model_name)s with this %(field_label)s already exists."
-msgstr ""
-
-#. Translators: The 'lookup_type' is one of 'date', 'year' or 'month'.
-#. Eg: "Title must be unique for pub_date year"
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:111
-#, python-format
-msgid ""
-"%(field_label)s must be unique for %(date_field_label)s %(lookup_type)s."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:128
-#, python-format
-msgid "Field of type: %(field_type)s"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:905
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1772
-msgid "Integer"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:909
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1770
-#, python-format
-msgid "'%(value)s' value must be an integer."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:984
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1850
-msgid "Big (8 byte) integer"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:996
-#, python-format
-msgid "'%(value)s' value must be either True or False."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:997
-#, python-format
-msgid "'%(value)s' value must be either True, False, or None."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:999
-msgid "Boolean (Either True or False)"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1040
-#, python-format
-msgid "String (up to %(max_length)s)"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1104
-msgid "Comma-separated integers"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1153
-#, python-format
-msgid ""
-"'%(value)s' value has an invalid date format. It must be in YYYY-MM-DD "
-"format."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1155
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1298
-#, python-format
-msgid ""
-"'%(value)s' value has the correct format (YYYY-MM-DD) but it is an invalid "
-"date."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1158
-msgid "Date (without time)"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1296
-#, python-format
-msgid ""
-"'%(value)s' value has an invalid format. It must be in YYYY-MM-DD HH:MM[:ss[."
-"uuuuuu]][TZ] format."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1300
-#, python-format
-msgid ""
-"'%(value)s' value has the correct format (YYYY-MM-DD HH:MM[:ss[.uuuuuu]]"
-"[TZ]) but it is an invalid date/time."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1304
-msgid "Date (with time)"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1452
-#, python-format
-msgid "'%(value)s' value must be a decimal number."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1454
-msgid "Decimal number"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1593
-#, python-format
-msgid ""
-"'%(value)s' value has an invalid format. It must be in [DD] [HH:[MM:]]ss[."
-"uuuuuu] format."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1596
-msgid "Duration"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1646
-msgid "Email address"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1669
-msgid "File path"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1735
-#, python-format
-msgid "'%(value)s' value must be a float."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1737
-msgid "Floating point number"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1866
-msgid "IPv4 address"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1897
-msgid "IP address"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1977
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1978
-#, python-format
-msgid "'%(value)s' value must be either None, True or False."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1980
-msgid "Boolean (Either True, False or None)"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:2015
-msgid "Positive integer"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:2028
-msgid "Positive small integer"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:2042
-#, python-format
-msgid "Slug (up to %(max_length)s)"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:2074
-msgid "Small integer"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:2081
-msgid "Text"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:2109
-#, python-format
-msgid ""
-"'%(value)s' value has an invalid format. It must be in HH:MM[:ss[.uuuuuu]] "
-"format."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:2111
-#, python-format
-msgid ""
-"'%(value)s' value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an "
-"invalid time."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:2114
-msgid "Time"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:2240
-msgid "URL"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:2262
-msgid "Raw binary data"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:2312
-#, python-format
-msgid "'%(value)s' is not a valid UUID."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:2314
-msgid "Universally unique identifier"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/files.py:221
-msgid "File"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/files.py:360
-msgid "Image"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/related.py:778
-#, python-format
-msgid "%(model)s instance with %(field)s %(value)r does not exist."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/related.py:780
-msgid "Foreign Key (type determined by related field)"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/related.py:1007
-msgid "One-to-one relationship"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/related.py:1057
-#, python-format
-msgid "%(from)s-%(to)s relationship"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/related.py:1058
-#, python-format
-msgid "%(from)s-%(to)s relationships"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/db/models/fields/related.py:1100
-msgid "Many-to-many relationship"
-msgstr ""
-
-#. Translators: If found as last label character, these punctuation
-#. characters will prevent the default label_suffix to be appended to the label
-#: venv/lib/python3.8/site-packages/django/forms/boundfield.py:146
-msgid ":?.!"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/forms/fields.py:53
-msgid "This field is required."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/forms/fields.py:245
-msgid "Enter a whole number."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/forms/fields.py:396
-#: venv/lib/python3.8/site-packages/django/forms/fields.py:1126
-msgid "Enter a valid date."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/forms/fields.py:420
-#: venv/lib/python3.8/site-packages/django/forms/fields.py:1127
-msgid "Enter a valid time."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/forms/fields.py:442
-msgid "Enter a valid date/time."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/forms/fields.py:471
-msgid "Enter a valid duration."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/forms/fields.py:472
-#, python-brace-format
-msgid "The number of days must be between {min_days} and {max_days}."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/forms/fields.py:532
-msgid "No file was submitted. Check the encoding type on the form."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/forms/fields.py:533
-msgid "No file was submitted."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/forms/fields.py:534
-msgid "The submitted file is empty."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/forms/fields.py:536
-#, python-format
-msgid "Ensure this filename has at most %(max)d character (it has %(length)d)."
-msgid_plural ""
-"Ensure this filename has at most %(max)d characters (it has %(length)d)."
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.8/site-packages/django/forms/fields.py:539
-msgid "Please either submit a file or check the clear checkbox, not both."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/forms/fields.py:600
-msgid ""
-"Upload a valid image. The file you uploaded was either not an image or a "
-"corrupted image."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/forms/fields.py:762
-#: venv/lib/python3.8/site-packages/django/forms/fields.py:852
-#: venv/lib/python3.8/site-packages/django/forms/models.py:1270
-#, python-format
-msgid "Select a valid choice. %(value)s is not one of the available choices."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/forms/fields.py:853
-#: venv/lib/python3.8/site-packages/django/forms/fields.py:968
-#: venv/lib/python3.8/site-packages/django/forms/models.py:1269
-msgid "Enter a list of values."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/forms/fields.py:969
-msgid "Enter a complete value."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/forms/fields.py:1185
-msgid "Enter a valid UUID."
-msgstr ""
-
-#. Translators: This is the default suffix added to form field labels
-#: venv/lib/python3.8/site-packages/django/forms/forms.py:86
-msgid ":"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/forms/forms.py:212
-#, python-format
-msgid "(Hidden field %(name)s) %(error)s"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/forms/formsets.py:91
-msgid "ManagementForm data is missing or has been tampered with"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/forms/formsets.py:338
-#, python-format
-msgid "Please submit %d or fewer forms."
-msgid_plural "Please submit %d or fewer forms."
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.8/site-packages/django/forms/formsets.py:345
-#, python-format
-msgid "Please submit %d or more forms."
-msgid_plural "Please submit %d or more forms."
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.8/site-packages/django/forms/formsets.py:371
-#: venv/lib/python3.8/site-packages/django/forms/formsets.py:373
-msgid "Order"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/forms/models.py:751
-#, python-format
-msgid "Please correct the duplicate data for %(field)s."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/forms/models.py:755
-#, python-format
-msgid "Please correct the duplicate data for %(field)s, which must be unique."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/forms/models.py:761
-#, python-format
-msgid ""
-"Please correct the duplicate data for %(field_name)s which must be unique "
-"for the %(lookup)s in %(date_field)s."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/forms/models.py:770
-msgid "Please correct the duplicate values below."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/forms/models.py:1091
-msgid "The inline value did not match the parent instance."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/forms/models.py:1158
-msgid "Select a valid choice. That choice is not one of the available choices."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/forms/models.py:1272
-#, python-format
-msgid "\"%(pk)s\" is not a valid value."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/forms/utils.py:162
-#, python-format
-msgid ""
-"%(datetime)s couldn't be interpreted in time zone %(current_timezone)s; it "
-"may be ambiguous or it may not exist."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/forms/widgets.py:395
-msgid "Clear"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/forms/widgets.py:396
-msgid "Currently"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/forms/widgets.py:397
-msgid "Change"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/forms/widgets.py:711
-msgid "Unknown"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/template/defaultfilters.py:788
-msgid "yes,no,maybe"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/template/defaultfilters.py:817
-#: venv/lib/python3.8/site-packages/django/template/defaultfilters.py:834
-#, python-format
-msgid "%(size)d byte"
-msgid_plural "%(size)d bytes"
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.8/site-packages/django/template/defaultfilters.py:836
-#, python-format
-msgid "%s KB"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/template/defaultfilters.py:838
-#, python-format
-msgid "%s MB"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/template/defaultfilters.py:840
-#, python-format
-msgid "%s GB"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/template/defaultfilters.py:842
-#, python-format
-msgid "%s TB"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/template/defaultfilters.py:844
-#, python-format
-msgid "%s PB"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dateformat.py:62
-msgid "p.m."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dateformat.py:63
-msgid "a.m."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dateformat.py:68
-msgid "PM"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dateformat.py:69
-msgid "AM"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dateformat.py:150
-msgid "midnight"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dateformat.py:152
-msgid "noon"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:6
-msgid "Monday"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:6
-msgid "Tuesday"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:6
-msgid "Wednesday"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:6
-msgid "Thursday"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:6
-msgid "Friday"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:7
-msgid "Saturday"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:7
-msgid "Sunday"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:10
-msgid "Mon"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:10
-msgid "Tue"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:10
-msgid "Wed"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:10
-msgid "Thu"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:10
-msgid "Fri"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:11
-msgid "Sat"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:11
-msgid "Sun"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:14
-msgid "January"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:14
-msgid "February"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:14
-msgid "March"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:14
-msgid "April"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:14
-msgid "May"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:14
-msgid "June"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:15
-msgid "July"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:15
-msgid "August"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:15
-msgid "September"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:15
-msgid "October"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:15
-msgid "November"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:16
-msgid "December"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:19
-msgid "jan"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:19
-msgid "feb"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:19
-msgid "mar"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:19
-msgid "apr"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:19
-msgid "may"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:19
-msgid "jun"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:20
-msgid "jul"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:20
-msgid "aug"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:20
-msgid "sep"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:20
-msgid "oct"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:20
-msgid "nov"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:20
-msgid "dec"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:23
-msgctxt "abbrev. month"
-msgid "Jan."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:24
-msgctxt "abbrev. month"
-msgid "Feb."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:25
-msgctxt "abbrev. month"
-msgid "March"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:26
-msgctxt "abbrev. month"
-msgid "April"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:27
-msgctxt "abbrev. month"
-msgid "May"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:28
-msgctxt "abbrev. month"
-msgid "June"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:29
-msgctxt "abbrev. month"
-msgid "July"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:30
-msgctxt "abbrev. month"
-msgid "Aug."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:31
-msgctxt "abbrev. month"
-msgid "Sept."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:32
-msgctxt "abbrev. month"
-msgid "Oct."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:33
-msgctxt "abbrev. month"
-msgid "Nov."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:34
-msgctxt "abbrev. month"
-msgid "Dec."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:37
-msgctxt "alt. month"
-msgid "January"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:38
-msgctxt "alt. month"
-msgid "February"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:39
-msgctxt "alt. month"
-msgid "March"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:40
-msgctxt "alt. month"
-msgid "April"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:41
-msgctxt "alt. month"
-msgid "May"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:42
-msgctxt "alt. month"
-msgid "June"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:43
-msgctxt "alt. month"
-msgid "July"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:44
-msgctxt "alt. month"
-msgid "August"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:45
-msgctxt "alt. month"
-msgid "September"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:46
-msgctxt "alt. month"
-msgid "October"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:47
-msgctxt "alt. month"
-msgid "November"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/dates.py:48
-msgctxt "alt. month"
-msgid "December"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/ipv6.py:8
-msgid "This is not a valid IPv6 address."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/text.py:67
-#, python-format
-msgctxt "String to return when truncating text"
-msgid "%(truncated_text)s…"
-msgstr ""
-
-#. Translators: This string is used as a separator between list elements
-#: venv/lib/python3.8/site-packages/django/utils/text.py:252
-#: venv/lib/python3.8/site-packages/django/utils/timesince.py:83
-msgid ", "
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/utils/timesince.py:9
-#, python-format
-msgid "%d year"
-msgid_plural "%d years"
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.8/site-packages/django/utils/timesince.py:10
-#, python-format
-msgid "%d month"
-msgid_plural "%d months"
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.8/site-packages/django/utils/timesince.py:11
-#, python-format
-msgid "%d week"
-msgid_plural "%d weeks"
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.8/site-packages/django/utils/timesince.py:12
-#, python-format
-msgid "%d day"
-msgid_plural "%d days"
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.8/site-packages/django/utils/timesince.py:13
-#, python-format
-msgid "%d hour"
-msgid_plural "%d hours"
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.8/site-packages/django/utils/timesince.py:14
-#, python-format
-msgid "%d minute"
-msgid_plural "%d minutes"
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.8/site-packages/django/utils/timesince.py:72
-msgid "0 minutes"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/views/csrf.py:110
-msgid "Forbidden"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/views/csrf.py:111
-msgid "CSRF verification failed. Request aborted."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/views/csrf.py:115
-msgid ""
-"You are seeing this message because this HTTPS site requires a 'Referer "
-"header' to be sent by your Web browser, but none was sent. This header is "
-"required for security reasons, to ensure that your browser is not being "
-"hijacked by third parties."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/views/csrf.py:120
-msgid ""
-"If you have configured your browser to disable 'Referer' headers, please re-"
-"enable them, at least for this site, or for HTTPS connections, or for 'same-"
-"origin' requests."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/views/csrf.py:124
-msgid ""
-"If you are using the <meta name=\"referrer\" content=\"no-referrer\"> tag or "
-"including the 'Referrer-Policy: no-referrer' header, please remove them. The "
-"CSRF protection requires the 'Referer' header to do strict referer checking. "
-"If you're concerned about privacy, use alternatives like <a rel=\"noreferrer"
-"\" ...> for links to third-party sites."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/views/csrf.py:132
-msgid ""
-"You are seeing this message because this site requires a CSRF cookie when "
-"submitting forms. This cookie is required for security reasons, to ensure "
-"that your browser is not being hijacked by third parties."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/views/csrf.py:137
-msgid ""
-"If you have configured your browser to disable cookies, please re-enable "
-"them, at least for this site, or for 'same-origin' requests."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/views/csrf.py:142
-msgid "More information is available with DEBUG=True."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/views/generic/dates.py:41
-msgid "No year specified"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/views/generic/dates.py:61
-#: venv/lib/python3.8/site-packages/django/views/generic/dates.py:111
-#: venv/lib/python3.8/site-packages/django/views/generic/dates.py:208
-msgid "Date out of range"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/views/generic/dates.py:90
-msgid "No month specified"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/views/generic/dates.py:142
-msgid "No day specified"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/views/generic/dates.py:188
-msgid "No week specified"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/views/generic/dates.py:338
-#: venv/lib/python3.8/site-packages/django/views/generic/dates.py:367
-#, python-format
-msgid "No %(verbose_name_plural)s available"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/views/generic/dates.py:589
-#, python-format
-msgid ""
-"Future %(verbose_name_plural)s not available because %(class_name)s."
-"allow_future is False."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/views/generic/dates.py:623
-#, python-format
-msgid "Invalid date string '%(datestr)s' given format '%(format)s'"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/views/generic/detail.py:54
-#, python-format
-msgid "No %(verbose_name)s found matching the query"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/views/generic/list.py:67
-msgid "Page is not 'last', nor can it be converted to an int."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/views/generic/list.py:72
-#, python-format
-msgid "Invalid page (%(page_number)s): %(message)s"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/views/generic/list.py:154
-#, python-format
-msgid "Empty list and '%(class_name)s.allow_empty' is False."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/views/static.py:40
-msgid "Directory indexes are not allowed here."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/views/static.py:42
-#, python-format
-msgid "\"%(path)s\" does not exist"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/views/static.py:80
-#, python-format
-msgid "Index of %(directory)s"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/views/templates/default_urlconf.html:6
-msgid "Django: the Web framework for perfectionists with deadlines."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/views/templates/default_urlconf.html:345
-#, python-format
-msgid ""
-"View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" "
-"target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/views/templates/default_urlconf.html:367
-msgid "The install worked successfully! Congratulations!"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/views/templates/default_urlconf.html:368
-#, python-format
-msgid ""
-"You are seeing this page because <a href=\"https://docs.djangoproject.com/en/"
-"%(version)s/ref/settings/#debug\" target=\"_blank\" rel=\"noopener"
-"\">DEBUG=True</a> is in your settings file and you have not configured any "
-"URLs."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/views/templates/default_urlconf.html:383
-msgid "Django Documentation"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/views/templates/default_urlconf.html:384
-msgid "Topics, references, &amp; how-to's"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/views/templates/default_urlconf.html:395
-msgid "Tutorial: A Polling App"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/views/templates/default_urlconf.html:396
-msgid "Get started with Django"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/views/templates/default_urlconf.html:407
-msgid "Django Community"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/django/views/templates/default_urlconf.html:408
-msgid "Connect, get help, or contribute"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/vote/apps.py:7
-msgid "Vote"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/wagtail/api/v2/apps.py:10
-msgid "Wagtail API v2"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/wagtail/contrib/frontend_cache/apps.py:10
-msgid "Wagtail frontend cache"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/wagtail/contrib/postgres_search/models.py:81
-msgid "index entry"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/wagtail/contrib/postgres_search/models.py:82
-msgid "index entries"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/wagtail/contrib/routable_page/apps.py:8
-msgid "Wagtail routablepage"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/wagtail/contrib/sitemaps/apps.py:8
-msgid "Wagtail sitemaps"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/wagtail/tests/modeladmintest/apps.py:8
-msgid "Test Wagtail Model Admin"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/wagtail/tests/routablepage/apps.py:8
-msgid "Wagtail routable page tests"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/wagtail/tests/search/apps.py:8
-msgid "Wagtail search tests"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/wagtail/tests/snippets/apps.py:8
-msgid "Wagtail snippets tests"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/wagtail/tests/testapp/apps.py:8
-msgid "Wagtail tests"
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/wagtail/tests/testapp/templates/tests/form_page_with_custom_submission.html:18
-msgid "The form is already filled."
-msgstr ""
-
-#: venv/lib/python3.8/site-packages/wagtail/tests/testapp/templates/tests/form_page_with_custom_submission.html:21
-msgid "You must log in first."
-msgstr ""
+#~ msgid "Update cause"
+#~ msgstr "Промени задруга"
+
+#~ msgid "Support with material resources"
+#~ msgstr "Подкрепи с материални ресурси"
+
+#~ msgid ""
+#~ "\n"
+#~ "            + %(more)s more\n"
+#~ "            "
+#~ msgstr ""
+#~ "\n"
+#~ "    + още %(more)s\n"
+#~ "    "
+
+#~ msgid "Messages"
+#~ msgstr "Съобщения"
 
 #~ msgid "Follow"
 #~ msgstr "Следвай"
@@ -2406,9 +1410,6 @@ msgstr ""
 #~ msgstr ""
 #~ "\n"
 #~ "Събрани <strong>%(fulfilled)s</strong> от <strong>%(needed)s</strong>\n"
-
-#~ msgid "End date"
-#~ msgstr "Крайна дата"
 
 #~ msgid "Follow some causes/businesses to see their activity here"
 #~ msgstr "Следвай каузи и задруги"
@@ -2441,9 +1442,6 @@ msgstr ""
 
 #~ msgid "Apply to selected"
 #~ msgstr "Кандидатствай за избраното"
-
-#~ msgid "Sign out"
-#~ msgstr "Излез"
 
 #~ msgid "Sign in"
 #~ msgstr "Влез"
@@ -2490,7 +1488,7 @@ msgstr ""
 #~ "\n"
 #~ "  <p><strong>%(money_supporters)s</strong> подкрепили с <strong>"
 #~ "%(money)s</strong><br>\n"
-#~ "  <strong>%(time_supporters)s</strong> доброволци дали <strong>%(time)s</"
+#~ "  <strong>%(time_supporters)s</strong> вложители на труд дали <strong>%(time)s</"
 #~ "strong>\n"
 #~ "  <a href=\"%(support_list_url)s\">Виж всички</a>\n"
 #~ "  </p>\n"
@@ -2503,7 +1501,7 @@ msgstr ""
 #~ msgstr "Юридическо лице"
 
 #~ msgid "Time support"
-#~ msgstr "Доброволство"
+#~ msgstr "Вложение на труд"
 
 #~ msgid ""
 #~ "\n"

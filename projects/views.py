@@ -47,6 +47,7 @@ from stream_django.enrich import Enrich
 
 from notifications.signals import notify
 from notifications.models import Notification
+from django.utils.translation import gettext, gettext_lazy as _
 
 
 def short_random():
@@ -101,7 +102,7 @@ class ProjectForm(ModelForm):
             'goal1': 'Goal 1 ',
             'goal2': 'Goal 2',
             'goal3': 'Goal 3',
-            'text': 'Text(5000 characters)'
+            'text': _('Text(5000 characters)')
         }
 
     def clean_end_date(self):
