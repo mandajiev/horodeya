@@ -79,7 +79,7 @@
 
               <a class="nav-link {% active задруги %}" href="/задруги/">{% trans 'Causes' %}</a>
               {%if user.is_superuser%}
-               <a class="nav-link " href="/projects/unverified_causes">Каузи за одобрение</a>
+               <a class="nav-link " href="/projects/unverified_causes">Задруги за одобрение</a>
               {%endif%}
                 {% if user.is_authenticated%}
                <a class="nav-link {% active задруги %}" href="/projects/notifications">Съобщения:{% notifications_unread %}</a>

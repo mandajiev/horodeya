@@ -196,14 +196,14 @@ CATEGORY_TYPES = [('Creativity', 'Наука и творчество'),
                   ('Food', 'Земеделие и изхранване')]
 
 REPORT_TIMESPAN_CHOICES = Choices(
-    _('weekly'),
-    _('montly'),
-    _('twoweeks')
+    ('weekly', _('weekly')),
+    ('monthly', _('montly')),
+    ('twoweeks', _('twoweeks'))
 )
 VERIFY_TYPES_CHOICES = Choices(
-    _('review'),
-    _('accepted'),
-    _('rejected')
+    ('review', _('review')),
+    ('accepted', _('accepted')),
+    ('rejected', _('rejected'))
 )
 
 
@@ -247,7 +247,7 @@ class Project(Timestamped):
     slack_channel = models.CharField(
         _('slack_channel'), max_length=100, null=True, blank=True)
     verified_status = models.CharField(_('verified_status'),
-                                       max_length=20, choices=get_verify_types_choices(), default=None, null=True)
+                                       max_length=20, choices=get_verify_types_choices(), default=VERIFY_TYPES_CHOICES.review, null=True)
 
     def latest_reports(self):
         show_reports = 3
@@ -576,12 +576,14 @@ class Support(Timestamped):
 
     comment = models.TextField(
         blank=True, verbose_name=_('Do you have a comment'))
+
     STATUS = Choices(
-        'review',
-        'delivered',
-        'accepted',
-        'declined',
-        'expired')
+        ('review', _('review')),
+        ('delivered', _('delivered')),
+        ('accepted', _('accepted')),
+        ('declined', _('declined')),
+        ('expired', _('expired'))
+    )
 
     status = models.CharField(_('status'),
                               max_length=20, choices=STATUS, default=STATUS.review)

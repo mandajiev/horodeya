@@ -1483,7 +1483,7 @@ def notifications_mark_as_read(request):
 
 @user_passes_test(lambda u: u.is_superuser)
 def unverified_cause_list(request):
-    unverified_causes = Project.objects.filter(verified_status=None)
+    unverified_causes = Project.objects.filter(verified_status='review')
     return render(request, 'projects/unverified_causes.html', {'items': unverified_causes})
 
 
