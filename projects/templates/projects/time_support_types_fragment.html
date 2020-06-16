@@ -27,7 +27,7 @@
         <input class="form-check-input toggles-comment" type="checkbox" value="{{necessity.id}}" id="{{necessity.id}}" name='necessity' checked>
         <label class="form-check-label" for="{{necessity.id}}">
           {{ necessity.name }}
-          <small>{{ necessity.start_date|date:"j M"}} to {{necessity.end_date|date:"j M" }}</small>
+          <small>{{ necessity.start_date|date:"j M"}} до {{necessity.end_date|date:"j M" }}</small>
           <p>
           {{ necessity.description|linebreaks }}
           </p>
@@ -56,4 +56,3 @@
   $('.toggles-comment').each(func);
   $('.toggles-comment').change(func);
 </script>
-

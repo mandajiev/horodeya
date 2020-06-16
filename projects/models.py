@@ -106,7 +106,7 @@ class Community(Timestamped):
 
     name = models.CharField(max_length=100, blank=False,
                             verbose_name=_('Name'))
-    type = models.CharField(_('type'), max_length=50, default='NGO')
+    type = models.CharField(_('type'), max_length=50, default='НПО')
     DDORegistration = models.BooleanField(_('DDORegistration'), default=False)
     mission = models.TextField(_('mission'), default=None, null=True)
     numberOfSupporters = models.IntegerField(
@@ -247,7 +247,7 @@ class Project(Timestamped):
     slack_channel = models.CharField(
         _('slack_channel'), max_length=100, null=True, blank=True)
     verified_status = models.CharField(_('verified_status'),
-                                       max_length=20, choices=get_verify_types_choices())
+                                       max_length=20, choices=get_verify_types_choices(), default=None, null=True)
 
     def latest_reports(self):
         show_reports = 3
@@ -584,7 +584,7 @@ class Support(Timestamped):
         'expired')
 
     status = models.CharField(_('status'),
-                              max_length=20, choices=STATUS)
+                              max_length=20, choices=STATUS, default=STATUS.review)
     status_since = models.DateTimeField(
         _('status_since'), default=timezone.now)
     __original_status = None
@@ -787,7 +787,7 @@ class QuestionPrototype(Timestamped):
 
     type = models.CharField(max_length=20, choices=TYPES)
     order = models.IntegerField()
-    required = models.BooleanField(default=True)
+    required = models.BooleanField(_('required'), default=True)
 
     def __str__(self):
         return self.text_bg
@@ -807,7 +807,7 @@ class Question(Timestamped):
     prototype = models.ForeignKey(QuestionPrototype, on_delete=models.PROTECT)
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
     description = models.TextField(blank=True)
-    required = models.BooleanField(default=True)
+    required = models.BooleanField(_('required'), default=True)
     order = models.IntegerField()
 
     def __str__(self):

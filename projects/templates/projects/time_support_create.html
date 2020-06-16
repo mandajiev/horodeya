@@ -42,7 +42,7 @@
       </div>
 
     {% else %}
-      {% bootstrap_field field %}
+     <div readonly> {% bootstrap_field field  %}</div>  
     {% endif %}
   {% endfor %}
    {% if update %}

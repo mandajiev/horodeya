@@ -32,11 +32,15 @@
       <tr>
         <td>
         </td>
-        {% for field in form.visible_fields %}
+        {% comment %} {% for field in form.visible_fields %}
         {% if field.name != 'ORDER' %}
-          <th scope='col'>{{field.label}}</th>
+          <th scope='col'> {{field.label}}</th>
         {% endif %}
-        {% endfor %}
+        {% endfor %} {% endcomment %}
+        <th scope='col'>Категория</th>
+        <th scope='col'>Описание</th>
+        <th scope='col'>Задължително</th>
+        <th scope='col'>Изтрий</th>
 
         <td>
         </td>
