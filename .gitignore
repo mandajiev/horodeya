@@ -127,3 +127,5 @@ dmypy.json
 # Windows developer related
 .vscode/settings.json
 media/photologue/photos/cache/CACHEDIR.TAG
+
+manage.sh
