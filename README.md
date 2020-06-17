@@ -1,3 +1,5 @@
+# Хородея
+
 ## Настройка на средата за разработка
 
 ```bash
@@ -14,6 +16,8 @@ chmod +x manage.sh
 ./manage.sh loaddata fixtures/dev.yaml
 ./manage.sh runserver
 ```
+
+`./manage.sh loaddata fixtures/prod.yaml` - throws errors?
 
 ### Локална база данни
 
