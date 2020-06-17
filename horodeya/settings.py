@@ -96,7 +96,8 @@ INSTALLED_APPS = [
     'sortedm2m',
 
     'django.contrib.humanize',
-    'notifications'
+    'notifications',
+    'qr_code'
 ]
 
 if not TEST:

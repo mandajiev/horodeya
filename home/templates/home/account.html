@@ -3,6 +3,7 @@
 {% load account %}
 {% load i18n %}
 {% load static %}
+{% load qr_code %}
 
 {% block breadcrumbs %}
     <li class="breadcrumb-item active" aria-current="page">{% trans "Account" %}</li>
@@ -10,7 +11,7 @@
 
 {% block admin_tools %}
   <a class="nav-link text-white" href="{% url 'projects:user_photo_update' user.id %}">{% trans "Update photo" %}</a>
-  
+
   {% comment %} <li class="nav-item">
     <a class="nav-link text-white" href="{% url 'user_update' object.pk %}">Редактирай</a>
   </li> {% endcomment %}
@@ -89,5 +90,8 @@
       {% endcomment %}
     </ul>
   </div>
+</div>
+<div class="row no-gutters">
+  {% qr_from_text "Hello Horodeya!" size="m" error_correction="L" %}
 </div>
 {% endblock %}
