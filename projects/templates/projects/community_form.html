@@ -1,6 +1,6 @@
 {% extends "form.html" %}
 
- {% block delete %}
+ {% comment %} {% block delete %}
   {% with delete_label='projects:community_delete' %} 
   {{ block.super }} 
 
@@ -10,5 +10,4 @@
  {% include "projects/community_breadcrumb.html" with object=object only %} 
 {% include "projects/form_breadcrumb.html" with object=object only %} 
   <h3 style="margin-top:50px;">Обяснение как да създадeм общност</h3>
-{% endblock %}
-0
+{% endblock %} {% endcomment %}

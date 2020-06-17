@@ -859,3 +859,11 @@ class LegalEntityDonatorData(Timestamped):
     phoneNumber = models.CharField(
         _('phoneNumber'), max_length=30, blank=False)
     website = models.CharField(_('website'), max_length=30, blank=True)
+
+
+class BugReport(Timestamped):
+    email = models.EmailField(_('email'))
+    message = models.TextField(_('message'))
+
+    def get_absolute_url(self):
+        return '/'

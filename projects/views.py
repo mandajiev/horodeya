@@ -26,9 +26,9 @@ from django.utils.translation import gettext as _
 
 from rules.contrib.views import AutoPermissionRequiredMixin, permission_required, objectgetter, PermissionRequiredMixin
 
-from projects.models import Project, Community, Report, MoneySupport, TimeSupport, User, Announcement, TimeNecessity, ThingNecessity, Question, QuestionPrototype, DonatorData, LegalEntityDonatorData
+from projects.models import Project, Community, Report, MoneySupport, TimeSupport, User, Announcement, TimeNecessity, ThingNecessity, Question, QuestionPrototype, DonatorData, LegalEntityDonatorData, BugReport
 
-from projects.forms import QuestionForm, PaymentForm, ProjectUpdateForm
+from projects.forms import QuestionForm, PaymentForm, ProjectUpdateForm, BugReportForm
 
 from tempus_dominus.widgets import DateTimePicker, DatePicker
 
@@ -1488,6 +1488,9 @@ def unverified_cause_list(request):
 
 
 class ProjectVerify(AutoPermissionRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Project
+    fields = ['verified_status']
+    template_name_suffix = '_verify_form'
 
     def test_func(self):
         return self.request.user.is_superuser
@@ -1506,12 +1509,14 @@ class ProjectVerify(AutoPermissionRequiredMixin, UserPassesTestMixin, UpdateView
                         verb='Задругата %s беше отхвърлена' % (project))
         return super().form_valid(form)
 
-    model = Project
-    fields = ['verified_status']
-    template_name_suffix = '_verify_form'
-
 
 def mark_notification_read(request, pk):
     notification = get_object_or_404(Notification, pk=pk)
     notification.mark_as_read()
     return redirect('/projects/notifications')
+
+
+class BugReportCreate(CreateView):
+    model = BugReport
+    form_class = BugReportForm
+    template_name_suffix = '_base_form'
