@@ -44,7 +44,8 @@ else:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', '.horodeya.com', 'horodeya.com']
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost',
+                 '127.0.0.1', '.horodeya.com', 'horodeya.com']
 
 # Application definition
 
@@ -309,3 +310,4 @@ else:
     MEDIA_URL = 'https://%s.s3.amazonaws.com/media/' % AWS_STORAGE_BUCKET_NAME
 
 BOOTSTRAP4['required_css_class'] = 'required'
+APPEND_SLASH = False

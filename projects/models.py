@@ -865,5 +865,3 @@ class BugReport(Timestamped):
     email = models.EmailField(_('email'))
     message = models.TextField(_('message'))
 
-    def get_absolute_url(self):
-        return '/'

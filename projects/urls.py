@@ -111,5 +111,6 @@ urlpatterns = [
          name='user_mark_read_notifications'),
     path('unverified_causes', views.unverified_cause_list,
          name='unverified_cause_list'),
-    path('<int:pk>/verify_project', views.ProjectVerify.as_view(), name='verify')
+    path('<int:pk>/verify_project', views.ProjectVerify.as_view(), name='verify'),
+    path('bugreport', views.bug_report_create, name='bug_report')
 ]

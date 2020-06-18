@@ -6,7 +6,7 @@ from requests.exceptions import Timeout, ConnectionError
 from django.utils import timezone
 
 from django.contrib import messages
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -1516,7 +1516,16 @@ def mark_notification_read(request, pk):
     return redirect('/projects/notifications')
 
 
-class BugReportCreate(CreateView):
-    model = BugReport
-    form_class = BugReportForm
-    template_name_suffix = '_base_form'
+def bug_report_create(request):
+
+    if(request.method == "POST"):
+        form = BugReportForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS,
+                                 'Благодарим ви за обратната връзка')
+            return HttpResponseRedirect('/')
+        else:
+            messages.add_message(request, messages.ERROR,
+                                 'Въведете валиден имейл адрес')
+            return HttpResponseRedirect('/')
