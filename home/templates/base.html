@@ -78,7 +78,7 @@
               <li><a class="nav-link {% active задруги %}" href="/задруги/">{% trans 'Causes' %}</a></li>
 
               {%if user.is_superuser%}
-              <li><a class="nav-link " href="/projects/unverified_causes">Задруги за одобрение</a></li>
+              <li><a class="nav-link " href="/projects/administration">Администрация</a></li>
               {%endif%}
 
               {% if user.is_authenticated%}

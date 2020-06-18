@@ -1529,3 +1529,13 @@ def bug_report_create(request):
             messages.add_message(request, messages.ERROR,
                                  'Въведете валиден имейл адрес')
             return HttpResponseRedirect('/')
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def administration(request):
+    return render(request, 'projects/administration.html')
+
+@user_passes_test(lambda u: u.is_superuser)
+def received_bug_reports(request):
+    bug_reports=BugReport.objects.all()
+    return render(request,'projects/bug_reports.html',{'reports':bug_reports})

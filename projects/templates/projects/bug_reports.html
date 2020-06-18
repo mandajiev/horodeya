@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
+{% for report in reports %}
+<p>{{report.email}}-{{report.message}}</p>
+{% endfor %}
+{% endblock content %}

@@ -310,4 +310,3 @@ else:
     MEDIA_URL = 'https://%s.s3.amazonaws.com/media/' % AWS_STORAGE_BUCKET_NAME
 
 BOOTSTRAP4['required_css_class'] = 'required'
-APPEND_SLASH = False
