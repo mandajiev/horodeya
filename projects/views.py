@@ -169,6 +169,47 @@ TimeNecessityFormset = inlineformset_factory(
             },
         )
     },
+    extra=0)
+
+TimeNecessityFormsetWithRow = inlineformset_factory(
+    Project,
+    TimeNecessity,
+    fields=['name', 'description', 'count', 'price', 'start_date', 'end_date'],
+    widgets={
+        'count': forms.TextInput({
+            'style': 'width: 60px'
+        }
+        ),
+        'price': forms.TextInput({
+            'style': 'width: 60px'
+        }
+        ),
+        'description': forms.Textarea({
+            'rows': 1,
+            'cols': 30
+        }
+        ),
+        'start_date': DatePicker(
+            attrs={
+                'style': 'width:120px',
+                'required': True
+            },
+            options={
+                'useCurrent': True,
+                'collapse': False,
+            },
+        ),
+        'end_date': DatePicker(
+            attrs={
+                'style': 'width:120px',
+                'required': True
+            },
+            options={
+                'useCurrent': True,
+                'collapse': False,
+            },
+        )
+    },
     extra=1)
 
 ThingNecessityFormset = inlineformset_factory(
@@ -225,7 +266,8 @@ def necessity_update(request, project_id, type):
                     form.save()
             if 'add-row' in request.POST:
 
-                formset = cls(instance=project)  # за да добави празен ред
+                formset = TimeNecessityFormsetWithRow(
+                    instance=project)  # за да добави празен ред
             else:
                 if type == 'time':
                     return redirect('projects:time_necessity_list', project.pk)
@@ -1360,26 +1402,28 @@ def questions_update(request, project_id):
     elif request.method == 'POST':
         formset = cls(request.POST)
 
-        if formset.is_valid():
-            for form in formset:
-                order = form.cleaned_data.get('ORDER', len(formset))
-                if form.cleaned_data.get('DELETE'):
-                    form.instance.delete()
+        try:
+            if formset.is_valid():
+                for form in formset:
+                    order = form.cleaned_data.get('ORDER', len(formset))
+                    if form.cleaned_data.get('DELETE'):
+                        form.instance.delete()
 
-                elif form.cleaned_data.get('prototype'):
-                    form.instance.project = project
+                    elif form.cleaned_data.get('prototype'):
+                        form.instance.project = project
+                        form.save()
 
-                try:
                     if order:
                         form.instance.order = order
-                    form.save()
-                except IntegrityError:
-                    error_message = 'Добавили сте някой от въпросите повече от веднъж'
-                    formset = cls(initial=initial, queryset=Question.objects.filter(
-                        project=project).order_by('order'))
-                    return render(request, template_name, {'formset': formset,
-                                                           'project': project,
-                                                           'error_message': error_message})
+                        form.save()
+
+        except IntegrityError:
+            error_message = 'Добавили сте някой от въпросите повече от веднъж'
+            formset = cls(initial=initial, queryset=Question.objects.filter(
+                project=project).order_by('order'))
+            return render(request, template_name, {'formset': formset,
+                                                   'project': project,
+                                                   'error_message': error_message})
 
             return redirect('projects:time_necessity_list', project.pk)
 
@@ -1535,7 +1579,8 @@ def bug_report_create(request):
 def administration(request):
     return render(request, 'projects/administration.html')
 
+
 @user_passes_test(lambda u: u.is_superuser)
 def received_bug_reports(request):
-    bug_reports=BugReport.objects.all()
-    return render(request,'projects/bug_reports.html',{'reports':bug_reports})
+    bug_reports = BugReport.objects.all()
+    return render(request, 'projects/bug_reports.html', {'reports': bug_reports})
