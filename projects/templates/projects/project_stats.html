@@ -26,7 +26,7 @@
     >{% trans 'Update volunteer types' %}</a
   >
   {% else %}
-    {%if project.time_still_needed is not 0 %}
+    {%if project.time_still_needed is not 0 and project.question_set. is not None %}
     <a
     class="btn btn-primary mt-3"
     href="{% url 'projects:time_support_create' project.pk %}"

@@ -251,8 +251,10 @@ def necessity_update(request, project_id, type):
     project = get_object_or_404(Project, pk=project_id)
 
     if request.method == 'GET':
-        # we don't want to display the already saved model instances
-        formset = cls(instance=project)
+        if(project.timenecessity_set.count() is 0):
+            formset = TimeNecessityFormsetWithRow
+        else:
+            formset = cls(instance=project)
 
     elif request.method == 'POST':
         formset = cls(request.POST, instance=project)
@@ -1072,10 +1074,7 @@ class AnnouncementDetails(AutoPermissionRequiredMixin, generic.DetailView):
 @permission_required('projects.add_timesupport', fn=objectgetter(Project, 'project_id'))
 def time_support_create(request, project_id):
     project = get_object_or_404(Project, pk=project_id)
-    if(request.user.donatorData):
-        return time_support_create_update(request, project)
-    else:
-        return redirect('/projects/donator/create/?next=/projects/%s/timesupport/create/' % (project_id))
+    return time_support_create_update(request, project)
 
 
 def time_support_create_update(request, project, support=None):
