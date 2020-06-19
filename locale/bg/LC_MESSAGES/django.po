@@ -642,7 +642,7 @@ msgstr "Публикуван на"
 #: .\projects\models.py:442 .\projects\models.py:477 .\projects\models.py:707
 #: .\projects\models.py:753
 msgid "price"
-msgstr "Стойност"
+msgstr "Пазарна стойност"
 
 #: .\projects\models.py:443 .\projects\models.py:478
 msgid "count"
