@@ -1384,7 +1384,7 @@ def questions_update(request, project_id):
         widgets={
             'description': forms.Textarea({
                 'rows': 1,
-                'cols': 30
+                'cols': 15
             }
             ),
         },
@@ -1411,11 +1411,10 @@ def questions_update(request, project_id):
 
                     elif form.cleaned_data.get('prototype'):
                         form.instance.project = project
-                        form.save()
 
-                    if order:
-                        form.instance.order = order
-                        form.save()
+                        if order:
+                            form.instance.order = order
+                            form.save()
 
         except IntegrityError:
             error_message = 'Добавили сте някой от въпросите повече от веднъж'
@@ -1425,7 +1424,7 @@ def questions_update(request, project_id):
                                                    'project': project,
                                                    'error_message': error_message})
 
-            return redirect('projects:time_necessity_list', project.pk)
+        return redirect('projects:time_necessity_list', project.pk)
 
     return render(request, template_name, {
         'formset': formset,
