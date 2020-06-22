@@ -864,4 +864,3 @@ class LegalEntityDonatorData(Timestamped):
 class BugReport(Timestamped):
     email = models.EmailField(_('email'))
     message = models.TextField(_('message'))
-

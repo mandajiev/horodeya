@@ -1,13 +1,19 @@
 {% extends "form.html" %}
-
- {% comment %} {% block delete %}
-  {% with delete_label='projects:community_delete' %} 
-  {{ block.super }} 
-
-  {% endwith %} 
-  {%endblock %} 
-{% block breadcrumbs %}
- {% include "projects/community_breadcrumb.html" with object=object only %} 
-{% include "projects/form_breadcrumb.html" with object=object only %} 
-  <h3 style="margin-top:50px;">Обяснение как да създадeм общност</h3>
-{% endblock %} {% endcomment %}
+{% block delete %} 
+{% with delete_label='projects:community_delete' %} 
+{{ block.super }} 
+{% endwith %}
+{%endblock %} 
+{% block breadcrumbs %} 
+{% include "projects/community_breadcrumb.html" with object=object only %} 
+{% include "projects/form_breadcrumb.html" with object=object only %}
+<p style="margin-top: 50px;">
+	В основата на Хородея са Общностите и техните Задруги. Общността се
+	представлява от официално регистрирано Сдружение или Фондация с нейния профил
+	в платформата. Всяка Общност, може да има множество Задруги. Запознайте се с
+	условията и редът за управление на Задруги. + линк към страницата по-долу (
+	Условия и ред за управление на Задруги), която се отваря в нов Таб. Не се
+	колебайте да зададете своите въпроси в Slack, нашата среда за групова
+	комуникация в Задруги.
+</p>
+{% endblock %}

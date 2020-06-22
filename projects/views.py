@@ -1033,9 +1033,15 @@ def user_follow_project(user_id, project):
     notification_feed.follow('project', project.id)
 
 
-class AnnouncementCreate(AutoPermissionRequiredMixin, CreateView):
+class AnnouncementCreate(PermissionRequiredMixin, CreateView):
     model = Announcement
     fields = ['text']
+
+    def get_permission_object(self):
+        project_pk = self.kwargs['project']
+        return get_object_or_404(Project, pk=project_pk)
+
+    permission_required = ('projects.add_announcement')
 
     def form_valid(self, form):
         project_pk = self.kwargs['project']
