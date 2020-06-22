@@ -6,7 +6,7 @@ from requests.exceptions import Timeout, ConnectionError
 from django.utils import timezone
 
 from django.contrib import messages
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -26,9 +26,9 @@ from django.utils.translation import gettext as _
 
 from rules.contrib.views import AutoPermissionRequiredMixin, permission_required, objectgetter, PermissionRequiredMixin
 
-from projects.models import Project, Community, Report, MoneySupport, TimeSupport, User, Announcement, TimeNecessity, ThingNecessity, Question, QuestionPrototype, DonatorData, LegalEntityDonatorData
+from projects.models import Project, Community, Report, MoneySupport, TimeSupport, User, Announcement, TimeNecessity, ThingNecessity, Question, QuestionPrototype, DonatorData, LegalEntityDonatorData, BugReport
 
-from projects.forms import QuestionForm, PaymentForm, ProjectUpdateForm
+from projects.forms import QuestionForm, PaymentForm, ProjectUpdateForm, BugReportForm
 
 from tempus_dominus.widgets import DateTimePicker, DatePicker
 
@@ -169,6 +169,47 @@ TimeNecessityFormset = inlineformset_factory(
             },
         )
     },
+    extra=0)
+
+TimeNecessityFormsetWithRow = inlineformset_factory(
+    Project,
+    TimeNecessity,
+    fields=['name', 'description', 'count', 'price', 'start_date', 'end_date'],
+    widgets={
+        'count': forms.TextInput({
+            'style': 'width: 60px'
+        }
+        ),
+        'price': forms.TextInput({
+            'style': 'width: 60px'
+        }
+        ),
+        'description': forms.Textarea({
+            'rows': 1,
+            'cols': 30
+        }
+        ),
+        'start_date': DatePicker(
+            attrs={
+                'style': 'width:120px',
+                'required': True
+            },
+            options={
+                'useCurrent': True,
+                'collapse': False,
+            },
+        ),
+        'end_date': DatePicker(
+            attrs={
+                'style': 'width:120px',
+                'required': True
+            },
+            options={
+                'useCurrent': True,
+                'collapse': False,
+            },
+        )
+    },
     extra=1)
 
 ThingNecessityFormset = inlineformset_factory(
@@ -210,8 +251,10 @@ def necessity_update(request, project_id, type):
     project = get_object_or_404(Project, pk=project_id)
 
     if request.method == 'GET':
-        # we don't want to display the already saved model instances
-        formset = cls(instance=project)
+        if(project.timenecessity_set.count() is 0):
+            formset = TimeNecessityFormsetWithRow
+        else:
+            formset = cls(instance=project)
 
     elif request.method == 'POST':
         formset = cls(request.POST, instance=project)
@@ -225,7 +268,8 @@ def necessity_update(request, project_id, type):
                     form.save()
             if 'add-row' in request.POST:
 
-                formset = cls(instance=project)  # за да добави празен ред
+                formset = TimeNecessityFormsetWithRow(
+                    instance=project)  # за да добави празен ред
             else:
                 if type == 'time':
                     return redirect('projects:time_necessity_list', project.pk)
@@ -1030,10 +1074,7 @@ class AnnouncementDetails(AutoPermissionRequiredMixin, generic.DetailView):
 @permission_required('projects.add_timesupport', fn=objectgetter(Project, 'project_id'))
 def time_support_create(request, project_id):
     project = get_object_or_404(Project, pk=project_id)
-    if(request.user.donatorData):
-        return time_support_create_update(request, project)
-    else:
-        return redirect('/projects/donator/create/?next=/projects/%s/timesupport/create/' % (project_id))
+    return time_support_create_update(request, project)
 
 
 def time_support_create_update(request, project, support=None):
@@ -1342,7 +1383,7 @@ def questions_update(request, project_id):
         widgets={
             'description': forms.Textarea({
                 'rows': 1,
-                'cols': 30
+                'cols': 15
             }
             ),
         },
@@ -1360,28 +1401,29 @@ def questions_update(request, project_id):
     elif request.method == 'POST':
         formset = cls(request.POST)
 
-        if formset.is_valid():
-            for form in formset:
-                order = form.cleaned_data.get('ORDER', len(formset))
-                if form.cleaned_data.get('DELETE'):
-                    form.instance.delete()
+        try:
+            if formset.is_valid():
+                for form in formset:
+                    order = form.cleaned_data.get('ORDER', len(formset))
+                    if form.cleaned_data.get('DELETE'):
+                        form.instance.delete()
 
-                elif form.cleaned_data.get('prototype'):
-                    form.instance.project = project
+                    elif form.cleaned_data.get('prototype'):
+                        form.instance.project = project
 
-                try:
-                    if order:
-                        form.instance.order = order
-                    form.save()
-                except IntegrityError:
-                    error_message = 'Добавили сте някой от въпросите повече от веднъж'
-                    formset = cls(initial=initial, queryset=Question.objects.filter(
-                        project=project).order_by('order'))
-                    return render(request, template_name, {'formset': formset,
-                                                           'project': project,
-                                                           'error_message': error_message})
+                        if order:
+                            form.instance.order = order
+                            form.save()
 
-            return redirect('projects:time_necessity_list', project.pk)
+        except IntegrityError:
+            error_message = 'Добавили сте някой от въпросите повече от веднъж'
+            formset = cls(initial=initial, queryset=Question.objects.filter(
+                project=project).order_by('order'))
+            return render(request, template_name, {'formset': formset,
+                                                   'project': project,
+                                                   'error_message': error_message})
+
+        return redirect('projects:time_necessity_list', project.pk)
 
     return render(request, template_name, {
         'formset': formset,
@@ -1488,6 +1530,9 @@ def unverified_cause_list(request):
 
 
 class ProjectVerify(AutoPermissionRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Project
+    fields = ['verified_status']
+    template_name_suffix = '_verify_form'
 
     def test_func(self):
         return self.request.user.is_superuser
@@ -1506,12 +1551,34 @@ class ProjectVerify(AutoPermissionRequiredMixin, UserPassesTestMixin, UpdateView
                         verb='Задругата %s беше отхвърлена' % (project))
         return super().form_valid(form)
 
-    model = Project
-    fields = ['verified_status']
-    template_name_suffix = '_verify_form'
-
 
 def mark_notification_read(request, pk):
     notification = get_object_or_404(Notification, pk=pk)
     notification.mark_as_read()
     return redirect('/projects/notifications')
+
+
+def bug_report_create(request):
+
+    if(request.method == "POST"):
+        form = BugReportForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS,
+                                 'Благодарим ви за обратната връзка')
+            return HttpResponseRedirect('/')
+        else:
+            messages.add_message(request, messages.ERROR,
+                                 'Въведете валиден имейл адрес')
+            return HttpResponseRedirect('/')
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def administration(request):
+    return render(request, 'projects/administration.html')
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def received_bug_reports(request):
+    bug_reports = BugReport.objects.all()
+    return render(request, 'projects/bug_reports.html', {'reports': bug_reports})

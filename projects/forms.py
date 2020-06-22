@@ -4,7 +4,7 @@ from django.utils.translation import get_language
 from projects.models import Answer, MoneySupport
 from django.utils.text import slugify
 from projects.templatetags.projects_tags import leva
-from projects.models import Project, Community, Question
+from projects.models import Project, Community, Question, BugReport
 from django.core.exceptions import ValidationError
 
 
@@ -106,3 +106,10 @@ class ProjectUpdateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
+
+
+class BugReportForm(forms.ModelForm):
+
+    class Meta:
+        model = BugReport
+        fields = ['email', 'message']

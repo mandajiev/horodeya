@@ -25,7 +25,7 @@ def account(request, pk=None):
 
     projectsSet = []
 
-    for project in Project.objects.all():
+    for project in Project.objects.filter(verified_status='accepted'):
         for community in account.communities.all():
             if project.community_id == community.pk:
                 projectsSet.append(project)

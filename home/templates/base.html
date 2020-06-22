@@ -78,7 +78,7 @@
               <li><a class="nav-link {% active задруги %}" href="/задруги/">{% trans 'Causes' %}</a></li>
 
               {%if user.is_superuser%}
-              <li><a class="nav-link " href="/projects/unverified_causes">Задруги за одобрение</a></li>
+              <li><a class="nav-link " href="/projects/administration">Администрация</a></li>
               {%endif%}
 
               {% if user.is_authenticated%}
@@ -161,34 +161,49 @@
         <div class="container-fluid">
           <div class="row">
 
-            <div class="col-md-4">
 
-              <ul class="list-group list-group-flush">
-                <a class="list-group-item" href="/учредителен-акт">Учредителен акт</a>
-                <a class="list-group-item" href="/етичен-кодекс">Етичен кодекс</a>
-                  <a class="list-group-item" href="/правила-за-дейността">Правила за осъществяване дейността</a>
-                <a class="list-group-item" href="/условия-за-ползване">Оценяваща система</a>
-              </ul>
+        <footer class="footer">
+          <div class="container-fluid">
+            <div class="row">
+          
+              <div class="col-md-4">
 
+                <ul class="list-group list-group-flush">
+                  <a class="list-group-item" href="/учредителен-акт">Учредителен акт</a>
+                  <a class="list-group-item" href="/етичен-кодекс">Етичен кодекс</a>
+                   <a class="list-group-item" href="/правила-за-дейността">Правила за осъществяване дейността</a>
+                  <a class="list-group-item" href="/условия-за-ползване">Оценяваща система</a>           
+                </ul>
+
+              </div>
+              <div class="col-md-4">
+                <ul class="list-group list-group-flush">
+                <a class="list-group-item" href="/политика-за-поверителност">Условия за работа с платформата</a>
+                <a class="list-group-item" href="/политика-за-поверителност">Условия за участие в проект Хородея</a>
+                <a class="list-group-item" href="/политика-за-поверителност">Политика за поверителност</a>
+                <a class="list-group-item" href="/политика-за-бисквитки">Политика за бисквитки</a>
+                </ul>
+              </div>
+                <div class="col-md-4">
+              <p>Свържите се с нас
+Това е Бета версия на Хородея, предназначена за
+уточняване на функционалности
+и отстраняване на бъгове.
+</p>
+                   {% include 'projects/bugreport_form.html' %}   
+                   </div>
+              <div class="col-md-8 mt-5 mb-3">
+                <h6>Фондация „Хородея“</h6>
+
+                <p>Инициатор на проекта е Фондация „Хородея”. Фондацията стартира проекта, задава базова система от правила служеща за устойчиво управление на доверието в общността и действа като гарант за спазването на приетата етичната рамка.</p>
+                <small style="font-size: 0.5rem;">Copyright @Horodeya Foundation Sofia,Bulgaria.All Rights Reserved.</small>
+              </div>
+     
             </div>
-            <div class="col-md-4">
-              <ul class="list-group list-group-flush">
-              <a class="list-group-item" href="/политика-за-поверителност">Условия за работа с платформата</a>
-              <a class="list-group-item" href="/политика-за-поверителност">Условия за участие в проект Хородея</a>
-              <a class="list-group-item" href="/политика-за-поверителност">Политика за поверителност</a>
-              <a class="list-group-item" href="/политика-за-бисквитки">Политика за бисквитки</a>
-              </ul>
-            </div>
-            <div class="col-md-8 mt-5 mb-3">
-              <h6>Фондация „Хородея“</h6>
-
-              <p>Инициатор на проекта е Фондация „Хородея”. Фондацията стартира проекта, задава базова система от правила служеща за устойчиво управление на доверието в общността и действа като гарант за спазването на приетата етичната рамка.</p>
-              <small style="font-size: 0.5rem;">Copyright @Horodeya Foundation Sofia,Bulgaria.All Rights Reserved.</small>
-            </div>
-
           </div>
-        </div>
-      </footer>
+        </footer>
+
+             
 
 
       {# Global javascript #}

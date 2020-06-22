@@ -124,7 +124,8 @@
       <a class="btn btn-primary mt-3" href="{% url 'projects:time_necessity_list' project.pk %}">{% trans 'See applications' %}</a>
       <a class="btn btn-primary mt-3" href="{% url 'projects:time_necessity_update' project.pk %}">{% trans 'Update volunteer types' %}</a>
     {% else %}
-       {%if project.time_still_needed is not 0 %}
+       {%if project.time_still_needed is not 0 and project.question_set. is not None %}
+       {{project.question_set.count }}
       <a class="btn btn-primary mt-3" href="{% url 'projects:time_support_create' object.pk %}">{% trans 'Volunteer' %}</a>
       {%else%}
         <h6>{% trans 'No volunteers needed' %}</h6>
