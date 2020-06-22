@@ -12,12 +12,7 @@ Download [manage.sh](https://trello.com/c/Rp1cvIX8/54-managesh) and run:
 
 ```bash
 chmod +x manage.sh
-./manage.sh migrate
-./manage.sh loaddata fixtures/dev.yaml
-./manage.sh runserver
 ```
-
-`./manage.sh loaddata fixtures/prod.yaml` - throws errors?
 
 ### Локална база данни
 
@@ -32,11 +27,18 @@ export DB_HOST=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddr
 export DB_URL="postgresql://horodeya:horodeya@$DB_HOST/horodeya"
 ```
 
+За връзка с база данни през терминал:
+
+```bash
+docker run -it --rm --network container:horodeya-postgres postgres psql -h $DB_HOST -U horodeya
+```
+
 ### Стартиране
 
 ```bash
-manage.py migrate
-manage.py loaddata fixtures/dev.yaml
+./manage.sh migrate
+./manage.sh loaddata fixtures/dev.yaml
+./manage.sh runserver
 ```
 
 ### Превод
