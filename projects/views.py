@@ -265,6 +265,15 @@ def necessity_update(request, project_id, type):
 
                 elif form.cleaned_data.get('name'):
                     form.instance.project = project
+                    if(project.question_set.count() == 0):
+                        prototypes = QuestionPrototype.objects.all()
+                        order = 0
+                        for prototype in prototypes:
+                            question = Question(
+                                prototype=prototype, project=project, order=order)
+                            question.save()
+                            project.question_set.add(question)
+                            order += 1
                     form.save()
             if 'add-row' in request.POST:
 
