@@ -267,7 +267,7 @@ def necessity_update(request, project_id, type):
                     form.instance.project = project
                     if(project.question_set.count() == 0):
                         prototypes = QuestionPrototype.objects.all()
-                        order = 0
+                        order = 1
                         for prototype in prototypes:
                             question = Question(
                                 prototype=prototype, project=project, order=order)
@@ -1384,7 +1384,7 @@ def community_photo_update(request, pk):
 @permission_required('projects.change_question', fn=objectgetter(Project, 'project_id'))
 def questions_update(request, project_id):
     project = get_object_or_404(Project, pk=project_id)
-    if project.question_set.count() == 0:
+    if project.question_set is None:
         prototypes = QuestionPrototype.objects.order_by('order').all()
     else:
         prototypes = []
@@ -1428,7 +1428,8 @@ def questions_update(request, project_id):
 
                         if order:
                             form.instance.order = order
-                            form.save()
+
+                        form.save()
 
         except IntegrityError:
             error_message = 'Добавили сте някой от въпросите повече от веднъж'
