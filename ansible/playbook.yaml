@@ -20,6 +20,7 @@
               env = AWS_SECRET_ACCESS_KEY={{aws_secret_access_key}}
               env = AWS_DEFAULT_REGION=eu-west-1
               env = ANYMAIL_WEBHOOK_SECRET={{anymail_webhook_secret}}
+              env = SENDGRID_API_KEY={{sendgrid_api_key}}
               env = STREAM_API_KEY={{stream_api_key}}
               env = STREAM_API_SECRET={{stream_api_secret}}
               env = DB_NAME={{db_name}}

@@ -226,12 +226,14 @@ ACCOUNT_USERNAME_REQUIRED = False
 
 ACCOUNT_FORMS = {'signup': 'home.forms.NamesSignupForm'}
 
-EMAIL_BACKEND = "anymail.backends.amazon_ses.EmailBackend"
+# EMAIL_BACKEND = "anymail.backends.amazon_ses.EmailBackend"
+EMAIL_BACKEND = "anymail.backends.sendgrid.EmailBackend"
 DEFAULT_FROM_EMAIL = "info@horodeya.com"
 SERVER_EMAIL = "ops@horodeya.com"
 
 ANYMAIL = {
-    'WEBHOOK_SECRET': os.getenv('ANYMAIL_WEBHOOK_SECRET')
+    # 'WEBHOOK_SECRET': os.getenv('ANYMAIL_WEBHOOK_SECRET'),
+    'SENDGRID_API_KEY': os.getenv('SENDGRID_API_KEY'),
 }
 
 AUTH_USER_MODEL = 'projects.User'
