@@ -6,10 +6,8 @@
 
 .footer {
   margin-top: 30px;
-  padding-top: 10px;
   position: relative;
   width: 100%;
-  height: 360px;
   background-color: #f5f5f5;
   font-size: 0.6rem;
 }
@@ -20,12 +18,10 @@
 
 .footer a.list-group-item {
   background-color: transparent;
-  color: #000;
 }
 
 .footer a.list-group-item.active {
-  background-color: #007bff;
-  color: #fff;
+  color: #000;
 }
 
 .jumbotron-bg-cover {
@@ -91,3 +87,36 @@
   content: " *";
   color: red;
 }
+
+.footer-titles {
+  padding-top: .75rem;
+}
+
+.no-border {
+  border: none;
+}
+
+.footer-background {
+  background-color: #39d279;
+}
+
+.footer-background a, .footer-background p, .footer-background h6, .footer-background small {
+  color: #fff;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #39d279;
+  border-color: #39d279;
+}
+
+.btn-white-solid {
+  color: #39d279;
+  background-color: #fff;
+  border-color: #fff;
+  border-radius: 30px;
+  padding: 2px 20px;
+}
+/*39d279*/
+/*f2f2f2*/
+

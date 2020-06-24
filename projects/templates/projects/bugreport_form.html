@@ -1,11 +1,12 @@
 <form action="projects/bugreport" method="POST">
   {% csrf_token %}
-  <div>
-    <label for="message">Въведете съобщение</label>
-    <input name="message" type="text" required />
-    <br />
-    <label for="email">Вашият имейл</label>
-    <input name="email" type="text" required />
+  <div class="form-group">
+    <input placeholder="Вашият имейл" name="email" style="font-size: .7rem" class="form-control form-control-sm"
+      type="text" required />
   </div>
-  <input type="submit" value="Извести" />
+  <div class="form-group">
+    <input placeholder="Въведете съобщение" name="message" style="font-size: .7rem" class="form-control form-control-sm"
+      type="text" required />
+  </div>
+  <input type="submit" style="font-size: .7rem" class="btn btn-sm btn-primary btn-white-solid" value="Извести" />
 </form>

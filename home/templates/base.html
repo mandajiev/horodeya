@@ -7,266 +7,274 @@
 
 <!DOCTYPE html>
 <html class="no-js" lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <title>
-            {% block title %}
-            {% if page %}
-              {% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}{% endif %}
-              -
-            {% elif object.page_name %}
-              {{ object.page_name }}
-              -
-            {% endif %}
-            {% endblock %}
-            {% block title_suffix %}
-            {% if page %}
-              {% with page.get_site.site_name as site_name %}
-                  {% if site_name %}{{ site_name }}{% endif %}
-              {% endwith %}
-            {% else %}
-              {% trans 'Horodeya' %}
-            {% endif %}
 
-            {% endblock %}
-        </title>
-        <meta name="description" content="" />
-				<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<head>
+  <meta charset="utf-8" />
+  <title>
+    {% block title %}
+    {% if page %}
+    {% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}{% endif %}
+    -
+    {% elif object.page_name %}
+    {{ object.page_name }}
+    -
+    {% endif %}
+    {% endblock %}
+    {% block title_suffix %}
+    {% if page %}
+    {% with page.get_site.site_name as site_name %}
+    {% if site_name %}{{ site_name }}{% endif %}
+    {% endwith %}
+    {% else %}
+    {% trans 'Horodeya' %}
+    {% endif %}
 
-        {# Favicon #}
-        <link rel="shortcut icon" type="image/png" href="{% static 'media/favicon.ico' %}"/>
+    {% endblock %}
+  </title>
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        {% bootstrap_css %}
-        {% bootstrap_javascript jquery='full' %}
-        <script type="text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
+  {# Favicon #}
+  <link rel="shortcut icon" type="image/png" href="{% static 'media/favicon.ico' %}" />
 
-        {# Global stylesheets #}
-        <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/flag-icon.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.css' %}">
+  {% bootstrap_css %}
+  {% bootstrap_javascript jquery='full' %}
+  <script type="text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
 
-        {% block extra_css %}
-            {# Override this in templates to add extra stylesheets #}
-        {% endblock %}
-    </head>
+  {# Global stylesheets #}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/flag-icon.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.css' %}">
 
-    {% load custom_tags %}
+  {% block extra_css %}
+  {# Override this in templates to add extra stylesheets #}
+  {% endblock %}
+</head>
 
-    {% load wagtailcore_tags %}
+{% load custom_tags %}
 
-    <body>
-      <nav class="navbar d-flex  navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
-        <a class="nav-link align-self-start nav-link-logo d-md-none d-lg-none" href="/">
-          <img src="{% static 'media/logo_horodeia_main-03.png' %}" class="logo">
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+{% load wagtailcore_tags %}
 
-        <div class="collapse  navbar-collapse justify-content-md-center" id="navbarSupportedContent">
-          <a class="nav-link align-self-start  d-none d-lg-block {% active начало %}" href="/">
-            <img src="{% static 'media/logo_horodeia_main-03.png' %}" class="logo p-absolute align-top align-self-center float-left" style="max-height:70px">
-          </a>
-          <div class="justify-content center d-flex ml-auto">
-            <ul class=" navbar-nav">
-              <li><a class="nav-link justify-content-end {% active задруги %}" href="/">{% trans 'Home' %}</a></li>
+<body>
+  <nav class="navbar d-flex  navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
+    <a class="nav-link align-self-start nav-link-logo d-md-none d-lg-none" href="/">
+      <img src="{% static 'media/logo_horodeia_main-03.png' %}" class="logo">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-              {% if user.is_authenticated%}
-              <li><a class="nav-link justify-content-end {% active задруги %}" href="/projects/feed">Известия</a></li>
-              {%endif%}
+    <div class="collapse  navbar-collapse justify-content-md-center" id="navbarSupportedContent">
+      <a class="nav-link align-self-start  d-none d-lg-block {% active начало %}" href="/">
+        <img src="{% static 'media/logo_horodeia_main-03.png' %}"
+          class="logo p-absolute align-top align-self-center float-left" style="max-height:70px">
+      </a>
+      <div class="justify-content center d-flex ml-auto">
+        <ul class=" navbar-nav">
+          <li><a class="nav-link justify-content-end {% active задруги %}" href="/">{% trans 'Home' %}</a></li>
 
-              <li><a class="nav-link {% active задруги %}" href="/задруги/">{% trans 'Causes' %}</a></li>
+          {% if user.is_authenticated%}
+          <li><a class="nav-link justify-content-end {% active задруги %}" href="/projects/feed">Известия</a></li>
+          {%endif%}
 
-              {%if user.is_superuser%}
-              <li><a class="nav-link " href="/projects/administration">Администрация</a></li>
-              {%endif%}
+          <li><a class="nav-link {% active задруги %}" href="/задруги/">{% trans 'Causes' %}</a></li>
 
-              {% if user.is_authenticated%}
-              <li><a class="nav-link {% active задруги %}" href="/projects/notifications">Съобщения:{% notifications_unread %}</a></li>
-              {%endif%}
+          {%if user.is_superuser%}
+          <li><a class="nav-link " href="/projects/administration">Администрация</a></li>
+          {%endif%}
 
-              {% comment %}
-              <li><a class="nav-link {% active задруги %}" href="/задруги/">{% trans 'Businesses' %}</a></li>
-              {% endcomment %}
+          {% if user.is_authenticated%}
+          <li><a class="nav-link {% active задруги %}"
+              href="/projects/notifications">Съобщения:{% notifications_unread %}</a></li>
+          {%endif%}
 
-              <li><a class="nav-link {% active "за-нас" %}" href="/за-нас/">{% trans 'About us' %}</a></li>
+          {% comment %}
+          <li><a class="nav-link {% active задруги %}" href="/задруги/">{% trans 'Businesses' %}</a></li>
+          {% endcomment %}
 
-              {% if user.is_authenticated %}
-              <li><a class="nav-link {% active account %}" href="{% url 'my_account' %}">{% trans 'Account' %}</a></li>
-              <li><a class="nav-link {% active logout %}" href="{% url 'account_logout' %}">{% trans 'Sign out' %}</a></li>
-              {% else %}
-              <li><a class="nav-link {% active login %}" href="{% url 'account_login' %}">{% trans 'Sign in / Sign up' %}</a></li>
-              {% endif %}
+          <li><a class="nav-link {% active "за-нас" %}" href="/за-нас/">{% trans 'About us' %}</a></li>
 
-              {% load i18n %}
-              <li>
-                <div class="nav-item dropdown">
-                  <form class="form-inline my-2 my-lg-0" action="{% url 'set_language' %}" method="post">{% csrf_token %}
-                    {% get_current_language as current_language %}
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <span class="flag-icon flag-icon-{%language_country current_language%}"></span>
-                      <span class="caret"></span>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="min-width:0px">
-                      {% to_list 'en' 'bg' as all_languages %}
-                        {% for language in all_languages %}
-                          {% if language != current_language %}
-                            <button class="btn btn-link dropdown-item" type="submit">
-                              <input name="language" type="hidden" value="{{language}}">
-                              <span class="flag-icon flag-icon-{%language_country language%}"></span>
-                            </button>
-                          {% endif %}
-                        {% endfor %}
-                    </div>
-                    <input name="next" type="hidden" value="{{ redirect_to }}">
-                  </form>
+          {% if user.is_authenticated %}
+          <li><a class="nav-link {% active account %}" href="{% url 'my_account' %}">{% trans 'Account' %}</a></li>
+          <li><a class="nav-link {% active logout %}" href="{% url 'account_logout' %}">{% trans 'Sign out' %}</a></li>
+          {% else %}
+          <li><a class="nav-link {% active login %}"
+              href="{% url 'account_login' %}">{% trans 'Sign in / Sign up' %}</a></li>
+          {% endif %}
+
+          {% load i18n %}
+          <li>
+            <div class="nav-item dropdown">
+              <form class="form-inline my-2 my-lg-0" action="{% url 'set_language' %}" method="post">{% csrf_token %}
+                {% get_current_language as current_language %}
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="flag-icon flag-icon-{%language_country current_language%}"></span>
+                  <span class="caret"></span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="min-width:0px">
+                  {% to_list 'en' 'bg' as all_languages %}
+                  {% for language in all_languages %}
+                  {% if language != current_language %}
+                  <button class="btn btn-link dropdown-item" type="submit">
+                    <input name="language" type="hidden" value="{{language}}">
+                    <span class="flag-icon flag-icon-{%language_country language%}"></span>
+                  </button>
+                  {% endif %}
+                  {% endfor %}
                 </div>
-              </li>
-            </ul>
-          </div>
-				</div>
-      </nav>
-      {% wagtailuserbar %}
+                <input name="next" type="hidden" value="{{ redirect_to }}">
+              </form>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  {% wagtailuserbar %}
 
-      {% block jumbotron %}
-      {% endblock %}
+  {% block jumbotron %}
+  {% endblock %}
 
-      <div class="container">
-        {% block breadcrumbs_container %}
-        <nav class="mt-3" aria-label="breadcrumb">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/">{% trans 'Home' %}</a></li>
-            {% block breadcrumbs %}{% endblock %}
-          </ol>
-        </nav>
+  <div class="container">
+    {% block breadcrumbs_container %}
+    <nav class="mt-3" aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">{% trans 'Home' %}</a></li>
+        {% block breadcrumbs %}{% endblock %}
+      </ol>
+    </nav>
+    {% endblock %}
+
+    {% bootstrap_messages %}
+
+    {% block content %}
+
+    <div class="admin-panel sticky-top" style='z-index: 2'>
+      <ul class="mt-1 nav justify-content-center bg-primary text-white mb-4 rounded-lg font-weight-bold">
+        <li class="nav-item pt-2 pl-1">
+        </li>
+        {% block admin_tools %}
         {% endblock %}
+      </ul>
+    </div>
+    {% endblock %}
+  </div>
 
-        {% bootstrap_messages %}
-
-        {% block content %}
-
-        <div class="admin-panel sticky-top" style='z-index: 2'>
-          <ul class="mt-1 nav justify-content-center bg-primary text-white mb-4 rounded-lg font-weight-bold">
-            <li class="nav-item pt-2 pl-1">
-            </li>
-            {% block admin_tools %}
-            {% endblock %}
+  <footer class="footer">
+    <div class="container-fluid">
+      <div class="row footer-background pt-2">
+        <div class="col-md-3">
+          <ul class="list-group list-group-flush">
+            <a class="list-group-item no-border" href="/учредителен-акт">Учредителен акт</a>
+            <a class="list-group-item no-border" href="/етичен-кодекс">Етичен кодекс</a>
+            <a class="list-group-item no-border" href="/правила-за-дейността">Правила за осъществяване
+              дейността</a>
+            <a class="list-group-item no-border" href="/условия-за-ползване">Оценяваща система</a>
           </ul>
         </div>
-        {% endblock %}
-      </div>
-
-
-      <footer class="footer">
-        <div class="container-fluid">
-          <div class="row">
-
-
-        <footer class="footer">
-          <div class="container-fluid">
-            <div class="row">
-          
-              <div class="col-md-4">
-
-                <ul class="list-group list-group-flush">
-                  <a class="list-group-item" href="/учредителен-акт">Учредителен акт</a>
-                  <a class="list-group-item" href="/етичен-кодекс">Етичен кодекс</a>
-                   <a class="list-group-item" href="/правила-за-дейността">Правила за осъществяване дейността</a>
-                  <a class="list-group-item" href="/условия-за-ползване">Оценяваща система</a>           
-                </ul>
-
-              </div>
-              <div class="col-md-4">
-                <ul class="list-group list-group-flush">
-                <a class="list-group-item" href="/политика-за-поверителност">Условия за работа с платформата</a>
-                <a class="list-group-item" href="/политика-за-поверителност">Условия за участие в проект Хородея</a>
-                <a class="list-group-item" href="/политика-за-поверителност">Политика за поверителност</a>
-                <a class="list-group-item" href="/политика-за-бисквитки">Политика за бисквитки</a>
-                </ul>
-              </div>
-                <div class="col-md-4">
-              <p>Свържите се с нас
-Това е Бета версия на Хородея, предназначена за
-уточняване на функционалности
-и отстраняване на бъгове.
-</p>
-                   {% include 'projects/bugreport_form.html' %}   
-                   </div>
-              <div class="col-md-8 mt-5 mb-3">
-                <h6>Фондация „Хородея“</h6>
-
-                <p>Инициатор на проекта е Фондация „Хородея”. Фондацията стартира проекта, задава базова система от правила служеща за устойчиво управление на доверието в общността и действа като гарант за спазването на приетата етичната рамка.</p>
-                <small style="font-size: 0.5rem;">Copyright @Horodeya Foundation Sofia,Bulgaria.All Rights Reserved.</small>
-              </div>
-     
-            </div>
+        <div class="col-md-3">
+          <ul class="list-group list-group-flush">
+            <a class="list-group-item no-border" href="/политика-за-поверителност">Условия за работа с
+              платформата</a>
+            <a class="list-group-item no-border" href="/политика-за-поверителност">Условия за участие в проект
+              Хородея</a>
+            <a class="list-group-item no-border" href="/политика-за-поверителност">Политика за поверителност</a>
+            <a class="list-group-item no-border" href="/политика-за-бисквитки">Политика за бисквитки</a>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <p class="font-weight-bold footer-titles">Свържeте се с нас</p>
+          <p>
+            Това е Бета версия на Хородея, предназначена за
+            уточняване на функционалности
+            и отстраняване на бъгове.
+          </p>
+          {% include 'projects/bugreport_form.html' %}
+        </div>
+        <div class="col-md-3">
+          <p class="font-weight-bold footer-titles">Адрес</p>
+          <p>Фондация "Хородея", гр.София, п.к.1000, пл. Света Неделя 4, ет.4</p>
+        </div>
+        <div class="col-md-12 mt-5 mb-3">
+          <img class="float-left mx-3" style="width:55px" src="/static/media/horodeya-logo-footer.png">
+          <div class="float-left">
+            <h6>Фондация „Хородея“</h6>
+            <p>Инициатор на проекта е Фондация „Хородея”. Фондацията стартира проекта, задава базова система от
+              правила служеща за устойчиво управление на доверието в общността и действа като гарант за спазването
+              на приетата етичната рамка.</p>
           </div>
-        </footer>
-
-             
-
-
-      {# Global javascript #}
-      <script type="text/javascript" src="{% static 'js/holder.min.js' %}"></script>
-
-      <script src="https://cdn.jsdelivr.net/npm/getstream/dist/js_min/getstream.js"></script>
-      {% if user.is_authenticated %}
-      <script type="text/javascript">
-        var token = '{{stream_token}}';
-        var client = stream.connect('8j6cdpvzeft8', null, '64876');
-        var notifications = client.feed('notification', {{user.id}}, token);
-        notifications.get({ limit: 0 }).then(function(body) {
-          updateNotificationCounter(body.unseen);
-        });
-
-        // Случай 1: потребителя е натиснал бутона за известия и те зареждат async
-        $('#navbarDropdown').click(function() {
-          $.get({
-            url: '{% url "notifications" %}',
-            success: populateNotifications
-          });
-        });
-
-        function populateNotifications(data) {
-          document.querySelector('#notifications').innerHTML = data;
-          updateNotificationCounter(0);
-        }
+        </div>
+      </div>
+    </div>
+  </footer>
 
 
-        // Случай 2: идва ново известие и обновяваме брояча
-        function updateNotificationCounterFromLive(data) {
-          return updateNotificationCounter(data.new.length)
-        }
 
-        function updateNotificationCounter(unseenCount) {
 
-          var unseen = document.querySelector('#notifications_unseen');
-          unseen.textContent = unseenCount;
-          if (unseenCount === 0) {
-            $(unseen).hide()
-          }
-          else {
-            $(unseen).show()
-          }
+  {# Global javascript #}
+  <script type="text/javascript" src="{% static 'js/holder.min.js' %}"></script>
 
-        }
+  <script src="https://cdn.jsdelivr.net/npm/getstream/dist/js_min/getstream.js"></script>
+  {% if user.is_authenticated %}
+  <script type="text/javascript">
+    var token = '{{stream_token}}';
+    var client = stream.connect('8j6cdpvzeft8', null, '64876');
+    var notifications = client.feed('notification', {{ user.id }}, token);
+    notifications.get({ limit: 0 }).then(function (body) {
+      updateNotificationCounter(body.unseen);
+    });
 
-        function successCallback() {
-          console.log('Now listening to changes in realtime.');
-        }
+    // Случай 1: потребителя е натиснал бутона за известия и те зареждат async
+    $('#navbarDropdown').click(function () {
+      $.get({
+        url: '{% url "notifications" %}',
+        success: populateNotifications
+      });
+    });
 
-        function failCallback(data) {
-          //TODO bootstrap notification
-          alert('Something went wrong, check the console logs');
-          console.log(data);
-        }
+    function populateNotifications(data) {
+      document.querySelector('#notifications').innerHTML = data;
+      updateNotificationCounter(0);
+    }
 
-        notifications.subscribe(updateNotificationCounterFromLive).then(successCallback, failCallback);
-      </script>
-      {% endif %}
 
-      {% block extra_js %}
-          {# Override this in templates to add extra javascript #}
-      {% endblock %}
-    </body>
+    // Случай 2: идва ново известие и обновяваме брояча
+    function updateNotificationCounterFromLive(data) {
+      return updateNotificationCounter(data.new.length)
+    }
+
+    function updateNotificationCounter(unseenCount) {
+
+      var unseen = document.querySelector('#notifications_unseen');
+      unseen.textContent = unseenCount;
+      if (unseenCount === 0) {
+        $(unseen).hide()
+      }
+      else {
+        $(unseen).show()
+      }
+
+    }
+
+    function successCallback() {
+      console.log('Now listening to changes in realtime.');
+    }
+
+    function failCallback(data) {
+      //TODO bootstrap notification
+      alert('Something went wrong, check the console logs');
+      console.log(data);
+    }
+
+    notifications.subscribe(updateNotificationCounterFromLive).then(successCallback, failCallback);
+  </script>
+  {% endif %}
+
+  {% block extra_js %}
+  {# Override this in templates to add extra javascript #}
+  {% endblock %}
+</body>
+
 </html>
