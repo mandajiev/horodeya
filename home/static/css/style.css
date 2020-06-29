@@ -3,9 +3,11 @@
   cursor: default;
   color: #6c757d;
 }
+.navbar-nav a {
+  font-size: 13px;
+}
 
 .footer {
-  margin-top: 30px;
   position: relative;
   width: 100%;
   background-color: #f5f5f5;
@@ -55,7 +57,7 @@
 }
 
 .logo {
-  height: 40px;
+  height: 60px;
 }
 
 .nav-link.active {
