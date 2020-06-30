@@ -114,5 +114,9 @@ urlpatterns = [
     path('<int:pk>/verify_project', views.ProjectVerify.as_view(), name='verify'),
     path('bugreport', views.bug_report_create, name='bug_report'),
     path('administration', views.administration, name='administration'),
-    path('bugreport_list', views.received_bug_reports, name='bugreport_list')
+    path('bugreport_list', views.received_bug_reports, name='bugreport_list'),
+    path('create_epay_support/<int:pk>', views.create_epay_support,
+         name='create_epay_support'),
+    path('pay_epay_support/<int:pk>', views.pay_epay_support,
+         name='pay_epay_support'),
 ]
