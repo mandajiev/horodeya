@@ -1,0 +1,6 @@
+<form action='/projects/create_epay_support/{{object.id}}' method="post">
+	{% csrf_token %}
+   <label for="message">Въведете сума</label>
+    <input name="amount" type="number" required />
+	<input type="submit" value="Купи билет" />
+</form>

@@ -1,0 +1,19 @@
+{% extends "base.html" %} 
+{% block content %}
+<h6>DATA:</h6>{{context.data}}
+<h6>ENCODED:</h6>{{context.ENCODED}}
+<h6>ENCODED2:</h6>{{context.ENCODED2}}
+<h6>CHECKSUM:</h6>{{context.CHECKSUM}}
+<h6>CHECKSUM2</h6>{{context.CHECKSUM2}}
+<form action="https://demo.epay.bg/" method="post" name="epay">
+	<input type="hidden" name="PAGE" value="{{context.PAGE}}" />
+	<input type="hidden" name="DESCR" value="{{context.DESCR}}" />
+	<input type="hidden" name="MIN" value="{{context.MIN}}" />
+	<input type="hidden" name="INVOICE" value="{{context.INVOICE}}" />
+	<input type="hidden" name="AMOUNT" value="{{context.AMOUNT}}" />
+	<input type="hidden" name="EXP_TIME" value="{{context.EXP_TIME}}" />
+	<input type="hidden" name="ENCODED" value="{{context.ENCODED2}}" />
+	<input type="hidden" name="CHECKSUM" value="{{context.CHECKSUM2}}" />
+	<input type="submit" value="Плати през Epay" />
+</form>
+{% endblock content %}

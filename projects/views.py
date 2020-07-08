@@ -230,6 +230,26 @@ ThingNecessityFormset = inlineformset_factory(
         }
         ),
     },
+    extra=0)
+
+ThingNecessityFormsetWithRow = inlineformset_factory(
+    Project,
+    ThingNecessity,
+    fields=['name', 'description', 'count', 'price'],
+    widgets={
+        'count': forms.TextInput({
+            'style': 'width: 60px'
+        }
+        ),
+        'price': forms.TextInput({
+            'style': 'width: 60px'
+        }
+        ),
+        'description': forms.Textarea({
+            'rows': 1,
+        }
+        ),
+    },
     extra=1)
 
 
@@ -251,10 +271,16 @@ def necessity_update(request, project_id, type):
     project = get_object_or_404(Project, pk=project_id)
 
     if request.method == 'GET':
-        if(project.timenecessity_set.count() is 0):
-            formset = TimeNecessityFormsetWithRow
+        if (type == 'time'):
+            if(project.timenecessity_set.count() == 0):
+                formset = TimeNecessityFormsetWithRow
+            else:
+                formset = cls(instance=project)
         else:
-            formset = cls(instance=project)
+            if(project.thingnecessity_set.count() == 0):
+                formset = ThingNecessityFormsetWithRow
+            else:
+                formset = cls(instance=project)
 
     elif request.method == 'POST':
         formset = cls(request.POST, instance=project)
@@ -276,9 +302,11 @@ def necessity_update(request, project_id, type):
                             order += 1
                     form.save()
             if 'add-row' in request.POST:
-
-                formset = TimeNecessityFormsetWithRow(
-                    instance=project)  # за да добави празен ред
+                if (type == 'thing'):
+                    formset = ThingNecessityFormsetWithRow(
+                        instance=project)  # за да добави празен ред
+                else:
+                    formset = TimeNecessityFormsetWithRow(instance=project)
             else:
                 if type == 'time':
                     return redirect('projects:time_necessity_list', project.pk)
