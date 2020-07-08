@@ -7,6 +7,7 @@
 {% endblock %}
 
 {% block content %}
+{% if type == 'time' %}
 <div>
 <ul>
 <li>1 Оценете пазарната стойност на труда за всяка позиция.
@@ -14,6 +15,8 @@
 <li>2 Нуждите от доброволен труд се описват като конкретни позиции с начална и крайна дата на ангажимента.</li>
 </ul>
 </div>
+{% endif %}
+
 {% load bootstrap4 %}
 {{ formset.media }}
 {% bootstrap_messages %}
