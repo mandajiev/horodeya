@@ -1,10 +1,10 @@
 {% extends "base.html" %} 
 {% block content %}
-<h6>DATA:</h6>{{context.data}}
+{% comment %} <h6>DATA:</h6>{{context.data}}
 <h6>ENCODED:</h6>{{context.ENCODED}}
 <h6>ENCODED2:</h6>{{context.ENCODED2}}
 <h6>CHECKSUM:</h6>{{context.CHECKSUM}}
-<h6>CHECKSUM2</h6>{{context.CHECKSUM2}}
+<h6>CHECKSUM2</h6>{{context.CHECKSUM2}} {% endcomment %}
 <form action="https://demo.epay.bg/" method="post" name="epay">
 	<input type="hidden" name="PAGE" value="{{context.PAGE}}" />
 	<input type="hidden" name="DESCR" value="{{context.DESCR}}" />

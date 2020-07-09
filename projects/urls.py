@@ -119,4 +119,6 @@ urlpatterns = [
          name='create_epay_support'),
     path('pay_epay_support/<int:pk>', views.pay_epay_support,
          name='pay_epay_support'),
+    path('accept_epay', views.accept_epay_payment,
+         name='accept_epay'),
 ]
