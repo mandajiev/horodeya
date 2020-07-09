@@ -864,3 +864,8 @@ class LegalEntityDonatorData(Timestamped):
 class BugReport(Timestamped):
     email = models.EmailField(_('email'))
     message = models.TextField(_('message'))
+
+
+class EpayMoneySupport(Support):
+    amount = models.FloatField(verbose_name=_(
+        'How much do you wish to donate'))

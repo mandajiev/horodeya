@@ -131,6 +131,7 @@
      {%endif%}
     {% endif %}
   </div>
+  {% include "projects/epaymoneysupport_form.html" with object=project %}
 
   <div id="donate" class="col-8 mt-5 p-0">
     {% with object.thingnecessity_set.all as necessity_list %}

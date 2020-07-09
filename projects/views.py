@@ -1,5 +1,8 @@
 import os
 import uuid
+import base64
+from hashlib import sha1
+import hmac
 
 from requests.exceptions import Timeout, ConnectionError
 
@@ -26,9 +29,9 @@ from django.utils.translation import gettext as _
 
 from rules.contrib.views import AutoPermissionRequiredMixin, permission_required, objectgetter, PermissionRequiredMixin
 
-from projects.models import Project, Community, Report, MoneySupport, TimeSupport, User, Announcement, TimeNecessity, ThingNecessity, Question, QuestionPrototype, DonatorData, LegalEntityDonatorData, BugReport
+from projects.models import Project, Community, Report, MoneySupport, TimeSupport, User, Announcement, TimeNecessity, ThingNecessity, Question, QuestionPrototype, DonatorData, LegalEntityDonatorData, BugReport, EpayMoneySupport
 
-from projects.forms import QuestionForm, PaymentForm, ProjectUpdateForm, BugReportForm
+from projects.forms import QuestionForm, PaymentForm, ProjectUpdateForm, BugReportForm, EpayMoneySupportForm
 
 from tempus_dominus.widgets import DateTimePicker, DatePicker
 
@@ -1626,3 +1629,52 @@ def administration(request):
 def received_bug_reports(request):
     bug_reports = BugReport.objects.all()
     return render(request, 'projects/bug_reports.html', {'reports': bug_reports})
+
+
+def create_epay_support(request, pk):
+    if(request.method == "POST"):
+        form = EpayMoneySupportForm(request.POST)
+        project = get_object_or_404(Project, pk=pk)
+        if form.is_valid():
+            form.instance.project = project
+            form.instance.user = request.user
+            support = form.save()
+            supportId = support.id
+            messages.add_message(request, messages.SUCCESS,
+                                 'Благодарим ви за дарението')
+            return redirect('/projects/pay_epay_support/%s' % (supportId))
+        else:
+            messages.add_message(request, messages.ERROR,
+                                 'Въведете валидна сума')
+            return redirect('/')
+
+
+def pay_epay_support(request, pk):
+    # if(request == 'GET'):
+    support = get_object_or_404(EpayMoneySupport, pk=pk)
+    context = {}
+
+    context['PAGE'] = 'paylogin'
+    context['MIN'] = 'D497918533'
+    context['INVOICE'] = support.id
+    context['AMOUNT'] = support.amount
+    context['EXP_TIME'] = '01.08.2020'
+    context['DESCR'] = 'Test'
+
+    context['data'] = ('MIN='+context['MIN'] + '\nINVOICE='+str(context['INVOICE']) + '\nAMOUNT=' +
+                       str(context['AMOUNT']) + '\nEXP_TIME='+context['EXP_TIME'] + '\nDESCR='+context['DESCR'])
+
+    context['ENCODED'] = base64.b64encode(context['data'].encode())
+    context['ENCODED2'] = context['ENCODED'].decode('utf-8')
+
+    key = (
+        'RPV28AWHKQKIXW55Q7D52EM8BN90U26MV0IZKR4K2IM4U2B5RVGUFKSA6PQA31T9').encode()
+    context['CHECKSUM'] = hmac.new(key, context['ENCODED'], sha1)
+
+    context['CHECKSUM2'] = context['CHECKSUM'].hexdigest()
+
+    return render(request, 'projects/epay_form.html', {'context': context})
+
+
+def accept_epay_payment(request):
+    return None
