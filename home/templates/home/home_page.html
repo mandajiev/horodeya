@@ -1,20 +1,34 @@
-{% extends "base.html" %} {% load wagtailcore_tags %}
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+{% load static wagtailuserbar %}
 {% load i18n %}
 {% load activity_tags %}
 {% block jumbotron %}
 <!--<div class="jumbotron jumbotron-fluid paral jumbotron-bg-cover"></div>//-->
+<img class="img-fluid" src="{% static 'media/horodeya-home-heroshot.jpg' %}" />
 {% endblock %}
 {% block content %}
 {% block breadcrumbs_container %}
 {% endblock %}
 <div class="container">
   <div class="row">
+    <div class="col-md-12" style="padding-top:60px; padding-bottom:30px;">
+      <div class="card mx-auto" style="width: 40rem; border:5px solid; border-color:#ffe817">
+        <div class="card-body">
+          <h5 class="card-title font-weight-light">Сътрудничество в Задруги</h5>
+          <h6 class="card-subtitle mb-2 text-muted font-weight-light">Включи се в обществено полезни дейности с труд,
+            ресурси и средства.
+          </h6>
+          <a href="/задруги/" class="card-link" style="text-decoration: underline; color:black">Научи повече</a>
+        </div>
+      </div>
+    </div>
     <div class="col-md-12 text-center" style="padding-top:30px; padding-bottom:30px;">
       Доверието помежду ни расте пропорционално на прозрачността на сътрудничеството ни.
     </div>
     <div class="col-md-4" style="padding:20px">
       <div class="float-left" style="width:10%">
-        <img class="img-fluid" src="/static/media/icon-triangle.png">
+        <img class="img-fluid" src="{% static 'media/icon-triangle.png' %}">
       </div>
       <div class="float-left" style="width:90%; padding:5px;">
         <p>В основата на <strong>Хородея</strong> са Общностите и техните задруги.</p>
@@ -24,7 +38,7 @@
     </div>
     <div class="col-md-4" style="padding:20px">
       <div class="float-left" style="width:10%">
-        <img class="img-fluid" src="/static/media/icon-hexagon.png">
+        <img class="img-fluid" src="{% static 'media/icon-hexagon.png' %}">
       </div>
       <div class="float-left" style="width:90%; padding:5px;">
         <p><strong>Задруга</strong> е всеки проект в рамките на Хородея. Всеки участник в платформата може да инициира
@@ -33,7 +47,7 @@
     </div>
     <div class="col-md-4" style="padding:20px">
       <div class="float-left" style="width:10%">
-        <img class="img-fluid" src="/static/media/icon-square.png">
+        <img class="img-fluid" src="{% static 'media/icon-square.png' %}">
       </div>
       <div class="float-left" style="width:90%; padding:5px;">
         <p><strong>Вложения:</strong> в една Задруга може да бъде вложено всичко, от което тя има нужда - труд,
@@ -42,7 +56,7 @@
     </div>
     <div class="col-md-4" style="padding:20px">
       <div class="float-left" style="width:10%">
-        <img class="img-fluid" src="/static/media/icon-circle.png">
+        <img class="img-fluid" src="{% static 'media/icon-circle.png' %}">
       </div>
       <div class="float-left" style="width:90%; padding:5px;">
         <p><strong>ДАР:</strong> Вложеният принос от всеки се регистрира и срещу него има право да получи ДАР -
@@ -52,7 +66,7 @@
     </div>
     <div class="col-md-4" style="padding:20px">
       <div class="float-left" style="width:10%">
-        <img class="img-fluid" src="/static/media/icon-square.png">
+        <img class="img-fluid" src="{% static 'media/icon-square.png' %}">
       </div>
       <div class="float-left" style="width:90%; padding:5px;">
         <p><strong>Доверието</strong> в стопанските ни взаимоотношения се основава на прозрачност и взаимоуважение.
@@ -61,7 +75,7 @@
     </div>
     <div class="col-md-4" style="padding:20px">
       <div class="float-left" style="width:10%">
-        <img class="img-fluid" src="/static/media/icon-triangle.png">
+        <img class="img-fluid" src="{% static 'media/icon-triangle.png' %}">
       </div>
       <div class="float-left" style="width:90%; padding:5px;">
         <p><strong>БАЛ:</strong> система за обратни връзки, подпомага ефикасността в работата и решенията ни, като

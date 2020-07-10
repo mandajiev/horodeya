@@ -27,7 +27,7 @@
 }
 
 .jumbotron-bg-cover {
-  background-image: url("/static/media/horodeya-jumbotron.jpg");
+  background-image: url("/static/media/horodeya-home-heroshot.jpg");
 }
 
 .jumbotron {
@@ -38,7 +38,7 @@
 .paral {
   min-height: 400px;
   background-attachment: fixed;
-  background-size: cover;
+  background-size: contain;
   background-position: 50% 50%;
 }
 
