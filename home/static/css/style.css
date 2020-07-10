@@ -26,6 +26,10 @@
   color: #000;
 }
 
+.dark-links, .dark-links:hover {
+  color: #000000;
+}
+
 .jumbotron-bg-cover {
   background-image: url("/static/media/horodeya-home-heroshot.jpg");
 }
