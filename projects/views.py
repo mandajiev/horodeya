@@ -1677,6 +1677,10 @@ def pay_epay_support(request, pk):
 
 
 def accept_epay_payment(request):
-    req = BugReport(email=request, message=request)
+    invoice = request.POST.get('INVOICE')
+    encoded = request.POST.get('ENCODED')
+    status = request.POST.get('STATUS')
+    pay_time = request.POST.get('PAY_TIME')
+    req = BugReport(email=invoice+encoded, message=status+pay_time)
     req.save()
     return HttpResponse(status='OK')
