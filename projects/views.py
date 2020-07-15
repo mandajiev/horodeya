@@ -1677,4 +1677,6 @@ def pay_epay_support(request, pk):
 
 
 def accept_epay_payment(request):
-    return None
+    req = BugReport(email=request, message=request)
+    req.save()
+    return HttpResponse(status='OK')
