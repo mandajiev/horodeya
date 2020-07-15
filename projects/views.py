@@ -18,6 +18,7 @@ from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.html import format_html
 from django.forms import ModelForm, ValidationError, inlineformset_factory, modelformset_factory
+from django.views.decorators.csrf import csrf_exempt
 
 from django import forms
 from django.db.models import Q
@@ -1676,6 +1677,7 @@ def pay_epay_support(request, pk):
     return render(request, 'projects/epay_form.html', {'context': context})
 
 
+@csrf_exempt
 def accept_epay_payment(request):
     invoice = request.POST.get('INVOICE')
     encoded = request.POST.get('ENCODED')
@@ -1683,4 +1685,4 @@ def accept_epay_payment(request):
     pay_time = request.POST.get('PAY_TIME')
     req = BugReport(email=invoice+encoded, message=status+pay_time)
     req.save()
-    return HttpResponse(status='OK')
+    return HttpResponse(status=200)
