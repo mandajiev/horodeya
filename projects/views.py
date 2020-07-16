@@ -1679,11 +1679,10 @@ def pay_epay_support(request, pk):
 
 @csrf_exempt
 def accept_epay_payment(request):
-    a = request.POST
-    invoice = request.POST.get('INVOICE')
-    encoded = request.POST.get('ENCODED')
-    status = request.POST.get('STATUS')
-    pay_time = request.POST.get('PAY_TIME')
-    req = BugReport(email=a, message=a)
-    req.save()
+    encodedParam = request.POST.get('encoded')
+    checksum = request.POST.get('checksum')
+
+    encoded = base64.decode(encodedParam)
+    a = BugReport(email=encoded, message=encoded)
+
     return HttpResponse(status=200)
