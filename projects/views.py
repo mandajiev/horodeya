@@ -1681,9 +1681,9 @@ def pay_epay_support(request, pk):
 def accept_epay_payment(request):
     encodedParam = request.POST.get('encoded')
     checksum = request.POST.get('checksum')
-    a = 'b'
 
     encoded = base64.decode(encodedParam)
-    a = BugReport(email=encoded, message=encoded)
+    a = BugReport(email=encodedParam, message=encoded)
+    a.save()
 
     return HttpResponse(status=200)
